@@ -3,6 +3,12 @@
 --- !u!78 &1
 TagManager:
   tags:
+  - MyWorldCenter
+  - MyWorldVector
+  - MyWorldVectorY
+  - MyWorldVectorCenter
+  - MyWorldVectorZ
+  - MyWorldVectorX
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
