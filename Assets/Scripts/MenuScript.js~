@@ -1,0 +1,26 @@
+﻿public var ButtonText : String;
+public var FollowingObject : GameObject;
+public var TextScale : float = 1f;
+public var Scale : int = 10;
+
+
+function Start()
+{
+}
+ 
+function OnGUI()
+{
+	if(FollowingObject.renderer.enabled){
+		var PosVec : Vector3  = Camera.main.WorldToScreenPoint(FollowingObject.transform.position);
+			
+		ButtonText = PosVec.ToString();
+		var textSize = ButtonText.Length;// + GUI.skin.label.fontSize;
+	    
+	    var ButtonRect : Rect = Rect(PosVec.x,
+	    	Screen.height - PosVec.y,
+	    	textSize,
+			GUI.skin.label.fontSize * PosVec.z);
+	    
+		GUI.Button(ButtonRect, ButtonText);
+	}
+}
