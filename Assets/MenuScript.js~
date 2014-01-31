@@ -1,0 +1,14 @@
+﻿#pragma strict
+public var text : String;
+public var FollowingObject : Transform;
+ 
+function Start()
+{
+}
+ 
+function OnGUI()
+{
+    var V : Vector3  = Camera.main.WorldToScreenPoint(FollowingObject.transform.position);
+    GUI.Button(new Rect(V.x,Screen.height - V.y,100,text.length()), text);
+}
+;
