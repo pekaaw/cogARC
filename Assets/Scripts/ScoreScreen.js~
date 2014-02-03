@@ -1,6 +1,6 @@
 ﻿#pragma strict
 #pragma downcast
-//
+
 public var ScoreScreenVisible = false;
 public var GameName : String = "";
 public var TimeScoreMultiplier : float = 0.9f;
@@ -8,8 +8,8 @@ public var NumberOfScores : int = 10;
 public var ScoreScreenRect = Rect(200,200,310,250);
 public var testFunction : function();
 
-private var startTime : double;
-private var endTime : double;
+private var startTime : int;
+private var endTime : int;
 private var score : double;
 private var scoreArray : int[];
 private var scoresLoaded = false;
@@ -20,7 +20,7 @@ function Start () {
 		GameName = "Unnamed";
 	}
 	//Sets start time so it can be used to calculate score.
-	startTime = Time.timeSinceLevelLoad;
+	startTime = Time.time;
 	endTime = startTime;
 }
 
@@ -62,18 +62,17 @@ function ScoreScreenGUILayout() {
 	}
 	if(GUILayout.Button("Main Menu")){
 		//Return to scene 0
+		Application.LoadLevel(0);
 	}
 	if(GUILayout.Button("Reset")){
 		//Yeah!
-		for(i = 0 ;i < scoreArray.Length; i++){
-			scoreArray[i] = 0;
-		}
+		
 	}
-	GUILayout.EndVertical();
 	
-	
+	GUILayout.EndHorizontal();
 }
 
+//This function fills the score array with data.
 function fillScoreArray() {
 	//Temp array for scores to avoid stupid editor errors.
 	var scoreHolder = new Array();
@@ -105,9 +104,9 @@ function fillScoreArray() {
 
 //Calculates the score
 function calculateScore() {
-	endTime = Time.timeSinceLevelLoad;
+	endTime = Time.time;
 	endTime = endTime - startTime;
-	
+	//Might have to change this calculation.
 	score = endTime * TimeScoreMultiplier;
 	score = endTime;
 }
