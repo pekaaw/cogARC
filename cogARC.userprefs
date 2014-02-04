@@ -1,9 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PauseScreenScript.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ScoreScreen.js">
     <Files>
-      <File FileName="Assets\Scripts\PauseScreenScript.js" Line="21" Column="29" />
-      <File FileName="Assets\Scripts\ScoreScreen.js" Line="109" Column="42" />
+      <File FileName="Assets\Scripts\MainMenu.js" Line="22" Column="71" />
+      <File FileName="Assets\Scripts\PauseScreenScript.js" Line="15" Column="40" />
+      <File FileName="Assets\Scripts\ScoreScreen.js" Line="124" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -17,7 +17,6 @@ function Start () {
 
 function OnGUI () {
 	
-	
 	if(LogoTexture != null){
 		GUI.DrawTexture(LogoPoistion,LogoTexture,ScaleMode.ScaleToFit,true);
 	}else{

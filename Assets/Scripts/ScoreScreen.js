@@ -6,9 +6,8 @@ public var GameName : String = "";
 public var TimeScoreMultiplier : float = 0.9f;
 public var NumberOfScores : int = 10;
 public var ScoreScreenRect = Rect(200,200,310,250);
-public var testFunction : function();
 
-private var Timer : float;
+private var timer : float;
 private var score : double;
 private var scoreArray : int[];
 private var scoresLoaded = false;
@@ -21,7 +20,7 @@ function Start () {
 }
 
 function Update() {
-	Timer += Time.deltaTime;
+	timer += Time.deltaTime;
 }
 
 function OnGUI() {
@@ -43,8 +42,7 @@ function OnGUI() {
 }
 
 function ScoreScreenGUILayout() {
-	//Write a neat function that will show scores and shit here!
-	// YEAH! Layout and shit
+
 	//Anchor that text to the middle!
 	GUI.skin.label.alignment = TextAnchor.MiddleCenter;   
 	
@@ -56,7 +54,7 @@ function ScoreScreenGUILayout() {
 	GUI.skin.label.alignment = TextAnchor.MiddleLeft;
 	
 	GUILayout.BeginHorizontal();
-	//SOME FUCKIN BUTTONS
+	
 	if(GUILayout.Button("Play again!")){
 		//Do something
 	}
@@ -66,7 +64,6 @@ function ScoreScreenGUILayout() {
 	}
 	if(GUILayout.Button("Reset")){
 		//Yeah!
-		
 	}
 	
 	GUILayout.EndHorizontal();
@@ -83,7 +80,6 @@ function fillScoreArray() {
 	//Testing to make sure that we have the amount of scores needed.
 	if(scoreHolder.length < NumberOfScores){
 		for(var i = scoreHolder.length; i < NumberOfScores; i++){
-			Debug.Log(scoreHolder.toString());
 			scoreHolder.Add(i);
 			scoreHolder[i] = i;
 			scoreHolder.toString();
@@ -104,9 +100,8 @@ function fillScoreArray() {
 
 //Calculates the score
 function calculateScore() {
-	
 	//Might have to change this calculation.
-	score = Timer * TimeScoreMultiplier;
+	score = timer * TimeScoreMultiplier;
 }
 
 //Toggles the visibility of the Score Screen

@@ -1,13 +1,13 @@
 ﻿#pragma strict
 
-public var pause = false;
+public var Pause = false;
 public var PauseScreenRect = Rect(200,200,200,200);
 public var PauseScreenLogo : Texture;
 public var PauseLogoPosition : Rect;
 
 function OnGUI () {
 	
-	if(pause == true) {
+	if(Pause == true) {
 		if(PauseScreenLogo != null){
 			GUI.DrawTexture(PauseLogoPosition,PauseScreenLogo,ScaleMode.ScaleToFit,true);
 		}
@@ -32,12 +32,11 @@ function OnGUI () {
 			togglePauseScreen();
 		}
 	}
-
 }
 
 function togglePauseScreen() {
-	pause = !pause;
-	if(pause == true){
+	Pause = !Pause;
+	if(Pause == true){
 		Time.timeScale = 0;
 	}
 	else {
