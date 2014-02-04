@@ -2,15 +2,18 @@
 
 public var pause = false;
 public var PauseScreenRect = Rect(200,200,200,200);
+public var PauseScreenLogo : Texture;
+public var PauseLogoPosition : Rect;
 
 function OnGUI () {
 	
 	if(pause == true) {
+		if(PauseScreenLogo != null){
+			GUI.DrawTexture(PauseLogoPosition,PauseScreenLogo,ScaleMode.ScaleToFit,true);
+		}
+	
 		GUILayout.BeginArea(PauseScreenRect);
 		GUILayout.BeginVertical();
-		
-		GUILayout.Label("PAUSE SCREEN");
-		GUILayout.FlexibleSpace();
 		
 		if(GUILayout.Button("RESUME")){
 			togglePauseScreen();
@@ -24,9 +27,20 @@ function OnGUI () {
 		GUILayout.EndVertical();
 		GUILayout.EndArea();
 	}
+	else {
+		if(GUILayout.Button("Pause")){
+			togglePauseScreen();
+		}
+	}
 
 }
 
 function togglePauseScreen() {
 	pause = !pause;
+	if(pause == true){
+		Time.timeScale = 0;
+	}
+	else {
+		Time.timeScale = 1;
+	}
 }

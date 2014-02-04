@@ -8,8 +8,7 @@ public var NumberOfScores : int = 10;
 public var ScoreScreenRect = Rect(200,200,310,250);
 public var testFunction : function();
 
-private var startTime : int;
-private var endTime : int;
+private var Timer : float;
 private var score : double;
 private var scoreArray : int[];
 private var scoresLoaded = false;
@@ -19,9 +18,10 @@ function Start () {
 	if (GameName == ""){
 		GameName = "Unnamed";
 	}
-	//Sets start time so it can be used to calculate score.
-	startTime = Time.time;
-	endTime = startTime;
+}
+
+function Update() {
+	Timer += Time.deltaTime;
 }
 
 function OnGUI() {
@@ -104,11 +104,9 @@ function fillScoreArray() {
 
 //Calculates the score
 function calculateScore() {
-	endTime = Time.time;
-	endTime = endTime - startTime;
+	
 	//Might have to change this calculation.
-	score = endTime * TimeScoreMultiplier;
-	score = endTime;
+	score = Timer * TimeScoreMultiplier;
 }
 
 //Toggles the visibility of the Score Screen
