@@ -8,7 +8,7 @@ public var NumberOfScores : int = 10;
 public var ScoreScreenRect = Rect(200,200,310,250);
 
 private var timer : float;
-private var score : double;
+private var score : int;
 private var scoreArray : int[];
 private var scoresLoaded = false;
 
@@ -101,7 +101,7 @@ function fillScoreArray() {
 //Calculates the score
 function calculateScore() {
 	//Might have to change this calculation.
-	score = timer * TimeScoreMultiplier;
+	score = 1000 -(timer * TimeScoreMultiplier)*10;
 }
 
 //Toggles the visibility of the Score Screen
