@@ -43,3 +43,7 @@ function makeTimerText() {
  	timerText = String.Format ("{0:00}:{1:00}:{2:00}", min, sec, frac); 
 }
 
+function getScore(){
+	return score;
+}
+

@@ -3,24 +3,19 @@
 
 public var ScoreScreenVisible = false;
 public var GameName : String = "";
-public var TimeScoreMultiplier : float = 0.9f;
 public var NumberOfScores : int = 10;
 public var ScoreScreenRect = Rect(200,200,310,250);
 
-private var timer : float;
 private var score : int;
 private var scoreArray : int[];
 private var scoresLoaded = false;
+var timerAndScore : TimerAndScore;
 
 function Start () {
 	//Gives the game a name if there is no name
 	if (GameName == ""){
 		GameName = "Unnamed";
 	}
-}
-
-function Update() {
-	timer += Time.deltaTime;
 }
 
 function OnGUI() {
@@ -77,17 +72,17 @@ function fillScoreArray() {
 	//Load scores from player prefs file.
 	scoreHolder = PlayerPrefsX.GetIntArray(GameName);
 	
+	scoreHolder.sort();
+	//Gets the highest number at top.
+	scoreHolder.reverse();
+	
 	//Testing to make sure that we have the amount of scores needed.
 	if(scoreHolder.length < NumberOfScores){
 		for(var i = scoreHolder.length; i < NumberOfScores; i++){
 			scoreHolder.Add(i);
 			scoreHolder[i] = i;
-			scoreHolder.toString();
 		}
 	}
-	scoreHolder.sort();
-	//Gets the highest number at top.
-	scoreHolder.reverse();
 		
 	if(scoreHolder.length > NumberOfScores){
 		scoreHolder.length = NumberOfScores;
@@ -98,12 +93,6 @@ function fillScoreArray() {
 	scoreArray = scoreHolder;
 }
 
-//Calculates the score
-function calculateScore() {
-	//Might have to change this calculation.
-	score = 1000 -(timer * TimeScoreMultiplier)*10;
-}
-
 //Toggles the visibility of the Score Screen
 function toggleScreenVisibility(){
 	ScoreScreenVisible = !ScoreScreenVisible;
@@ -112,16 +101,19 @@ function toggleScreenVisibility(){
 //This is run on quit
 //This saves the scores so it can be loaded later.
 function OnApplicationQuit() {
-	calculateScore();
+	var score : int;
+	score = timerAndScore.getScore();
 	
 	//This is because Unity is silly and won't let me
 	// add something to a int[] object.
-	var tempScoreArray = new Array();
+	var tempScoreArray : Array;
 	tempScoreArray = scoreArray;
 	tempScoreArray.push(score);
+	
 	var tempIntArray = new int[tempScoreArray.length];
 	for(var i:int = 0; i < tempScoreArray.length; i++){
 		tempIntArray[i] = tempScoreArray[i];
+		Debug.Log(i);
 	}
 	
 	var succes = PlayerPrefsX.SetIntArray(GameName, tempIntArray);
