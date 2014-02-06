@@ -5,6 +5,7 @@ public var ScoreScreenVisible = false;
 public var GameName : String = "";
 public var NumberOfScores : int = 10;
 public var ScoreScreenRect = Rect(200,200,310,250);
+public var GuiSkin : GUISkin = null;
 
 private var score : int;
 private var scoreArray : int[];
@@ -26,6 +27,8 @@ function OnGUI() {
 			fillScoreArray();
 			scoresLoaded = true;
 		}
+		
+		GUI.skin = GuiSkin;
 		
 		GUILayout.BeginArea(ScoreScreenRect);
 		GUILayout.BeginVertical("box");

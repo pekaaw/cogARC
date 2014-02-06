@@ -4,10 +4,14 @@ public var Pause = false;
 public var PauseScreenRect = Rect(200,200,200,200);
 public var PauseScreenLogo : Texture;
 public var PauseLogoPosition : Rect;
+public var GuiSkin : GUISkin = null;
 
 function OnGUI () {
 	
 	if(Pause == true) {
+	
+		GUI.skin = GuiSkin;
+	
 		if(PauseScreenLogo != null){
 			GUI.DrawTexture(PauseLogoPosition,PauseScreenLogo,ScaleMode.ScaleToFit,true);
 		}

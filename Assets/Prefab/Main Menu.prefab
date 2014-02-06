@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -23,7 +23,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.9972024, y: -2.5272634, z: 3.22886395}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -40,7 +40,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainMenuRect:
     serializedVersion: 2
-    x: 200
+    x: 140.190002
     y: 200
     width: 300
     height: 200
@@ -61,6 +61,7 @@ MonoBehaviour:
     y: 20
     width: 100
     height: 100
+  GuiSkin: {fileID: 11400000, guid: c9133c91cd117417d0000cf8a220b639, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

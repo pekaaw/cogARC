@@ -1,11 +1,12 @@
 ﻿#pragma strict
 
 public var TimeScoreMultiplyer : float = 0.9f;
-public var PlacementRectangle : Rect = Rect(200,200,200,50);
+public var PlacementRectangle : Rect = Rect(Screen.width,20,95,50);
 
 private var timer : float = 0.0f;
 private var score : int;
 private var timerText : String;
+public var GuiSkin : GUISkin = null;
 
 function Update () {
 	timer += Time.deltaTime;
@@ -17,7 +18,8 @@ function OnGUI () {
 	//Makes the text for the timer.
 	makeTimerText();
 	
-	GUI.skin.label.alignment = TextAnchor.UpperRight;
+	GUI.skin = GuiSkin;
+	
 	GUILayout.BeginArea(PlacementRectangle);
 	GUILayout.BeginVertical();
 	
@@ -26,7 +28,6 @@ function OnGUI () {
 	
 	GUILayout.EndVertical();
 	GUILayout.EndArea();
-	GUI.skin.label.alignment = TextAnchor.MiddleLeft;
 }
 
 function calculateScore() {
@@ -40,7 +41,7 @@ function makeTimerText() {
 	var min : int = timer / 60;
 	var sec : int = timer % 60;
 	var frac : int = (timer * 100) % 100;
- 	timerText = String.Format ("{0:00}:{1:00}:{2:00}", min, sec, frac); 
+ 	timerText = String.Format ("{0:0}:{1:00}:{2:00}", min, sec, frac); 
 }
 
 function getScore(){

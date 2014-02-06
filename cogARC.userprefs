@@ -2,8 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\TimerAndScore.js">
     <Files>
-      <File FileName="Assets\Scripts\TimerAndScore.js" Line="43" Column="28" />
-      <File FileName="Assets\Scripts\ScoreScreen.js" Line="47" Column="2" />
+      <File FileName="Assets\Scripts\TimerAndScore.js" Line="22" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

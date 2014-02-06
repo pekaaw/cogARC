@@ -6,6 +6,7 @@ public var ButtonsPerRow : int = 4;
 public var MainMenuTitle : String = "Main Menu!";
 public var LogoTexture : Texture;
 public var LogoPoistion : Rect;
+public var GuiSkin : GUISkin = null;
 
 function Start () {
 	for(var i = 0; i < NameOfGames.Length; i++){
@@ -16,6 +17,8 @@ function Start () {
 }
 
 function OnGUI () {
+	
+	GUI.skin = GuiSkin;
 	
 	if(LogoTexture != null){
 		GUI.DrawTexture(LogoPoistion,LogoTexture,ScaleMode.ScaleToFit,true);
