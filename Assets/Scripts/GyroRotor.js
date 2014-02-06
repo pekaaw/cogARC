@@ -13,7 +13,7 @@ var gyroUnitZVec3 : UnityEngine.Vector3 = new UnityEngine.Vector3(0,0,0);//right
 
 function Start () {
 if(SystemInfo.supportsGyroscope){
-	//Screen.orientation = ScreenOrientation.PortraitUpsideDown;
+	//Screen.orientation = ScreenOrientation.Landscape;
 	Input.gyro.enabled = true;
 	}
 }
@@ -22,7 +22,8 @@ if(SystemInfo.supportsGyroscope){
 function Update () {
 	if(Input.gyro.enabled){
 		var newRot : UnityEngine.Quaternion = ConvertRotation(Input.gyro.attitude) * GetRotFix();
-		/*gameObject.transform.rotation.x = -newRot.x;
+		/*inverse quaternion :
+		gameObject.transform.rotation.x = -newRot.x;
 		gameObject.transform.rotation.y = -newRot.y;
 		gameObject.transform.rotation.z = -newRot.z;
 		gameObject.transform.rotation.w = newRot.w;
@@ -74,8 +75,8 @@ function Update () {
 	//	outputGyroTextC.text = gyroUnitYVec3.ToString();
 		
 		
-		var a : String = gyroUnitYVec3.ToString();
-		gameObject.GetComponentInChildren(TextMesh).text = a;
+		//var a : String = gyroUnitYVec3.ToString();
+		//gameObject.GetComponentInChildren(TextMesh).text = a;
 		
 		
 		/*var outputTextGO : UnityEngine.GameObject = gameObject.FindGameObjectWithTag("OutputOnScreen");
@@ -88,7 +89,7 @@ function Update () {
 }
 
 
-function passCollitionData (ownPos : UnityEngine.Vector3,otherPos : UnityEngine.Vector3){
+function passCollitionData (ownPos : UnityEngine.Vector3,otherPos : UnityEngine.Vector3) : int{
 	var differenceVector : UnityEngine.Vector3 = otherPos - ownPos;
 	var XAngle : float = Vector3.Angle(gyroUnitXVec3,differenceVector);
 	var YAngle : float = Vector3.Angle(gyroUnitYVec3,differenceVector);
@@ -99,45 +100,43 @@ function passCollitionData (ownPos : UnityEngine.Vector3,otherPos : UnityEngine.
 	var outputTextC : UnityEngine.TextMesh = outputTextGO.GetComponent(UnityEngine.TextMesh); 
 	if(!outputTextC) {return;}
 	
-	outputTextC.text = gyroUnitXVec3.ToString("R");
-	
 	
 	if(YAngle < 60) 
 	{
 	outputTextC.text = "TOP";
-		//top or bottom collition?
+	
+	return 0;
 	} 
 	else if(YAngle < 120){
-		//side collition
+	
 		
 		if(XAngle < 60)
 		{
 			outputTextC.text = "RIGHT";
-			//right or left side collition?
+			return 2;
+		
 		}
 		else if (XAngle < 120){
 		//front or back
 			if(ZAngle < 90) {
-			outputTextC.text = "FRONT";
-				//front or back collition?
+			outputTextC.text = "BACK";
+			return 4;
+			
 			} 
 			else
 			{
-			outputTextC.text =  "BACK";
-				//front or back collition? 
+			outputTextC.text = "FRONT";
+			return 5;
 			}
 		} else
 		{
 		outputTextC.text = "LEFT";
-			//right or left side collition?
+		return 3;
 		}
 	} else {
 	outputTextC.text = "Bottom";
-		//top or bottom collition?
+	return 1;
 	}
-	
-	
-	
 	
  } 
 
@@ -155,6 +154,12 @@ private static function ConvertRotation(q : Quaternion) : Quaternion
 
 private function GetRotFix() : Quaternion
 {
+//var outputTextGO : UnityEngine.GameObject = gameObject.FindGameObjectWithTag("OutputOnScreen");
+//	var outputTextC : UnityEngine.TextMesh = outputTextGO.GetComponent(UnityEngine.TextMesh); 
+//	if(!outputTextC) {return;}
+	return Quaternion.identity;
+	//outputTextC.text = Screen.orientation.ToString();
+/*
     if (Screen.orientation == ScreenOrientation.Portrait)
         return Quaternion.identity;
     if (Screen.orientation == ScreenOrientation.LandscapeLeft
@@ -165,4 +170,4 @@ private function GetRotFix() : Quaternion
     if (Screen.orientation == ScreenOrientation.PortraitUpsideDown)
         return Quaternion.Euler(0, 0, 180);
     return Quaternion.identity;
-}
+*/}
