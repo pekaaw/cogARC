@@ -1,27 +1,22 @@
 ﻿#pragma strict
 #pragma downcast
-//
+
 public var ScoreScreenVisible = false;
 public var GameName : String = "";
-public var TimeScoreMultiplier : float = 0.9f;
 public var NumberOfScores : int = 10;
 public var ScoreScreenRect = Rect(200,200,310,250);
-public var testFunction : function();
+public var GuiSkin : GUISkin = null;
 
-private var startTime : double;
-private var endTime : double;
-private var score : double;
+private var score : int;
 private var scoreArray : int[];
 private var scoresLoaded = false;
+var timerAndScore : TimerAndScore;
 
 function Start () {
 	//Gives the game a name if there is no name
 	if (GameName == ""){
 		GameName = "Unnamed";
 	}
-	//Sets start time so it can be used to calculate score.
-	startTime = Time.timeSinceLevelLoad;
-	endTime = startTime;
 }
 
 function OnGUI() {
@@ -33,6 +28,8 @@ function OnGUI() {
 			scoresLoaded = true;
 		}
 		
+		GUI.skin = GuiSkin;
+		
 		GUILayout.BeginArea(ScoreScreenRect);
 		GUILayout.BeginVertical("box");
 		//Calls another function to deal with all the GUI stuff.
@@ -43,37 +40,38 @@ function OnGUI() {
 }
 
 function ScoreScreenGUILayout() {
-	//Write a neat function that will show scores and shit here!
-	// YEAH! Layout and shit
+
 	//Anchor that text to the middle!
 	GUI.skin.label.alignment = TextAnchor.MiddleCenter;   
 	
 	GUILayout.Label("Top ten scores for " + GameName);
 	for(var i = 0; i < scoreArray.length; i++){
 		GUILayout.Label("Number "+(i+1) + ": " + scoreArray[i].ToString());
+		GUILayout.FlexibleSpace();
 	}
-	//Resests the alignment of text to the usual Middle Left.
-	GUI.skin.label.alignment = TextAnchor.MiddleLeft;
 	
 	GUILayout.BeginHorizontal();
-	//SOME FUCKIN BUTTONS
+	
 	if(GUILayout.Button("Play again!")){
 		//Do something
 	}
 	if(GUILayout.Button("Main Menu")){
 		//Return to scene 0
+		Application.LoadLevel(0);
 	}
-	if(GUILayout.Button("Reset")){
-		//Yeah!
-		for(i = 0 ;i < scoreArray.Length; i++){
-			scoreArray[i] = 0;
-		}
-	}
-	GUILayout.EndVertical();
+	//if(GUILayout.Button("Next Game")){
+	//	//Yeah!
+	//}
 	
+	GUILayout.EndHorizontal();
 	
+	GUILayout.Label("Score this game: " + score);
+	
+	//Resests the alignment of text to the usual Middle Left.
+	GUI.skin.label.alignment = TextAnchor.MiddleLeft;
 }
 
+//This function fills the score array with data.
 function fillScoreArray() {
 	//Temp array for scores to avoid stupid editor errors.
 	var scoreHolder = new Array();
@@ -81,18 +79,17 @@ function fillScoreArray() {
 	//Load scores from player prefs file.
 	scoreHolder = PlayerPrefsX.GetIntArray(GameName);
 	
-	//Testing to make sure that we have the amount of scores needed.
-	if(scoreHolder.length < NumberOfScores){
-		for(var i = scoreHolder.length; i < NumberOfScores; i++){
-			Debug.Log(scoreHolder.toString());
-			scoreHolder.Add(i);
-			scoreHolder[i] = i;
-			scoreHolder.toString();
-		}
-	}
 	scoreHolder.sort();
 	//Gets the highest number at top.
 	scoreHolder.reverse();
+	
+	//Testing to make sure that we have the amount of scores needed.
+	if(scoreHolder.length < NumberOfScores){
+		for(var i = scoreHolder.length; i < NumberOfScores; i++){
+			scoreHolder.Add(i);
+			scoreHolder[i] = i;
+		}
+	}
 		
 	if(scoreHolder.length > NumberOfScores){
 		scoreHolder.length = NumberOfScores;
@@ -103,15 +100,6 @@ function fillScoreArray() {
 	scoreArray = scoreHolder;
 }
 
-//Calculates the score
-function calculateScore() {
-	endTime = Time.timeSinceLevelLoad;
-	endTime = endTime - startTime;
-	
-	score = endTime * TimeScoreMultiplier;
-	score = endTime;
-}
-
 //Toggles the visibility of the Score Screen
 function toggleScreenVisibility(){
 	ScoreScreenVisible = !ScoreScreenVisible;
@@ -120,16 +108,19 @@ function toggleScreenVisibility(){
 //This is run on quit
 //This saves the scores so it can be loaded later.
 function OnApplicationQuit() {
-	calculateScore();
+	var score : int;
+	score = timerAndScore.getScore();
 	
 	//This is because Unity is silly and won't let me
 	// add something to a int[] object.
-	var tempScoreArray = new Array();
+	var tempScoreArray : Array;
 	tempScoreArray = scoreArray;
 	tempScoreArray.push(score);
+	
 	var tempIntArray = new int[tempScoreArray.length];
 	for(var i:int = 0; i < tempScoreArray.length; i++){
 		tempIntArray[i] = tempScoreArray[i];
+		Debug.Log(i);
 	}
 	
 	var succes = PlayerPrefsX.SetIntArray(GameName, tempIntArray);
