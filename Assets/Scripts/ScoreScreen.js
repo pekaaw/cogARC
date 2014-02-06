@@ -44,9 +44,8 @@ function ScoreScreenGUILayout() {
 	GUILayout.Label("Top ten scores for " + GameName);
 	for(var i = 0; i < scoreArray.length; i++){
 		GUILayout.Label("Number "+(i+1) + ": " + scoreArray[i].ToString());
+		GUILayout.FlexibleSpace();
 	}
-	//Resests the alignment of text to the usual Middle Left.
-	GUI.skin.label.alignment = TextAnchor.MiddleLeft;
 	
 	GUILayout.BeginHorizontal();
 	
@@ -57,11 +56,16 @@ function ScoreScreenGUILayout() {
 		//Return to scene 0
 		Application.LoadLevel(0);
 	}
-	if(GUILayout.Button("Reset")){
-		//Yeah!
-	}
+	//if(GUILayout.Button("Next Game")){
+	//	//Yeah!
+	//}
 	
 	GUILayout.EndHorizontal();
+	
+	GUILayout.Label("Score this game: " + score);
+	
+	//Resests the alignment of text to the usual Middle Left.
+	GUI.skin.label.alignment = TextAnchor.MiddleLeft;
 }
 
 //This function fills the score array with data.
