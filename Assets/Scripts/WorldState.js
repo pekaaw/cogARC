@@ -16,15 +16,11 @@ var WorldState : int[] = [	-1,-1,-1,-1,-1,-1,
 							];
 var ChainsOfMemories : Array = new Array(); // -1 must be at the end and between separated chains
 
-
-
-
- 
 function Start () {
 }
 
 function Update () {
-var outputTextGO : UnityEngine.GameObject = gameObject.FindGameObjectWithTag("OutputOnScreen");
+	var outputTextGO : UnityEngine.GameObject = gameObject.FindGameObjectWithTag("OutputOnScreen");
 	var outputTextC : UnityEngine.TextMesh = outputTextGO.GetComponent(UnityEngine.TextMesh); 
 	if(!outputTextC) {return;}
 	var currentState : String = ""; 
@@ -36,13 +32,11 @@ var outputTextGO : UnityEngine.GameObject = gameObject.FindGameObjectWithTag("Ou
 			currentState += "\n";
 		}
 	}
-	
-	
+
 	for(var c : int  = 0 ; c < ChainsOfMemories.length ; c++) {
 		currentState += ChainsOfMemories[c] + " ";
 	}
-	
-	
+
 	outputTextC.text = currentState;
 	ClearData();
 }
@@ -76,8 +70,6 @@ function ClearData() : void {
 				WorldState[i] = -1;
 	}
 	ChainsOfMemories.Clear();
-	//ChainsOfMemories.Add(-1);
-
 }
 
 function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) : void { // me?(leftof(other))
@@ -85,18 +77,14 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 	var indexOther : int = -1;
 	
 	if(ChainsOfMemories.length < 1) {
-		
-	
-	
+		//Do something?
 	}
 	for (var i : int = 0 ; i < ChainsOfMemories.length ; i++) {
 		if(ChainsOfMemories[i] == idNumber) {
-			index = i;
-			
+			index = i;	
 		}
 		if(ChainsOfMemories[i] == otherIdNumber) {
-			indexOther = i;
-			
+			indexOther = i;	
 		}
 	}
 	if(Mathf.Abs(index - indexOther) == 1 && index != -1 && indexOther != -1) {
@@ -122,34 +110,22 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 		}
 	} else {
 	//the one you are trying to connect is already connected to something else
-	
-	
-	if ( indexOther == -1) {
-		if(leftOfOther) {
-			insertAtIndex(ChainsOfMemories,indexOther,idNumber+1);
+		if ( indexOther == -1) {
+			if(leftOfOther) {
+				insertAtIndex(ChainsOfMemories,indexOther,idNumber+1);
+			} else {
+				insertAtIndex(ChainsOfMemories,indexOther,idNumber);
+			}
 		} else {
-			insertAtIndex(ChainsOfMemories,indexOther,idNumber);
+			//brutal block fusing time!!!!!!!!!!1
+			if(leftOfOther) {
+				fuseBlock(ChainsOfMemories, indexOther, index + 1);
+			} else {
+				fuseBlock(ChainsOfMemories, indexOther, index);
+			}
 		}
-	} else {
-	
-		//brutal block fusing time!!!!!!!!!!1
-		
-		
-		if(leftOfOther) {
-			fuseBlock(ChainsOfMemories, indexOther, index + 1);
-		} else {
-			fuseBlock(ChainsOfMemories, indexOther, index);
-		}
-		
-		
-		}
-	
 	}
-	
 }
-
-
-
 
 //:::::::::::::::::::. Utility Functions::::::::::::::::::::::::::::::::
 /*function addAtEnd(arr:Array,first : int) {
@@ -178,8 +154,6 @@ function insertAtIndex(arr:Array, newNumber : int, index : int) {
 	
 }
 
-
-
 // DONE!!!!!...............I THINK
 
 function fuseBlock(arr:Array, startBlockIndex : int, targetIndex : int) {
@@ -188,18 +162,12 @@ function fuseBlock(arr:Array, startBlockIndex : int, targetIndex : int) {
 	while (startBlockIndex != 0 && arr[startBlockIndex - 1] != -1) {
 	// this while loop is a startblockindex fix, should not run once if fuseblock function was called correctly
 	// NB! fix for targetIndex is not possible
-	//  
-	
-	
 		startBlockIndex --;
 	}
 
 	var nextTarget: int = arr[startBlockIndex];
 	
 	if(targetIndex > startBlockIndex) {   
-
-		
-	
 		while(nextTarget != -1) {
 		// the target index is ajusted in this forloop to use the
 		// same targets for left and right of the block regardles
@@ -211,15 +179,11 @@ function fuseBlock(arr:Array, startBlockIndex : int, targetIndex : int) {
 		}
 		arr.splice(startBlockIndex,1); //remove the extra -1 separator
 		//http://stackoverflow.com/questions/638381/fastest-way-to-delete-one-entry-from-the-middle-of-array
-		
 	}
 	else {
-		
 		while ( ChainsOfMemories[startBlockIndex + 1] != -1) {
 			startBlockIndex ++;
 		}
-		
-		
 		while(nextTarget != -1) {
 			for (var j : int = startBlockIndex ; j > targetIndex; j--) {
 				swap(arr,j,j-1);
@@ -227,11 +191,9 @@ function fuseBlock(arr:Array, startBlockIndex : int, targetIndex : int) {
 			nextTarget = arr[startBlockIndex];
 		} 
 		arr.splice(startBlockIndex,1); //remove the extra -1 separator
-
 	}
 	fusionLock.ReleaseMutex();
 }
-
 
 function swap(arr:Array, i : int, j : int) {
     var temp:int = arr[i];
