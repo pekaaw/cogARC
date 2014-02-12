@@ -4,7 +4,7 @@
 public var ScoreScreenVisible = false;
 public var GameName : String = "";
 public var NumberOfScores : int = 10;
-public var ScoreScreenRect = Rect(200,200,310,250);
+public var ScoreScreenRect = Rect(Screen.width,Screen.height,50, 50);
 public var GuiSkin : GUISkin = null;
 
 private var score : int;
@@ -40,7 +40,7 @@ function OnGUI() {
 }
 
 function ScoreScreenGUILayout() {
-
+	var originalAlignment = GUI.skin.label.alignment;
 	//Anchor that text to the middle!
 	GUI.skin.label.alignment = TextAnchor.MiddleCenter;   
 	
@@ -68,7 +68,7 @@ function ScoreScreenGUILayout() {
 	GUILayout.Label("Score this game: " + score);
 	
 	//Resests the alignment of text to the usual Middle Left.
-	GUI.skin.label.alignment = TextAnchor.MiddleLeft;
+	GUI.skin.label.alignment = originalAlignment;
 }
 
 //This function fills the score array with data.
@@ -115,6 +115,9 @@ function OnApplicationQuit() {
 	// add something to a int[] object.
 	var tempScoreArray : Array;
 	tempScoreArray = scoreArray;
+	if(tempScoreArray.length == 0){
+		return;
+	}
 	tempScoreArray.push(score);
 	
 	var tempIntArray = new int[tempScoreArray.length];

@@ -7,6 +7,7 @@ public var MainMenuTitle : String = "Main Menu!";
 public var LogoTexture : Texture;
 public var LogoPoistion : Rect;
 public var GuiSkin : GUISkin = null;
+public var ButtonFontSize : int = 50;
 
 function Start () {
 	for(var i = 0; i < NameOfGames.Length; i++){
@@ -19,6 +20,10 @@ function Start () {
 function OnGUI () {
 	
 	GUI.skin = GuiSkin;
+	//Vars for original sizes
+	var originalButtonFont : int = GUI.skin.button.fontSize;
+	
+	GUI.skin.button.fontSize = ButtonFontSize;
 	
 	if(LogoTexture != null){
 		GUI.DrawTexture(LogoPoistion,LogoTexture,ScaleMode.ScaleToFit,true);
@@ -43,4 +48,6 @@ function OnGUI () {
 	}
 	GUILayout.EndHorizontal();
 	GUILayout.EndArea();
+	
+	GUI.skin.button.fontSize = originalButtonFont;
 }

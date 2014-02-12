@@ -1,8 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\TimerAndScore.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainMenu.js">
     <Files>
-      <File FileName="Assets\Scripts\TimerAndScore.js" Line="22" Column="2" />
+      <File FileName="Assets\Scripts\CorrectCombo.js" Line="28" Column="53" />
+      <File FileName="Assets\Scripts\ScoreScreen.js" Line="119" Column="10" />
+      <File FileName="Assets\Scripts\MainMenu.js" Line="52" Column="48" />
+      <File FileName="Assets\TestMarkerSkript.js" Line="5" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
