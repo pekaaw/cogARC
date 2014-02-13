@@ -2,6 +2,7 @@
 
 public var TimeScoreMultiplyer : float = 0.9f;
 public var PlacementRectangle : Rect = Rect(Screen.width,20,95,50);
+public var SizeFont : int = 20;
 
 private var timer : float = 0.0f;
 private var score : int;
@@ -19,6 +20,10 @@ function OnGUI () {
 	makeTimerText();
 	
 	GUI.skin = GuiSkin;
+	//Save original font size.
+	var originalFontSize : int = GUI.skin.label.fontSize;
+	
+	GUI.skin.label.fontSize = SizeFont;
 	
 	GUILayout.BeginArea(PlacementRectangle);
 	GUILayout.BeginVertical();
@@ -28,6 +33,7 @@ function OnGUI () {
 	
 	GUILayout.EndVertical();
 	GUILayout.EndArea();
+	GUI.skin.label.fontSize = originalFontSize;
 }
 
 function calculateScore() {

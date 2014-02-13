@@ -4,19 +4,23 @@
 public var ScoreScreenVisible = false;
 public var GameName : String = "";
 public var NumberOfScores : int = 10;
-public var ScoreScreenRect = Rect(200,200,310,250);
 public var GuiSkin : GUISkin = null;
+public var ButtonFontSize : int = 50;
+public var LabelFontSize : int = 50;
+var timerAndScore : TimerAndScore;
 
+private var ScoreScreenRect : Rect;
 private var score : int;
 private var scoreArray : int[];
 private var scoresLoaded = false;
-var timerAndScore : TimerAndScore;
+
 
 function Start () {
 	//Gives the game a name if there is no name
 	if (GameName == ""){
 		GameName = "Unnamed";
 	}
+	ScoreScreenRect = Rect((Screen.width/2) - 720/2,15,720, 1000);	
 }
 
 function OnGUI() {
@@ -29,46 +33,53 @@ function OnGUI() {
 		}
 		
 		GUI.skin = GuiSkin;
+		var originalButtonSize = GUI.skin.button.fontSize;
+		var originalLabelSize = GUI.skin.label.fontSize;
+		GUI.skin.button.fontSize = ButtonFontSize;
+		GUI.skin.label.fontSize = LabelFontSize;
 		
 		GUILayout.BeginArea(ScoreScreenRect);
 		GUILayout.BeginVertical("box");
 		//Calls another function to deal with all the GUI stuff.
 		ScoreScreenGUILayout();
 		GUILayout.EndVertical();
-		GUILayout.EndArea();	
+		GUILayout.EndArea();
+		GUI.skin.label.fontSize = originalLabelSize;
+		GUI.skin.button.fontSize = originalButtonSize;
 	}
 }
 
 function ScoreScreenGUILayout() {
-
+	var originalAlignment = GUI.skin.label.alignment;
 	//Anchor that text to the middle!
 	GUI.skin.label.alignment = TextAnchor.MiddleCenter;   
 	
-	GUILayout.Label("Top ten scores for " + GameName);
+	GUILayout.Label("Top " + NumberOfScores + " for :");
+	GUILayout.Label(GameName);
 	for(var i = 0; i < scoreArray.length; i++){
 		GUILayout.Label("Number "+(i+1) + ": " + scoreArray[i].ToString());
 		GUILayout.FlexibleSpace();
 	}
-	
+	GUILayout.Label("Score this game: " + score);
+	GUILayout.FlexibleSpace();
 	GUILayout.BeginHorizontal();
-	
+	GUILayout.FlexibleSpace();
 	if(GUILayout.Button("Play again!")){
 		//Do something
 	}
+	GUILayout.FlexibleSpace();
 	if(GUILayout.Button("Main Menu")){
 		//Return to scene 0
 		Application.LoadLevel(0);
-	}
+	}GUILayout.FlexibleSpace();
 	//if(GUILayout.Button("Next Game")){
 	//	//Yeah!
 	//}
 	
 	GUILayout.EndHorizontal();
-	
-	GUILayout.Label("Score this game: " + score);
-	
+
 	//Resests the alignment of text to the usual Middle Left.
-	GUI.skin.label.alignment = TextAnchor.MiddleLeft;
+	GUI.skin.label.alignment = originalAlignment;
 }
 
 //This function fills the score array with data.
@@ -115,6 +126,9 @@ function OnApplicationQuit() {
 	// add something to a int[] object.
 	var tempScoreArray : Array;
 	tempScoreArray = scoreArray;
+	if(tempScoreArray.length == 0){
+		return;
+	}
 	tempScoreArray.push(score);
 	
 	var tempIntArray = new int[tempScoreArray.length];

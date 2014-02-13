@@ -40,19 +40,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainMenuRect:
     serializedVersion: 2
-    x: 140.190002
+    x: 500
     y: 200
-    width: 300
+    width: 470
     height: 200
   NameOfGames:
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  ButtonsPerRow: 4
+  - Jakob
+  - Daniel
+  - Per Kristian
+  ButtonsPerRow: 2
   MainMenuTitle: Main Menu!
   LogoTexture: {fileID: 2800000, guid: f61fdbcd48f2b4b4c8c357bf6367b164, type: 3}
   LogoPoistion:
@@ -62,6 +58,7 @@ MonoBehaviour:
     width: 100
     height: 100
   GuiSkin: {fileID: 11400000, guid: c9133c91cd117417d0000cf8a220b639, type: 2}
+  ButtonFontSize: 50
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
