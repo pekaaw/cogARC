@@ -4,8 +4,7 @@ public var stringInstruction : String = "What's your name?";
 public var stringToEdit : String = "Enter here";
 public var stringSubmit : String = "Submit";
 
-private var dpi : float;
-
+private var storedName : String;
 private var screenWidth : int;
 private var screenHeight : int;
 
@@ -17,6 +16,10 @@ private var textFieldStyle : GUIStyle;
 
 function Start () {
 	Debug.Log("Start RegisterName.js");
+	
+	storedName = PlayerPrefs.GetString("UserName", stringToEdit);
+	if( storedName == stringToEdit || storedName == "" )
+	storedName = stringToEdit;
 
 	boxStyle = new UnityEngine.GUIStyle();
 	boxStyle.normal.textColor = Color.white;
@@ -49,7 +52,6 @@ function OnGUI () {
 	
 	buttonStyle = new UnityEngine.GUIStyle("button");
 	
-	dpi = Screen.dpi;
 	screenWidth = Screen.width;
 	screenHeight = Screen.height;
 	
@@ -96,7 +98,7 @@ function OnGUI () {
 	
 	//GUI.skin.textField.fontSize = 25;
 	
-	stringToEdit = GUI.TextField(textFieldRect, stringToEdit, inputStyle);
+	storedName = GUI.TextField(textFieldRect, storedName, inputStyle);
 	//GUI.Label( new Rect(10, 35, 200, 200), stringToEdit, boxStyle);
 	
 	var submitButtonRect = new Rect(
@@ -109,7 +111,14 @@ function OnGUI () {
 		boxRectContentWidth * 0.3,
 		(boxRectContentHeight / 4) );
 		
-	GUI.Button( submitButtonRect, stringSubmit, inputStyle ); //buttonStyle );
+	if (GUI.Button( submitButtonRect, stringSubmit, inputStyle ) ) //buttonStyle );
+	{
+		PlayerPrefs.SetString("UserName", storedName);
+		UnityEngine.Object.Destroy(this);
+		GUI.Button( new Rect( 5, 5, 100, 100 ), "input");
+		//Application.LoadLevel( 0 );
+	}
+	
 	
 //	if(GUI.Button(Rect(10, 75, 100, 100), "Show dpi"))
 //	{
