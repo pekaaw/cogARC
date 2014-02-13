@@ -38,13 +38,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbce5108fa23a9a4397475e82ecaf88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pause: 0
+  Pause: 1
   PauseScreenRect:
     serializedVersion: 2
     x: 200
     y: 200
-    width: 200
+    width: 300
     height: 200
+  PauseScreenLogo: {fileID: 0}
+  PauseLogoPosition:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  GuiSkin: {fileID: 11400000, guid: c9133c91cd117417d0000cf8a220b639, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
