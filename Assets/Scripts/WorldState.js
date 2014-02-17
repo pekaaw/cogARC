@@ -1,8 +1,6 @@
 ﻿#pragma strict
-
-var fusionLock : System.Threading.Mutex = new System.Threading.Mutex(true);
-var NUMBER_OF_SIDES : int = 6;
-var NUMBER_OF_CUBES : int  = 10;
+final var NUMBER_OF_SIDES : int = 6;
+final var NUMBER_OF_CUBES : int  = 10;
 var WorldState : int[] = [	-1,-1,-1,-1,-1,-1,
 							-1,-1,-1,-1,-1,-1,
 							-1,-1,-1,-1,-1,-1,
@@ -14,17 +12,25 @@ var WorldState : int[] = [	-1,-1,-1,-1,-1,-1,
 							-1,-1,-1,-1,-1,-1,
 							-1,-1,-1,-1,-1,-1
 							];
-var ChainsOfMemories : Array = new Array(); // -1 must be at the end and between separated chains
+var outputTextC : UnityEngine.TextMesh;
+var chainsOfCubes : List.<int> = new List.<int>();	
+var chainsOfCubesTemp : int[]; 
+//var ChainsOfMemories : Array = new Array(); // -1 must be at the end and between separated chains
 
 function Start () {
+ var arr : Array = new Array();
+ 
+ for ( var c : int = 0 ; c < 20 ; c++) {
+ 	arr.Push(0);
+ }
+ 	chainsOfCubesTemp = arr.ToBuiltin(int);
+ 
+
 }
 
 function Update () {
-	var outputTextGO : UnityEngine.GameObject = gameObject.FindGameObjectWithTag("OutputOnScreen");
-	var outputTextC : UnityEngine.TextMesh = outputTextGO.GetComponent(UnityEngine.TextMesh); 
-	if(!outputTextC) {return;}
-	var currentState : String = ""; 
 	
+	/*
 	for(var i : int  = 0 ; i < WorldState.length ; i++) {
 		currentState += WorldState[i] + " ";
 		if(!((i+1)%NUMBER_OF_SIDES))
@@ -32,12 +38,16 @@ function Update () {
 			currentState += "\n";
 		}
 	}
+	
+*/
 
-	for(var c : int  = 0 ; c < ChainsOfMemories.length ; c++) {
-		currentState += ChainsOfMemories[c] + " ";
+	var currentState : String = ""; 
+
+	var olden : int[] = chainsOfCubes.ToArray();
+	for(var d : int  = 0 ; d < olden.length ; d++) {
+		currentState += olden[d] + " ";
 	}
-
-	outputTextC.text = currentState;
+		outputTextC.text = currentState;
 	ClearData();
 }
 
@@ -45,23 +55,18 @@ function SetData(idNumber: int,otherIdNumber: int, sideHit : int) : void {
 	if(WorldState[idNumber * NUMBER_OF_SIDES + sideHit] < 0) {
 			WorldState[idNumber * NUMBER_OF_SIDES + sideHit] = otherIdNumber;
 			if(sideHit > 1) {
-				if (sideHit == 4 || sideHit ==2) {
+			Debug.Log(sideHit + " " + idNumber + otherIdNumber + " ARAGAKI-NI");
+				if (sideHit == 3 || sideHit == 5) { //front or left
+					AddToChain(idNumber, otherIdNumber, true);
+				} else {							//back or right
 					AddToChain(idNumber, otherIdNumber, false);
 				}
-				AddToChain(idNumber, otherIdNumber, true);
 			}
 		}
 	else {
 	// :::::TO DO:::: 	
 	// odd case : more than one collition on this side, do something smart!
-	}
-}
-
-function RemoveConnection(idNumber : int,otherIdNumber : int) : void{
-	for (var i : int = 0; i < NUMBER_OF_SIDES ; i ++) {
-		if (WorldState[idNumber * NUMBER_OF_SIDES + i] == otherIdNumber) {
-			WorldState[idNumber * NUMBER_OF_SIDES + i] = -1;
-		}
+	return;
 	}
 }
 
@@ -69,134 +74,128 @@ function ClearData() : void {
 	for ( var i : int  = 0 ; i < WorldState.length ; i++) {
 				WorldState[i] = -1;
 	}
-	ChainsOfMemories.Clear();
+	chainsOfCubes.Clear();
 }
 
-function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) : void { // me?(leftof(other))
-	var index : int = -1;
-	var indexOther : int = -1;
+function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) : void { // 'this'(leftof('other')?)
+	var index : int;
+	var indexOther : int;
+	//NOTE ::::::: this function is made for making chains of data
+	// it doesn't handle duplicated cubeIds or more than 1 connection on each of 2 out of the 6 sides on each of the cubes.
+	//if more than one cube is colliding with the left side of a cube one will overwrite the other and it's
+	//possible that paradoxical connections occurs. even though reality can handle 3d doesn't mean it will look nice when
+	//squeezed in to a 1d array
+
+	index = chainsOfCubes.IndexOf(idNumber); // finds the index of 'this' and 'other' in the list
+												//returns -1 is not found
+	indexOther = chainsOfCubes.IndexOf(otherIdNumber);
+
 	
-	if(ChainsOfMemories.length < 1) {
-		//Do something?
-	}
-	for (var i : int = 0 ; i < ChainsOfMemories.length ; i++) {
-		if(ChainsOfMemories[i] == idNumber) {
-			index = i;	
-		}
-		if(ChainsOfMemories[i] == otherIdNumber) {
-			indexOther = i;	
-		}
-	}
 	if(Mathf.Abs(index - indexOther) == 1 && index != -1 && indexOther != -1) {
-		return; //these have already been connected , the difference is 1 and both are set.
+		return; //these have already been connected : the difference in index is 1 and both are in the list.
 	}
-	
+
 	if(index == -1) {
 		//the index is not in the list so add new
 		if(indexOther == -1) {
 			//add new pair at the end
 			if(leftOfOther) {
-				addPairAtEnd(ChainsOfMemories,idNumber,otherIdNumber);
+
+				addPairAtEnd(idNumber,otherIdNumber);
+
 			} else {
-				addPairAtEnd(ChainsOfMemories,otherIdNumber,idNumber);
+
+				addPairAtEnd(otherIdNumber,idNumber);
 			}
 		} else {
 			//connect new to 'other'. 'other' should already be part of a chain.
 			if(leftOfOther) {
-				insertAtIndex(ChainsOfMemories,idNumber,indexOther);
+
+				insertAtIndex(indexOther,idNumber);
 			} else {
-				insertAtIndex(ChainsOfMemories,idNumber,indexOther+1);
+
+				insertAtIndex(indexOther+1,idNumber);
 			}
+			
 		}
 	} else {
-	//the one you are trying to connect is already connected to something else
+	
+	//the one you are trying to connect to something is already connected to something else
 		if ( indexOther == -1) {
+		// this one you are trying to connect it to doesn't exist so we can just add 'other' next to 'this' on the correct side
 			if(leftOfOther) {
-				insertAtIndex(ChainsOfMemories,indexOther,idNumber+1);
+
+				insertAtIndex(index+1,otherIdNumber);
 			} else {
-				insertAtIndex(ChainsOfMemories,indexOther,idNumber);
+
+				insertAtIndex(index,otherIdNumber);
 			}
 		} else {
+
 			//brutal block fusing time!!!!!!!!!!1
+			// move one block of items to be connected to 'other' on it's left or right side
 			if(leftOfOther) {
-				fuseBlock(ChainsOfMemories, indexOther, index + 1);
+
+				fuseBlock(index, indexOther );
 			} else {
-				fuseBlock(ChainsOfMemories, indexOther, index);
+
+				fuseBlock( index, indexOther + 1);
 			}
 		}
 	}
 }
 
 //:::::::::::::::::::. Utility Functions::::::::::::::::::::::::::::::::
-/*function addAtEnd(arr:Array,first : int) {
-//for adding the new number to the right end of the very last block
-// only use in this very specific case
-	arr.Add(first);
-	swap(arr,arr.length-1,arr.length-2);
-}*/
 
-function addPairAtEnd(arr:Array,first : int, second : int) {
+function addPairAtEnd(first : int, second : int) {
 // when neither are in any blocks from before add both
-   arr.Add(first);
-   arr.Add(second);
-   arr.Add(-1);
+   chainsOfCubes.Add(first);
+   chainsOfCubes.Add(second);
+   chainsOfCubes.Add(-1);
+
 }
 
-function insertAtIndex(arr:Array, newNumber : int, index : int) {
-// inserts 'newNumber' at index 'index' in 'arr'
-   var itterator : int = arr.length;
-   arr.Add(newNumber);
-   
-	while (itterator > index) {
-		swap(arr,itterator,itterator-1);
-		itterator --;
-	}
-	
+function insertAtIndex( index : int, newNumber : int) {
+// inserts 'newNumber' at index 'index' in 'chainsOfCubes' pushing the one in and those after one index up;
+   chainsOfCubes.Insert(index, newNumber);
+
 }
 
 // DONE!!!!!...............I THINK
 
-function fuseBlock(arr:Array, startBlockIndex : int, targetIndex : int) {
-//fuse a block at the startingblockindex with another at the targetIndex by moving it.
-	fusionLock.Close();
-	while (startBlockIndex != 0 && arr[startBlockIndex - 1] != -1) {
-	// this while loop is a startblockindex fix, should not run once if fuseblock function was called correctly
-	// NB! fix for targetIndex is not possible
-		startBlockIndex --;
-	}
+function fuseBlock( startBlockIndex : int, targetIndex : int) {
+// startBlockIndex should be the first index in the block to move to target but this function will change
+// this variable to find the start so any index in the block will do. the targetIndex however will need to be accurate.
+// if it's a collision with 'other' from 'other's left side the targetIndex should be the same as 'other's index in the list
+// if it's from the other side the targetIndex should be  'other's index + 1;
 
-	var nextTarget: int = arr[startBlockIndex];
+	var count : int = 0;
+	while (startBlockIndex > 0 && chainsOfCubes[startBlockIndex-1] != -1){
+	//sets the starting point for the block to actually be the first in the block
 	
-	if(targetIndex > startBlockIndex) {   
-		while(nextTarget != -1) {
-		// the target index is ajusted in this forloop to use the
-		// same targets for left and right of the block regardles
-		// of wether the current block is higher or lower in the array;
-			for (var i : int = startBlockIndex ; i < targetIndex-1; i++) {
-				swap(arr,i,i+1);
-			}
-			nextTarget = arr[startBlockIndex];
-		}
-		arr.splice(startBlockIndex,1); //remove the extra -1 separator
-		//http://stackoverflow.com/questions/638381/fastest-way-to-delete-one-entry-from-the-middle-of-array
+		startBlockIndex--;
 	}
-	else {
-		while ( ChainsOfMemories[startBlockIndex + 1] != -1) {
-			startBlockIndex ++;
-		}
-		while(nextTarget != -1) {
-			for (var j : int = startBlockIndex ; j > targetIndex; j--) {
-				swap(arr,j,j-1);
-			}
-			nextTarget = arr[startBlockIndex];
-		} 
-		arr.splice(startBlockIndex,1); //remove the extra -1 separator
-	}
-	fusionLock.ReleaseMutex();
-}
 
-function swap(arr:Array, i : int, j : int) {
-    var temp:int = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
+	while (chainsOfCubes[(startBlockIndex + count)] != -1) {
+		//counts how many needs to be moved
+		count ++;
+	}
+	//copies the block to a temp-workspace-int[]
+	chainsOfCubes.CopyTo(startBlockIndex,chainsOfCubesTemp,0,count); //index,targetarray,targetindex,itemcount
+	// removes the block and the extra -1 separator
+	chainsOfCubes.RemoveRange(startBlockIndex,count+1);	
+	if(targetIndex > startBlockIndex) {
+		// since the block has been removed the targetIndex will need to be 
+		//ajusted if the block was of a lower index than the target
+		targetIndex -= count+1; 
+	}
+
+var c : int  =  count - 1;
+	while ( c >= 0) {
+		// reinsert one by one from the temp-workspace-int[] in opposite order to the targetIndex 
+
+        insertAtIndex(targetIndex,chainsOfCubesTemp[c]);
+        c--;
+    }
+
 }

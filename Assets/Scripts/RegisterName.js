@@ -3,9 +3,9 @@
 public var stringInstruction : String = "What's your name?";
 public var stringToEdit : String = "Enter here";
 public var stringSubmit : String = "Submit";
+public var boxContentWidthFactor : int = 8;
 
-private var dpi : float;
-
+private var storedName : String;
 private var screenWidth : int;
 private var screenHeight : int;
 
@@ -17,7 +17,15 @@ private var textFieldStyle : GUIStyle;
 
 function Start () {
 	Debug.Log("Start RegisterName.js");
+	
+	// Get stored username and if empty, put default string there
+	storedName = PlayerPrefs.GetString("UserName", stringToEdit);
+	if( storedName == "" )
+	{
+		storedName = stringToEdit;
+	}
 
+	// Create a style for the box
 	boxStyle = new UnityEngine.GUIStyle();
 	boxStyle.normal.textColor = Color.white;
 	boxStyle.fontSize = 50;
@@ -26,10 +34,6 @@ function Start () {
 	
 	inputStyle = null;
 	textFieldStyle = null;
-	
-	//inputStyle = new UnityEngine.GUIStyle(GUI.skin.textField);//GUI.skin.textField);
-	//inputStyle.GUIStyle = GUI.skin.textField;
-	//inputStyle.fontSize = boxStyle.fontSize * 0.7;
 }
 
 function Update () {
@@ -37,6 +41,7 @@ function Update () {
 }
 
 function OnGUI () {
+	// Create more style if not set
 	if(textFieldStyle == null)
 	{
 		textFieldStyle = new UnityEngine.GUIStyle(GUI.skin.textField);
@@ -49,15 +54,19 @@ function OnGUI () {
 	
 	buttonStyle = new UnityEngine.GUIStyle("button");
 	
-	dpi = Screen.dpi;
+	// Get screen size to scale the box properly
 	screenWidth = Screen.width;
 	screenHeight = Screen.height;
 	
-	var boxContentWidthFactor = 8;
+	// How big will the box be? *works best between the 5-15 range
+	boxContentWidthFactor = Mathf.Max( boxContentWidthFactor, 5);
+	boxContentWidthFactor = Mathf.Min( boxContentWidthFactor, 15);
 
+	// Calculate offsets to place things at correct place
 	var offsetWidth = screenWidth / boxContentWidthFactor;
 	var offsetHeight = screenHeight / 4;
 
+	// Create box for putting content into
 	var boxRect : UnityEngine.Rect;
 	boxRect = new Rect( 
 		offsetWidth, 
@@ -67,53 +76,48 @@ function OnGUI () {
 
 	GUI.Box(boxRect, "");
 	
+	// Calculate how much place the content should take
 	var boxRectContentWidth = 8 * offsetWidth * 0.9;
 	var boxRectContentHeight = 2 * offsetHeight * 0.9;
 	
+	// Create a label that will work as the headline / instruction
 	GUI.Label( 
 		new Rect( 
 			boxRect.center.x - (boxRectContentWidth / 2),
 			boxRect.center.y - (boxRectContentHeight * 7 / 16),
 			boxRectContentWidth,
 			(boxRectContentHeight / 4) ),
-//			boxRect.center.x - (boxRectContentWidth / 2),
-//			boxRect.center.y - (boxRectContentHeight * / 2),
-//			boxRectContentWidth,
-//			(boxRectContentHeight / 4) ),
 		stringInstruction,
 		boxStyle );
 	 
+	// Create an inputfield to put the name
 	var textFieldRect : UnityEngine.Rect;
 	textFieldRect = new Rect(
-//		boxRect.center.x - (boxRect.width * 0.9 / 2),
-//		boxRect.center.y - (boxRect.height * 0.3 / 2),
-//		boxRect.width * 0.9,
-//		(boxRectContentHeight / 4) );
 		boxRect.center.x - (boxRect.width * 0.9 / 2),
 		boxRect.center.y - (boxRectContentHeight / 8),
 		boxRect.width * 0.9,
 		(boxRectContentHeight / 4) );
 	
-	//GUI.skin.textField.fontSize = 25;
+	// Get the text in the inputfield (Yes, happens on every updatecall)
+	storedName = GUI.TextField(textFieldRect, storedName, inputStyle);
 	
-	stringToEdit = GUI.TextField(textFieldRect, stringToEdit, inputStyle);
-	//GUI.Label( new Rect(10, 35, 200, 200), stringToEdit, boxStyle);
-	
+	// create the rectangle that will work as the submitbutton
 	var submitButtonRect = new Rect(
-//		boxRect.xMax - (boxRect.width * 0.05) -  (boxRect.width / boxContentWidthFactor),
 		boxRect.xMax - (boxRect.width * 0.05) - (boxRectContentWidth * 0.3),
-		//1 boxRect.center.y + (boxRect.height * 0.3 / 2),
-		//2 boxRect.y + (boxRectContentHeight * 0.9) - (boxRectContentHeight / 4),
 		boxRect.center.y + (boxRectContentHeight * 7 / 16) - (boxRectContentHeight / 4),
-//		boxRect.width / boxContentWidthFactor,
 		boxRectContentWidth * 0.3,
 		(boxRectContentHeight / 4) );
 		
-	GUI.Button( submitButtonRect, stringSubmit, inputStyle ); //buttonStyle );
-	
-//	if(GUI.Button(Rect(10, 75, 100, 100), "Show dpi"))
-//	{
-//		print("Width: " + Screen.width.ToString() );// dpi.ToString() );
-//		Debug.Log("dpi: " + Screen.dpi.ToString() );
-//	}	
+	// Create a submitbutton and decern what will be done if clicked
+	if (GUI.Button( submitButtonRect, stringSubmit, inputStyle ) ) //buttonStyle );
+	{
+		// store username in player preferances
+		PlayerPrefs.SetString("UserName", storedName);
+		
+		// Remove this script and what it's gui
+		UnityEngine.Object.Destroy(this);
+		
+		// Load mainscreen
+		Application.LoadLevel( 0 );
+	}
 }
