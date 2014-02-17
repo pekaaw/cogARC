@@ -4,9 +4,10 @@ public var Pause = false;
 public var PauseScreenLogo : Texture;
 public var PauseLogoPosition : Rect;
 public var GuiSkin : GUISkin = null;
+public var ButtonFontSize : int = 50;
 
 private var PauseScreenRect = Rect(Screen.width/2 - 300,500,300,200);
-private var buttonFontSize : int = 50;
+
 
 function OnGUI () {
 	
@@ -40,7 +41,7 @@ function OnGUI () {
 	}
 	else {
 		var originalButtonSize = GUI.skin.button.fontSize;
-		GUI.skin.button.fontSize = buttonFontSize;
+		GUI.skin.button.fontSize = ButtonFontSize;
 		if(GUILayout.Button("Pause")){
 			togglePauseScreen();
 		}
