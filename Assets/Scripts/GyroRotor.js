@@ -46,7 +46,7 @@ function Update () {
 	
 }
 
-function collisionIsVertical (ownPos : UnityEngine.Vector3,otherPos : UnityEngine.Vector3) : boolean {
+function collisionIsVertical (ownPos : UnityEngine.Vector3,otherPos : UnityEngine.Vector3) : int {
 	var differenceVector : UnityEngine.Vector3 = otherPos - ownPos;
 	var XAngle : float = Vector3.Angle(gyroUnitXVec3,differenceVector);
 	var YAngle : float = Vector3.Angle(gyroUnitYVec3,differenceVector);
@@ -55,10 +55,10 @@ function collisionIsVertical (ownPos : UnityEngine.Vector3,otherPos : UnityEngin
 	{
 		outputTextC.text = "TOP";
 	
-		return true;
+		return Sides.TOP;
 	} 
 	else if(YAngle < 120){
-		return false;
+		return 0;
 		/* ----don't remove this we might need it later----
 		if(XAngle < 60)
 		{
@@ -86,7 +86,7 @@ function collisionIsVertical (ownPos : UnityEngine.Vector3,otherPos : UnityEngin
 		*/
 	} else {
 		outputTextC.text = "Bottom";
-		return true;
+		return Sides.BOTTOM;
 	}
 }
 

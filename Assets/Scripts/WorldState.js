@@ -68,7 +68,7 @@ function Update () {
 	ClearData(); // <- importent the rest is for debug.
 }
 
-function SetData(idNumber: int,otherIdNumber: int, sideHit : int) : void {
+function SetDataWorldState(idNumber: int,otherIdNumber: int, sideHit : int) : void {
 var targetIndex : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDES;
 	if(WorldState[targetIndex] < 0) 
 	{
@@ -81,6 +81,32 @@ var targetIndex : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDE
 				}
 			}*/
 		}
+	else {
+	// :::::TO DO:::: 	
+	// odd case : more than one collition on this side, do something smart!
+	return;
+	}
+}
+
+function SetDataChain(idNumber: int,otherIdNumber: int, sideHit : int) : void {
+	if(sideHit > 1) 
+	{
+		if (sideHit == Sides.LEFT || sideHit == Sides.FRONT || sideHit == Sides.TOP) { //front or left
+			AddToChain(idNumber, otherIdNumber, true);
+		} else {							//back or right
+			AddToChain(idNumber, otherIdNumber, false);
+		}
+	}
+
+}
+
+function SetDataChainNonOverwrite(idNumber: int,otherIdNumber: int, sideHit : int) : void {
+var targetIndexInWorldState : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDES;
+	if(WorldState[targetIndexInWorldState] < 0) 
+	{
+		WorldState[targetIndexInWorldState] = otherIdNumber;
+		SetDataChain(idNumber,otherIdNumber, sideHit);
+	}
 	else {
 	// :::::TO DO:::: 	
 	// odd case : more than one collition on this side, do something smart!
