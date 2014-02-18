@@ -81,6 +81,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11400000, guid: 581e1b1101c8eb54dbaaeea7e74ed98b, type: 2}
+      propertyPath: NameOfGames.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 581e1b1101c8eb54dbaaeea7e74ed98b, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -111,7 +115,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 581e1b1101c8eb54dbaaeea7e74ed98b, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 581e1b1101c8eb54dbaaeea7e74ed98b, type: 2}
+      propertyPath: NameOfGames.Array.data[3]
+      value: Loadscreen
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 581e1b1101c8eb54dbaaeea7e74ed98b, type: 2}
@@ -133,7 +141,7 @@ GameObject:
   - 114: {fileID: 173391963}
   m_Layer: 0
   m_Name: FrameMarker10
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -341,7 +349,7 @@ GameObject:
   - 114: {fileID: 450721433}
   m_Layer: 0
   m_Name: FrameMarker0
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -702,7 +710,7 @@ GameObject:
   - 114: {fileID: 973645631}
   m_Layer: 0
   m_Name: FrameMarker273
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -805,7 +813,7 @@ GameObject:
   - 114: {fileID: 995835904}
   m_Layer: 0
   m_Name: FrameMarker27
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1140,7 +1148,7 @@ GameObject:
   - 114: {fileID: 1285348222}
   m_Layer: 0
   m_Name: FrameMarker99
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1348,7 +1356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1298280264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1371,6 +1379,7 @@ MonoBehaviour:
   - Jakob
   - Daniel
   - Per Kristian
+  - Loadscreen
   ButtonsPerRow: 2
   MainMenuTitle: Main Menu!
   LogoTexture: {fileID: 2800000, guid: f61fdbcd48f2b4b4c8c357bf6367b164, type: 3}
@@ -1682,7 +1691,7 @@ GameObject:
   - 114: {fileID: 1587072597}
   m_Layer: 0
   m_Name: FrameMarker81
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1890,7 +1899,7 @@ GameObject:
   - 114: {fileID: 1687351669}
   m_Layer: 0
   m_Name: FrameMarker42
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1993,7 +2002,7 @@ GameObject:
   - 114: {fileID: 1828120532}
   m_Layer: 0
   m_Name: FrameMarker213
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2317,7 +2326,7 @@ GameObject:
   - 114: {fileID: 2024880152}
   m_Layer: 0
   m_Name: FrameMarker114
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2900,7 +2909,7 @@ GameObject:
   - 114: {fileID: 2095086295}
   m_Layer: 0
   m_Name: FrameMarker13
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3025,6 +3034,7 @@ MonoBehaviour:
     width: 0
     height: 0
   GuiSkin: {fileID: 11400000, guid: c9133c91cd117417d0000cf8a220b639, type: 2}
+  ButtonFontSize: 50
 --- !u!4 &2139019203
 Transform:
   m_ObjectHideFlags: 0
