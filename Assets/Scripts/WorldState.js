@@ -1,26 +1,38 @@
 ﻿#pragma strict
-final var NUMBER_OF_SIDES : int = 6;
-final var NUMBER_OF_CUBES : int  = 10;
-var WorldState : int[] = [	-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1
-							];
-var outputTextC : UnityEngine.TextMesh;
-var chainsOfCubes : List.<int> = new List.<int>();	
+
+var GameState : List.<int> = new List.<int>(); // GameState formated based on the ruleset currently in use.
+												//this is sendt to the rulescript to see if the goal(s) has been met.
+
+var outputTextC : UnityEngine.TextMesh; //debug output on mobile devices
+
+//:::::option 1 ::::: List of chains
 var chainsOfCubesTemp : int[]; 
-//var ChainsOfMemories : Array = new Array(); // -1 must be at the end and between separated chains
+
+//:::::option 2 ::::: square grid
+final var GRID_ROW_SIZE : int = 3; // these two should be the same for reliability, but they don't have to be
+final var GRID_COLUMN_SIZE : int = 3;
+final var GRID_SIZE : int = GRID_ROW_SIZE * GRID_COLUMN_SIZE; //do not change this
+var WorldState : int[] = [	-1,-1,-1,-1,
+							-1,-1,-1,-1,
+							-1,-1,-1,-1,
+							-1,-1,-1,-1,
+							-1,-1,-1,-1,
+							-1,-1,-1,-1,
+							-1,-1,-1,-1,
+							-1,-1,-1,-1,
+							-1,-1,-1,-1,
+							-1,-1,-1,-1
+							];
+final var NUMBER_OF_SIDES : int = 4;// used in WorldState ; 2 means up and down ; 4 means horizontal sides; 6 means all sides
+									// world state has to contain exactly (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ints. these ints should 
+									// all be -1.
+final var NUMBER_OF_CUBES : int  = 10;
+
 
 function Start () {
- var arr : Array = new Array();
- 
- for ( var c : int = 0 ; c < 20 ; c++) {
+// prepare a temp array for making chains in GameState
+ var arr : Array = new Array(); 
+ for ( var c : int = 0 ; c < (NUMBER_OF_CUBES * 2) ; c++) {
  	arr.Push(0);
  }
  	chainsOfCubesTemp = arr.ToBuiltin(int);
@@ -29,7 +41,10 @@ function Start () {
 }
 
 function Update () {
-	
+   MakeGrid(); // <- if grid rules make grid here. the others are made on events from onTrigger
+
+		var currentState : String = ""; 
+
 	/*
 	for(var i : int  = 0 ; i < WorldState.length ; i++) {
 		currentState += WorldState[i] + " ";
@@ -40,28 +55,30 @@ function Update () {
 	}
 	
 */
-
-	var currentState : String = ""; 
-
-	var olden : int[] = chainsOfCubes.ToArray();
+	var olden : int[] = GameState.ToArray();
 	for(var d : int  = 0 ; d < olden.length ; d++) {
 		currentState += olden[d] + " ";
+		if(!((d+1)%GRID_ROW_SIZE)) {
+			currentState += "\n";
+
+		}
 	}
 		outputTextC.text = currentState;
-	ClearData();
+		// <- call rulefunction before ClearData. 
+	ClearData(); // <- importent the rest is for debug.
 }
 
 function SetData(idNumber: int,otherIdNumber: int, sideHit : int) : void {
-	if(WorldState[idNumber * NUMBER_OF_SIDES + sideHit] < 0) {
-			WorldState[idNumber * NUMBER_OF_SIDES + sideHit] = otherIdNumber;
-			if(sideHit > 1) {
-			Debug.Log(sideHit + " " + idNumber + otherIdNumber + " ARAGAKI-NI");
-				if (sideHit == 3 || sideHit == 5) { //front or left
+var indrax : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDES;
+	if(WorldState[indrax] < 0) {
+			WorldState[indrax] = otherIdNumber;
+			/*if(sideHit > 1) {
+				if (sideHit == 0 || sideHit == 1) { //front or left
 					AddToChain(idNumber, otherIdNumber, true);
 				} else {							//back or right
 					AddToChain(idNumber, otherIdNumber, false);
 				}
-			}
+			}*/
 		}
 	else {
 	// :::::TO DO:::: 	
@@ -74,7 +91,7 @@ function ClearData() : void {
 	for ( var i : int  = 0 ; i < WorldState.length ; i++) {
 				WorldState[i] = -1;
 	}
-	chainsOfCubes.Clear();
+	GameState.Clear();
 }
 
 function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) : void { // 'this'(leftof('other')?)
@@ -86,9 +103,9 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 	//possible that paradoxical connections occurs. even though reality can handle 3d doesn't mean it will look nice when
 	//squeezed in to a 1d array
 
-	index = chainsOfCubes.IndexOf(idNumber); // finds the index of 'this' and 'other' in the list
+	index =GameState .IndexOf(idNumber); // finds the index of 'this' and 'other' in the list
 												//returns -1 is not found
-	indexOther = chainsOfCubes.IndexOf(otherIdNumber);
+	indexOther = GameState.IndexOf(otherIdNumber);
 
 	
 	if(Mathf.Abs(index - indexOther) == 1 && index != -1 && indexOther != -1) {
@@ -149,41 +166,45 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 
 function addPairAtEnd(first : int, second : int) {
 // when neither are in any blocks from before add both
-   chainsOfCubes.Add(first);
-   chainsOfCubes.Add(second);
-   chainsOfCubes.Add(-1);
+   GameState .Add(first);
+   GameState .Add(second);
+   GameState .Add(-1);
 
 }
 
 function insertAtIndex( index : int, newNumber : int) {
-// inserts 'newNumber' at index 'index' in 'chainsOfCubes' pushing the one in and those after one index up;
-   chainsOfCubes.Insert(index, newNumber);
-
+// inserts 'newNumber' at index 'index' in ' GameState ' pushing the one in and those after one index up;
+index = index;
+try {
+  		 GameState.Insert(index, newNumber);
+	}
+catch (err) {
+		Debug.Log(err); // PLEASE DO NOT CLUSTER-F___ THE ALGORITHM! This algorithm is for words / one dimensional connections of cubes only. 
+	}
 }
-
 // DONE!!!!!...............I THINK
 
 function fuseBlock( startBlockIndex : int, targetIndex : int) {
-// startBlockIndex should be the first index in the block to move to target but this function will change
+// startBlockIndex should be the first index in 'the block to move' to targetIndex but this function will change
 // this variable to find the start so any index in the block will do. the targetIndex however will need to be accurate.
 // if it's a collision with 'other' from 'other's left side the targetIndex should be the same as 'other's index in the list
 // if it's from the other side the targetIndex should be  'other's index + 1;
 
 	var count : int = 0;
-	while (startBlockIndex > 0 && chainsOfCubes[startBlockIndex-1] != -1){
+	while (startBlockIndex > 0 &&  GameState [startBlockIndex-1] != -1){
 	//sets the starting point for the block to actually be the first in the block
 	
 		startBlockIndex--;
 	}
 
-	while (chainsOfCubes[(startBlockIndex + count)] != -1) {
+	while ( GameState[(startBlockIndex + count)] != -1) {
 		//counts how many needs to be moved
 		count ++;
 	}
 	//copies the block to a temp-workspace-int[]
-	chainsOfCubes.CopyTo(startBlockIndex,chainsOfCubesTemp,0,count); //index,targetarray,targetindex,itemcount
+	 GameState.CopyTo(startBlockIndex,chainsOfCubesTemp,0,count); //index,targetarray,targetindex,itemcount
 	// removes the block and the extra -1 separator
-	chainsOfCubes.RemoveRange(startBlockIndex,count+1);	
+	 GameState.RemoveRange(startBlockIndex,count+1);	
 	if(targetIndex > startBlockIndex) {
 		// since the block has been removed the targetIndex will need to be 
 		//ajusted if the block was of a lower index than the target
@@ -198,4 +219,58 @@ var c : int  =  count - 1;
         c--;
     }
 
+}
+
+
+
+
+
+
+
+
+
+
+
+//GRRIIIIDDDDDDDDDAYO
+// sides ::::	 0  : left , 1  = back , 2 = right , 3 = front
+
+function MakeGrid( ): boolean {
+	var entryPoint : int = -1;
+	var cursorX : int;
+	var cursorY : int;
+	for(var c : int = 0 ; c < WorldState.Length ; c+= NUMBER_OF_SIDES) { 
+		if(WorldState[c+Sides.RIGHT] == -1 && WorldState[c+Sides.BACK] == -1) {
+				if(WorldState[c+Sides.LEFT] != -1 && WorldState[c+Sides.FRONT] != -1) {
+				entryPoint = c;
+			}
+		}
+	}
+	cursorX = entryPoint;
+	cursorY = entryPoint;
+ 
+	if(cursorX == -1) {
+  		return false; //can't find entry point in the world matrix this is not possible , stupid
+	}
+
+	for (var y : int  = 0 ; y < GRID_COLUMN_SIZE ; y++){
+
+		for (var x : int  = 0 ; x < GRID_ROW_SIZE ; x++){
+			GameState.Add(cursorX/NUMBER_OF_SIDES);
+
+			if(x < (GRID_ROW_SIZE - 1) && WorldState[cursorX+Sides.LEFT] != -1) {
+				cursorX = WorldState[cursorX+Sides.LEFT] * NUMBER_OF_SIDES;
+			}
+		}
+		if(WorldState[cursorY+Sides.FRONT] != -1) {
+			cursorY = WorldState[cursorY+Sides.FRONT] * NUMBER_OF_SIDES;
+			cursorX = cursorY;
+		} else { return false; }
+	}
+	
+	if(GameState.Count != GRID_SIZE) {
+		return false; //there was something in the GameState before we started
+	} else {
+		//check victory conditions or sumting
+	 return true;
+	}
 }
