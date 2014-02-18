@@ -670,6 +670,8 @@ GameObject:
   - 23: {fileID: 445487464}
   - 54: {fileID: 445487462}
   - 114: {fileID: 445487463}
+  - 65: {fileID: 445487468}
+  - 65: {fileID: 445487467}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -752,7 +754,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.04999995, y: 1.04999995, z: 1.04999995}
+  m_Size: {x: .300000012, y: 1.25, z: .300000012}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &445487466
 MeshFilter:
@@ -762,6 +764,32 @@ MeshFilter:
   m_PrefabInternal: {fileID: 2027630591}
   m_GameObject: {fileID: 445487460}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &445487467
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6500020, guid: bca09ff33aa3d7041ba8b0afb88e555c,
+    type: 2}
+  m_PrefabInternal: {fileID: 2027630591}
+  m_GameObject: {fileID: 445487460}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: .300000012, y: .300000012, z: 1.25}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &445487468
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 6500022, guid: bca09ff33aa3d7041ba8b0afb88e555c,
+    type: 2}
+  m_PrefabInternal: {fileID: 2027630591}
+  m_GameObject: {fileID: 445487460}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.25, y: .300000012, z: .300000012}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &529553348
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,7 +1563,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 979432541}
+  - 114: {fileID: 979432543}
   - 114: {fileID: 979432540}
+  - 114: {fileID: 979432542}
   m_Layer: 0
   m_Name: Rules
   m_TagString: Untagged
@@ -1554,7 +1584,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0eb229a9e255f428f619b90d0cf424, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rule: 1
 --- !u!4 &979432541
 Transform:
   m_ObjectHideFlags: 0
@@ -1566,6 +1595,29 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &979432542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 979432539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15da1b5f05c8e8743a8045db08847804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &979432543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 979432539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c23a4dcb40e8d94db16ad493b2313d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rule: 0
 --- !u!1 &995519970
 GameObject:
   m_ObjectHideFlags: 0
