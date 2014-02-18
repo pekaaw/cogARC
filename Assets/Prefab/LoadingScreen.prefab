@@ -38,7 +38,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9832154fabd1b894c8fd32ed407cceec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cogarcSkin: {fileID: 0}
+  cogarcSkin: {fileID: 11400000, guid: da6b5f6e201f7e64b81705bd12e41263, type: 2}
   counter: 0
 --- !u!1001 &100100000
 Prefab:
