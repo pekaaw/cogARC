@@ -201,11 +201,10 @@ function addPairAtEnd(first : int, second : int) {
 
 function insertAtIndex( index : int, newNumber : int) {
 // inserts 'newNumber' at index 'index' in ' GameState ' pushing the one in and those after one index up;
-index = index;
-try {
+	try {
   		 GameState.Insert(index, newNumber);
 	}
-catch (err) {
+	catch (err) {
 		Debug.Log(err); // PLEASE DO NOT CLUSTER-F___ THE ALGORITHM! This algorithm is for words / one dimensional connections of cubes only. 
 	}
 }
