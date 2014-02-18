@@ -12,30 +12,27 @@ var chainsOfCubesTemp : int[];
 final var GRID_ROW_SIZE : int = 3; // these two should be the same for reliability, but they don't have to be
 final var GRID_COLUMN_SIZE : int = 3;
 final var GRID_SIZE : int = GRID_ROW_SIZE * GRID_COLUMN_SIZE; //do not change this
-var WorldState : int[] = [	-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1,
-							-1,-1,-1,-1,-1,-1
-							];
+var WorldState : int[];
 final var NUMBER_OF_SIDES : int = 6;// used in WorldState ; 2 means up and down ; 4 means horizontal sides; 6 means all sides
 									// world state has to contain exactly (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ints. these ints should 
-									// all be -1.
+									// all be -1. 
+									// 	-but this is handled in the function 'Start()' below 
 final var NUMBER_OF_CUBES : int  = 10;
 
 
-function Start () {
+function Start() {
 // prepare a temp array for making chains in GameState
  var arr : Array = new Array(); 
  for ( var c : int = 0 ; c < (NUMBER_OF_CUBES * 2) ; c++) {
  	arr.Push(0);
  }
  	chainsOfCubesTemp = arr.ToBuiltin(int);
+// prepare a WorldState for making grids and checking used connections in GameState
+ arr = new Array(); 
+ for ( var cw : int = 0 ; cw < (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ; cw++) {
+ 	arr.Push(-1);
+ }
+ 	WorldState = arr.ToBuiltin(int);
  
 
 }
