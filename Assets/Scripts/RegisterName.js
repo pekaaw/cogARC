@@ -9,9 +9,9 @@ private var storedName : String;
 private var screenWidth : int;
 private var screenHeight : int;
 
-public var boxStyle : GUIStyle;
-public var inputStyle : GUIStyle;
-public var buttonStyle : GUIStyle;
+public static var boxStyle : GUIStyle;
+public static var inputStyle : GUIStyle;
+public static var buttonStyle : GUIStyle;
 
 private var textFieldStyle : GUIStyle;
 
