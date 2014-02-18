@@ -64,14 +64,15 @@ function Update () {
 		}
 	}
 		outputTextC.text = currentState;
-		// <- call rulefunction before ClearData. 
+		// <- call rulefunction before ClearData. ALWAYS CALL ClearData BEFORE CHANGING THE RULES!!!!!!!!!!!
 	ClearData(); // <- importent the rest is for debug.
 }
 
 function SetData(idNumber: int,otherIdNumber: int, sideHit : int) : void {
-var indrax : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDES;
-	if(WorldState[indrax] < 0) {
-			WorldState[indrax] = otherIdNumber;
+var targetIndex : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDES;
+	if(WorldState[targetIndex] < 0) 
+	{
+			WorldState[targetIndex] = otherIdNumber;
 			/*if(sideHit > 1) {
 				if (sideHit == 0 || sideHit == 1) { //front or left
 					AddToChain(idNumber, otherIdNumber, true);
@@ -89,7 +90,7 @@ var indrax : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDES;
 
 function ClearData() : void {
 	for ( var i : int  = 0 ; i < WorldState.length ; i++) {
-				WorldState[i] = -1;
+		WorldState[i] = -1;
 	}
 	GameState.Clear();
 }
@@ -166,9 +167,9 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 
 function addPairAtEnd(first : int, second : int) {
 // when neither are in any blocks from before add both
-   GameState .Add(first);
-   GameState .Add(second);
-   GameState .Add(-1);
+   GameState.Add(first);
+   GameState.Add(second);
+   GameState.Add(-1);
 
 }
 
