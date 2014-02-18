@@ -72,15 +72,8 @@ function SetDataWorldState(idNumber: int,otherIdNumber: int, sideHit : int) : vo
 var targetIndex : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDES;
 	if(WorldState[targetIndex] < 0) 
 	{
-			WorldState[targetIndex] = otherIdNumber;
-			/*if(sideHit > 1) {
-				if (sideHit == 0 || sideHit == 1) { //front or left
-					AddToChain(idNumber, otherIdNumber, true);
-				} else {							//back or right
-					AddToChain(idNumber, otherIdNumber, false);
-				}
-			}*/
-		}
+		WorldState[targetIndex] = otherIdNumber;
+	}
 	else {
 	// :::::TO DO:::: 	
 	// odd case : more than one collition on this side, do something smart!
