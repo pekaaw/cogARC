@@ -1,15 +1,13 @@
 ﻿#pragma strict
 
+public var Rule : ruleFunction;
+
 private var functionPointer : Function;
-//Enum defined in LevelCreator.js
-//private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
+private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
 
 function Start () {
 
-
-	var ruleType : ruleFunction;
-
-	switch(ruleType) {
+	switch(Rule) {
 	case ruleFunction.Tower:
 		functionPointer = Tower;
 		break;

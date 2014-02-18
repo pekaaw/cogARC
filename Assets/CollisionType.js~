@@ -5,10 +5,9 @@ private var functionPointer : Function;
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
 
 function Start () {
-
-
+	
 	var ruleType : ruleFunction;
-
+	
 	switch(ruleType) {
 	case ruleFunction.Tower:
 		functionPointer = Tower;
