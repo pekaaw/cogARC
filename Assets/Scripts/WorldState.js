@@ -104,7 +104,7 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 	//possible that paradoxical connections occurs. even though reality can handle 3d doesn't mean it will look nice when
 	//squeezed in to a 1d array
 
-	index =GameState .IndexOf(idNumber); // finds the index of 'this' and 'other' in the list
+	index = GameState.IndexOf(idNumber); // finds the index of 'this' and 'other' in the list
 												//returns -1 is not found
 	indexOther = GameState.IndexOf(otherIdNumber);
 
@@ -260,6 +260,8 @@ function MakeGrid( ): boolean {
 
 			if(x < (GRID_ROW_SIZE - 1) && WorldState[cursorX+Sides.LEFT] != -1) {
 				cursorX = WorldState[cursorX+Sides.LEFT] * NUMBER_OF_SIDES;
+			} else if (x != GRID_ROW_SIZE-1){
+				return false;
 			}
 		}
 		if(WorldState[cursorY+Sides.FRONT] != -1) {
