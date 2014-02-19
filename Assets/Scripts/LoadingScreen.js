@@ -10,23 +10,16 @@ private var instructionBox 	: UnityEngine.Rect;
 private var highscoreBox 	: UnityEngine.Rect;
 private var startButtonBox 	: UnityEngine.Rect;
 
+private var counter : int = 0;
 
 function Start () {
 
-	cogarcSkin = null; //Resources.LoadAssetAtPath("Assets/Skins/cogARC.GUISkin", GUISkin);
-	
 	screenWidth = Screen.width;
 	screenHeight = Screen.height;
 
-	headlineBox 	= new Rect();
-	instructionBox 	= new Rect();
-	highscoreBox 	= new Rect();
-	startButtonBox 	= new Rect();
-	
 	setBoxSizes();
 }
 
-var counter : int = 0;
 
 function Update () {
 
@@ -75,7 +68,7 @@ function OnGUI() {
 	{
 		// onClick
 		//UnityEngine.Object.Destroy(this);
-		this.active = false;
+		this.gameObject.SetActive(false);
 		
 		// ToDo: activate this level in some way here...
 	}
