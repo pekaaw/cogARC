@@ -4,6 +4,8 @@
 var gyroUnitXVec3 : UnityEngine.Vector3 = new UnityEngine.Vector3(0,0,0);//down
 var gyroUnitYVec3 : UnityEngine.Vector3 = new UnityEngine.Vector3(0,0,0);//in
 var gyroUnitZVec3 : UnityEngine.Vector3 = new UnityEngine.Vector3(0,0,0);//right
+final var verticalRange : int = 40; // how many degrees deviant from strait up is counted as top-bottom collision
+
 //--------------------------------------------------
 
 // ------------These are the gameobjects used to find the real world unit vectors
@@ -51,13 +53,13 @@ function collisionIsVertical (ownPos : UnityEngine.Vector3,otherPos : UnityEngin
 	var XAngle : float = Vector3.Angle(gyroUnitXVec3,differenceVector);
 	var YAngle : float = Vector3.Angle(gyroUnitYVec3,differenceVector);
 	var ZAngle : float = Vector3.Angle(gyroUnitZVec3,differenceVector);
-	if(YAngle < 60) 
+	if(YAngle < verticalRange) 
 	{
 		outputTextC.text = "TOP";
 	
 		return Sides.TOP;
 	} 
-	else if(YAngle < 120){
+	else if(YAngle < (180 - verticalRange)){
 		return 0;
 		/* ----don't remove this we might need it later----
 		if(XAngle < 60)
