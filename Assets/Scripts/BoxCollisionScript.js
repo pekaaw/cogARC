@@ -1,11 +1,14 @@
 ﻿#pragma strict
 enum Sides {LEFT, BACK, RIGHT, FRONT, TOP , BOTTOM}; // copy of same in worldstate
-
+// Other scripts used by this:
 var MyWorldCenterC : GyroRotor;
 var myWorldState : WorldState;
-var MyIdNumber : int;
-function Start () {
+var getRulesFromCreation : LevelCreator;
 
+private var Rule : ruleFunction; // the current rule effects how the gamestate is set up
+var MyIdNumber : int; //this boxs unik ID number
+function Start () {
+	Rule = getRulesFromCreation.Rule;
 }
 
 function Update () {
@@ -25,36 +28,52 @@ function OnTriggerStay (other : Collider) {
 var verticalSide : int; // 0 : horizontal ; 1 : top ; 2 : bottom
 	if(other.tag == "Player") {
 		renderer.material.color = Color.green;
+		
+		verticalSide = MyWorldCenterC.collisionIsVertical( // if the collision is not vertical 
+				this.gameObject.transform.position,
+				other.gameObject.transform.position);
+		
+		
 		//::::::::: RULES : ROW , Pair , Human Readable , Grid , Calculus :::::::::::
-		if (!MyWorldCenterC.collisionIsVertical(this.gameObject.transform.position,other.gameObject.transform.position)){
-			var side : int;
-			var diffX : int  = gameObject.transform.position.x - other.gameObject.transform.position.x;
-			var diffZ : int  = gameObject.transform.position.y - other.gameObject.transform.position.y;
+		if (!(verticalSide)) { // if the collision is not vertical 
+			if(Rule != ruleFunction.Tower){	// if tower-rules are not in effect
+				var side : int;
+				var diffX : int  = gameObject.transform.position.x - other.gameObject.transform.position.x;
+				var diffZ : int  = gameObject.transform.position.y - other.gameObject.transform.position.y;
 		
 
-			if(Mathf.Abs(diffX) > Mathf.Abs(diffZ)) {
-				if(diffX > 0) {
-					side = Sides.RIGHT;
+				if(Mathf.Abs(diffX) > Mathf.Abs(diffZ)) {
+					if(diffX > 0) {
+						side = Sides.RIGHT;
+					} else {
+						side = Sides.LEFT;
+					}
+				}
+				else {
+				// ::::::::::: IF HUMAN READABLE RULE RETURN 'FALSE' HERE
+				if(Rule == ruleFunction.HumanReadable) {
+					return; // wrong direction readable
+				}
+					if(diffZ > 0) {
+						side = Sides.FRONT;
+					} else {
+						side = Sides.BACK;
+					}
+				}
+				if(Rule != ruleFunction.Grid) {
+					myWorldState.SetDataChainNonOverwrite(MyIdNumber,other.gameObject.GetComponent(BoxCollisionScript).MyIdNumber, side);
 				} else {
-					side = Sides.LEFT;
+					myWorldState.SetDataWorldState(MyIdNumber,other.gameObject.GetComponent(BoxCollisionScript).MyIdNumber, side);
 				}
 			}
-			else {
-			// ::::::::::: IF HUMAN READABLE RULE RETURN 'FALSE' HERE
-				if(diffZ > 0) {
-					side = Sides.FRONT;
-				} else {
-					side = Sides.BACK;
-				}
-			}
-			myWorldState.SetDataChainNonOverwrite(MyIdNumber,other.gameObject.GetComponent(BoxCollisionScript).MyIdNumber, side);
 		}
 		//::::::::: RULES : Tower :::::::::::
 
 		else {
 			//make a tower; uses verticalSide;
-			myWorldState.SetDataChainNonOverwrite(MyIdNumber,other.gameObject.GetComponent(BoxCollisionScript).MyIdNumber, verticalSide);
-
+			if (Rule == ruleFunction.Tower) {
+				myWorldState.SetDataChainNonOverwrite(MyIdNumber,other.gameObject.GetComponent(BoxCollisionScript).MyIdNumber, verticalSide);
+			}
 		}
 	}
 }

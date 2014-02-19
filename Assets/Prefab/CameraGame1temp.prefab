@@ -67,6 +67,7 @@ GameObject:
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400010}
+  - 114: {fileID: 11400012}
   m_Layer: 0
   m_Name: CameraGame1temp
   m_TagString: MainCamera
@@ -327,10 +328,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10609a45729220a42aea7be251808d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WorldState: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  getRulesFromCreation: {fileID: 11400012}
+  Rule: 0
   outputTextC: {fileID: 10200000}
-  chainsOfCubes: 
+  GameState: 
   chainsOfCubesTemp: 
+  WorldState: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+--- !u!114 &11400012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c23a4dcb40e8d94db16ad493b2313d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rule: 0
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

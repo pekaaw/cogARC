@@ -606,6 +606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c313cd40968149a35c5731e40a0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getRulesFromCreation: {fileID: 1666168299}
   MyWorldCenterC: {fileID: 1120456628}
   myWorldState: {fileID: 1666168298}
   MyIdNumber: 4
@@ -715,6 +716,10 @@ Prefab:
       propertyPath: MyIdNumber
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
+      propertyPath: getRulesFromCreation
+      value: 
+      objectReference: {fileID: 1666168299}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
   m_RootGameObject: {fileID: 876386319}
@@ -967,6 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c313cd40968149a35c5731e40a0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getRulesFromCreation: {fileID: 1666168299}
   MyWorldCenterC: {fileID: 1120456628}
   myWorldState: {fileID: 1666168298}
   MyIdNumber: 1
@@ -1076,6 +1082,10 @@ Prefab:
       propertyPath: MyIdNumber
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
+      propertyPath: getRulesFromCreation
+      value: 
+      objectReference: {fileID: 1666168299}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
   m_RootGameObject: {fileID: 1046290424}
@@ -1388,6 +1398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c313cd40968149a35c5731e40a0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getRulesFromCreation: {fileID: 1666168299}
   MyWorldCenterC: {fileID: 1120456628}
   myWorldState: {fileID: 1666168298}
   MyIdNumber: 7
@@ -1521,6 +1532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c313cd40968149a35c5731e40a0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getRulesFromCreation: {fileID: 1666168299}
   MyWorldCenterC: {fileID: 1120456628}
   myWorldState: {fileID: 1666168298}
   MyIdNumber: 5
@@ -1703,6 +1715,10 @@ Prefab:
       propertyPath: MyWorldCenterC
       value: 
       objectReference: {fileID: 1120456628}
+    - target: {fileID: 11400000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
+      propertyPath: getRulesFromCreation
+      value: 
+      objectReference: {fileID: 1666168299}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
   m_RootGameObject: {fileID: 74568535}
@@ -2027,6 +2043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c313cd40968149a35c5731e40a0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getRulesFromCreation: {fileID: 1666168299}
   MyWorldCenterC: {fileID: 1120456628}
   myWorldState: {fileID: 1666168298}
   MyIdNumber: 2
@@ -2136,6 +2153,10 @@ Prefab:
       propertyPath: MyWorldCenterC
       value: 
       objectReference: {fileID: 1120456628}
+    - target: {fileID: 11400000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
+      propertyPath: getRulesFromCreation
+      value: 
+      objectReference: {fileID: 1666168299}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
   m_RootGameObject: {fileID: 672743799}
@@ -2315,6 +2336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c313cd40968149a35c5731e40a0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getRulesFromCreation: {fileID: 1666168299}
   MyWorldCenterC: {fileID: 1120456628}
   myWorldState: {fileID: 1666168298}
   MyIdNumber: 9
@@ -2424,6 +2446,10 @@ Prefab:
       propertyPath: MyWorldCenterC
       value: 
       objectReference: {fileID: 1120456628}
+    - target: {fileID: 11400000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
+      propertyPath: getRulesFromCreation
+      value: 
+      objectReference: {fileID: 1666168299}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
   m_RootGameObject: {fileID: 339620787}
@@ -2778,6 +2804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c313cd40968149a35c5731e40a0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getRulesFromCreation: {fileID: 1666168299}
   MyWorldCenterC: {fileID: 1120456628}
   myWorldState: {fileID: 1666168298}
   MyIdNumber: 6
@@ -2887,6 +2914,10 @@ Prefab:
       propertyPath: MyWorldCenterC
       value: 
       objectReference: {fileID: 1120456628}
+    - target: {fileID: 11400000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
+      propertyPath: getRulesFromCreation
+      value: 
+      objectReference: {fileID: 1666168299}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
   m_RootGameObject: {fileID: 1411531373}
@@ -3166,6 +3197,10 @@ Prefab:
       propertyPath: myWorldState
       value: 
       objectReference: {fileID: 1666168298}
+    - target: {fileID: 11400000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
+      propertyPath: getRulesFromCreation
+      value: 
+      objectReference: {fileID: 1666168299}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
   m_RootGameObject: {fileID: 1682217623}
@@ -3242,6 +3277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c313cd40968149a35c5731e40a0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getRulesFromCreation: {fileID: 1666168299}
   MyWorldCenterC: {fileID: 1120456628}
   myWorldState: {fileID: 1666168298}
   MyIdNumber: 3
@@ -3520,6 +3556,10 @@ Prefab:
       propertyPath: MyWorldCenterC
       value: 
       objectReference: {fileID: 1120456628}
+    - target: {fileID: 11400000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
+      propertyPath: getRulesFromCreation
+      value: 
+      objectReference: {fileID: 1666168299}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
   m_RootGameObject: {fileID: 1269074896}
@@ -3596,6 +3636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c313cd40968149a35c5731e40a0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getRulesFromCreation: {fileID: 1666168299}
   MyWorldCenterC: {fileID: 1120456628}
   myWorldState: {fileID: 1666168298}
   MyIdNumber: 8
@@ -3848,6 +3889,10 @@ Prefab:
       propertyPath: MyWorldCenterC
       value: 
       objectReference: {fileID: 1120456628}
+    - target: {fileID: 11400000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
+      propertyPath: getRulesFromCreation
+      value: 
+      objectReference: {fileID: 1666168299}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
   m_RootGameObject: {fileID: 911388457}
@@ -3900,6 +3945,10 @@ Prefab:
       propertyPath: myWorldState
       value: 
       objectReference: {fileID: 1666168298}
+    - target: {fileID: 11400000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
+      propertyPath: getRulesFromCreation
+      value: 
+      objectReference: {fileID: 1666168299}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2e7d97ea5b5c8741a5b26f1a38e1a0e, type: 2}
   m_RootGameObject: {fileID: 670637847}
@@ -4404,6 +4453,7 @@ GameObject:
   - 114: {fileID: 1666168289}
   - 114: {fileID: 1666168288}
   - 114: {fileID: 1666168298}
+  - 114: {fileID: 1666168299}
   m_Layer: 0
   m_Name: CameraGame1temp
   m_TagString: MainCamera
@@ -4571,10 +4621,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10609a45729220a42aea7be251808d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WorldState: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  getRulesFromCreation: {fileID: 1666168299}
+  Rule: 0
   outputTextC: {fileID: 855184694}
-  chainsOfCubes: 
+  GameState: 
   chainsOfCubesTemp: 
+  WorldState: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+--- !u!114 &1666168299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400012, guid: 651a4f20731baa54fa4efbeae48c067a,
+    type: 2}
+  m_PrefabInternal: {fileID: 19056806}
+  m_GameObject: {fileID: 1666168287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c23a4dcb40e8d94db16ad493b2313d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rule: 0
 --- !u!1 &1682217623
 GameObject:
   m_ObjectHideFlags: 0
@@ -4620,6 +4685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c313cd40968149a35c5731e40a0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  getRulesFromCreation: {fileID: 1666168299}
   MyWorldCenterC: {fileID: 1120456628}
   myWorldState: {fileID: 1666168298}
   MyIdNumber: 0

@@ -1,9 +1,17 @@
 ﻿#pragma strict
+//other scripts used by this script
+var getRulesFromCreation : LevelCreator;
+
+public var Rule : ruleFunction; // the current rule effects how the gamestate is set up
+
+
+var outputTextC : UnityEngine.TextMesh; //debug output on mobile devices
+
+
 
 var GameState : List.<int> = new List.<int>(); // GameState formated based on the ruleset currently in use.
 												//this is sendt to the rulescript to see if the goal(s) has been met.
 
-var outputTextC : UnityEngine.TextMesh; //debug output on mobile devices
 
 //:::::option 1 ::::: List of chains
 var chainsOfCubesTemp : int[]; 
@@ -21,25 +29,35 @@ final var NUMBER_OF_CUBES : int  = 10;
 
 
 function Start() {
-// prepare a temp array for making chains in GameState
- var arr : Array = new Array(); 
- for ( var c : int = 0 ; c < (NUMBER_OF_CUBES * 2) ; c++) {
- 	arr.Push(0);
- }
+	Rule = getRulesFromCreation.Rule;
+
+
+
+	// prepare a temp array for making chains in GameState
+	var arr : Array = new Array(); 
+	for ( var c : int = 0 ; c < (NUMBER_OF_CUBES * 2) ; c++) {
+ 		arr.Push(0);
+	}
  	chainsOfCubesTemp = arr.ToBuiltin(int);
-// prepare a WorldState for making grids and checking used connections in GameState
- arr = new Array(); 
- for ( var cw : int = 0 ; cw < (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ; cw++) {
- 	arr.Push(-1);
- }
+	// prepare a WorldState for making grids and checking used connections in GameState
+	arr = new Array(); 
+	for ( var cw : int = 0 ; cw < (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ; cw++) {
+	 		arr.Push(-1);
+ 	}
  	WorldState = arr.ToBuiltin(int);
  
 
 }
 
 function Update () {
-   MakeGrid(); // <- if grid rules make grid here. the others are made on events from onTrigger
-
+	if (Rule == ruleFunction.Grid) {
+		if(!MakeGrid()){ // <- if grid rules make grid here. the others are made on events from onTrigger
+						 // but the grid has to be made in two passes. first registrer events in the worldstate matrix
+						 // and then make an A x B grid out of that here.
+			ClearData(); // If makegrid fails Clear data and return, for strict on complete only;
+			return;
+		}
+	}				
 		var currentState : String = ""; 
 
 	/*
@@ -55,10 +73,10 @@ function Update () {
 	var olden : int[] = GameState.ToArray();
 	for(var d : int  = 0 ; d < olden.length ; d++) {
 		currentState += olden[d] + " ";
-		if(!((d+1)%GRID_ROW_SIZE)) {
+		/*if(!((d+1)%GRID_ROW_SIZE)) {
 			currentState += "\n";
 
-		}
+		}*/
 	}
 		outputTextC.text = currentState;
 		// <- call rulefunction before ClearData. ALWAYS CALL ClearData BEFORE CHANGING THE RULES!!!!!!!!!!!
@@ -72,7 +90,7 @@ var targetIndex : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDE
 		WorldState[targetIndex] = otherIdNumber;
 	}
 	else {
-	// :::::TO DO:::: 	
+	// :::::TO DO .... or maybe not :::: 	
 	// odd case : more than one collition on this side, do something smart!
 	return;
 	}
@@ -98,7 +116,7 @@ var targetIndexInWorldState : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NU
 		SetDataChain(idNumber,otherIdNumber, sideHit);
 	}
 	else {
-	// :::::TO DO:::: 	
+	// :::::TO DO NOTHING:::: 	
 	// odd case : more than one collition on this side, do something smart!
 	return;
 	}
