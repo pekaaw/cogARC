@@ -62,6 +62,7 @@ function collisionIsVertical (ownPos : UnityEngine.Vector3,otherPos : UnityEngin
 	else if(YAngle < (180 - verticalRange)){
 		return 0;
 		/* ----don't remove this we might need it later----
+		this gives us north, south, west and east collisions
 		if(XAngle < 60)
 		{
 			outputTextC.text = "RIGHT";
