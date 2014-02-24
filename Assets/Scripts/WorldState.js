@@ -79,6 +79,8 @@ function Update () {
 		}*/
 	}
 		outputTextC.text = currentState;
+		
+		getRulesFromCreation.Test(GameState);
 		// <- call rulefunction before ClearData. ALWAYS CALL ClearData BEFORE CHANGING THE RULES!!!!!!!!!!!
 	ClearData(); // <- importent the rest is for debug.
 }

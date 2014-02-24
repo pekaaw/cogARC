@@ -1,5 +1,5 @@
 ﻿#pragma strict
-
+/*
 private var functionPointer : Function;
 //Enum defined in LevelCreator.js
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
@@ -54,3 +54,4 @@ private function HumanReadable (boxes : List.<int>) {
 private function Calculus (boxes : List.<int>) {
 	Debug.Log("Calculus method");
 }
+*/
