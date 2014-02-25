@@ -2,10 +2,11 @@
 
 public var Rule : ruleFunction;
 
-private var functionPointerTester : Function;
 private var functionPointerCreator : Function;
-private enum ruleFunction {Tower, Grid, HumanReadable, Pair};
+public enum ruleFunction {Tower, Grid, HumanReadable, Pair};
 
+
+var ruleScript : Rule;
 var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
 var sortedCubes : Array = new Array();
 //var unsortedCubesIDs : Array = new Array(); //the cubes Ids to be added to the FinishState.
@@ -13,9 +14,7 @@ var numberOfCubes : int = 10;
 var FinishState : List.<int> = new List.<int>(); //what the solution looks like for games execpt 
 													//"Woords" with needs multiple solutions at once.
 													
-static var historyGameState1 : int[];
-static var historyGameState2 : int[];
-static var historyGameState3 : int[];
+
 
 
 function Start () {
@@ -24,19 +23,17 @@ function Start () {
 
 	switch(Rule) {
 	case ruleFunction.Pair:
-		functionPointerTester = PairTester;
 		functionPointerCreator = PairCreator;
 		break;
 	case ruleFunction.Tower:
-		functionPointerTester = TowerTester;
 		functionPointerCreator = TowerCreator;
+			Debug.Log("Pair");
+
 		break;
 	case ruleFunction.Grid:
-		functionPointerTester = GridTester;
 		functionPointerCreator = GridCreator;
 		break;
 	case ruleFunction.HumanReadable: 
-		functionPointerTester = HumanReadableTester;
 		functionPointerCreator = HumanReadableCreator;
 		break;
 	}
@@ -65,6 +62,7 @@ function Update () {
 
 public function Creator (){
 	functionPointerCreator();
+	ruleScript.setFinishState(FinishState);
 }
 
 private function PairCreator () {
@@ -103,52 +101,3 @@ private function HumanReadableCreator () {
 }
 
 
-
-//Task Completion Tests
-
-public function Test (boxes : List.<int>){
-	functionPointerTester(boxes);
-}
-
-private function PairTester (boxes : List.<int>) {
-	Debug.Log("Pair");
-	historyGameState3 = historyGameState2;
-	historyGameState2 = historyGameState1;
-	historyGameState1 = boxes.ToArray();
-	for(var c:int = 0 ; c < historyGameState1.length ; c ++) {
-		if(historyGameState1[c] != historyGameState2[c] || historyGameState2[c] != historyGameState3[c]) {
-			Debug.Log("UNexpected CHANGE in HISTORY");
-			return;
-		}
-	}
-	
-	for(var q : int = 0; q < historyGameState1.length; q+=2){
-		if(q + 2 > historyGameState1.length && historyGameState1[q+2] != -1) {
-			Debug.Log("UNexpected Third Part OF a PaiR");
-			return;
-		}
-		for(var r : int = 0; r < FinishState.Count; r+=2)
-		if((historyGameState1[q] == FinishState[r] && historyGameState1[q + 1] == FinishState[r + 1]) ||
-			(historyGameState1[q + 1] == FinishState[r] && historyGameState1[q] == FinishState[r + 1])) {
-				//pair found
-				//light flares at the cubes with IDs FinishState[r] and FinishState[r+1]
-				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
-				for(var t:int = 0; t < 3; t++){ //remove finishState[r, r+1, r+2]
-					FinishState.RemoveAt(q);
-					r--;
-				}
-			}
-	}
-}
-
-private function TowerTester (boxes : List.<int>) {
-	Debug.Log("Tower");
-}
-
-private function GridTester (boxes : List.<int>) {
-	Debug.Log("Grid");
-}
-
-private function HumanReadableTester (boxes : List.<int>) {
-	Debug.Log("Human Readable");
-}

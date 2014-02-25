@@ -1,6 +1,8 @@
 ﻿#pragma strict
 //other scripts used by this script
-var getRulesFromCreation : LevelCreator;
+var getGodOfCreation : LevelCreator;
+var getRules : Rule;
+
 
 public var Rule : ruleFunction; // the current rule effects how the gamestate is set up
 
@@ -29,7 +31,7 @@ final var NUMBER_OF_CUBES : int  = 10;
 
 
 function Start() {
-	Rule = getRulesFromCreation.Rule;
+	Rule = getGodOfCreation.Rule;
 
 
 
@@ -80,7 +82,7 @@ function Update () {
 	}
 		outputTextC.text = currentState;
 		
-		getRulesFromCreation.Test(GameState);
+		getRules.Test(GameState);
 		// <- call rulefunction before ClearData. ALWAYS CALL ClearData BEFORE CHANGING THE RULES!!!!!!!!!!!
 	ClearData(); // <- importent the rest is for debug.
 }

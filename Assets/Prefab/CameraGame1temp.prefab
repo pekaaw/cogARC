@@ -68,6 +68,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400010}
   - 114: {fileID: 11400012}
+  - 114: {fileID: 11400014}
   m_Layer: 0
   m_Name: CameraGame1temp
   m_TagString: MainCamera
@@ -328,8 +329,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10609a45729220a42aea7be251808d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getRulesFromCreation: {fileID: 11400012}
-  Rule: 0
+  getGodOfCreation: {fileID: 11400012}
+  getRules: {fileID: 11400014}
+  Rule: 3
   outputTextC: {fileID: 10200000}
   GameState: 
   chainsOfCubesTemp: 
@@ -345,7 +347,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c23a4dcb40e8d94db16ad493b2313d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rule: 0
+  Rule: 3
+  ruleScript: {fileID: 11400014}
+  numberOfCubes: 10
+  FinishState: 
+--- !u!114 &11400014
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a0eb229a9e255f428f619b90d0cf424, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FinishState: 
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
