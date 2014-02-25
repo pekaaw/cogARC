@@ -1,19 +1,29 @@
 ﻿#pragma strict
 private var functionPointer : Function;
+private var functionPointerSubRule : Function;
 //Enum defined in LevelCreator.js
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
+enum subRule {Addition,DesiExponential,WholeLiner,AnyWord};
+var currentSubRule : subRule;
 var levelCreator : LevelCreator;
 
 
-static var historyGameState1 : int[];
-static var historyGameState2 : int[];
-static var historyGameState3 : int[];
+private static var historyGameState1 : int[];
+private static var historyGameState2 : int[]; //these are check against eachother to stabilize the inputdata
+private static var historyGameState3 : int[]; //tests are only done when all 3 are the same
 
 var FinishState : List.<int> = new List.<int>(); //what the solution looks like for games execpt 
 													//"Woords" with needs multiple solutions at once.
+													
+var CubesData : Array;
 
 function Start () {
+	var cubesObjects : Array =  GameObject.FindGameObjectsWithTag("Player");
+	for(var cube : GameObject in cubesObjects) {
+	
+		CubesData.Add(cube.GetComponent(BoxCollisionScript).MyDataPacket);
 
+	 }
 
 
 	switch(levelCreator.Rule) {
@@ -28,6 +38,21 @@ function Start () {
 		break;
 	case ruleFunction.HumanReadable: 
 		functionPointer = HumanReadableTester;
+		break;
+	};
+	
+	switch(currentSubRule) {
+	case subRule.DesiExponential: 
+		functionPointerSubRule = DesiExponentialTester;
+		break;
+	case subRule.Addition:
+		functionPointerSubRule = AdditionTester;
+		break;
+	case subRule.WholeLiner:
+		functionPointerSubRule = WholeLinerTester;
+		break;
+	case subRule.AnyWord:
+		functionPointerSubRule = AnyWordTester;
 		break;
 	}
 }
@@ -97,13 +122,62 @@ private function PairTester (boxes : List.<int>) {
 }
 
 private function TowerTester (boxes : List.<int>) {
+	functionPointerSubRule(boxes);
 	Debug.Log("Tower");
+	
+	
+	
 }
 
 private function GridTester (boxes : List.<int>) {
 	Debug.Log("Grid");
+	for (var c : int = 0 ; c < FinishState.Count ; c++){
+		if (c == boxes.Count || boxes[c] != FinishState[c]) {
+			return;
+		}
+	}
+	Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 }
 
 private function HumanReadableTester (boxes : List.<int>) {
+	functionPointerSubRule(boxes);
 	Debug.Log("Human Readable");
+}
+
+
+private function DesiExponentialTester(boxes : List.<int>){
+	return;
+}
+
+private function AdditionTester(boxes : List.<int>){
+	var c : int = 0;
+	var answer : int = 0;
+	var tempIntCaster : int = 0;
+	while(c < boxes.Count){
+		while(boxes[c]!=-1) {
+		tempIntCaster = CubesData[boxes[c]];
+			answer += tempIntCaster;
+			c++;
+		}
+		if(answer == FinishState[0]) {
+			Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
+			
+			return;
+		}
+		answer = 0;
+		c++;
+	}
+}
+
+private function WholeLinerTester(boxes : List.<int>){
+	for (var c : int = 0 ; c < FinishState.Count ; c++){
+		if (c == boxes.Count || boxes[c] != FinishState[c]) {
+			return;
+		}
+	}
+	Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
+}
+
+private function AnyWordTester(boxes : List.<int>){
+
 }
