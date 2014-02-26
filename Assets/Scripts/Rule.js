@@ -29,33 +29,33 @@ function Start () {
 
 
 	switch(levelCreator.RuleEnum) {
-	case ruleFunction.Pair: 
-		functionPointer = PairTester;
-		break;
-	case ruleFunction.Tower:
-		functionPointer = TowerTester;
-		break;
-	case ruleFunction.Grid:
-		functionPointer = GridTester;
-		break;
-	case ruleFunction.HumanReadable: 
-		functionPointer = HumanReadableTester;
-		break;
+		case ruleFunction.Pair: 
+			functionPointer = PairTester;
+			break;
+		case ruleFunction.Tower:
+			functionPointer = TowerTester;
+			break;
+		case ruleFunction.Grid:
+			functionPointer = GridTester;
+			break;
+		case ruleFunction.HumanReadable: 
+			functionPointer = HumanReadableTester;
+			break;
 	};
 	
 	switch(currentSubRule) {
-	case subRule.DesiExponential: 
-		functionPointerSubRule = DesiExponentialTester;
-		break;
-	case subRule.Addition:
-		functionPointerSubRule = AdditionTester;
-		break;
-	case subRule.WholeLiner:
-		functionPointerSubRule = WholeLinerTester;
-		break;
-	case subRule.AnyWord:
-		functionPointerSubRule = AnyWordTester;
-		break;
+		case subRule.CompositeNumbers: 
+			functionPointerSubRule = DesiExponentialTester;
+			break;
+		case subRule.Addition:
+			functionPointerSubRule = AdditionTester;
+			break;
+		case subRule.WholeLiner:
+			functionPointerSubRule = WholeLinerTester;
+			break;
+		case subRule.AnyWord:
+			functionPointerSubRule = AnyWordTester;
+			break;
 	}
 }
 

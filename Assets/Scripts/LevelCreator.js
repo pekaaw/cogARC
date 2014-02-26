@@ -4,7 +4,7 @@ public var RuleEnum : ruleFunction;
 
 private var functionPointerCreator : Function;
 public enum ruleFunction {Tower, Grid, HumanReadable, Pair};
-public enum subRule {Addition,DesiExponential,WholeLiner,AnyWord};
+public enum subRule {Addition,CompositeNumbers,WholeLiner,AnyWord};
 
 
 var ruleScript : Rule;
