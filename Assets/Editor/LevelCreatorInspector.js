@@ -80,14 +80,14 @@ class LevelCreatorInspector extends Editor{
 		case subRule.Addition:
 			Addition();
 			break;
-		case subRule.CompositeNumbers:
+		case subRule.compositeNumbers:
 			CompositeNumbers();
 			break;
 		case subRule.WholeLiner:
 			WholeLiner();
 			break;
 			case subRule.AnyWord:
-			Anyword();
+			AnyWord();
 			break;
 		}
 	}

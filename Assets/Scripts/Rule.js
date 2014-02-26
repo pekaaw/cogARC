@@ -30,33 +30,33 @@ function Start () {
 
 	tempString = "dsdfs";
 	switch(levelCreator.RuleEnum) {
-	case ruleFunction.Pair: 
-		functionPointer = PairTester;
-		break;
-	case ruleFunction.Tower:
-		functionPointer = TowerTester;
-		break;
-	case ruleFunction.Grid:
-		functionPointer = GridTester;
-		break;
-	case ruleFunction.HumanReadable: 
-		functionPointer = HumanReadableTester;
-		break;
+		case ruleFunction.Pair: 
+			functionPointer = PairTester;
+			break;
+		case ruleFunction.Tower:
+			functionPointer = TowerTester;
+			break;
+		case ruleFunction.Grid:
+			functionPointer = GridTester;
+			break;
+		case ruleFunction.HumanReadable: 
+			functionPointer = HumanReadableTester;
+			break;
 	};
 	
 	switch(levelCreator.currentSubRule) {
-	case subRule.DesiExponential: 
-		functionPointerSubRule = DesiExponentialTester;
-		break;
-	case subRule.Addition:
-		functionPointerSubRule = AdditionTester;
-		break;
-	case subRule.WholeLiner:
-		functionPointerSubRule = WholeLinerTester;
-		break;
-	case subRule.AnyWord:
-		functionPointerSubRule = AnyWordTester;
-		break;
+		case subRule.compositeNumbers: 
+			functionPointerSubRule = compositeNumbersTester;
+			break;
+		case subRule.Addition:
+			functionPointerSubRule = AdditionTester;
+			break;
+		case subRule.WholeLiner:
+			functionPointerSubRule = WholeLinerTester;
+			break;
+		case subRule.AnyWord:
+			functionPointerSubRule = AnyWordTester;
+			break;
 	}
 }
 
@@ -148,7 +148,7 @@ private function HumanReadableTester (boxes : List.<int>) {
 }
 
 
-private function DesiExponentialTester(boxes : List.<int>){
+private function compositeNumbersTester(boxes : List.<int>){
 	return;
 }
 

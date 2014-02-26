@@ -6,7 +6,7 @@ private var functionPointerCreator : Function;
 private var functionPointerSubCreator : Function;
 
 public enum ruleFunction {Tower, Grid, HumanReadable, Pair};
-public enum subRule {Addition,DesiExponential,WholeLiner,AnyWord};
+public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
 var currentSubRule : subRule;
 
 private var ruleScript : Rule;
@@ -75,8 +75,8 @@ public function redoCreation() {
 	case subRule.Addition:
 		functionPointerSubCreator = AdditionCreator;
 		break;
-	case subRule.DesiExponential:
-		functionPointerSubCreator = DesiExponentialCreator;
+	case subRule.compositeNumbers:
+		functionPointerSubCreator = compositeNumbersCreator;
 		break;
 	case subRule.WholeLiner:
 		functionPointerSubCreator = WholeLinerCreator;
@@ -171,7 +171,7 @@ function WholeLinerCreator(){
 
 
 }
-function DesiExponentialCreator(){
+function compositeNumbersCreator(){
 
 
 }
