@@ -20,8 +20,8 @@ var outputTextC : UnityEngine.TextMesh;
 //--------------------------------------------------
 
 function Start () {
-if(SystemInfo.supportsGyroscope){
-	Input.gyro.enabled = true;
+	if(SystemInfo.supportsGyroscope){
+		Input.gyro.enabled = true;
 	}
 }
 
@@ -40,15 +40,14 @@ function Update () {
 		gameObject.transform.rotation = Quaternion.identity;
 	
 	}
-		gyroUnitYVec3 = centerVec3.transform.position - topVec3.transform.position;
-		
-		gyroUnitZVec3 = centerVec3.transform.position - backVec3.transform.position;
-		
-		gyroUnitXVec3 = centerVec3.transform.position - sideVec3.transform.position;
+	
+	gyroUnitYVec3 = centerVec3.transform.position - topVec3.transform.position;
+	gyroUnitZVec3 = centerVec3.transform.position - backVec3.transform.position;
+	gyroUnitXVec3 = centerVec3.transform.position - sideVec3.transform.position;
 	
 }
 
-function collisionIsVertical (ownPos : UnityEngine.Vector3,otherPos : UnityEngine.Vector3) : int {
+function collisionIsVertical (ownPos : UnityEngine.Vector3, otherPos : UnityEngine.Vector3) : int {
 	var differenceVector : UnityEngine.Vector3 = otherPos - ownPos;
 	var XAngle : float = Vector3.Angle(gyroUnitXVec3,differenceVector);
 	var YAngle : float = Vector3.Angle(gyroUnitYVec3,differenceVector);
