@@ -3,23 +3,54 @@
 public var RuleEnum : ruleFunction;
 
 private var functionPointerCreator : Function;
+private var functionPointerSubCreator : Function;
+
 public enum ruleFunction {Tower, Grid, HumanReadable, Pair};
 public enum subRule {Addition,DesiExponential,WholeLiner,AnyWord};
+var currentSubRule : subRule;
 
-
-var ruleScript : Rule;
-var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
-var sortedCubes : Array = new Array();
+private var ruleScript : Rule;
+private var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
+private var sortedCubes : Array = new Array();
 //var unsortedCubesIDs : Array = new Array(); //the cubes Ids to be added to the FinishState.
 var numberOfCubes : int = 10;
 var FinishState : List.<int> = new List.<int>(); //what the solution looks like for games execpt 
 													//"Woords" with needs multiple solutions at once.
 													
 
+var numberOfLevels:int;
+private var currentLevel: int = 0;
 
+final static public var gridMinValue : int = 1;
+final static public var gridMaxValue : int = 9;
+
+
+function Awake() {
+	LoadLevel();
+}
 
 function Start () {
+	
+}
+
+function Update () {
+
+}
+
+function LoadLevel(){
+	if (currentLevel < numberOfLevels) {
+		currentLevel++;
+		redoCreation();
+	} else {
+		//SYSTEM.LOAD(NEXT_GAME_SCENE);
+	}
+
+}
+
+public function redoCreation() {
 	ruleScript = gameObject.GetComponent(Rule);
+	unsortedCubes =  GameObject.FindGameObjectsWithTag("Player");
+
 	var nextItem : GameObject; //for making random order
 	var nextIndex : int;
 
@@ -34,16 +65,28 @@ function Start () {
 		break;
 	case ruleFunction.Grid:
 		functionPointerCreator = GridCreator;
+		presetGridDataBeforeSort();
 		break;
 	case ruleFunction.HumanReadable: 
 		functionPointerCreator = HumanReadableCreator;
 		break;
 	}
+	switch(currentSubRule) {
+	case subRule.Addition:
+		functionPointerSubCreator = AdditionCreator;
+		break;
+	case subRule.DesiExponential:
+		functionPointerSubCreator = DesiExponentialCreator;
+		break;
+	case subRule.WholeLiner:
+		functionPointerSubCreator = WholeLinerCreator;
+		break;
+	case subRule.AnyWord: 
+		functionPointerSubCreator = AnyWordCreator;
+		break;
+	default: break;
+	}
 	
-	
-	
-	
-	unsortedCubes =  GameObject.FindGameObjectsWithTag("Player");
 	
 	for(var c: int = 0; c < 10; c++) {
 		nextIndex = Random.Range(0,unsortedCubes.Count); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
@@ -55,12 +98,10 @@ function Start () {
 	
 	functionPointerCreator();
 	
-	
 }
 
-function Update () {
 
-}
+
 
 public function Creator (){
 	functionPointerCreator();
@@ -94,12 +135,48 @@ private function TowerCreator () {
 	Debug.Log("Tower");
 }
 
+private function presetGridDataBeforeSort(){
+	var q: int = 0;
+	var coloredTitles:int =  Mathf.Lerp(gridMinValue, gridMaxValue, currentLevel/numberOfLevels);
+	for(var cube : GameObject in sortedCubes){
+	 	if(q < coloredTitles){
+	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "1";
+	 		//::TO DO::set skin colored
+	 	}
+	 	else {
+	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "0";
+	 		//::TO DO::set skin uncolored
+	 	}
+	 	q++;
+	 }
+}
+
 private function GridCreator () {
 	Debug.Log("Grid");
+	for(var cube : GameObject in sortedCubes){
+		FinishState.Add(parseInt(cube.GetComponent(BoxCollisionScript).MyDataPacket));
+	}
 }
 
 private function HumanReadableCreator () {
 	Debug.Log("Human Readable");
 }
 
+
+function AdditionCreator() {
+
+
+}
+function WholeLinerCreator(){
+
+
+}
+function DesiExponentialCreator(){
+
+
+}
+function AnyWordCreator(){
+	
+	
+	}
 

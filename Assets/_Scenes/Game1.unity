@@ -570,6 +570,7 @@ MonoBehaviour:
   myWorldState: {fileID: 1666168298}
   getRulesFromCreation: {fileID: 1666168299}
   MyIdNumber: 4
+  MyDataPacket: 
 --- !u!54 &74568540
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -880,6 +881,7 @@ MonoBehaviour:
   myWorldState: {fileID: 1666168298}
   getRulesFromCreation: {fileID: 1666168299}
   MyIdNumber: 1
+  MyDataPacket: 
 --- !u!54 &339620792
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1250,6 +1252,7 @@ MonoBehaviour:
   myWorldState: {fileID: 1666168298}
   getRulesFromCreation: {fileID: 1666168299}
   MyIdNumber: 7
+  MyDataPacket: 
 --- !u!54 &670637852
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1384,6 +1387,7 @@ MonoBehaviour:
   myWorldState: {fileID: 1666168298}
   getRulesFromCreation: {fileID: 1666168299}
   MyIdNumber: 5
+  MyDataPacket: 
 --- !u!54 &672743804
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1982,6 +1986,7 @@ MonoBehaviour:
   myWorldState: {fileID: 1666168298}
   getRulesFromCreation: {fileID: 1666168299}
   MyIdNumber: 2
+  MyDataPacket: 
 --- !u!54 &876386324
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2131,7 +2136,7 @@ MonoBehaviour:
   mPreviousScale: {x: 2, y: 2, z: 2}
   mPreserveChildSize: 0
   mInitializedInEditor: 1
-  mMarkerID: -1
+  mMarkerID: 0
 --- !u!114 &899159410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2219,6 +2224,7 @@ MonoBehaviour:
   myWorldState: {fileID: 1666168298}
   getRulesFromCreation: {fileID: 1666168299}
   MyIdNumber: 9
+  MyDataPacket: 
 --- !u!54 &911388462
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2631,6 +2637,7 @@ MonoBehaviour:
   myWorldState: {fileID: 1666168298}
   getRulesFromCreation: {fileID: 1666168299}
   MyIdNumber: 6
+  MyDataPacket: 
 --- !u!54 &1046290429
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2956,6 +2963,7 @@ MonoBehaviour:
   myWorldState: {fileID: 1666168298}
   getRulesFromCreation: {fileID: 1666168299}
   MyIdNumber: 3
+  MyDataPacket: 
 --- !u!54 &1269074901
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3259,6 +3267,7 @@ MonoBehaviour:
   myWorldState: {fileID: 1666168298}
   getRulesFromCreation: {fileID: 1666168299}
   MyIdNumber: 8
+  MyDataPacket: 
 --- !u!54 &1411531378
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3656,6 +3665,10 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1200400477}
+    - target: {fileID: 11400078, guid: bca09ff33aa3d7041ba8b0afb88e555c, type: 2}
+      propertyPath: MyDataPacket
+      value: RABAGASHATA
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bca09ff33aa3d7041ba8b0afb88e555c, type: 2}
   m_RootGameObject: {fileID: 1965037914}
@@ -4331,7 +4344,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   getGodOfCreation: {fileID: 1666168299}
   getRules: {fileID: 1666168300}
-  Rule: 1
   outputTextC: {fileID: 855184694}
   GameState: 
   chainsOfCubesTemp: 
@@ -4348,7 +4360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c23a4dcb40e8d94db16ad493b2313d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rule: 1
+  RuleEnum: 0
+  currentSubRule: 0
   ruleScript: {fileID: 1666168300}
   numberOfCubes: 10
   FinishState: 
@@ -4415,6 +4428,7 @@ MonoBehaviour:
   myWorldState: {fileID: 1666168298}
   getRulesFromCreation: {fileID: 1666168299}
   MyIdNumber: 0
+  MyDataPacket: RABAGASHATA
 --- !u!54 &1682217626
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4785,7 +4799,7 @@ MonoBehaviour:
   mPreviousScale: {x: 2, y: 2, z: 2}
   mPreserveChildSize: 0
   mInitializedInEditor: 1
-  mMarkerID: -1
+  mMarkerID: 99
 --- !u!114 &1781661034
 MonoBehaviour:
   m_ObjectHideFlags: 0
