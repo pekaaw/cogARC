@@ -97,16 +97,10 @@ public function redoCreation() {
 	}
 	
 	functionPointerCreator();
-	
-}
-
-
-
-
-public function Creator (){
-	functionPointerCreator();
 	ruleScript.setFinishState(FinishState);
 }
+
+
 
 private function PairCreator () {
 	Debug.Log("Pair Creator");
