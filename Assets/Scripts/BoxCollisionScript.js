@@ -7,7 +7,7 @@ var getRulesFromCreation : LevelCreator;
 
 private var RuleEnum : ruleFunction; // the current rule effects how the gamestate is set up
 var MyIdNumber : int; //this boxs unik ID number
-var MyDataPacket : String; //this boxs data
+public var MyDataPacket : String; //this boxs data
 function Start () {
 	var tempObjectForFindingScripts : UnityEngine.GameObject;
 	tempObjectForFindingScripts =  GameObject.FindGameObjectWithTag ("MainCamera");
