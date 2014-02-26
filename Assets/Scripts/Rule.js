@@ -3,7 +3,6 @@ private var functionPointer : Function;
 private var functionPointerSubRule : Function;
 //Enum defined in LevelCreator.js
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
-enum subRule {Addition,DesiExponential,WholeLiner,AnyWord};
 var currentSubRule : subRule;
 var levelCreator : LevelCreator;
 
@@ -18,6 +17,9 @@ var FinishState : List.<int> = new List.<int>(); //what the solution looks like 
 var CubesData : Array;
 
 function Start () {
+	levelCreator = gameObject.GetComponent(LevelCreator);
+
+
 	var cubesObjects : Array =  GameObject.FindGameObjectsWithTag("Player");
 	for(var cube : GameObject in cubesObjects) {
 	
@@ -26,7 +28,7 @@ function Start () {
 	 }
 
 
-	switch(levelCreator.Rule) {
+	switch(levelCreator.RuleEnum) {
 	case ruleFunction.Pair: 
 		functionPointer = PairTester;
 		break;

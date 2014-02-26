@@ -4,7 +4,7 @@ var getGodOfCreation : LevelCreator;
 var getRules : Rule;
 
 
-private var Rule : ruleFunction; // the current rule effects how the gamestate is set up
+private var RuleEnum : ruleFunction; // the current rule effects how the gamestate is set up
 
 
 var outputTextC : UnityEngine.TextMesh; //debug output on mobile devices
@@ -31,7 +31,7 @@ final var NUMBER_OF_CUBES : int  = 10;
 
 
 function Start() {
-	Rule = getGodOfCreation.Rule;
+	RuleEnum = getGodOfCreation.RuleEnum;
 
 
 
@@ -52,7 +52,7 @@ function Start() {
 }
 
 function Update () {
-	if (Rule == ruleFunction.Grid) {
+	if (RuleEnum == ruleFunction.Grid) {
 		if(!MakeGrid()){ // <- if grid rules make grid here. the others are made on events from onTrigger
 						 // but the grid has to be made in two passes. first registrer events in the worldstate matrix
 						 // and then make an A x B grid out of that here.

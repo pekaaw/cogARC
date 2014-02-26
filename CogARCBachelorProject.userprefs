@@ -1,18 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LevelCreator.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Rule.js">
     <Files>
-      <File FileName="Assets\Scripts\LevelCreator.js" Line="73" Column="43" />
-      <File FileName="Assets\Scripts\WorldState.js" Line="75" Column="34" />
-      <File FileName="Assets\Scripts\CollisionType.js" Line="39" Column="2" />
-      <File FileName="Assets\Scripts\Rule.js" Line="22" Column="26" />
+      <File FileName="Assets\Scripts\LevelCreator.js" Line="44" Column="52" />
+      <File FileName="Assets\Scripts\BoxCollisionScript.js" Line="10" Column="17" />
+      <File FileName="Assets\Scripts\Rule.js" Line="24" Column="2" />
+      <File FileName="Assets\Scripts\WorldState.js" Line="4" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\LevelCreator.js" line="86" />
-      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\LevelCreator.js" line="57" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

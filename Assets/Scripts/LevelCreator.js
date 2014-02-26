@@ -1,9 +1,10 @@
 ﻿#pragma strict
 
-public var Rule : ruleFunction;
+public var RuleEnum : ruleFunction;
 
 private var functionPointerCreator : Function;
 public enum ruleFunction {Tower, Grid, HumanReadable, Pair};
+public enum subRule {Addition,DesiExponential,WholeLiner,AnyWord};
 
 
 var ruleScript : Rule;
@@ -18,10 +19,11 @@ var FinishState : List.<int> = new List.<int>(); //what the solution looks like 
 
 
 function Start () {
+	ruleScript = gameObject.GetComponent(Rule);
 	var nextItem : GameObject; //for making random order
 	var nextIndex : int;
 
-	switch(Rule) {
+	switch(RuleEnum) {
 	case ruleFunction.Pair:
 		functionPointerCreator = PairCreator;
 		break;

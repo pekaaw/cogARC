@@ -5,7 +5,7 @@ var MyWorldCenterC : GyroRotor;
 var myWorldState : WorldState;
 var getRulesFromCreation : LevelCreator;
 
-private var Rule : ruleFunction; // the current rule effects how the gamestate is set up
+private var RuleEnum : ruleFunction; // the current rule effects how the gamestate is set up
 var MyIdNumber : int; //this boxs unik ID number
 var MyDataPacket : String; //this boxs data
 function Start () {
@@ -15,7 +15,7 @@ function Start () {
 	getRulesFromCreation = tempObjectForFindingScripts.GetComponent(LevelCreator);
 	tempObjectForFindingScripts =  GameObject.FindGameObjectWithTag ("MyWorldCenter");
 
-	Rule = getRulesFromCreation.Rule;
+	RuleEnum = getRulesFromCreation.RuleEnum;
 }
 
 function Update () {
@@ -43,7 +43,7 @@ var verticalSide : int; // 0 : horizontal ; 1 : top ; 2 : bottom
 		
 		//::::::::: RULES : ROW , Pair , Human Readable , Grid , Calculus :::::::::::
 		if (!(verticalSide)) { // if the collision is not vertical 
-			if(Rule != ruleFunction.Tower){	// if tower-rules are not in effect
+			if(RuleEnum != ruleFunction.Tower){	// if tower-rules are not in effect
 				var side : int;
 				var diffX : int  = gameObject.transform.position.x - other.gameObject.transform.position.x;
 				var diffZ : int  = gameObject.transform.position.y - other.gameObject.transform.position.y;
@@ -58,7 +58,7 @@ var verticalSide : int; // 0 : horizontal ; 1 : top ; 2 : bottom
 				}
 				else {
 				// ::::::::::: IF HUMAN READABLE RULE RETURN 'FALSE' HERE
-				if(Rule == ruleFunction.HumanReadable) {
+				if(RuleEnum == ruleFunction.HumanReadable) {
 					return; // wrong direction readable
 				}
 					if(diffZ > 0) {
@@ -67,7 +67,7 @@ var verticalSide : int; // 0 : horizontal ; 1 : top ; 2 : bottom
 						side = Sides.BACK;
 					}
 				}
-				if(Rule != ruleFunction.Grid) {
+				if(RuleEnum != ruleFunction.Grid) {
 					myWorldState.SetDataChainNonOverwrite(MyIdNumber,other.gameObject.GetComponent(BoxCollisionScript).MyIdNumber, side);
 				} else {
 					myWorldState.SetDataWorldState(MyIdNumber,other.gameObject.GetComponent(BoxCollisionScript).MyIdNumber, side);
@@ -78,7 +78,7 @@ var verticalSide : int; // 0 : horizontal ; 1 : top ; 2 : bottom
 
 		else {
 			//make a tower; uses verticalSide;
-			if (Rule == ruleFunction.Tower) {
+			if (RuleEnum == ruleFunction.Tower) {
 				myWorldState.SetDataChainNonOverwrite(MyIdNumber,other.gameObject.GetComponent(BoxCollisionScript).MyIdNumber, verticalSide);
 			}
 		}
