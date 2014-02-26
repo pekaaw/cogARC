@@ -4,7 +4,7 @@ var getGodOfCreation : LevelCreator;
 var getRules : Rule;
 
 
-public var Rule : ruleFunction; // the current rule effects how the gamestate is set up
+private var Rule : ruleFunction; // the current rule effects how the gamestate is set up
 
 
 var outputTextC : UnityEngine.TextMesh; //debug output on mobile devices

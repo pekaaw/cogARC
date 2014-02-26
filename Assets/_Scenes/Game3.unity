@@ -527,6 +527,10 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 250e2bc35da39ee44a71c1365d65dd08, type: 2}
+      propertyPath: Pause
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 250e2bc35da39ee44a71c1365d65dd08, type: 2}
   m_RootGameObject: {fileID: 776336792}
@@ -842,7 +846,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbce5108fa23a9a4397475e82ecaf88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pause: 1
+  Pause: 0
   PauseScreenLogo: {fileID: 0}
   PauseLogoPosition:
     serializedVersion: 2

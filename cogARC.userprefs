@@ -1,8 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Rule.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainMenu.js">
     <Files>
-      <File FileName="Assets\Scripts\Rule.js" Line="43" Column="2" />
+      <File FileName="Assets\Scripts\LoadingScreen.js" Line="16" Column="1" />
+      <File FileName="Assets\Scripts\RegisterName.js" Line="12" Column="15" />
+      <File FileName="Assets\Scripts\PauseScreenScript.js" Line="30" Column="4" />
+      <File FileName="Assets\Scripts\MainMenu.js" Line="11" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
