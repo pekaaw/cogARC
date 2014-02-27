@@ -1,6 +1,6 @@
 #pragma strict
 
-class BoxDesign extends MonoBehaviour {
+class BoxDesign extends System.Object {
 
 	public var BoxColor : UnityEngine.Color = Color.gray;
 	public var BoxImage : UnityEngine.Texture;
