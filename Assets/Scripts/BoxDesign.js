@@ -7,7 +7,7 @@ class BoxDesign extends MonoBehaviour {
 	public var TextColor : UnityEngine.Color = Color.white;
 	public var BoxText : String = "";
 
-	public function BoxDesign( var boxDesign : BoxDesign ) {
+	public function BoxDesign( boxDesign : BoxDesign ) {
 		BoxColor = boxDesign.BoxColor;
 		BoxImage = boxDesign.BoxImage;
 		TextColor = boxDesign.TextColor;
