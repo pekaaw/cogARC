@@ -1,7 +1,10 @@
 ﻿#pragma strict
 
-public var RuleEnum : ruleFunction;
+private var pauseScript : PauseScreenScript;
+private var ruleScript : Rule;
 
+
+public var RuleEnum : ruleFunction;
 private var functionPointerCreator : Function;
 private var functionPointerSubCreator : Function;
 
@@ -9,7 +12,6 @@ public enum ruleFunction {Tower, Grid, HumanReadable, Pair};
 public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
 var currentSubRule : subRule;
 
-private var ruleScript : Rule;
 private var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
 private var sortedCubes : Array = new Array();
 //var unsortedCubesIDs : Array = new Array(); //the cubes Ids to be added to the FinishState.
@@ -18,14 +20,16 @@ var FinishState : List.<int> = new List.<int>(); //what the solution looks like 
 													//"Woords" with needs multiple solutions at once.
 													
 
-var numberOfLevels:int;
-private var currentLevel: int = 0;
+var numberOfLevels:int = 9;
+private var currentLevel: int = 8; // last level is one less than number of levels, starts at 0
 
-final static public var gridMinValue : int = 1;
-final static public var gridMaxValue : int = 9;
-
+public var gridMinValue : int = 5;
+public var gridMaxValue : int = 9;
+final private var colorsUsedForGrid : int = 2;
 
 function Awake() {
+pauseScript = gameObject.GetComponent(PauseScreenScript);
+ruleScript =  gameObject.GetComponent(Rule);
 	LoadLevel();
 }
 
@@ -38,6 +42,7 @@ function Update () {
 }
 
 function LoadLevel(){
+	pauseScript.togglePauseScreen();
 	if (currentLevel < numberOfLevels) {
 		currentLevel++;
 		redoCreation();
@@ -48,7 +53,6 @@ function LoadLevel(){
 }
 
 public function redoCreation() {
-	ruleScript = gameObject.GetComponent(Rule);
 	unsortedCubes =  GameObject.FindGameObjectsWithTag("Player");
 
 	var nextItem : GameObject; //for making random order
@@ -131,15 +135,19 @@ private function TowerCreator () {
 
 private function presetGridDataBeforeSort(){
 	var q: int = 0;
+	for(var cube : UnityEngine.GameObject in unsortedCubes){
 	var coloredTitles:int =  Mathf.Lerp(gridMinValue, gridMaxValue, currentLevel/numberOfLevels);
-	for(var cube : GameObject in sortedCubes){
+
 	 	if(q < coloredTitles){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "1";
 	 		//::TO DO::set skin colored
 	 	}
-	 	else {
+	 	else if (q < numberOfCubes){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "0";
 	 		//::TO DO::set skin uncolored
+	 	}
+	 	else {
+	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "42"; //not in use
 	 	}
 	 	q++;
 	 }
@@ -147,8 +155,12 @@ private function presetGridDataBeforeSort(){
 
 private function GridCreator () {
 	Debug.Log("Grid");
+	var tempInt : int;
 	for(var cube : GameObject in sortedCubes){
-		FinishState.Add(parseInt(cube.GetComponent(BoxCollisionScript).MyDataPacket));
+		tempInt = parseInt(cube.GetComponent(BoxCollisionScript).MyDataPacket);
+		if(tempInt < colorsUsedForGrid){
+			FinishState.Add(tempInt);
+		}
 	}
 }
 

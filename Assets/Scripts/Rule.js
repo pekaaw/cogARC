@@ -14,7 +14,7 @@ private static var historyGameState3 : int[]; //tests are only done when all 3 a
 var FinishState : List.<int> = new List.<int>(); //what the solution looks like for games except 
 													//"Woords" which needs multiple solutions at once.
 													
-var CubesData : Array;
+var CubesData : Array;		//local copy of the data contained in the 
 
 function Start () {
 	levelCreator = gameObject.GetComponent(LevelCreator);

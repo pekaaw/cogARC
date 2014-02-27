@@ -4175,6 +4175,7 @@ GameObject:
   - 114: {fileID: 1666168298}
   - 114: {fileID: 1666168299}
   - 114: {fileID: 1666168300}
+  - 114: {fileID: 1666168301}
   m_Layer: 0
   m_Name: CameraGame1temp
   m_TagString: MainCamera
@@ -4360,11 +4361,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c23a4dcb40e8d94db16ad493b2313d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RuleEnum: 0
+  RuleEnum: 1
   currentSubRule: 0
-  ruleScript: {fileID: 1666168300}
   numberOfCubes: 10
   FinishState: 
+  numberOfLevels: 9
+  gridMinValue: 5
+  gridMaxValue: 9
 --- !u!114 &1666168300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4379,6 +4382,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelCreator: {fileID: 1666168299}
   FinishState: 
+--- !u!114 &1666168301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1666168287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbce5108fa23a9a4397475e82ecaf88d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Pause: 0
+  PauseScreenLogo: {fileID: 2800000, guid: f61fdbcd48f2b4b4c8c357bf6367b164, type: 3}
+  PauseLogoPosition:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  GuiSkin: {fileID: 11400000, guid: 63607dace7096ca4581e9a102500aa92, type: 2}
+  ButtonFontSize: 50
 --- !u!1 &1682217623
 GameObject:
   m_ObjectHideFlags: 0
@@ -4560,6 +4584,14 @@ Prefab:
     - target: {fileID: 11400012, guid: 651a4f20731baa54fa4efbeae48c067a, type: 2}
       propertyPath: Rule
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400012, guid: 651a4f20731baa54fa4efbeae48c067a, type: 2}
+      propertyPath: RuleEnum
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400012, guid: 651a4f20731baa54fa4efbeae48c067a, type: 2}
+      propertyPath: numberOfLevels
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 651a4f20731baa54fa4efbeae48c067a, type: 2}
