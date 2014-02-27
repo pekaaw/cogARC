@@ -3,51 +3,55 @@
 var getGodOfCreation : LevelCreator;
 var getRules : Rule;
 
+// the current rule effects how the gamestate is set up
+private var RuleEnum : ruleFunction;
 
-private var RuleEnum : ruleFunction; // the current rule effects how the gamestate is set up
+//debug output on mobile devices
+var outputTextC : UnityEngine.TextMesh;
 
-
-var outputTextC : UnityEngine.TextMesh; //debug output on mobile devices
-
-
-
-var GameState : List.<int> = new List.<int>(); // GameState formated based on the ruleset currently in use.
-												//this is sendt to the rulescript to see if the goal(s) has been met.
-
+// GameState formated based on the ruleset currently in use.
+// this is sendt to the rulescript to see if the goal(s) has been met.
+var GameState : List.<int> = new List.<int>();
 
 //:::::option 1 ::::: List of chains
-var chainsOfCubesTemp : int[]; 
+var chainsOfCubesTemp : int[];
+//::::::::::::::::::: END>List of chains
 
 //:::::option 2 ::::: square grid
 final var GRID_ROW_SIZE : int = 3; // these two should be the same for reliability, but they don't have to be
 final var GRID_COLUMN_SIZE : int = 3;
 final var GRID_SIZE : int = GRID_ROW_SIZE * GRID_COLUMN_SIZE; //do not change this
-var WorldState : int[];
-final var NUMBER_OF_SIDES : int = 6;// used in WorldState ; 2 means up and down ; 4 means horizontal sides; 6 means all sides
-									// world state has to contain exactly (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ints. these ints should 
-									// all be -1. 
-									// 	-but this is handled in the function 'Start()' below 
+
+// NUMBER_OF_SIDES: Used in WorldState
+// 2 means up and down
+// 4 means horizontal sides
+// 6 means all sides
+final var NUMBER_OF_SIDES : int = 6;
 final var NUMBER_OF_CUBES : int  = 10;
+
+// WorldState will contain (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ints with value -1.
+var WorldState : int[];
+//::::::::::::::::::: END>square grid
 
 
 function Start() {
+
+	// Get ruleSet from LevelCreator
 	RuleEnum = getGodOfCreation.RuleEnum;
 
-
-
-	// prepare a temp array for making chains in GameState
+	// Option 1: prepare a temp array for making chains in GameState
 	var arr : Array = new Array(); 
 	for ( var c : int = 0 ; c < (NUMBER_OF_CUBES * 2) ; c++) {
  		arr.Push(0);
 	}
  	chainsOfCubesTemp = arr.ToBuiltin(int);
-	// prepare a WorldState for making grids and checking used connections in GameState
+ 	
+	// Option 2: prepare a WorldState for making grids and checking used connections in GameState
 	arr = new Array(); 
 	for ( var cw : int = 0 ; cw < (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ; cw++) {
 	 		arr.Push(-1);
  	}
  	WorldState = arr.ToBuiltin(int);
- 
 
 }
 
@@ -60,60 +64,69 @@ function Update () {
 			return;
 		}
 	}				
-		var currentState : String = ""; 
+	
+	// DEBUGGING: Print WorldState to screen
+	var currentState : String = ""; 
+	
+	//	for(var i : int  = 0 ; i < WorldState.length ; i++) {
+	//		currentState += WorldState[i] + " ";
+	//		if(!((i+1)%NUMBER_OF_SIDES))
+	//		{
+	//			currentState += "\n";
+	//		}
+	//	}
 
-	/*
-	for(var i : int  = 0 ; i < WorldState.length ; i++) {
-		currentState += WorldState[i] + " ";
-		if(!((i+1)%NUMBER_OF_SIDES))
-		{
-			currentState += "\n";
-		}
+	var GameStateToPrint : int[] = GameState.ToArray();
+	for(var d : int  = 0 ; d < GameStateToPrint.length ; d++) {
+		currentState += GameStateToPrint[d] + " ";
+		//if(!((d+1)%GRID_ROW_SIZE)) {
+		//	currentState += "\n";
+		//}
 	}
 	
-*/
-	var olden : int[] = GameState.ToArray();
-	for(var d : int  = 0 ; d < olden.length ; d++) {
-		currentState += olden[d] + " ";
-		/*if(!((d+1)%GRID_ROW_SIZE)) {
-			currentState += "\n";
-
-		}*/
-	}
-		outputTextC.text = currentState;
-		
-		getRules.Test(GameState);
-		// <- call rulefunction before ClearData. ALWAYS CALL ClearData BEFORE CHANGING THE RULES!!!!!!!!!!!
-	ClearData(); // <- importent the rest is for debug.
+	outputTextC.text = currentState;
+	// END OF DEBUGGING
+	
+	// Test GameState against rules	
+	getRules.Test(GameState); // <- call rulefunction before ClearData. 
+	
+	//ALWAYS CALL ClearData BEFORE CHANGING THE RULES!!!!!!!!!!!	
+	ClearData();
 }
 
-function SetDataWorldState(idNumber: int,otherIdNumber: int, sideHit : int) : void {
-var targetIndex : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDES;
+function SetDataWorldState(idNumber : int, otherIdNumber : int, sideHit : int) : void {
+	
+	var targetIndex : int = idNumber * NUMBER_OF_SIDES + sideHit;
+	
 	if(WorldState[targetIndex] < 0) 
 	{
 		WorldState[targetIndex] = otherIdNumber;
 	}
-	else {
+	else 
+	{
 	// :::::TO DO .... or maybe not :::: 	
 	// odd case : more than one collition on this side, do something smart!
 	return;
 	}
 }
 
-function SetDataChain(idNumber: int,otherIdNumber: int, sideHit : int) : void {
-	if(sideHit > 1) 
-	{
-		if (sideHit == Sides.LEFT || sideHit == Sides.FRONT || sideHit == Sides.TOP) { //front or left
-			AddToChain(idNumber, otherIdNumber, true);
-		} else {							//back or right
-			AddToChain(idNumber, otherIdNumber, false);
-		}
+function SetDataChain(idNumber : int, otherIdNumber : int, sideHit : int) : void 
+{
+	//front or left or top
+	if (sideHit == Sides.LEFT || sideHit == Sides.FRONT || sideHit == Sides.TOP) {
+		AddToChain(idNumber, otherIdNumber, true); // id before otherId
+	} 
+	//else: back or right or bottom
+	else {
+		AddToChain(idNumber, otherIdNumber, false); // id after otherId
 	}
-
 }
 
-function SetDataChainNonOverwrite(idNumber: int,otherIdNumber: int, sideHit : int) : void {
-var targetIndexInWorldState : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDES;
+function SetDataChainNonOverwrite(idNumber : int, otherIdNumber : int, sideHit : int) : void
+{
+	// side of cube (found in WorldState)
+	var targetIndexInWorldState : int = idNumber * NUMBER_OF_SIDES + sideHit;
+	
 	if(WorldState[targetIndexInWorldState] < 0) 
 	{
 		WorldState[targetIndexInWorldState] = otherIdNumber;
@@ -126,10 +139,14 @@ var targetIndexInWorldState : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NU
 	}
 }
 
-function ClearData() : void {
+function ClearData() : void 
+{
+	// reset WorldState
 	for ( var i : int  = 0 ; i < WorldState.length ; i++) {
 		WorldState[i] = -1;
 	}
+	
+	// reset GameState
 	GameState.Clear();
 }
 
