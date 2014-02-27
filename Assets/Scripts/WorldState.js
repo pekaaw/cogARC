@@ -167,9 +167,10 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 	if(Mathf.Abs(index - indexOther) == 1 && index != -1 && indexOther != -1) {
 		return; //these have already been connected : the difference in index is 1 and both are in the list.
 	}
-
+	
+	// the first cube (index) is not in the list
 	if(index == -1) {
-		//the index is not in the list so add new
+		//the indexOther is not in the list so add new
 		if(indexOther == -1) {
 			//add new pair at the end
 			if(leftOfOther) {
@@ -180,7 +181,9 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 
 				addPairAtEnd(otherIdNumber,idNumber);
 			}
-		} else {
+		} 
+		// indexOther is in list, put beside it
+		else {
 			//connect new to 'other'. 'other' should already be part of a chain.
 			if(leftOfOther) {
 
@@ -191,11 +194,11 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 			}
 			
 		}
-	} else {
-	
-	//the one you are trying to connect to something is already connected to something else
+	} 
+	// index is in the list already (already connected to another cube)
+	else {
+		// indexOther is not in the list - not connected.
 		if ( indexOther == -1) {
-		// this one you are trying to connect it to doesn't exist so we can just add 'other' next to 'this' on the correct side
 			if(leftOfOther) {
 
 				insertAtIndex(index+1,otherIdNumber);
@@ -204,9 +207,8 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 				insertAtIndex(index,otherIdNumber);
 			}
 		} else {
-
-			//brutal block fusing time!!!!!!!!!!1
-			// move one block of items to be connected to 'other' on it's left or right side
+			// Both existed, so move one block of items to be connected 
+			// to 'other' on it's left or right side.
 			if(leftOfOther) {
 
 				fuseBlock(index, indexOther );
@@ -221,7 +223,7 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 //:::::::::::::::::::. Utility Functions::::::::::::::::::::::::::::::::
 
 function addPairAtEnd(first : int, second : int) {
-// when neither are in any blocks from before add both
+// When neither are in any blocks from before add both.
    GameState.Add(first);
    GameState.Add(second);
    GameState.Add(-1);
@@ -240,26 +242,33 @@ function insertAtIndex( index : int, newNumber : int) {
 // DONE!!!!!...............I THINK
 
 function fuseBlock( startBlockIndex : int, targetIndex : int) {
-// startBlockIndex should be the first index in 'the block to move' to targetIndex but this function will change
-// this variable to find the start so any index in the block will do. the targetIndex however will need to be accurate.
-// if it's a collision with 'other' from 'other's left side the targetIndex should be the same as 'other's index in the list
-// if it's from the other side the targetIndex should be  'other's index + 1;
+// startBlockIndex should be the first index in the block to move to targetIndex,
+// but this function will change this variable to find the start so any index in 
+// the block will do. the targetIndex however will need to be accurate.
+// if it's a collision with 'other' from 'other's left side the targetIndex should 
+// be the same as 'other's index in the list if it's from the other side the 
+// targetIndex should be  'other's index + 1;
 
-	var count : int = 0;
-	while (startBlockIndex > 0 &&  GameState [startBlockIndex-1] != -1){
 	//sets the starting point for the block to actually be the first in the block
+	while (startBlockIndex > 0 &&  GameState [startBlockIndex-1] != -1){
 	
 		startBlockIndex--;
 	}
 
+	var count : int = 0;
 	while ( GameState[(startBlockIndex + count)] != -1) {
 		//counts how many needs to be moved
 		count ++;
 	}
+	
 	//copies the block to a temp-workspace-int[]
 	 GameState.CopyTo(startBlockIndex,chainsOfCubesTemp,0,count); //index,targetarray,targetindex,itemcount
+	
 	// removes the block and the extra -1 separator
-	 GameState.RemoveRange(startBlockIndex,count+1);	
+	GameState.RemoveRange(startBlockIndex,count+1);
+	
+	// Now, since we removed count+1 blocks in the array,
+	// we need to adjust the index if it was 
 	if(targetIndex > startBlockIndex) {
 		// since the block has been removed the targetIndex will need to be 
 		//ajusted if the block was of a lower index than the target
