@@ -2,10 +2,14 @@
 
 @CustomEditor (LevelCreator)
 class LevelCreatorInspector extends Editor{
-	
+
+	var lvlCreator : LevelCreator;
 	var curRule : ruleFunction;
 	var curSubRule : subRule;
-	var lvlCreator : LevelCreator;
+	var source : Object;
+	var souire : Object;
+	
+	
 	//Variables for Tower
 	var towerMinBox : int;
 	//Variables for Grid
@@ -15,13 +19,35 @@ class LevelCreatorInspector extends Editor{
 	var gridWantedLevles : int = 5;
 	var gridRandomSeed : int;
 	var gridShowRand : boolean = false;
+	//Variables for the boxes
+	var boxLook : BoxDesign;
 	//Variables for Human Readable
 	
 	//Variables for Pair
+	
+	//Infobox strings
+	var gridRandInfoBox : String = "Turning this off will make the same sett of leveles " 
+			+"over and over. Good for testing.";
+	var humanReadableInfoBox : String = "Will read the boxes as the player sees them";
+	var additionInfoBox : String = "Calculates the numbers on the cubes.";
+	var compositeNumbersInfoBox : String = "Allows the user to put cubes together.";
+	var wholeLinerInfoBox : String = "Will read all cubes as a human.";
+	var anyWordInfoBox : String = "Used for creating words.";
+	
+	
 	override function OnInspectorGUI () {
 		DrawDefaultInspector();
 		
-		curRule = EditorGUILayout.EnumPopup("Select rule:",curRule);// as System.Enum;
+		lvlCreator = target as LevelCreator;
+		curRule = EditorGUILayout.EnumPopup("Select rule:",curRule);
+		lvlCreator.RuleEnum = curRule;
+		
+		ChooseMainRule();
+		
+		source= EditorGUILayout.ObjectField("Test,",source, Texture,false);
+	}
+	
+	function ChooseMainRule() {
 		if (curRule == ruleFunction.Grid){
 			Grid();
 		}
@@ -34,9 +60,8 @@ class LevelCreatorInspector extends Editor{
 		else if (curRule == ruleFunction.HumanReadable){
 			HumanReadable();
 		}
-		
-		
 	}
+	
 	function Tower () {
 		EditorGUILayout.LabelField("Minimum number of cubes");
 		towerMinBox = EditorGUILayout.IntSlider(towerMinBox, 1, 9);
@@ -54,28 +79,31 @@ class LevelCreatorInspector extends Editor{
 		gridWantedLevles = EditorGUILayout.IntField("Number of levles:", gridWantedLevles);
 		//Random seed
 		gridShowRand = EditorGUILayout.BeginToggleGroup("Make random levels?", gridShowRand);
-		gridRandomSeed = EditorGUILayout.IntSlider("Random seed:", gridRandomSeed, 1, int.MaxValue);
 		if(gridShowRand){
+			gridRandomSeed = EditorGUILayout.IntSlider("Random seed:", gridRandomSeed, 1, int.MaxValue);
+			EditorGUILayout.HelpBox(gridRandInfoBox ,MessageType.Info);
 			//Send data to LevelCreator
 		} else {
 			//send data to LevelCreator with 0 for rand.
 		}
 		EditorGUILayout.EndToggleGroup();
+		
 	}
 	
 	function HumanReadable () {
+		EditorGUILayout.HelpBox(humanReadableInfoBox, MessageType.Info);
 		curSubRule = EditorGUILayout.EnumPopup("Subrule:", curSubRule);
 		
 		ChoseSubRule();
 	}
 	
 	function Pair () {
-		
+	
 	}
-	//Sub rules
-	//Addition,CompositeNumbers,WholeLiner,AnyWord
 	
 	function ChoseSubRule () {
+		//lvlCreator.subRule = curSubRule;
+		
 		switch(curSubRule){
 		case subRule.Addition:
 			Addition();
@@ -87,22 +115,22 @@ class LevelCreatorInspector extends Editor{
 			WholeLiner();
 			break;
 			case subRule.AnyWord:
-			Anyword();
+			AnyWord();
 			break;
 		}
 	}
+	
 	function Addition () {
-		
+		EditorGUILayout.HelpBox(additionInfoBox, MessageType.Info);
 	}
 	
 	function CompositeNumbers () {
-		
+		EditorGUILayout.HelpBox(compositeNumbersInfoBox, MessageType.Info);
 	}
 	function WholeLiner () {
-		
+		EditorGUILayout.HelpBox(wholeLinerInfoBox, MessageType.Info);
 	}
 	function AnyWord () {
-		
+		EditorGUILayout.HelpBox(anyWordInfoBox, MessageType.Info);
 	}
-	
 }
