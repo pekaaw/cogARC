@@ -3,7 +3,7 @@ private var functionPointer : Function;
 private var functionPointerSubRule : Function;
 //Enum defined in LevelCreator.js
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
-var currentSubRule : subRule;
+
 var levelCreator : LevelCreator;
 
 
@@ -11,23 +11,24 @@ private static var historyGameState1 : int[];
 private static var historyGameState2 : int[]; //these are check against eachother to stabilize the inputdata
 private static var historyGameState3 : int[]; //tests are only done when all 3 are the same
 
-var FinishState : List.<int> = new List.<int>(); //what the solution looks like for games execpt 
-													//"Woords" with needs multiple solutions at once.
+var FinishState : List.<int> = new List.<int>(); //what the solution looks like for games except 
+													//"Woords" which needs multiple solutions at once.
 													
-var CubesData : Array;
+var CubesData : Array;		//local copy of the data contained in the 
 
 function Start () {
 	levelCreator = gameObject.GetComponent(LevelCreator);
-
-
+	CubesData = new Array();
+	var tempString : String = "BHARLG";
 	var cubesObjects : Array =  GameObject.FindGameObjectsWithTag("Player");
-	for(var cube : GameObject in cubesObjects) {
-	
-		CubesData.Add(cube.GetComponent(BoxCollisionScript).MyDataPacket);
+	for(var cube : UnityEngine.GameObject in cubesObjects) {
+		tempString = cube.GetComponent(BoxCollisionScript).MyDataPacket;
+		tempString += cube.GetComponent(BoxCollisionScript).MyIdNumber + " ,"; 
+		CubesData.Push(tempString);
 
 	 }
 
-
+	tempString = "dsdfs";
 	switch(levelCreator.RuleEnum) {
 		case ruleFunction.Pair: 
 			functionPointer = PairTester;
@@ -43,9 +44,9 @@ function Start () {
 			break;
 	};
 	
-	switch(currentSubRule) {
-		case subRule.CompositeNumbers: 
-			functionPointerSubRule = DesiExponentialTester;
+	switch(levelCreator.currentSubRule) {
+		case subRule.compositeNumbers: 
+			functionPointerSubRule = compositeNumbersTester;
 			break;
 		case subRule.Addition:
 			functionPointerSubRule = AdditionTester;
@@ -147,7 +148,7 @@ private function HumanReadableTester (boxes : List.<int>) {
 }
 
 
-private function DesiExponentialTester(boxes : List.<int>){
+private function compositeNumbersTester(boxes : List.<int>){
 	return;
 }
 

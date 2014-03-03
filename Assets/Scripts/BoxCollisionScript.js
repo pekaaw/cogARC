@@ -8,14 +8,22 @@ var getRulesFromCreation : LevelCreator;
 private var RuleEnum : ruleFunction; // the current rule effects how the gamestate is set up
 var MyIdNumber : int; //this boxs unik ID number
 public var MyDataPacket : String; //this boxs data
+
+function Awake() {
+	MyDataPacket = "PKK;";
+
+}
+
 function Start () {
 	var tempObjectForFindingScripts : UnityEngine.GameObject;
 	tempObjectForFindingScripts =  GameObject.FindGameObjectWithTag ("MainCamera");
 	myWorldState = tempObjectForFindingScripts.GetComponent(WorldState);
 	getRulesFromCreation = tempObjectForFindingScripts.GetComponent(LevelCreator);
 	tempObjectForFindingScripts =  GameObject.FindGameObjectWithTag ("MyWorldCenter");
-
+	
 	RuleEnum = getRulesFromCreation.RuleEnum;
+	
+	
 }
 
 function Update () {

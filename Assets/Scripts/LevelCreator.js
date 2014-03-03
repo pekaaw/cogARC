@@ -1,25 +1,60 @@
 ﻿#pragma strict
 
+private var pauseScript : PauseScreenScript;
+private var ruleScript : Rule;
+
+
 public var RuleEnum : ruleFunction;
-
 private var functionPointerCreator : Function;
+private var functionPointerSubCreator : Function;
+
 public enum ruleFunction {Tower, Grid, HumanReadable, Pair};
-public enum subRule {Addition,CompositeNumbers,WholeLiner,AnyWord};
+public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
+var currentSubRule : subRule;
 
-
-var ruleScript : Rule;
-var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
-var sortedCubes : Array = new Array();
+private var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
+private var sortedCubes : Array = new Array();
 //var unsortedCubesIDs : Array = new Array(); //the cubes Ids to be added to the FinishState.
 var numberOfCubes : int = 10;
 var FinishState : List.<int> = new List.<int>(); //what the solution looks like for games execpt 
 													//"Woords" with needs multiple solutions at once.
 													
 
+var numberOfLevels:int = 9;
+private var currentLevel: int = 8; // last level is one less than number of levels, starts at 0
 
+public var gridMinValue : int = 5;
+public var gridMaxValue : int = 9;
+final private var colorsUsedForGrid : int = 2;
+
+function Awake() {
+pauseScript = gameObject.GetComponent(PauseScreenScript);
+ruleScript =  gameObject.GetComponent(Rule);
+	LoadLevel();
+}
 
 function Start () {
-	ruleScript = gameObject.GetComponent(Rule);
+	
+}
+
+function Update () {
+
+}
+
+function LoadLevel(){
+	pauseScript.togglePauseScreen();
+	if (currentLevel < numberOfLevels) {
+		currentLevel++;
+		redoCreation();
+	} else {
+		//SYSTEM.LOAD(NEXT_GAME_SCENE);
+	}
+
+}
+
+public function redoCreation() {
+	unsortedCubes =  GameObject.FindGameObjectsWithTag("Player");
+
 	var nextItem : GameObject; //for making random order
 	var nextIndex : int;
 
@@ -34,16 +69,28 @@ function Start () {
 		break;
 	case ruleFunction.Grid:
 		functionPointerCreator = GridCreator;
+		presetGridDataBeforeSort();
 		break;
 	case ruleFunction.HumanReadable: 
 		functionPointerCreator = HumanReadableCreator;
 		break;
 	}
+	switch(currentSubRule) {
+	case subRule.Addition:
+		functionPointerSubCreator = AdditionCreator;
+		break;
+	case subRule.compositeNumbers:
+		functionPointerSubCreator = compositeNumbersCreator;
+		break;
+	case subRule.WholeLiner:
+		functionPointerSubCreator = WholeLinerCreator;
+		break;
+	case subRule.AnyWord: 
+		functionPointerSubCreator = AnyWordCreator;
+		break;
+	default: break;
+	}
 	
-	
-	
-	
-	unsortedCubes =  GameObject.FindGameObjectsWithTag("Player");
 	
 	for(var c: int = 0; c < 10; c++) {
 		nextIndex = Random.Range(0,unsortedCubes.Count); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
@@ -54,18 +101,10 @@ function Start () {
 	}
 	
 	functionPointerCreator();
-	
-	
-}
-
-function Update () {
-
-}
-
-public function Creator (){
-	functionPointerCreator();
 	ruleScript.setFinishState(FinishState);
 }
+
+
 
 private function PairCreator () {
 	Debug.Log("Pair Creator");
@@ -94,12 +133,56 @@ private function TowerCreator () {
 	Debug.Log("Tower");
 }
 
+private function presetGridDataBeforeSort(){
+	var q: int = 0;
+	for(var cube : UnityEngine.GameObject in unsortedCubes){
+	var coloredTitles:int =  Mathf.Lerp(gridMinValue, gridMaxValue, currentLevel/numberOfLevels);
+
+	 	if(q < coloredTitles){
+	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "1";
+	 		//::TO DO::set skin colored
+	 	}
+	 	else if (q < numberOfCubes){
+	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "0";
+	 		//::TO DO::set skin uncolored
+	 	}
+	 	else {
+	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "42"; //not in use
+	 	}
+	 	q++;
+	 }
+}
+
 private function GridCreator () {
 	Debug.Log("Grid");
+	var tempInt : int;
+	for(var cube : GameObject in sortedCubes){
+		tempInt = parseInt(cube.GetComponent(BoxCollisionScript).MyDataPacket);
+		if(tempInt < colorsUsedForGrid){
+			FinishState.Add(tempInt);
+		}
+	}
 }
 
 private function HumanReadableCreator () {
 	Debug.Log("Human Readable");
 }
 
+
+function AdditionCreator() {
+
+
+}
+function WholeLinerCreator(){
+
+
+}
+function compositeNumbersCreator(){
+
+
+}
+function AnyWordCreator(){
+	
+	
+	}
 

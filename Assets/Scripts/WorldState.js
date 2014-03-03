@@ -3,51 +3,55 @@
 var getGodOfCreation : LevelCreator;
 var getRules : Rule;
 
+// the current rule effects how the gamestate is set up
+private var RuleEnum : ruleFunction;
 
-private var RuleEnum : ruleFunction; // the current rule effects how the gamestate is set up
+//debug output on mobile devices
+var outputTextC : UnityEngine.TextMesh;
 
-
-var outputTextC : UnityEngine.TextMesh; //debug output on mobile devices
-
-
-
-var GameState : List.<int> = new List.<int>(); // GameState formated based on the ruleset currently in use.
-												//this is sendt to the rulescript to see if the goal(s) has been met.
-
+// GameState formated based on the ruleset currently in use.
+// this is sendt to the rulescript to see if the goal(s) has been met.
+var GameState : List.<int> = new List.<int>();
 
 //:::::option 1 ::::: List of chains
-var chainsOfCubesTemp : int[]; 
+var chainsOfCubesTemp : int[];
+//::::::::::::::::::: END>List of chains
 
 //:::::option 2 ::::: square grid
 final var GRID_ROW_SIZE : int = 3; // these two should be the same for reliability, but they don't have to be
 final var GRID_COLUMN_SIZE : int = 3;
 final var GRID_SIZE : int = GRID_ROW_SIZE * GRID_COLUMN_SIZE; //do not change this
-var WorldState : int[];
-final var NUMBER_OF_SIDES : int = 6;// used in WorldState ; 2 means up and down ; 4 means horizontal sides; 6 means all sides
-									// world state has to contain exactly (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ints. these ints should 
-									// all be -1. 
-									// 	-but this is handled in the function 'Start()' below 
+
+// NUMBER_OF_SIDES: Used in WorldState
+// 2 means up and down
+// 4 means horizontal sides
+// 6 means all sides
+final var NUMBER_OF_SIDES : int = 6;
 final var NUMBER_OF_CUBES : int  = 10;
+
+// WorldState will contain (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ints with value -1.
+var WorldState : int[];
+//::::::::::::::::::: END>square grid
 
 
 function Start() {
+
+	// Get ruleSet from LevelCreator
 	RuleEnum = getGodOfCreation.RuleEnum;
 
-
-
-	// prepare a temp array for making chains in GameState
+	// Option 1: prepare a temp array for making chains in GameState
 	var arr : Array = new Array(); 
 	for ( var c : int = 0 ; c < (NUMBER_OF_CUBES * 2) ; c++) {
  		arr.Push(0);
 	}
  	chainsOfCubesTemp = arr.ToBuiltin(int);
-	// prepare a WorldState for making grids and checking used connections in GameState
+ 	
+	// Option 2: prepare a WorldState for making grids and checking used connections in GameState
 	arr = new Array(); 
 	for ( var cw : int = 0 ; cw < (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ; cw++) {
 	 		arr.Push(-1);
  	}
  	WorldState = arr.ToBuiltin(int);
- 
 
 }
 
@@ -60,60 +64,69 @@ function Update () {
 			return;
 		}
 	}				
-		var currentState : String = ""; 
+	
+	// DEBUGGING: Print WorldState to screen
+	var currentState : String = ""; 
+	
+	//	for(var i : int  = 0 ; i < WorldState.length ; i++) {
+	//		currentState += WorldState[i] + " ";
+	//		if(!((i+1)%NUMBER_OF_SIDES))
+	//		{
+	//			currentState += "\n";
+	//		}
+	//	}
 
-	/*
-	for(var i : int  = 0 ; i < WorldState.length ; i++) {
-		currentState += WorldState[i] + " ";
-		if(!((i+1)%NUMBER_OF_SIDES))
-		{
-			currentState += "\n";
-		}
+	var GameStateToPrint : int[] = GameState.ToArray();
+	for(var d : int  = 0 ; d < GameStateToPrint.length ; d++) {
+		currentState += GameStateToPrint[d] + " ";
+		//if(!((d+1)%GRID_ROW_SIZE)) {
+		//	currentState += "\n";
+		//}
 	}
 	
-*/
-	var olden : int[] = GameState.ToArray();
-	for(var d : int  = 0 ; d < olden.length ; d++) {
-		currentState += olden[d] + " ";
-		/*if(!((d+1)%GRID_ROW_SIZE)) {
-			currentState += "\n";
-
-		}*/
-	}
-		outputTextC.text = currentState;
-		
-		getRules.Test(GameState);
-		// <- call rulefunction before ClearData. ALWAYS CALL ClearData BEFORE CHANGING THE RULES!!!!!!!!!!!
-	ClearData(); // <- importent the rest is for debug.
+	outputTextC.text = currentState;
+	// END OF DEBUGGING
+	
+	// Test GameState against rules	
+	getRules.Test(GameState); // <- call rulefunction before ClearData. 
+	
+	//ALWAYS CALL ClearData BEFORE CHANGING THE RULES!!!!!!!!!!!	
+	ClearData();
 }
 
-function SetDataWorldState(idNumber: int,otherIdNumber: int, sideHit : int) : void {
-var targetIndex : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDES;
+function SetDataWorldState(idNumber : int, otherIdNumber : int, sideHit : int) : void {
+	
+	var targetIndex : int = idNumber * NUMBER_OF_SIDES + sideHit;
+	
 	if(WorldState[targetIndex] < 0) 
 	{
 		WorldState[targetIndex] = otherIdNumber;
 	}
-	else {
+	else 
+	{
 	// :::::TO DO .... or maybe not :::: 	
 	// odd case : more than one collition on this side, do something smart!
 	return;
 	}
 }
 
-function SetDataChain(idNumber: int,otherIdNumber: int, sideHit : int) : void {
-	if(sideHit > 1) 
-	{
-		if (sideHit == Sides.LEFT || sideHit == Sides.FRONT || sideHit == Sides.TOP) { //front or left
-			AddToChain(idNumber, otherIdNumber, true);
-		} else {							//back or right
-			AddToChain(idNumber, otherIdNumber, false);
-		}
+function SetDataChain(idNumber : int, otherIdNumber : int, sideHit : int) : void 
+{
+	//front or left or top
+	if (sideHit == Sides.LEFT || sideHit == Sides.FRONT || sideHit == Sides.TOP) {
+		AddToChain(idNumber, otherIdNumber, true); // id before otherId
+	} 
+	//else: back or right or bottom
+	else {
+		AddToChain(idNumber, otherIdNumber, false); // id after otherId
 	}
-
 }
 
-function SetDataChainNonOverwrite(idNumber: int,otherIdNumber: int, sideHit : int) : void {
-var targetIndexInWorldState : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NUMBER_OF_SIDES;
+function SetDataChainNonOverwrite(idNumber : int, otherIdNumber : int, sideHit : int) : void
+{
+	// side of cube (found in WorldState)
+	var targetIndexInWorldState : int = idNumber * NUMBER_OF_SIDES + sideHit;
+	
 	if(WorldState[targetIndexInWorldState] < 0) 
 	{
 		WorldState[targetIndexInWorldState] = otherIdNumber;
@@ -126,10 +139,14 @@ var targetIndexInWorldState : int = idNumber * NUMBER_OF_SIDES + sideHit;// - NU
 	}
 }
 
-function ClearData() : void {
+function ClearData() : void 
+{
+	// reset WorldState
 	for ( var i : int  = 0 ; i < WorldState.length ; i++) {
 		WorldState[i] = -1;
 	}
+	
+	// reset GameState
 	GameState.Clear();
 }
 
@@ -150,9 +167,10 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 	if(Mathf.Abs(index - indexOther) == 1 && index != -1 && indexOther != -1) {
 		return; //these have already been connected : the difference in index is 1 and both are in the list.
 	}
-
+	
+	// the first cube (index) is not in the list
 	if(index == -1) {
-		//the index is not in the list so add new
+		//the indexOther is not in the list so add new
 		if(indexOther == -1) {
 			//add new pair at the end
 			if(leftOfOther) {
@@ -163,7 +181,9 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 
 				addPairAtEnd(otherIdNumber,idNumber);
 			}
-		} else {
+		} 
+		// indexOther is in list, put beside it
+		else {
 			//connect new to 'other'. 'other' should already be part of a chain.
 			if(leftOfOther) {
 
@@ -174,11 +194,11 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 			}
 			
 		}
-	} else {
-	
-	//the one you are trying to connect to something is already connected to something else
+	} 
+	// index is in the list already (already connected to another cube)
+	else {
+		// indexOther is not in the list - not connected.
 		if ( indexOther == -1) {
-		// this one you are trying to connect it to doesn't exist so we can just add 'other' next to 'this' on the correct side
 			if(leftOfOther) {
 
 				insertAtIndex(index+1,otherIdNumber);
@@ -187,9 +207,8 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 				insertAtIndex(index,otherIdNumber);
 			}
 		} else {
-
-			//brutal block fusing time!!!!!!!!!!1
-			// move one block of items to be connected to 'other' on it's left or right side
+			// Both existed, so move one block of items to be connected 
+			// to 'other' on it's left or right side.
 			if(leftOfOther) {
 
 				fuseBlock(index, indexOther );
@@ -204,7 +223,7 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 //:::::::::::::::::::. Utility Functions::::::::::::::::::::::::::::::::
 
 function addPairAtEnd(first : int, second : int) {
-// when neither are in any blocks from before add both
+// When neither are in any blocks from before add both.
    GameState.Add(first);
    GameState.Add(second);
    GameState.Add(-1);
@@ -223,26 +242,33 @@ function insertAtIndex( index : int, newNumber : int) {
 // DONE!!!!!...............I THINK
 
 function fuseBlock( startBlockIndex : int, targetIndex : int) {
-// startBlockIndex should be the first index in 'the block to move' to targetIndex but this function will change
-// this variable to find the start so any index in the block will do. the targetIndex however will need to be accurate.
-// if it's a collision with 'other' from 'other's left side the targetIndex should be the same as 'other's index in the list
-// if it's from the other side the targetIndex should be  'other's index + 1;
+// startBlockIndex should be the first index in the block to move to targetIndex,
+// but this function will change this variable to find the start so any index in 
+// the block will do. the targetIndex however will need to be accurate.
+// if it's a collision with 'other' from 'other's left side the targetIndex should 
+// be the same as 'other's index in the list if it's from the other side the 
+// targetIndex should be  'other's index + 1;
 
-	var count : int = 0;
-	while (startBlockIndex > 0 &&  GameState [startBlockIndex-1] != -1){
 	//sets the starting point for the block to actually be the first in the block
+	while (startBlockIndex > 0 &&  GameState [startBlockIndex-1] != -1){
 	
 		startBlockIndex--;
 	}
 
+	var count : int = 0;
 	while ( GameState[(startBlockIndex + count)] != -1) {
 		//counts how many needs to be moved
 		count ++;
 	}
+	
 	//copies the block to a temp-workspace-int[]
 	 GameState.CopyTo(startBlockIndex,chainsOfCubesTemp,0,count); //index,targetarray,targetindex,itemcount
+	
 	// removes the block and the extra -1 separator
-	 GameState.RemoveRange(startBlockIndex,count+1);	
+	GameState.RemoveRange(startBlockIndex,count+1);
+	
+	// Now, since we removed count+1 blocks in the array,
+	// we need to adjust the index if it was 
 	if(targetIndex > startBlockIndex) {
 		// since the block has been removed the targetIndex will need to be 
 		//ajusted if the block was of a lower index than the target
