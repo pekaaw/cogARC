@@ -10,7 +10,6 @@ var MyIdNumber : int; //this boxs unik ID number
 public var MyDataPacket : String; //this boxs data
 
 function Awake() {
-	MyDataPacket = "PKK;";
 
 }
 
@@ -32,7 +31,7 @@ function Update () {
 
 function OnTriggerEnter (other : Collider) {
 	if(other.tag == "Player") {
-		renderer.material.color = Color.blue;
+	//	renderer.material.color = Color.blue;
 	
 	//var side : int = MyWorldCenterC.passCollitionData(this.gameObject.transform.position,other.gameObject.transform.position);
 	//myWorldState.SetData(MyIdNumber,other.gameObject.GetComponent(BoxCollisionScript).MyIdNumber, side);
@@ -42,7 +41,7 @@ function OnTriggerEnter (other : Collider) {
 function OnTriggerStay (other : Collider) {
 var verticalSide : int; // 0 : horizontal ; 1 : top ; 2 : bottom
 	if(other.tag == "Player") {
-		renderer.material.color = Color.green;
+		//renderer.material.color = Color.green;
 		
 		verticalSide = MyWorldCenterC.collisionIsVertical( // if the collision is not vertical 
 				this.gameObject.transform.position,
@@ -94,7 +93,7 @@ var verticalSide : int; // 0 : horizontal ; 1 : top ; 2 : bottom
 }
 function OnTriggerExit (other : Collider) {
 	if(other.tag == "Player"){
-		renderer.material.color = Color.red;
+	//	renderer.material.color = Color.red;
 	}
 }
 	

@@ -3058,6 +3058,22 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400012, guid: 651a4f20731baa54fa4efbeae48c067a, type: 2}
+      propertyPath: RuleEnum
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400012, guid: 651a4f20731baa54fa4efbeae48c067a, type: 2}
+      propertyPath: numberOfCubes
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400012, guid: 651a4f20731baa54fa4efbeae48c067a, type: 2}
+      propertyPath: numberOfLevels
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400012, guid: 651a4f20731baa54fa4efbeae48c067a, type: 2}
+      propertyPath: gridMinValue
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 651a4f20731baa54fa4efbeae48c067a, type: 2}
   m_RootGameObject: {fileID: 1666168287}
@@ -4405,12 +4421,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c23a4dcb40e8d94db16ad493b2313d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RuleEnum: 1
+  RuleEnum: 0
   currentSubRule: 0
-  numberOfCubes: 10
+  numberOfCubes: 9
   FinishState: 
-  numberOfLevels: 9
-  gridMinValue: 5
+  numberOfLevels: 5
+  gridMinValue: 4
   gridMaxValue: 9
 --- !u!114 &1666168300
 MonoBehaviour:

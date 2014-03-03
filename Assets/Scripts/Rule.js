@@ -5,7 +5,7 @@ private var functionPointerSubRule : Function;
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
 
 var levelCreator : LevelCreator;
-
+	var outputTextC : UnityEngine.TextMesh;
 
 private static var historyGameState1 : int[];
 private static var historyGameState2 : int[]; //these are check against eachother to stabilize the inputdata
@@ -22,8 +22,8 @@ function Start () {
 	var tempString : String = "BHARLG";
 	var cubesObjects : Array =  GameObject.FindGameObjectsWithTag("Player");
 	for(var cube : UnityEngine.GameObject in cubesObjects) {
-		tempString = cube.GetComponent(BoxCollisionScript).MyDataPacket;
-		tempString += cube.GetComponent(BoxCollisionScript).MyIdNumber + " ,"; 
+		tempString = cube.GetComponent(BoxCollisionScript).MyDataPacket + ", ";
+//		tempString += cube.GetComponent(BoxCollisionScript).MyIdNumber + " ,"; 
 		CubesData.Push(tempString);
 
 	 }
@@ -61,6 +61,12 @@ function Start () {
 }
 
 function Update () {
+var currentState : String = ""; 
+	for(var d : int  = 0 ; d < FinishState.Count ; d++) {
+		currentState += FinishState[d] + " ";
+	}
+
+ outputTextC.text = currentState;
 
 }
 

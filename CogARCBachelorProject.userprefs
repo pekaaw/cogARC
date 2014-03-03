@@ -1,12 +1,21 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PauseScreenScript.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\LevelCreator.js">
     <Files>
+      <File FileName="Assets\Scripts\LevelCreator.js" Line="177" Column="1" />
       <File FileName="Assets\Scripts\PauseScreenScript.js" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Rule.js" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LevelCreator.js" Line="189" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\LevelCreator.js" line="134" />
+      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\LevelCreator.js" line="136" />
+      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\LevelCreator.js" line="153" />
+      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\LevelCreator.js" line="154" />
+      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\LevelCreator.js" line="96" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

@@ -8,28 +8,29 @@ public var RuleEnum : ruleFunction;
 private var functionPointerCreator : Function;
 private var functionPointerSubCreator : Function;
 
-public enum ruleFunction {Tower, Grid, HumanReadable, Pair};
+public enum ruleFunction {Grid, Tower, HumanReadable, Pair};
 public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
 var currentSubRule : subRule;
 
 private var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
 private var sortedCubes : Array = new Array();
 //var unsortedCubesIDs : Array = new Array(); //the cubes Ids to be added to the FinishState.
-var numberOfCubes : int = 10;
+var numberOfCubes : int = 9;
 var FinishState : List.<int> = new List.<int>(); //what the solution looks like for games execpt 
 													//"Woords" with needs multiple solutions at once.
 													
 
 var numberOfLevels:int = 9;
-private var currentLevel: int = 8; // last level is one less than number of levels, starts at 0
+private var currentLevel: int = 0; // last level is one less than number of levels, starts at 0
 
 public var gridMinValue : int = 5;
 public var gridMaxValue : int = 9;
 final private var colorsUsedForGrid : int = 2;
 
 function Awake() {
-pauseScript = gameObject.GetComponent(PauseScreenScript);
-ruleScript =  gameObject.GetComponent(Rule);
+	Debug.Log(RuleEnum);
+	pauseScript = gameObject.GetComponent(PauseScreenScript);
+	ruleScript =  gameObject.GetComponent(Rule);
 	LoadLevel();
 }
 
@@ -102,6 +103,13 @@ public function redoCreation() {
 	
 	functionPointerCreator();
 	ruleScript.setFinishState(FinishState);
+	
+	
+	var debugstate : String = "";
+	for(var q:int = 0 ; q < FinishState.Count; q++) {
+		debugstate += FinishState[q] + ", ";
+	}
+	Debug.Log("GOAL THIS ROUND IS\n" + debugstate);
 }
 
 
@@ -122,11 +130,6 @@ private function PairCreator () {
 		// set skin B[c+1] to cube sortedCubes[c+1]
 		
 	}
-	var debugstate : String = "";
-	for(var q:int = 0 ; q < FinishState.Count; q++) {
-		debugstate += FinishState[q] + ", ";
-	}
-	Debug.Log("GOAL THIS ROUND IS\n" + debugstate);
 }
 
 private function TowerCreator () {
@@ -135,19 +138,22 @@ private function TowerCreator () {
 
 private function presetGridDataBeforeSort(){
 	var q: int = 0;
-	for(var cube : UnityEngine.GameObject in unsortedCubes){
 	var coloredTitles:int =  Mathf.Lerp(gridMinValue, gridMaxValue, currentLevel/numberOfLevels);
+
+	for(var cube : UnityEngine.GameObject in unsortedCubes){
 
 	 	if(q < coloredTitles){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "1";
+	 		cube.renderer.material.color = Color.blue;
 	 		//::TO DO::set skin colored
 	 	}
-	 	else if (q < numberOfCubes){
+	 	else if (q <= numberOfCubes){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "0";
+	 		cube.renderer.material.color = Color.yellow;
 	 		//::TO DO::set skin uncolored
 	 	}
 	 	else {
-	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "42"; //not in use
+	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "" + (colorsUsedForGrid + 1) ; //not in use
 	 	}
 	 	q++;
 	 }
@@ -158,7 +164,11 @@ private function GridCreator () {
 	var tempInt : int;
 	for(var cube : GameObject in sortedCubes){
 		tempInt = parseInt(cube.GetComponent(BoxCollisionScript).MyDataPacket);
+		Debug.Log("tempInt is: " + tempInt);
 		if(tempInt < colorsUsedForGrid){
+			if(FinishState.Count >= numberOfCubes) {
+				return;
+			}
 			FinishState.Add(tempInt);
 		}
 	}

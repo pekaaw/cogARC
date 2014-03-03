@@ -78,13 +78,14 @@ function Update () {
 
 	var GameStateToPrint : int[] = GameState.ToArray();
 	for(var d : int  = 0 ; d < GameStateToPrint.length ; d++) {
-		currentState += GameStateToPrint[d] + " ";
+		//currentState += GameStateToPrint[d] + " ";
+		currentState += getRules.CubesData[d] + " ";
 		//if(!((d+1)%GRID_ROW_SIZE)) {
 		//	currentState += "\n";
 		//}
 	}
 	
-	outputTextC.text = currentState;
+	//outputTextC.text = currentState;
 	// END OF DEBUGGING
 	
 	// Test GameState against rules	
