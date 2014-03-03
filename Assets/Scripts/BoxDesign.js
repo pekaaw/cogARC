@@ -13,5 +13,4 @@ class BoxDesign extends System.Object {
 		TextColor = boxDesign.TextColor;
 		BoxText = boxDesign.BoxText;
 	}
-
 }

@@ -7,8 +7,8 @@ class LevelCreatorInspector extends Editor{
 	var curRule : ruleFunction;
 	var curSubRule : subRule;
 	var source : Object;
-	var souire : Object;
-	
+	//var testCubes : BoxDesign[];
+//	var test : List.<BoxDesign> = new List.<BoxDesign>();
 	
 	//Variables for Tower
 	var towerMinBox : int;
@@ -36,7 +36,7 @@ class LevelCreatorInspector extends Editor{
 	
 	
 	override function OnInspectorGUI () {
-		DrawDefaultInspector();
+		//DrawDefaultInspector();
 		
 		lvlCreator = target as LevelCreator;
 		curRule = EditorGUILayout.EnumPopup("Select rule:",curRule);
@@ -75,8 +75,11 @@ class LevelCreatorInspector extends Editor{
 		EditorGUILayout.LabelField("Please select wanted number of cubes.");
 		gridCurrValue = EditorGUILayout.IntSlider("MIN:",gridCurrValue, gridMinValue, 9);
 		gridMaxValue = EditorGUILayout.IntSlider("MAX:",gridMaxValue, gridCurrValue, 9);
+		lvlCreator.gridMinValue = gridCurrValue;
+		lvlCreator.gridMaxValue = gridMaxValue;
 		// wanted levles
 		gridWantedLevles = EditorGUILayout.IntField("Number of levles:", gridWantedLevles);
+		lvlCreator.numberOfLevels = gridWantedLevles;
 		//Random seed
 		gridShowRand = EditorGUILayout.BeginToggleGroup("Make random levels?", gridShowRand);
 		if(gridShowRand){
