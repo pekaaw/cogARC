@@ -7,7 +7,7 @@ class LevelCreatorInspector extends Editor{
 	var curRule : ruleFunction;
 	var curSubRule : subRule;
 	var source : Object;
-	//var testCubes : BoxDesign[];
+	var testCubes : BoxDesign[];
 //	var test : List.<BoxDesign> = new List.<BoxDesign>();
 	
 	//Variables for Tower
@@ -36,7 +36,7 @@ class LevelCreatorInspector extends Editor{
 	
 	
 	override function OnInspectorGUI () {
-		//DrawDefaultInspector();
+		DrawDefaultInspector();
 		
 		lvlCreator = target as LevelCreator;
 		curRule = EditorGUILayout.EnumPopup("Select rule:",curRule);
