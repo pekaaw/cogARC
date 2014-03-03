@@ -6,6 +6,8 @@ private var functionPointerSubRule : Function;
 
 var levelCreator : LevelCreator;
 	var outputTextC : UnityEngine.TextMesh;
+	var outputTextC2 : UnityEngine.TextMesh;
+
 
 private static var historyGameState1 : int[];
 private static var historyGameState2 : int[]; //these are check against eachother to stabilize the inputdata
@@ -94,7 +96,13 @@ public function Test (boxes : List.<int>){
 	}
 	//::::::::::this block of code is only to stabilize the input[end]::::::::::::
 
+	var currentState : String = ""; 
+	for(var d : int  = 0 ; d < historyGameState1.length ; d++) {
+		currentState += historyGameState1[d] + " ";
+	}
 
+ 	outputTextC2.text = currentState;
+ 
 	functionPointer(boxes);
 	if(FinishState.Count < 1){
 		//congrats, save score, load next level
