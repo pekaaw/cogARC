@@ -8,7 +8,7 @@ public var RuleEnum : ruleFunction;
 private var functionPointerCreator : Function;
 private var functionPointerSubCreator : Function;
 
-public enum ruleFunction {Grid, Tower, HumanReadable, Pair};
+public enum ruleFunction { Grid, Pair, Tower, HumanReadable};
 public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
 var currentSubRule : subRule;
 
@@ -118,13 +118,26 @@ private function PairCreator () {
 	Debug.Log("Pair Creator");
 	
 	for(var c: int = 0; c < sortedCubes.Count; c+=2) {
-	var nextItem1 : GameObject;
-	var nextItem2 : GameObject; 
-	nextItem1 = sortedCubes[c];
-	nextItem2 = sortedCubes[c+1];
+		var nextItem1 : GameObject;
+		var nextItem2 : GameObject; 
+		nextItem1 = sortedCubes[c];
+		nextItem2 = sortedCubes[c+1];
 		FinishState.Add(nextItem1.GetComponent(BoxCollisionScript).MyIdNumber);
 		FinishState.Add(nextItem2.GetComponent(BoxCollisionScript).MyIdNumber);
 		FinishState.Add(-1);//separator to next pair
+		
+		var myDebugColor : UnityEngine.Color;
+		switch(c) {
+			case 0 : myDebugColor = Color.red; break;
+			case 2 : myDebugColor = Color.blue; break;
+			case 4 : myDebugColor = Color.yellow; break;
+			case 6 : myDebugColor = Color.green; break;
+			case 8 : myDebugColor = Color.grey; break;
+			default : myDebugColor = Color.cyan; break;
+		}
+		
+		(sortedCubes[c] as GameObject).renderer.material.color = myDebugColor;
+		(sortedCubes[c+1] as GameObject).renderer.material.color = myDebugColor;
 		
 		// set skin A[c] to cube sortedCubes[c] 
 		// set skin B[c+1] to cube sortedCubes[c+1]

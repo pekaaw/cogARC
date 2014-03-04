@@ -87,7 +87,9 @@ function Update () {
 	
 	//outputTextC.text = currentState;
 	// END OF DEBUGGING
-	
+	if( GameState.Count < 2){
+		return;
+	}
 	// Test GameState against rules	
 	getRules.Test(GameState); // <- call rulefunction before ClearData. 
 	
@@ -316,7 +318,7 @@ function MakeGrid( ): boolean {
 	if(cursorX == -1) {
   		return false; //can't find entry point in the world matrix this is not possible , stupid
 	}
-
+	GameState.Clear();
 	for (var y : int  = 0 ; y < GRID_COLUMN_SIZE ; y++){
 
 		for (var x : int  = 0 ; x < GRID_ROW_SIZE ; x++){
@@ -324,20 +326,17 @@ function MakeGrid( ): boolean {
 
 			if(x < (GRID_ROW_SIZE - 1) && WorldState[cursorX+Sides.LEFT] != -1) {
 				cursorX = WorldState[cursorX+Sides.LEFT] * NUMBER_OF_SIDES;
-			} else if (x != GRID_ROW_SIZE-1){
-				return false;
 			}
 		}
 		if(WorldState[cursorY+Sides.FRONT] != -1) {
 			cursorY = WorldState[cursorY+Sides.FRONT] * NUMBER_OF_SIDES;
 			cursorX = cursorY;
-		} else { return false; }
+		} else
+		if(y == (GRID_COLUMN_SIZE - 1) && GameState.Count == GRID_SIZE){ 
+			return true; // found correct solution
+		} else {
+			return false; // did not find correct solution
+		}
 	}
-	
-	if(GameState.Count != GRID_SIZE) {
-		return false; //there was something in the GameState before we started
-	} else {
-		//check victory conditions or sumting
-	 return true;
-	}
+	return true;
 }

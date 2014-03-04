@@ -216,7 +216,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100022
 GameObject:
   m_ObjectHideFlags: 1
@@ -1112,7 +1112,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &3300002
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -1770,7 +1770,7 @@ MonoBehaviour:
   MyWorldCenterC: {fileID: 0}
   myWorldState: {fileID: 0}
   getRulesFromCreation: {fileID: 0}
-  MyIdNumber: 0
+  MyIdNumber: 4
   MyDataPacket: 
 --- !u!114 &11400002
 MonoBehaviour:
@@ -1786,7 +1786,7 @@ MonoBehaviour:
   MyWorldCenterC: {fileID: 0}
   myWorldState: {fileID: 0}
   getRulesFromCreation: {fileID: 0}
-  MyIdNumber: 0
+  MyIdNumber: 1
   MyDataPacket: 
 --- !u!114 &11400004
 MonoBehaviour:
@@ -1802,7 +1802,7 @@ MonoBehaviour:
   MyWorldCenterC: {fileID: 0}
   myWorldState: {fileID: 0}
   getRulesFromCreation: {fileID: 0}
-  MyIdNumber: 0
+  MyIdNumber: 7
   MyDataPacket: 
 --- !u!114 &11400006
 MonoBehaviour:
@@ -2160,7 +2160,7 @@ MonoBehaviour:
   MyWorldCenterC: {fileID: 0}
   myWorldState: {fileID: 0}
   getRulesFromCreation: {fileID: 0}
-  MyIdNumber: 2
+  MyIdNumber: 5
   MyDataPacket: 
 --- !u!114 &11400062
 MonoBehaviour:
@@ -2176,7 +2176,7 @@ MonoBehaviour:
   MyWorldCenterC: {fileID: 0}
   myWorldState: {fileID: 0}
   getRulesFromCreation: {fileID: 0}
-  MyIdNumber: 9
+  MyIdNumber: 2
   MyDataPacket: 
 --- !u!114 &11400064
 MonoBehaviour:
@@ -2230,7 +2230,7 @@ MonoBehaviour:
   MyWorldCenterC: {fileID: 0}
   myWorldState: {fileID: 0}
   getRulesFromCreation: {fileID: 0}
-  MyIdNumber: 0
+  MyIdNumber: 9
   MyDataPacket: 
 --- !u!114 &11400072
 MonoBehaviour:
@@ -2246,7 +2246,7 @@ MonoBehaviour:
   MyWorldCenterC: {fileID: 0}
   myWorldState: {fileID: 0}
   getRulesFromCreation: {fileID: 0}
-  MyIdNumber: 5
+  MyIdNumber: 6
   MyDataPacket: 
 --- !u!114 &11400074
 MonoBehaviour:
@@ -2262,7 +2262,7 @@ MonoBehaviour:
   MyWorldCenterC: {fileID: 0}
   myWorldState: {fileID: 0}
   getRulesFromCreation: {fileID: 0}
-  MyIdNumber: 4
+  MyIdNumber: 3
   MyDataPacket: 
 --- !u!114 &11400076
 MonoBehaviour:
@@ -2294,8 +2294,8 @@ MonoBehaviour:
   MyWorldCenterC: {fileID: 0}
   myWorldState: {fileID: 0}
   getRulesFromCreation: {fileID: 0}
-  MyIdNumber: 3
-  MyDataPacket: 
+  MyIdNumber: 0
+  MyDataPacket: RABAGASHATA
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

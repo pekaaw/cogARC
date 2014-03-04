@@ -81,9 +81,18 @@ public function setFinishState(newState : List.<int>) {
 
 public function Test (boxes : List.<int>){
 //::::::::::this block of code is only to stabilize the input[start]::::::::::::
-	historyGameState3 = historyGameState2;
-	historyGameState2 = historyGameState1;
-	historyGameState1 = boxes.ToArray();
+
+	var currentState : String = ""; 
+	for(var d : int  = 0 ; d < boxes.Count ; d++) {
+		currentState += boxes[d] + " ";
+	}
+
+ 	outputTextC2.text = currentState;
+
+	
+	historyGameState2 = historyGameState1; // order 2
+	historyGameState3 = historyGameState2;// order 1
+	historyGameState1 = boxes.ToArray(); //order 3
 	
 	if(!historyGameState3 || historyGameState3.length != historyGameState1.Length || historyGameState3.length != historyGameState2.length) {
 		return;
@@ -96,12 +105,7 @@ public function Test (boxes : List.<int>){
 	}
 	//::::::::::this block of code is only to stabilize the input[end]::::::::::::
 
-	var currentState : String = ""; 
-	for(var d : int  = 0 ; d < historyGameState1.length ; d++) {
-		currentState += historyGameState1[d] + " ";
-	}
-
- 	outputTextC2.text = currentState;
+	
  
 	functionPointer(boxes);
 	if(FinishState.Count < 1){

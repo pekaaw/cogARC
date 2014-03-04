@@ -112,7 +112,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.88521194, y: 0, z: 26.8151188}
+  m_LocalPosition: {x: -3.88521194, y: -1.52580261, z: 26.8151188}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}
@@ -258,7 +258,7 @@ TextMesh:
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   m_Color:
     serializedVersion: 2
-    rgba: 4278190335
+    rgba: 4294904832
 --- !u!102 &10200002
 TextMesh:
   serializedVersion: 3
@@ -438,7 +438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelCreator: {fileID: 11400012}
   outputTextC: {fileID: 10200002}
-  outputTextC2: {fileID: 0}
+  outputTextC2: {fileID: 10200000}
   FinishState: 
 --- !u!114 &11400016
 MonoBehaviour:

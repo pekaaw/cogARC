@@ -11,6 +11,7 @@ public var MyDataPacket : String; //this boxs data
 
 function Awake() {
 
+
 }
 
 function Start () {
@@ -19,7 +20,7 @@ function Start () {
 	myWorldState = tempObjectForFindingScripts.GetComponent(WorldState);
 	getRulesFromCreation = tempObjectForFindingScripts.GetComponent(LevelCreator);
 	tempObjectForFindingScripts =  GameObject.FindGameObjectWithTag ("MyWorldCenter");
-	
+	MyWorldCenterC = tempObjectForFindingScripts.GetComponent(GyroRotor);
 	RuleEnum = getRulesFromCreation.RuleEnum;
 	
 	
