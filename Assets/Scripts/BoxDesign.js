@@ -7,6 +7,9 @@ class BoxDesign extends System.Object {
 	public var TextColor : UnityEngine.Color = Color.white;
 	public var BoxText : String = "";
 
+	public function BoxDesign() {
+	}
+
 	public function BoxDesign( boxDesign : BoxDesign ) {
 		BoxColor = boxDesign.BoxColor;
 		BoxImage = boxDesign.BoxImage;
