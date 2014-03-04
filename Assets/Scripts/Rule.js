@@ -84,14 +84,13 @@ public function Test (boxes : List.<int>){
 
 	var currentState : String = ""; 
 	for(var d : int  = 0 ; d < boxes.Count ; d++) {
-		currentState += boxes[d] + " ";
+		currentState += CubesData[boxes[d]] + " ";
 	}
 
  	outputTextC2.text = currentState;
 
-	
-	historyGameState2 = historyGameState1; // order 2
 	historyGameState3 = historyGameState2;// order 1
+	historyGameState2 = historyGameState1; // order 2
 	historyGameState1 = boxes.ToArray(); //order 3
 	
 	if(!historyGameState3 || historyGameState3.length != historyGameState1.Length || historyGameState3.length != historyGameState2.length) {
@@ -148,15 +147,17 @@ private function TowerTester (boxes : List.<int>) {
 	
 	
 	
+	
 }
 
 private function GridTester (boxes : List.<int>) {
 	Debug.Log("Grid");
 	for (var c : int = 0 ; c < FinishState.Count ; c++){
-		if (c == boxes.Count || boxes[c] != FinishState[c]) {
+		if (c == boxes.Count || CubesData[boxes[c]] != FinishState[c]) {
 			return;
 		}
 	}
+	FinishState.Clear();
 	Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 }
 
