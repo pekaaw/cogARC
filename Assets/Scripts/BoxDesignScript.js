@@ -15,16 +15,21 @@ class BoxDesignScript extends MonoBehaviour {
 		cubeHandle = new GameObject();
 		cubeHandle.name = "GameObject from BoxDesignScript";
 		cubeHandle.transform.parent = gameObject.transform.parent;
-		cubeHandle.transform.Rotate( 90, 0, 0 );
-		cubeHandle.transform.position = Vector3(0.0, 0.01, 0.0 );
+		cubeHandle.transform.rotation = Quaternion.identity;
+		cubeHandle.transform.Rotate( Vector3( 90, 0, 0) );
+		//cubeHandle.transform.rotation = Quaternion( 90, 0, 0, 0 ); //  Rotate( 90, 0, 0 );
+		//cubeHandle.transform.localRotation = Quaternion( 90, 0, 0, 0 );
+		cubeHandle.transform.localPosition = Vector3( 0.0, 0.01, 0.0 );
+		//cubeHandle.transform.position = Vector3( 0.0, 0.01, 0.0 );
 		
 		// Add a MeshRenderer with textshader
 		textRenderer = cubeHandle.AddComponent(MeshRenderer);
-		textRenderer.material.shader = Shader.Find("GUI/Text Shader");
-		textRenderer.material = Resources.Load("Assets/Gudea-Regular.ttf");
+		//textRenderer.material.shader = Shader.Find("GUI/Text Shader");
+		textRenderer.material = Resources.Load("Gudea-Bold", Material);
 		
 		// Add a TextMesh with text
 		cubeText = cubeHandle.AddComponent(TextMesh);
+		cubeText.font = Resources.Load("Gudea-Bold", Font);
 		cubeText.anchor = TextAnchor.MiddleCenter;
 		cubeText.text = "Heiaa!";
 		
