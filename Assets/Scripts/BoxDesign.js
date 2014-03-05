@@ -2,12 +2,15 @@
 
 class BoxDesign extends System.Object {
 
-	public var BoxColor : UnityEngine.Color = Color.gray;
+	public var BoxColor : UnityEngine.Color;
 	public var BoxImage : UnityEngine.Texture;
-	public var TextColor : UnityEngine.Color = Color.white;
-	public var BoxText : String = "";
+	public var TextColor : UnityEngine.Color;
+	public var BoxText : String;
 
 	public function BoxDesign() {
+		BoxColor = Color.gray;
+		TextColor = Color.white;
+		BoxText = "";
 	}
 
 	public function BoxDesign( boxDesign : BoxDesign ) {
