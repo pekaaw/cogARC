@@ -2,15 +2,50 @@
 
 class BoxDesignScript extends MonoBehaviour {
 
-	private var cubeHandle : GameObject;
-	
-	public var cubeText : UnityEngine.TextMesh;
-	
-	public var textRenderer : UnityEngine.MeshRenderer;
-	//public var cubeRenderer : UnityEngine.Renderer;
-	//public var cubeText2 : TextMesh = null;
+	public var design : BoxDesign;
+	public var fontName : String;
 
+	private var cubeHandle : GameObject;
+	private var cubeText : UnityEngine.TextMesh;
+	private var textRenderer : UnityEngine.MeshRenderer;
+	//private var fontName : String;
+
+	function BoxDesignScript() {
+		design = new BoxDesign();
+		design.BoxText = "Box";
+		fontName = "Gudea-Bold";
+	}
+	
+	function BoxDesignScript( boxDesign : BoxDesign ) {
+		BoxDesignScript();
+		design = boxDesign;
+	}
+	
+	function BoxDesignScript( font : String ) {
+		BoxDesignScript();
+		fontName = font;
+	}
+	
+	function BoxDesignScript( boxDesign : BoxDesign, font : String ) {
+		design = boxDesign;
+		fontName = font;
+	}
+	
+	public function setDesign( boxDesign : BoxDesign ) {
+		// TODO: change TextMesh according to boxDesign
+	}
+
+	public function setupBoxDesign() {
+		Awake();
+	}
+	
+	function Awake() {
+		cubeHandle = new GameObject();
+	}
+	
 	function Start() {
+		// TODO: Setup for TextMesh
+		
 		// Create GameObject to put text on. Bind it to box.
 		cubeHandle = new GameObject();
 		cubeHandle.name = "GameObject from BoxDesignScript";
@@ -25,11 +60,12 @@ class BoxDesignScript extends MonoBehaviour {
 		// Add a MeshRenderer with textshader
 		textRenderer = cubeHandle.AddComponent(MeshRenderer);
 		//textRenderer.material.shader = Shader.Find("GUI/Text Shader");
-		textRenderer.material = Resources.Load("Gudea-Bold", Material);
+		textRenderer.material = Resources.Load(fontName, Material);
 		
 		// Add a TextMesh with text
 		cubeText = cubeHandle.AddComponent(TextMesh);
-		cubeText.font = Resources.Load("Gudea-Bold", Font);
+		cubeText.font = Resources.Load(fontName, Font);
+		cubeText.color = design.TextColor;
 		cubeText.anchor = TextAnchor.MiddleCenter;
 		cubeText.text = "Heiaa!";
 		
