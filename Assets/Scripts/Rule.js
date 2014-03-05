@@ -7,6 +7,9 @@ private var functionPointerSubRule : Function;
 var levelCreator : LevelCreator;
 	var outputTextC : UnityEngine.TextMesh;
 	var outputTextC2 : UnityEngine.TextMesh;
+	var outputTextC3 : UnityEngine.TextMesh;
+
+
 
 
 private static var historyGameState1 : int[];
@@ -19,18 +22,32 @@ var FinishState : List.<int> = new List.<int>(); //what the solution looks like 
 var CubesData : Array;		//local copy of the data contained in the 
 
 function Start () {
+
+}
+
+function Update () {
+var currentState : String = ""; 
+	for(var d : int  = 0 ; d < FinishState.Count ; d++) {
+		currentState += FinishState[d] + " ";
+	}
+
+ outputTextC.text = currentState;
+
+}
+
+public function ruleSetup(cubesObjects : Array){
 	levelCreator = gameObject.GetComponent(LevelCreator);
 	CubesData = new Array();
 	var tempString : String = "BHARLG";
-	var cubesObjects : Array =  GameObject.FindGameObjectsWithTag("Player");
+	
+	for(var qbs : int = 0; qbs < levelCreator.numberOfCubes; qbs ++) {
+		CubesData.Push("BHARLG");
+	}
 	for(var cube : UnityEngine.GameObject in cubesObjects) {
-		tempString = cube.GetComponent(BoxCollisionScript).MyDataPacket + ", ";
-//		tempString += cube.GetComponent(BoxCollisionScript).MyIdNumber + " ,"; 
-		CubesData.Push(tempString);
+		tempString = cube.GetComponent(BoxCollisionScript).MyDataPacket + "";
+		CubesData[cube.GetComponent(BoxCollisionScript).MyIdNumber] = tempString;
 
 	 }
-
-	tempString = "dsdfs";
 	switch(levelCreator.RuleEnum) {
 		case ruleFunction.Pair: 
 			functionPointer = PairTester;
@@ -60,15 +77,6 @@ function Start () {
 			functionPointerSubRule = AnyWordTester;
 			break;
 	}
-}
-
-function Update () {
-var currentState : String = ""; 
-	for(var d : int  = 0 ; d < FinishState.Count ; d++) {
-		currentState += FinishState[d] + " ";
-	}
-
- outputTextC.text = currentState;
 
 }
 
@@ -82,12 +90,7 @@ public function setFinishState(newState : List.<int>) {
 public function Test (boxes : List.<int>){
 //::::::::::this block of code is only to stabilize the input[start]::::::::::::
 
-	var currentState : String = ""; 
-	for(var d : int  = 0 ; d < boxes.Count ; d++) {
-		currentState += CubesData[boxes[d]] + " ";
-	}
-
- 	outputTextC2.text = currentState;
+	
 
 	historyGameState3 = historyGameState2;// order 1
 	historyGameState2 = historyGameState1; // order 2
@@ -104,7 +107,7 @@ public function Test (boxes : List.<int>){
 	}
 	//::::::::::this block of code is only to stabilize the input[end]::::::::::::
 
-	
+
  
 	functionPointer(boxes);
 	if(FinishState.Count < 1){
@@ -152,8 +155,12 @@ private function TowerTester (boxes : List.<int>) {
 
 private function GridTester (boxes : List.<int>) {
 	Debug.Log("Grid");
+	var tempString : String;
+	var tempInt : int;
 	for (var c : int = 0 ; c < FinishState.Count ; c++){
-		if (c == boxes.Count || CubesData[boxes[c]] != FinishState[c]) {
+	tempString = CubesData[boxes[c]];
+	tempInt = parseInt(tempString);
+		if (c == boxes.Count || tempInt != FinishState[c]) {
 			return;
 		}
 	}

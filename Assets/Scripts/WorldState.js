@@ -319,13 +319,21 @@ function MakeGrid( ): boolean {
   		return false; //can't find entry point in the world matrix this is not possible , stupid
 	}
 	GameState.Clear();
-	for (var y : int  = 0 ; y < GRID_COLUMN_SIZE ; y++){
+	for (var y : int  = 0 ; y < GRID_COLUMN_SIZE ; y++)
+	{
 
-		for (var x : int  = 0 ; x < GRID_ROW_SIZE ; x++){
+		for (var x : int  = 0 ; x < GRID_ROW_SIZE ; x++)
+		{
 			GameState.Add(cursorX/NUMBER_OF_SIDES);
 
-			if(x < (GRID_ROW_SIZE - 1) && WorldState[cursorX+Sides.LEFT] != -1) {
-				cursorX = WorldState[cursorX+Sides.LEFT] * NUMBER_OF_SIDES;
+			if(x < (GRID_ROW_SIZE - 1)) 
+			{
+				if( WorldState[cursorX+Sides.LEFT] != -1) 
+				{
+					cursorX = WorldState[cursorX+Sides.LEFT] * NUMBER_OF_SIDES;
+				} else {
+					return false;
+				}
 			}
 		}
 		if(WorldState[cursorY+Sides.FRONT] != -1) {

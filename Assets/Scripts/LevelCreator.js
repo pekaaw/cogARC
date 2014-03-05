@@ -1,4 +1,5 @@
 ﻿#pragma strict
+												var outputTextC4 : UnityEngine.TextMesh;
 
 private var pauseScript : PauseScreenScript;
 private var ruleScript : Rule;
@@ -11,6 +12,8 @@ private var functionPointerSubCreator : Function;
 public enum ruleFunction { Grid, Pair, Tower, HumanReadable};
 public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
 var currentSubRule : subRule;
+
+private var cubeDesignsArray : Array = new Array();
 
 private var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
 private var sortedCubes : Array = new Array();
@@ -29,6 +32,10 @@ final private var colorsUsedForGrid : int = 2;
 
 function Awake() {
 	Debug.Log(RuleEnum);
+	for(var q : int = 0 ; q < numberOfCubes; q++) {
+		cubeDesignsArray.push(BoxDesign);
+	}
+	
 	pauseScript = gameObject.GetComponent(PauseScreenScript);
 	ruleScript =  gameObject.GetComponent(Rule);
 	LoadLevel();
@@ -91,6 +98,9 @@ public function redoCreation() {
 		break;
 	default: break;
 	}
+	
+	
+	ruleScript.ruleSetup(unsortedCubes);
 	
 	
 	for(var c: int = 0; c < 10; c++) {
@@ -175,6 +185,11 @@ private function presetGridDataBeforeSort(){
 private function GridCreator () {
 	Debug.Log("Grid");
 	var tempInt : int;
+	
+	
+	var currentState : String = ""; 
+	
+
 	for(var cube : GameObject in sortedCubes){
 		tempInt = parseInt(cube.GetComponent(BoxCollisionScript).MyDataPacket);
 		Debug.Log("tempInt is: " + tempInt);
@@ -183,7 +198,10 @@ private function GridCreator () {
 				return;
 			}
 			FinishState.Add(tempInt);
+			currentState += cube.GetComponent(BoxCollisionScript).MyIdNumber + " ";
 		}
+			outputTextC4.text = currentState;
+
 	}
 }
 

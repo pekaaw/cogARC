@@ -54,7 +54,7 @@ function collisionIsVertical (ownPos : UnityEngine.Vector3, otherPos : UnityEngi
 	var ZAngle : float = Vector3.Angle(gyroUnitZVec3,differenceVector);
 	if(YAngle < verticalRange) 
 	{
-		outputTextC.text = "TOP";
+	//	outputTextC.text = "TOP";
 	
 		return Sides.TOP;
 	} 
@@ -87,7 +87,7 @@ function collisionIsVertical (ownPos : UnityEngine.Vector3, otherPos : UnityEngi
 		}
 		*/
 	} else {
-		outputTextC.text = "Bottom";
+	//	outputTextC.text = "Bottom";
 		return Sides.BOTTOM;
 	}
 }

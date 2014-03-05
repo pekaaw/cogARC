@@ -1,23 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\BoxCollisionScript.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Rule.js">
     <Files>
-      <File FileName="Assets\Scripts\LevelCreator.js" Line="108" Column="1" />
+      <File FileName="Assets\Scripts\WorldState.js" Line="311" Column="20" />
+      <File FileName="Assets\Scripts\LevelCreator.js" Line="15" Column="34" />
       <File FileName="Assets\Scripts\PauseScreenScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Rule.js" Line="86" Column="36" />
-      <File FileName="Assets\Scripts\WorldState.js" Line="91" Column="3" />
+      <File FileName="Assets\Scripts\Rule.js" Line="49" Column="22" />
       <File FileName="Assets\Scripts\BoxCollisionScript.js" Line="46" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\LevelCreator.js" line="159" />
-      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\LevelCreator.js" line="161" />
-      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\LevelCreator.js" line="178" />
-      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\LevelCreator.js" line="179" />
-      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\Rule.js" line="92" />
-      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\WorldState.js" line="118" />
-      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\WorldState.js" line="119" />
+      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\WorldState.js" line="127" />
+      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\WorldState.js" line="128" />
+      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\WorldState.js" line="353" />
+      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\WorldState.js" line="102" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
