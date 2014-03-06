@@ -20,20 +20,28 @@ class BoxDesignScript extends MonoBehaviour {
 		fontName = font;
 	}
 	
-	public function setDesign( boxDesign : BoxDesign ) {
+	public function setDesign( boxDesign : BoxDesign, designType : CubeDesignEnum ) {
 	
 		// store design
 		design = boxDesign;
 		
 		// Set color on box
-		gameObject.renderer.material.color = design.BoxColor;
+		if( designType == CubeDesignEnum.ColouredBox ||
+				designType == CubeDesignEnum.TextAndCubeColour ) {
+			
+			gameObject.renderer.material.color = design.BoxColor;
+		}
 		
 		// Set text on box
 		if( design.BoxText ) {
-			cubeText.text = design.BoxText;
+			if( (designType == CubeDesignEnum.Text || 
+					designType == CubeDesignEnum.TextAndCubeColour) ) {
+					
+				cubeText.text = design.BoxText;
 
-			// Scale text to fit on cube
-			setLocalScale();
+				// Scale text to fit on cube
+				setLocalScale();
+			}
 		}
 		
 		// Set color on text
@@ -77,11 +85,11 @@ class BoxDesignScript extends MonoBehaviour {
 	function Start() {
 
 		{ // TEST
-			var bDesign : BoxDesign;
-			
-			bDesign = new BoxDesign();
-
-			setDesign( bDesign );
+//			var bDesign : BoxDesign;
+//			
+//			bDesign = new BoxDesign();
+//
+//			setDesign( bDesign, BoxDesignEnum.Image );
 		} // TEST ended
 	}
 	
