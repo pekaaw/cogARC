@@ -8,7 +8,6 @@ class BoxDesignScript extends MonoBehaviour {
 	private var cubeHandle : GameObject;
 	private var cubeText : UnityEngine.TextMesh;
 	private var textRenderer : UnityEngine.MeshRenderer;
-	//private var fontName : String;
 
 	function BoxDesignScript() {
 		design = new BoxDesign();
@@ -27,23 +26,35 @@ class BoxDesignScript extends MonoBehaviour {
 		design = boxDesign;
 		
 		// Set color on box
-		gameObject.renderer.material.color = design.BoxColor;
+		if( design.BoxColor ) {
+			gameObject.renderer.material.color = design.BoxColor;
+		}
 		
-		// Set text on box (with color)
-		cubeText.text = design.BoxText;
-		cubeText.color = design.TextColor;
-		
-		// Create material from texture
-		var boxMaterial : Material = new Material(Shader.Find("Transparent/Diffuse"));
-		boxMaterial.SetTexture( "_MainTex", design.BoxImage );
-		
-		// Add Material (we cannot manipulate renderer.materials directly)
-		var materials : Array = gameObject.renderer.materials;
-		materials.Add( Resources.Load("BoxPair0", UnityEngine.Material ) );
-		//materials.Add( boxMaterial );
-		gameObject.renderer.materials = materials;
+		// Set text on box
+		if( design.BoxText ) {
+			cubeText.text = design.BoxText;
 
-		setLocalScale();
+			// Scale text to fit on cube
+			setLocalScale();
+		}
+		
+		// Set color on text
+		if( design.TextColor () {
+			cubeText.color = design.TextColor;
+		}
+		
+		// If we have a texture we want on the cube
+		if( design.BoxImage ) {
+			// Create material from texture
+			var boxMaterial : Material = new Material(Shader.Find("Transparent/Diffuse"));
+			boxMaterial.SetTexture( "_MainTex", design.BoxImage );
+			
+			// Add Material (we cannot manipulate renderer.materials directly)
+			var materials : Array = gameObject.renderer.materials;
+			//materials.Add( Resources.Load("BoxPair0", UnityEngine.Material ) );
+			materials.Add( boxMaterial );
+			gameObject.renderer.materials = materials;
+		}
 	}
 
 	function Awake() {

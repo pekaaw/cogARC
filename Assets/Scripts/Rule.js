@@ -66,7 +66,7 @@ public function ruleSetup(){
 			break;
 	};
 	
-	switch(levelCreator.currentSubRule) {
+	switch(levelCreator.CurrentSubRule) {
 		case subRule.compositeNumbers: 
 			functionPointerSubRule = compositeNumbersTester;
 			break;

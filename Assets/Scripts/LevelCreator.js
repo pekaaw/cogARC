@@ -14,9 +14,11 @@ private var functionPointerPreCreator : Function;
 
 public enum ruleFunction { Grid, Pair, Tower, HumanReadable};
 public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
-var currentSubRule : subRule;
+public var CurrentSubRule : subRule;
 
 public var CubeDesignsArray : Array = new Array();
+public enum CubeDesignEnum {ColouredBox,BoxImage, Text, TextAndCubeColour};
+public var DesignEnum : CubeDesignEnum;
 
 private var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
 private var sortedCubes : Array = new Array();
@@ -95,7 +97,7 @@ public function redoCreation() {
 		functionPointerPreCreator = presetStringDataBeforeSort;
 		break;
 	}
-	switch(currentSubRule) {
+	switch(CurrentSubRule) {
 	case subRule.Addition:
 		functionPointerSubCreator = AdditionCreator;
 		break;
