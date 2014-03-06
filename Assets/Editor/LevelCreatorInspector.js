@@ -32,7 +32,7 @@ class LevelCreatorInspector extends Editor{
 		DrawDefaultInspector();
 		
 		lvlCreator = target as LevelCreator;
-		
+		EditorGUILayout.HelpBox("Default over, custom nedenfor", MessageType.None);
 		ChooseMainRule();
 		
 		ChooseDesign();
