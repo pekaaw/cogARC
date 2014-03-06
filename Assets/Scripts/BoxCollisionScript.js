@@ -19,6 +19,7 @@ function Start () {
 	tempObjectForFindingScripts =  GameObject.Find("Scripts");
 	myWorldState = tempObjectForFindingScripts.GetComponent(WorldState);
 	getRulesFromCreation = tempObjectForFindingScripts.GetComponent(LevelCreator);
+	
 	tempObjectForFindingScripts =  GameObject.Find ("RealworldaxisVisualizer");
 	if(tempObjectForFindingScripts){
 		MyWorldCenterC = tempObjectForFindingScripts.GetComponent(GyroRotor);
