@@ -30,13 +30,8 @@ class LevelCreatorInspector extends Editor{
 	var designFoldOut : boolean = false;
 	var designSameBoxColour : boolean = true;
 	var designBoxSameColour : Color;
-	var designDifferentBoxColour : Color[];
 	var designSameTextColour : boolean = true;
 	var designTextSameColour : Color;
-	var designTextDifferentColour : Color[];
-	var designTextString : String[];
-	var designDifferentBoxInfo : Array = new Array();
-	var designSameBoxInfo : Array = new Array();
 	
 	override function OnInspectorGUI () {
 		DrawDefaultInspector();
@@ -169,16 +164,15 @@ class LevelCreatorInspector extends Editor{
 		if(designSameBoxColour){
 			//designBoxSameColour
 			designBoxSameColour = EditorGUILayout.ColorField(designBoxSameColour);
-			for(var box : BoxDesign in designDifferentBoxInfo){
+			for(var box : BoxDesign in lvlCreator.CubeDesignsArray){
 				box.BoxColor = designBoxSameColour;
 			}
 		}
 		else {
-//			EditorGUILayout.PropertyField(source[0].BoxColor);
-			while(designDifferentBoxInfo.length < 10)
-				designDifferentBoxInfo.Push(new BoxDesign());
+			while(lvlCreator.CubeDesignsArray.length < 10)
+				lvlCreator.CubeDesignsArray.Push(new BoxDesign());
 				
-			for(var box : BoxDesign in designDifferentBoxInfo){
+			for(var box : BoxDesign in lvlCreator.CubeDesignsArray){
 				box.BoxColor = EditorGUILayout.ColorField(box.BoxColor);
 			}
 		}
@@ -186,38 +180,38 @@ class LevelCreatorInspector extends Editor{
 	
 	function BoxImage () {
 		//Collect images
-		while(designDifferentBoxInfo.length < 10){
-			designDifferentBoxInfo.Push(new BoxDesign());
+		while(lvlCreator.CubeDesignsArray.length < 10){
+			lvlCreator.CubeDesignsArray.Push(new BoxDesign());
 		}
 		if(curRule != ruleFunction.Pair){
-			for(var box : BoxDesign in designDifferentBoxInfo){
+			for(var box : BoxDesign in lvlCreator.CubeDesignsArray){
 				box.BoxImage = EditorGUILayout.ObjectField(box.BoxImage,Texture, true) as Texture;
 			}
 		}
 		else{
-			for(var c : int = 0; c < designDifferentBoxInfo.length; c+=2){
-				(designDifferentBoxInfo[c] as BoxDesign).BoxImage = EditorGUILayout.ObjectField((designDifferentBoxInfo[c] as BoxDesign).BoxImage,
+			for(var c : int = 0; c < lvlCreator.CubeDesignsArray.length; c+=2){
+				(lvlCreator.CubeDesignsArray[c] as BoxDesign).BoxImage = EditorGUILayout.ObjectField((lvlCreator.CubeDesignsArray[c] as BoxDesign).BoxImage,
 				Texture, true) as Texture;
-				(designDifferentBoxInfo[c+1] as BoxDesign).BoxImage = (designDifferentBoxInfo[c] as BoxDesign).BoxImage;
+				(lvlCreator.CubeDesignsArray[c+1] as BoxDesign).BoxImage = (lvlCreator.CubeDesignsArray[c] as BoxDesign).BoxImage;
 			}
 			
 		}
 	}
 	
 	function BoxText () {
-		while(designDifferentBoxInfo.length < 10){
-			designDifferentBoxInfo.Push(new BoxDesign());
+		while(lvlCreator.CubeDesignsArray.length < 10){
+			lvlCreator.CubeDesignsArray.Push(new BoxDesign());
 		}
 		
 		designSameTextColour = EditorGUILayout.Toggle("Same coloured text?", designSameTextColour);
 		if(designSameTextColour){
 			//designTextSameColour
 			designTextSameColour = EditorGUILayout.ColorField(designTextSameColour);
-			for(var box: BoxDesign in designDifferentBoxInfo){
+			for(var box: BoxDesign in lvlCreator.CubeDesignsArray){
 				box.TextColor = designTextSameColour;
 			}
 		}
-		for(var box : BoxDesign in designDifferentBoxInfo){
+		for(var box : BoxDesign in lvlCreator.CubeDesignsArray){
 			box.BoxText = EditorGUILayout.TextField("Text:",box.BoxText);
 			if(!designSameTextColour){
 				box.TextColor = EditorGUILayout.ColorField("Colour:",box.TextColor);

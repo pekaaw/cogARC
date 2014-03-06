@@ -13,7 +13,7 @@ public enum ruleFunction { Grid, Pair, Tower, HumanReadable};
 public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
 var currentSubRule : subRule;
 
-private var cubeDesignsArray : Array = new Array();
+public var CubeDesignsArray : Array = new Array();
 
 private var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
 private var sortedCubes : Array = new Array();
@@ -33,7 +33,7 @@ final private var colorsUsedForGrid : int = 2;
 function Awake() {
 	Debug.Log(RuleEnum);
 	for(var q : int = 0 ; q < numberOfCubes; q++) {
-		cubeDesignsArray.push(BoxDesign);
+		CubeDesignsArray.push(BoxDesign);
 	}
 	
 	pauseScript = gameObject.GetComponent(PauseScreenScript);
