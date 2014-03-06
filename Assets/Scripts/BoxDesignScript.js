@@ -33,7 +33,7 @@ class BoxDesignScript extends MonoBehaviour {
 		}
 		
 		// Set text on box
-		if( design.BoxText ) {
+		if( !design.BoxText.Empty ) {
 			if( (designType == CubeDesignEnum.Text || 
 					designType == CubeDesignEnum.TextAndCubeColour) ) {
 					
