@@ -106,11 +106,16 @@ public function Test (boxes : List.<int>){
 		}
 	}
 	//::::::::::this block of code is only to stabilize the input[end]::::::::::::
-
-
+	var currentdebugstate : String = "";
+	
+	for ( var f:int = 0 ; f < historyGameState1.length;f++) {
+		currentdebugstate += historyGameState1[f] + " ";
+	}
+	outputTextC2.text = currentdebugstate;
  
 	functionPointer(boxes);
 	if(FinishState.Count < 1){
+		levelCreator.LoadLevel();
 		//congrats, save score, load next level
 	}
 }
@@ -155,11 +160,11 @@ private function TowerTester (boxes : List.<int>) {
 
 private function GridTester (boxes : List.<int>) {
 	Debug.Log("Grid");
-	var tempString : String;
-	var tempInt : int;
+	var tempString : String; //because unity is being a Bitch.
+	var tempInt : int;//because unity is being a Bitch.
 	for (var c : int = 0 ; c < FinishState.Count ; c++){
-	tempString = CubesData[boxes[c]];
-	tempInt = parseInt(tempString);
+	tempString = CubesData[boxes[c]];//because unity is being a Bitch.
+	tempInt = parseInt(tempString);//because unity is being a Bitch.
 		if (c == boxes.Count || tempInt != FinishState[c]) {
 			return;
 		}
