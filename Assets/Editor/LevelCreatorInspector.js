@@ -44,8 +44,7 @@ class LevelCreatorInspector extends Editor{
 	}
 	
 	function ChooseMainRule() {
-		curRule = EditorGUILayout.EnumPopup("Select rule:",curRule);
-		lvlCreator.RuleEnum = curRule;
+		lvlCreator.RuleEnum = EditorGUILayout.EnumPopup("Select rule:",lvlCreator.RuleEnum);
 		
 		if (curRule == ruleFunction.Grid){
 			Grid();
