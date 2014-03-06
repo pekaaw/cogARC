@@ -16,11 +16,15 @@ function Awake() {
 
 function Start () {
 	var tempObjectForFindingScripts : UnityEngine.GameObject;
-	tempObjectForFindingScripts =  GameObject.FindGameObjectWithTag ("MainCamera");
+	tempObjectForFindingScripts =  GameObject.Find("Scripts");
 	myWorldState = tempObjectForFindingScripts.GetComponent(WorldState);
 	getRulesFromCreation = tempObjectForFindingScripts.GetComponent(LevelCreator);
 	tempObjectForFindingScripts =  GameObject.FindGameObjectWithTag ("MyWorldCenter");
-	MyWorldCenterC = tempObjectForFindingScripts.GetComponent(GyroRotor);
+	if(tempObjectForFindingScripts){
+		MyWorldCenterC = tempObjectForFindingScripts.GetComponent(GyroRotor);
+	} else {
+		Application.Quit();
+	}
 	RuleEnum = getRulesFromCreation.RuleEnum;
 	
 	
