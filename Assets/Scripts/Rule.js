@@ -63,7 +63,7 @@ public function ruleSetup(cubesObjects : Array){
 			break;
 	};
 	
-	switch(levelCreator.currentSubRule) {
+	switch(levelCreator.CurrentSubRule) {
 		case subRule.compositeNumbers: 
 			functionPointerSubRule = compositeNumbersTester;
 			break;
