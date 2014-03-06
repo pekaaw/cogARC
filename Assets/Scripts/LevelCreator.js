@@ -38,7 +38,7 @@ final private var colorsUsedForGrid : int = 2;
 function Awake() {
 	Debug.Log(RuleEnum);
 	for(var q : int = 0 ; q < numberOfCubes; q++) {
-		CubeDesignsArray.push(BoxDesign);
+		CubeDesignsArray.push(new BoxDesign());
 	}
 	
 	pauseScript = gameObject.GetComponent(PauseScreenScript);
