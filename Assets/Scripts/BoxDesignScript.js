@@ -48,8 +48,8 @@ class BoxDesignScript extends MonoBehaviour {
 		}
 
 		// If we have a texture we want on the cube
-		if( design.BoxImage ) {
-			if( designType == CubeDesignEnum.BoxImage ) {
+		if( designType == CubeDesignEnum.BoxImage ) {
+			if( design.BoxImage ) {
 				// Create material from texture
 				var boxMaterial : Material = new Material(Shader.Find("Transparent/Diffuse"));
 				boxMaterial.SetTexture( "_MainTex", design.BoxImage );
