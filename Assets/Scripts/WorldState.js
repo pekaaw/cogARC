@@ -35,6 +35,9 @@ var WorldState : int[];
 
 
 function Start() {
+	getGodOfCreation = GameObject.Find("Scripts").GetComponent(LevelCreator);
+	getRules = GameObject.Find("Scripts").GetComponent(Rule);
+
 
 	// Get ruleSet from LevelCreator
 	RuleEnum = getGodOfCreation.RuleEnum;
