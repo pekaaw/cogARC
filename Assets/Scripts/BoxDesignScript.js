@@ -26,9 +26,7 @@ class BoxDesignScript extends MonoBehaviour {
 		design = boxDesign;
 		
 		// Set color on box
-		if( design.BoxColor ) {
-			gameObject.renderer.material.color = design.BoxColor;
-		}
+		gameObject.renderer.material.color = design.BoxColor;
 		
 		// Set text on box
 		if( design.BoxText ) {
@@ -39,10 +37,8 @@ class BoxDesignScript extends MonoBehaviour {
 		}
 		
 		// Set color on text
-		if( design.TextColor () {
-			cubeText.color = design.TextColor;
-		}
-		
+		cubeText.color = design.TextColor;
+
 		// If we have a texture we want on the cube
 		if( design.BoxImage ) {
 			// Create material from texture
