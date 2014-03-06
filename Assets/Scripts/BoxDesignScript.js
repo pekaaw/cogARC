@@ -41,23 +41,25 @@ class BoxDesignScript extends MonoBehaviour {
 
 				// Scale text to fit on cube
 				setLocalScale();
+		
+				// Set color on text
+				cubeText.color = design.TextColor;
 			}
 		}
-		
-		// Set color on text
-		cubeText.color = design.TextColor;
 
 		// If we have a texture we want on the cube
 		if( design.BoxImage ) {
-			// Create material from texture
-			var boxMaterial : Material = new Material(Shader.Find("Transparent/Diffuse"));
-			boxMaterial.SetTexture( "_MainTex", design.BoxImage );
-			
-			// Add Material (we cannot manipulate renderer.materials directly)
-			var materials : Array = gameObject.renderer.materials;
-			//materials.Add( Resources.Load("BoxPair0", UnityEngine.Material ) );
-			materials.Add( boxMaterial );
-			gameObject.renderer.materials = materials;
+			if( designType == CubeDesignEnum.BoxImage ) {
+				// Create material from texture
+				var boxMaterial : Material = new Material(Shader.Find("Transparent/Diffuse"));
+				boxMaterial.SetTexture( "_MainTex", design.BoxImage );
+				
+				// Add Material (we cannot manipulate renderer.materials directly)
+				var materials : Array = gameObject.renderer.materials;
+				//materials.Add( Resources.Load("BoxPair0", UnityEngine.Material ) );
+				materials.Add( boxMaterial );
+				gameObject.renderer.materials = materials;
+			}
 		}
 	}
 
