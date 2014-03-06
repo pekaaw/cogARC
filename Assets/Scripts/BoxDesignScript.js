@@ -23,7 +23,17 @@ class BoxDesignScript extends MonoBehaviour {
 	public function setDesign( boxDesign : BoxDesign, designType : CubeDesignEnum ) {
 	
 		// store design
+		//design = new BoxDesign(); //boxDesign;
 		design = boxDesign;
+		//design.BoxText = "TestingTesting";
+		
+		Debug.Log("setDesign is running");
+		
+		//Debug.Log( "boxDesign: " );
+		//Debug.Log( design.BoxText );
+		//if( !boxDesign ) {
+		//	Debug.Log("boxDesign er null!");
+		//}
 		
 		// Set color on box
 		if( designType == CubeDesignEnum.ColouredBox ||
@@ -49,7 +59,7 @@ class BoxDesignScript extends MonoBehaviour {
 
 		// If we have a texture we want on the cube
 		if( designType == CubeDesignEnum.BoxImage ) {
-			if( design.BoxImage ) {
+			if( design.BoxImage != null) {
 				// Create material from texture
 				var boxMaterial : Material = new Material(Shader.Find("Transparent/Diffuse"));
 				boxMaterial.SetTexture( "_MainTex", design.BoxImage );
@@ -79,9 +89,11 @@ class BoxDesignScript extends MonoBehaviour {
 		// Add a TextMesh with text
 		cubeText = cubeHandle.AddComponent(TextMesh);
 		cubeText.font = Resources.Load(fontName, Font);
-		cubeText.color = design.TextColor;
+		//cubeText.color = design.TextColor;
 		cubeText.anchor = TextAnchor.MiddleCenter;
-		cubeText.text = design.BoxText;
+		//cubeText.text = design.BoxText;
+		
+		Debug.Log("awake is running");
 	}
 	
 	function Start() {
@@ -103,6 +115,10 @@ class BoxDesignScript extends MonoBehaviour {
 		// Get size and calculate new scaling to get text to fit
 		renderingSize = textRenderer.bounds.size;
 		newScale = 1 / renderingSize.x;
+		
+		if( newScale == Mathf.Infinity ) {
+			newScale = 1;
+		}
 		
 		// Change scale of text so that it will fit onto the cube
 		cubeText.transform.localScale = Vector2( newScale, newScale );
