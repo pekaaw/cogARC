@@ -9,6 +9,8 @@ public var RuleEnum : ruleFunction;
 
 private var functionPointerCreator : Function;
 private var functionPointerSubCreator : Function;
+private var functionPointerPreCreator : Function;
+
 
 public enum ruleFunction { Grid, Pair, Tower, HumanReadable};
 public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
@@ -19,7 +21,7 @@ public var CubeDesignsArray : Array = new Array();
 private var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
 private var sortedCubes : Array = new Array();
 //var unsortedCubesIDs : Array = new Array(); //the cubes Ids to be added to the FinishState.
-var numberOfCubes : int = 9;
+var numberOfCubes : int = 10;
 var FinishState : List.<int> = new List.<int>(); //what the solution looks like for games execpt 
 													//"Woords" with needs multiple solutions at once.
 													
@@ -27,8 +29,8 @@ var FinishState : List.<int> = new List.<int>(); //what the solution looks like 
 var numberOfLevels:int = 9;
 private var currentLevel: int = 0; // last level is one less than number of levels, starts at 0
 
-public var gridMinValue : int = 5;
-public var gridMaxValue : int = 9;
+public var gridMinValue : int;
+public var gridMaxValue : int;
 final private var colorsUsedForGrid : int = 2;
 
 function Awake() {
@@ -86,10 +88,11 @@ public function redoCreation() {
 		break;
 	case ruleFunction.Grid:
 		functionPointerCreator = GridCreator;
-		presetGridDataBeforeSort();
+		functionPointerPreCreator = presetGridDataBeforeSort;
 		break;
 	case ruleFunction.HumanReadable: 
 		functionPointerCreator = HumanReadableCreator;
+		functionPointerPreCreator = presetStringDataBeforeSort;
 		break;
 	}
 	switch(currentSubRule) {
@@ -108,11 +111,12 @@ public function redoCreation() {
 	default: break;
 	}
 	
+	functionPointerPreCreator(); // set some data before the cubes are randomized
 	
-	ruleScript.ruleSetup(unsortedCubes);
+	ruleScript.ruleSetup(); // sets the rules in the rulescript
+	ruleScript.MakeLocalCopyPacketData(unsortedCubes); //sets an array with copies of the cobes datapackets. for reference when checking finishstate.
 	
-	
-	for(var c: int = 0; c < 10; c++) {
+	for(var c: int = 0; c < numberOfCubes; c++) {
 		nextIndex = Random.Range(0,unsortedCubes.Count); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
 		nextItem = unsortedCubes[nextIndex];
 		sortedCubes.Add(nextItem);
@@ -168,6 +172,28 @@ private function TowerCreator () {
 	Debug.Log("Tower");
 }
 
+
+
+
+
+
+
+
+
+
+
+private function presetStringDataBeforeSort() {
+
+
+
+}
+
+
+
+
+
+
+
 private function presetGridDataBeforeSort(){
 	var q: int = 0;
 	var coloredTitles:int =  Mathf.Lerp(gridMinValue, gridMaxValue, currentLevel/numberOfLevels);
@@ -179,12 +205,14 @@ private function presetGridDataBeforeSort(){
 	 		cube.renderer.material.color = Color.blue;
 	 		//::TO DO::set skin colored
 	 	}
-	 	else if (q <= numberOfCubes){
+	 	else if (q < numberOfCubes-1){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "0";
 	 		cube.renderer.material.color = Color.yellow;
 	 		//::TO DO::set skin uncolored
 	 	}
 	 	else {
+	 		cube.renderer.material.color = Color.black;
+
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "" + (colorsUsedForGrid + 1) ; //not in use
 	 	}
 	 	q++;

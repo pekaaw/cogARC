@@ -146,7 +146,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.88521194, y: -3.12758589, z: 26.8151188}
+  m_LocalPosition: {x: -3.88521194, y: -1.54920149, z: 26.8151188}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}
@@ -196,7 +196,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.88521194, y: -1.52580261, z: 26.8151188}
+  m_LocalPosition: {x: -3.88521194, y: -4.56561279, z: 26.8151188}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}
@@ -358,7 +358,7 @@ TextMesh:
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   m_Color:
     serializedVersion: 2
-    rgba: 4278255379
+    rgba: 4278221311
 --- !u!102 &10200002
 TextMesh:
   serializedVersion: 3
@@ -560,13 +560,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c23a4dcb40e8d94db16ad493b2313d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outputTextC4: {fileID: 0}
+  outputTextC4: {fileID: 10200000}
+  NextLevel: 0
   RuleEnum: 0
   currentSubRule: 0
   numberOfCubes: 9
   FinishState: 
   numberOfLevels: 5
-  gridMinValue: 4
+  gridMinValue: 7
   gridMaxValue: 9
 --- !u!114 &11400014
 MonoBehaviour:

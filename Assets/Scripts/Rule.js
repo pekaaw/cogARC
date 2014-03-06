@@ -35,8 +35,7 @@ var currentState : String = "";
 
 }
 
-public function ruleSetup(cubesObjects : Array){
-	levelCreator = gameObject.GetComponent(LevelCreator);
+public function MakeLocalCopyPacketData(cubesObjects : Array) {
 	CubesData = new Array();
 	var tempString : String = "BHARLG";
 	
@@ -46,8 +45,12 @@ public function ruleSetup(cubesObjects : Array){
 	for(var cube : UnityEngine.GameObject in cubesObjects) {
 		tempString = cube.GetComponent(BoxCollisionScript).MyDataPacket + "";
 		CubesData[cube.GetComponent(BoxCollisionScript).MyIdNumber] = tempString;
-
 	 }
+}
+
+public function ruleSetup(){
+	levelCreator = gameObject.GetComponent(LevelCreator);
+
 	switch(levelCreator.RuleEnum) {
 		case ruleFunction.Pair: 
 			functionPointer = PairTester;
