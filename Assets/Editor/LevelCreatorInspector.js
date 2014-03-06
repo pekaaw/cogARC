@@ -36,6 +36,8 @@ class LevelCreatorInspector extends Editor{
 		ChooseMainRule();
 		
 		ChooseDesign();
+		
+		EditorUtility.SetDirty(target);
 	}
 	
 	function ChooseMainRule() {
