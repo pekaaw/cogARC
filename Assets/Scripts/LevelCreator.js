@@ -82,9 +82,12 @@ public function redoCreation() {
 	switch(RuleEnum) {
 	case ruleFunction.Pair:
 		functionPointerCreator = PairCreator;
+		functionPointerPreCreator = NULLFUNCTION;
+
 		break;
 	case ruleFunction.Tower:
 		functionPointerCreator = TowerCreator;
+		functionPointerPreCreator = NULLFUNCTION;
 			Debug.Log("Pair");
 
 		break;
@@ -151,6 +154,7 @@ private function PairCreator () {
 		FinishState.Add(nextItem2.GetComponent(BoxCollisionScript).MyIdNumber);
 		FinishState.Add(-1);//separator to next pair
 		
+		
 		var myDebugColor : UnityEngine.Color;
 		switch(c) {
 			case 0 : myDebugColor = Color.red; break;
@@ -160,10 +164,15 @@ private function PairCreator () {
 			case 8 : myDebugColor = Color.grey; break;
 			default : myDebugColor = Color.cyan; break;
 		}
-		
+		var PPPK: int  = c/2;
+		var PPPPPk: GameObject = sortedCubes[c];
+		var PPk: BoxDesignScript = PPPPPk.GetComponent(BoxDesignScript);
+		PPk.setDesign(CubeDesignsArray[PPPK] as BoxDesign,DesignEnum);
+		(sortedCubes[c+1] as GameObject).GetComponent(BoxDesignScript).setDesign(CubeDesignsArray[PPPK],DesignEnum);
+	/*
 		(sortedCubes[c] as GameObject).renderer.material.color = myDebugColor;
 		(sortedCubes[c+1] as GameObject).renderer.material.color = myDebugColor;
-		
+	*/	
 		// set skin A[c] to cube sortedCubes[c] 
 		// set skin B[c+1] to cube sortedCubes[c+1]
 		
@@ -266,3 +275,7 @@ function AnyWordCreator(){
 	
 	}
 
+
+function NULLFUNCTION() {
+	return;
+}

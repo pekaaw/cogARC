@@ -15,6 +15,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 65: {fileID: 6500002}
   - 65: {fileID: 6500000}
+  - 114: {fileID: 11400086}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -232,6 +233,7 @@ GameObject:
   - 114: {fileID: 11400002}
   - 65: {fileID: 6500008}
   - 65: {fileID: 6500006}
+  - 114: {fileID: 11400090}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -254,6 +256,7 @@ GameObject:
   - 114: {fileID: 11400004}
   - 65: {fileID: 6500014}
   - 65: {fileID: 6500012}
+  - 114: {fileID: 11400096}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -276,6 +279,7 @@ GameObject:
   - 114: {fileID: 11400060}
   - 65: {fileID: 6500020}
   - 65: {fileID: 6500018}
+  - 114: {fileID: 11400098}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -298,6 +302,7 @@ GameObject:
   - 114: {fileID: 11400062}
   - 65: {fileID: 6500026}
   - 65: {fileID: 6500024}
+  - 114: {fileID: 11400084}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -340,6 +345,7 @@ GameObject:
   - 114: {fileID: 11400070}
   - 65: {fileID: 6500032}
   - 65: {fileID: 6500030}
+  - 114: {fileID: 11400094}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -362,6 +368,7 @@ GameObject:
   - 114: {fileID: 11400072}
   - 65: {fileID: 6500038}
   - 65: {fileID: 6500036}
+  - 114: {fileID: 11400080}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -384,6 +391,7 @@ GameObject:
   - 114: {fileID: 11400074}
   - 65: {fileID: 6500044}
   - 65: {fileID: 6500042}
+  - 114: {fileID: 11400088}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -406,6 +414,7 @@ GameObject:
   - 114: {fileID: 11400076}
   - 65: {fileID: 6500050}
   - 65: {fileID: 6500048}
+  - 114: {fileID: 11400092}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -428,6 +437,7 @@ GameObject:
   - 114: {fileID: 11400078}
   - 65: {fileID: 6500058}
   - 65: {fileID: 6500056}
+  - 114: {fileID: 11400082}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -2296,6 +2306,176 @@ MonoBehaviour:
   getRulesFromCreation: {fileID: 0}
   MyIdNumber: 0
   MyDataPacket: RABAGASHATA
+--- !u!114 &11400080
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e643ea7252ce00645aac50375b273b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  design:
+    BoxColor: {r: 1, g: .921568632, b: .0156862754, a: 1}
+    BoxImage: {fileID: 0}
+    TextColor: {r: 1, g: 1, b: 1, a: 1}
+    BoxText: Box
+  fontName: Gudea-Bold
+--- !u!114 &11400082
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e643ea7252ce00645aac50375b273b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  design:
+    BoxColor: {r: 1, g: .921568632, b: .0156862754, a: 1}
+    BoxImage: {fileID: 0}
+    TextColor: {r: 1, g: 1, b: 1, a: 1}
+    BoxText: Box
+  fontName: Gudea-Bold
+--- !u!114 &11400084
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e643ea7252ce00645aac50375b273b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  design:
+    BoxColor: {r: 1, g: .921568632, b: .0156862754, a: 1}
+    BoxImage: {fileID: 0}
+    TextColor: {r: 1, g: 1, b: 1, a: 1}
+    BoxText: Box
+  fontName: Gudea-Bold
+--- !u!114 &11400086
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e643ea7252ce00645aac50375b273b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  design:
+    BoxColor: {r: 1, g: .921568632, b: .0156862754, a: 1}
+    BoxImage: {fileID: 0}
+    TextColor: {r: 1, g: 1, b: 1, a: 1}
+    BoxText: Box
+  fontName: Gudea-Bold
+--- !u!114 &11400088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e643ea7252ce00645aac50375b273b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  design:
+    BoxColor: {r: 1, g: .921568632, b: .0156862754, a: 1}
+    BoxImage: {fileID: 0}
+    TextColor: {r: 1, g: 1, b: 1, a: 1}
+    BoxText: Box
+  fontName: Gudea-Bold
+--- !u!114 &11400090
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e643ea7252ce00645aac50375b273b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  design:
+    BoxColor: {r: 1, g: .921568632, b: .0156862754, a: 1}
+    BoxImage: {fileID: 0}
+    TextColor: {r: 1, g: 1, b: 1, a: 1}
+    BoxText: Box
+  fontName: Gudea-Bold
+--- !u!114 &11400092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e643ea7252ce00645aac50375b273b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  design:
+    BoxColor: {r: 1, g: .921568632, b: .0156862754, a: 1}
+    BoxImage: {fileID: 0}
+    TextColor: {r: 1, g: 1, b: 1, a: 1}
+    BoxText: Box
+  fontName: Gudea-Bold
+--- !u!114 &11400094
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e643ea7252ce00645aac50375b273b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  design:
+    BoxColor: {r: 1, g: .921568632, b: .0156862754, a: 1}
+    BoxImage: {fileID: 0}
+    TextColor: {r: 1, g: 1, b: 1, a: 1}
+    BoxText: Box
+  fontName: Gudea-Bold
+--- !u!114 &11400096
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e643ea7252ce00645aac50375b273b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  design:
+    BoxColor: {r: 1, g: .921568632, b: .0156862754, a: 1}
+    BoxImage: {fileID: 0}
+    TextColor: {r: 1, g: 1, b: 1, a: 1}
+    BoxText: Box
+  fontName: Gudea-Bold
+--- !u!114 &11400098
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e643ea7252ce00645aac50375b273b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  design:
+    BoxColor: {r: 1, g: .921568632, b: .0156862754, a: 1}
+    BoxImage: {fileID: 0}
+    TextColor: {r: 1, g: 1, b: 1, a: 1}
+    BoxText: Box
+  fontName: Gudea-Bold
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

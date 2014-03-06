@@ -15,6 +15,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 65: {fileID: 6500004}
   - 65: {fileID: 6500002}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Player
@@ -125,7 +126,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MyWorldCenterC: {fileID: 0}
   myWorldState: {fileID: 0}
+  getRulesFromCreation: {fileID: 0}
   MyIdNumber: 0
+  MyDataPacket: 
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e643ea7252ce00645aac50375b273b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  design:
+    BoxColor: {r: 1, g: .921568632, b: .0156862754, a: 1}
+    BoxImage: {fileID: 0}
+    TextColor: {r: 1, g: 1, b: 1, a: 1}
+    BoxText: Box
+  fontName: Gudea-Bold
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

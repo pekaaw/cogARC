@@ -348,9 +348,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outputTextC4: {fileID: 10200006}
   NextLevel: 0
-  RuleEnum: 0
+  RuleEnum: 1
   CurrentSubRule: 0
-  DesignEnum: 0
+  DesignEnum: 1
   numberOfCubes: 10
   FinishState: 
   numberOfLevels: 9
