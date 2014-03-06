@@ -939,6 +939,14 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: -4.56561279
       objectReference: {fileID: 0}
+    - target: {fileID: 11400012, guid: 651a4f20731baa54fa4efbeae48c067a, type: 2}
+      propertyPath: RuleEnum
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400012, guid: 651a4f20731baa54fa4efbeae48c067a, type: 2}
+      propertyPath: numberOfCubes
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 651a4f20731baa54fa4efbeae48c067a, type: 2}
   m_RootGameObject: {fileID: 1666168287}
@@ -3341,13 +3349,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outputTextC4: {fileID: 1108737591}
+  NextLevel: 0
   RuleEnum: 0
   currentSubRule: 0
-  numberOfCubes: 9
+  numberOfCubes: 10
   FinishState: 
   numberOfLevels: 5
   gridMinValue: 4
-  gridMaxValue: 9
+  gridMaxValue: 8
 --- !u!114 &1666168300
 MonoBehaviour:
   m_ObjectHideFlags: 0

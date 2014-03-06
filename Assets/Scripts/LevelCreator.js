@@ -4,8 +4,9 @@
 private var pauseScript : PauseScreenScript;
 private var ruleScript : Rule;
 
-
+public var NextLevel : int;
 public var RuleEnum : ruleFunction;
+
 private var functionPointerCreator : Function;
 private var functionPointerSubCreator : Function;
 
@@ -53,13 +54,21 @@ function Update () {
 
 function LoadLevel(){
 	pauseScript.togglePauseScreen();
+	
+	AfterLevelCleanup();
+	
 	if (currentLevel < numberOfLevels) {
 		currentLevel++;
-		redoCreation();
+		redoCreation();	//load next level of same game
 	} else {
-		//SYSTEM.LOAD(NEXT_GAME_SCENE);
+		Application.Quit();
+		Application.LoadLevel (NextLevel); //load next scene
 	}
 
+}
+
+function AfterLevelCleanup(){
+	sortedCubes.clear(); // this is used to put the boxes in random order at the beginning of each level
 }
 
 public function redoCreation() {
