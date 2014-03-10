@@ -1,3 +1,10 @@
+//Class to handles all enums!
+class enums extends MonoBehaviour {
+	public enum ruleFunction { Grid, Pair, Tower, HumanReadable};
+	public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
+
+	public enum CubeDesignEnum {ColouredBox,BoxImage, Text, TextAndCubeColour};
+}
 class LevelData extends ScriptableObject {
 
 	//public var CubeDesignArray : Array = new Array();
@@ -20,13 +27,9 @@ class LevelData extends ScriptableObject {
 	private var functionPointerSubCreator : Function;
 	private var functionPointerPreCreator : Function;
 
-
-	public enum ruleFunction { Grid, Pair, Tower, HumanReadable};
-	public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
 	public var CurrentSubRule : subRule;
 
 	public var CubeDesignsArray : Array = new Array();
-	public enum CubeDesignEnum {ColouredBox,BoxImage, Text, TextAndCubeColour};
 	public var DesignEnum : CubeDesignEnum;
 
 	private var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
