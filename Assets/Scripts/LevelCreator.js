@@ -1,11 +1,16 @@
 ﻿#pragma strict
-												var outputTextC4 : UnityEngine.TextMesh;
+
+// TODO: outputTextC4 should be removed. It is a debug feature
+var outputTextC4 : UnityEngine.TextMesh;
 
 private var pauseScript : PauseScreenScript;
 private var ruleScript : Rule;
 
 public var NextLevel : int;
 public var RuleEnum : ruleFunction;
+
+// Data from this level
+static public var LevelDataInstance : LevelData;
 
 private var functionPointerCreator : Function;
 private var functionPointerSubCreator : Function;
@@ -24,9 +29,11 @@ private var unsortedCubes : Array; //cubes with tag "Player" found on stage used
 private var sortedCubes : Array = new Array();
 //var unsortedCubesIDs : Array = new Array(); //the cubes Ids to be added to the FinishState.
 var numberOfCubes : int = 10;
-var FinishState : List.<int> = new List.<int>(); //what the solution looks like for games execpt 
-													//"Woords" with needs multiple solutions at once.
-													
+
+//what the solution looks like for games except "Woords" with needs multiple solutions at once.
+var FinishState : List.<int> = new List.<int>(); 
+												
+
 
 var numberOfLevels:int = 9;
 private var currentLevel: int = 0; // last level is one less than number of levels, starts at 0
@@ -36,6 +43,11 @@ public var gridMaxValue : int;
 final private var colorsUsedForGrid : int = 2;
 
 function Awake() {
+
+	if( LevelDataInstance == null ) {
+		LevelDataInstance = ScriptableObject.CreateInstance("LevelData");
+	}
+	
 	Debug.Log(RuleEnum);
 	for(var q : int = CubeDesignsArray.length ; q < numberOfCubes; q++) {
 		CubeDesignsArray.push(new BoxDesign());
