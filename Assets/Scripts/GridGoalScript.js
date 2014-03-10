@@ -1,5 +1,9 @@
 ﻿#pragma strict
 
+//##%¤¤%## this thing should be in the camera so that its always the right way up ##%¤¤%##\\
+
+
+
 private var GameObjectArraySorted :GameObject[] = new GameObject[9];
  
 function Start () {

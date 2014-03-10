@@ -5,6 +5,7 @@ var outputTextC4 : UnityEngine.TextMesh;
 
 private var pauseScript : PauseScreenScript;
 private var ruleScript : Rule;
+private var gridGoalScript : GridGoalScript;
 
 public var NextLevel : int;
 public var RuleEnum : ruleFunction;
@@ -53,6 +54,8 @@ function Awake() {
 		CubeDesignsArray.push(new BoxDesign());
 	}
 	
+	
+	gridGoalScript = GameObject.Find("GridGoal").GetComponent(GridGoalScript);
 	pauseScript = gameObject.GetComponent(PauseScreenScript);
 	ruleScript =  gameObject.GetComponent(Rule);
 	LoadLevel();
@@ -266,6 +269,8 @@ private function GridCreator () {
 			outputTextC4.text = currentState;
 
 	}
+	
+	gridGoalScript.setColors(FinishState); //sets colors to the UI component
 }
 
 private function HumanReadableCreator () {
