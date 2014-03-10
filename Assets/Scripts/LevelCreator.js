@@ -164,12 +164,15 @@ private function PairCreator () {
 			case 8 : myDebugColor = Color.grey; break;
 			default : myDebugColor = Color.cyan; break;
 		}
-		var PPPK: int  = c/2;
+
 		var PPPPPk: GameObject = sortedCubes[c];
 		var PPk: BoxDesignScript = PPPPPk.GetComponent(BoxDesignScript);
-		PPk.setDesign(CubeDesignsArray[PPPK] as BoxDesign,DesignEnum);
-		(sortedCubes[c+1] as GameObject).GetComponent(BoxDesignScript).setDesign(CubeDesignsArray[PPPK],DesignEnum);
-	/*
+		PPk.setDesign(CubeDesignsArray[c] as BoxDesign,DesignEnum);
+		
+		PPPPPk = sortedCubes[c+1];
+		PPk = PPPPPk.GetComponent(BoxDesignScript);
+		PPk.setDesign(CubeDesignsArray[c] as BoxDesign,DesignEnum);
+			/*
 		(sortedCubes[c] as GameObject).renderer.material.color = myDebugColor;
 		(sortedCubes[c+1] as GameObject).renderer.material.color = myDebugColor;
 	*/	
