@@ -37,7 +37,7 @@ final private var colorsUsedForGrid : int = 2;
 
 function Awake() {
 	Debug.Log(RuleEnum);
-	for(var q : int = 0 ; q < numberOfCubes; q++) {
+	for(var q : int = CubeDesignsArray.length ; q < numberOfCubes; q++) {
 		CubeDesignsArray.push(new BoxDesign());
 	}
 	
