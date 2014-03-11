@@ -3,7 +3,7 @@
 class LevelData extends ScriptableObject {
 
 	// TODO: outputTextC4 should be removed. It is a debug feature
-	var outputTextC4 : UnityEngine.TextMesh;
+	//var outputTextC4 : UnityEngine.TextMesh;
 
 	public var NextLevel : int;
 	public var RuleEnum : ruleFunction;

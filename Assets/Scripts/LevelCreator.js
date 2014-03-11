@@ -231,7 +231,7 @@ private function GridCreator () {
 		}
 		
 		// TODO: remove debugstuff	
-		Data.outputTextC4.text = currentState;
+		//Data.outputTextC4.text = currentState;
 
 	}
 }
