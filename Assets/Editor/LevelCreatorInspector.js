@@ -1,21 +1,24 @@
 ﻿#pragma strict
 #pragma downcast
 @CustomEditor (LevelCreator)
+@CanEditMultipleObjects
 class LevelCreatorInspector extends Editor{
 	//General variables.
 	var lvlCreator : LevelCreator;
+	var lvlData : LevelData;
 	//Variables for Tower
 	var towerMinBox : int;
 	//Variables for Grid
-	//var gridRandomSeed : int;
-	//var gridShowRand : boolean = false;
 	//Variables for Human Readable
 	//Variables for Pair
+	//Variables for time and score
+	var timeEstimate : int;
+	var scorePerRight : int;
 	//Cube design variables
-	var designFoldOut : boolean = false;
-	var designSameBoxColour : boolean = true;
+	var designFoldOut : boolean = true;
+	var designSameBoxColour : boolean = false;
 	var designBoxSameColour : Color;
-	var designSameTextColour : boolean = true;
+	var designSameTextColour : boolean = false;
 	var designTextSameColour : Color;
 	//Infobox strings
 	var pairInfoBox : String = "Will compare the boxes as pairs.";
@@ -27,29 +30,46 @@ class LevelCreatorInspector extends Editor{
 	var wholeLinerInfoBox : String = "Will read all cubes as the player sees them.";
 	var anyWordInfoBox : String = "Used for creating words and wordcombinations with boxes.";
 	
-	
-	override function OnInspectorGUI () {
-		DrawDefaultInspector();
+	function OnEnable () {
+		lvlCreator = target;
 		
-		lvlCreator = target as LevelCreator;
+		if( (target as LevelCreator).Data == null ) {
+			(target as LevelCreator).Data = ScriptableObject.CreateInstance("LevelData");
+		}
+		lvlData = (target as LevelCreator).Data;
+		//lvlData = serializedObject.FindProperty("LevelDataInstance") as LevelData;
+	}
+	override function OnInspectorGUI () {
+		serializedObject.Update();
+	
+		//DrawDefaultInspector();
+		
 		EditorGUILayout.HelpBox("Default over, custom nedenfor", MessageType.None);
 		ChooseMainRule();
 		
 		ChooseDesign();
 		
-		EditorUtility.SetDirty(target);
+		lvlData.numberOfLevels = EditorGUILayout.IntField("Number of levles:",lvlData.numberOfLevels);
+		timeEstimate = EditorGUILayout.IntField("Seconds per level:", timeEstimate);
+		scorePerRight = EditorGUILayout.IntField("Score per right:", scorePerRight);
+		
+		if(GUI.changed){
+			EditorUtility.SetDirty(target);
+			//lvlData.serialize();
+		}
+		serializedObject.ApplyModifiedProperties ();
 	}
 	
 	function ChooseMainRule() {
-		lvlCreator.RuleEnum = EditorGUILayout.EnumPopup("Select rule:",lvlCreator.RuleEnum);
+		lvlData.RuleEnum = EditorGUILayout.EnumPopup("Select rule:",lvlData.RuleEnum);
 		
-		if (lvlCreator.RuleEnum == ruleFunction.Grid){
+		if (lvlData.RuleEnum == ruleFunction.Grid){
 			Grid();
-		}else if(lvlCreator.RuleEnum == ruleFunction.Tower){
+		}else if(lvlData.RuleEnum == ruleFunction.Tower){
 			Tower();
-		}else if (lvlCreator.RuleEnum == ruleFunction.Pair){
+		}else if (lvlData.RuleEnum == ruleFunction.Pair){
 			Pair();
-		}else if (lvlCreator.RuleEnum == ruleFunction.HumanReadable){
+		}else if (lvlData.RuleEnum == ruleFunction.HumanReadable){
 			HumanReadable();
 		}
 	}
@@ -58,33 +78,25 @@ class LevelCreatorInspector extends Editor{
 		EditorGUILayout.LabelField("Minimum number of cubes");
 		towerMinBox = EditorGUILayout.IntSlider(towerMinBox, 2, 9);
 		//Subrule
-		lvlCreator.CurrentSubRule = EditorGUILayout.EnumPopup("Subrule:", lvlCreator.CurrentSubRule);
+		lvlData.CurrentSubRule = EditorGUILayout.EnumPopup("Subrule:", lvlData.CurrentSubRule);
 		ChoseSubRule();
 	}
 	
 	function Grid () {
 		//Min, max
 		EditorGUILayout.LabelField("Please select wanted number of cubes.");
-		lvlCreator.gridMinValue = EditorGUILayout.IntSlider("MIN:",lvlCreator.gridMinValue, 1, 9);
-		lvlCreator.gridMaxValue = EditorGUILayout.IntSlider("MAX:",lvlCreator.gridMaxValue, lvlCreator.gridMinValue, 9);
+		lvlData.gridMinValue = EditorGUILayout.IntSlider("MIN:",lvlData.gridMinValue, 1, 9);
+		lvlData.gridMaxValue = EditorGUILayout.IntSlider("MAX:",lvlData.gridMaxValue, lvlData.gridMinValue, 9);
 		// wanted levles
-		lvlCreator.numberOfLevels = EditorGUILayout.IntField("Number of levles:", lvlCreator.numberOfLevels);
-		if(lvlCreator.numberOfLevels < 1) {
-			lvlCreator.numberOfLevels = 1;
+		lvlData.numberOfLevels = EditorGUILayout.IntField("Number of levles:", lvlData.numberOfLevels);
+		if(lvlData.numberOfLevels < 1) {
+			lvlData.numberOfLevels = 1;
 		}
-		//Random seed
-		/*gridShowRand = EditorGUILayout.BeginToggleGroup("Don't make random levels?", gridShowRand);
-		if(gridShowRand){
-			gridRandomSeed = EditorGUILayout.IntSlider("Random seed:", gridRandomSeed, 1, int.MaxValue);
-			EditorGUILayout.HelpBox(gridRandInfoBox ,MessageType.Info);
-		}
-		EditorGUILayout.EndToggleGroup();
-		*/
 	}
 	
 	function HumanReadable () {
 		EditorGUILayout.HelpBox(humanReadableInfoBox, MessageType.None);
-		lvlCreator.CurrentSubRule = EditorGUILayout.EnumPopup("Subrule:", lvlCreator.CurrentSubRule);
+		lvlData.CurrentSubRule = EditorGUILayout.EnumPopup("Subrule:", lvlData.CurrentSubRule);
 		
 		ChoseSubRule();
 	}
@@ -94,10 +106,10 @@ class LevelCreatorInspector extends Editor{
 	}
 	
 	function ChoseSubRule () {
-		switch(lvlCreator.CurrentSubRule){
+		switch(lvlData.CurrentSubRule){
 		case subRule.Addition:
 			Addition(); break;
-		case subRule.compositeNumbers:
+		case subRule.CompositeNumbers:
 			CompositeNumbers(); break;
 		case subRule.WholeLiner:
 			WholeLiner(); break;
@@ -121,11 +133,11 @@ class LevelCreatorInspector extends Editor{
 	}
 	
 	function ChooseDesign() {
-		lvlCreator.DesignEnum = EditorGUILayout.EnumPopup("Select cube design:",lvlCreator.DesignEnum);
+		lvlData.DesignEnum = EditorGUILayout.EnumPopup("Select cube design:",lvlData.DesignEnum);
 		
 		designFoldOut = EditorGUILayout.Foldout(designFoldOut, "Design Elements");
 		if(designFoldOut){
-			switch(lvlCreator.DesignEnum){
+			switch(lvlData.DesignEnum){
 				case CubeDesignEnum.ColouredBox:
 					BoxesColoured(); break;
 				case CubeDesignEnum.BoxImage:
@@ -141,57 +153,64 @@ class LevelCreatorInspector extends Editor{
 	}
 	
 	function BoxesColoured () {
-		//Same colour? Different?
 		designSameBoxColour = EditorGUILayout.Toggle("Same colours?", designSameBoxColour);
+		while(lvlData.CubeDesignsArray.length < 10){
+				lvlData.CubeDesignsArray.Push(new BoxDesign());
+		}
 		if(designSameBoxColour){
-			//designBoxSameColour
 			designBoxSameColour = EditorGUILayout.ColorField(designBoxSameColour);
-			for(var box : BoxDesign in lvlCreator.CubeDesignsArray){
+			for(var box : BoxDesign in lvlData.CubeDesignsArray){
 				box.BoxColor = designBoxSameColour;
 			}
 		}else {
-			while(lvlCreator.CubeDesignsArray.length < 10)
-				lvlCreator.CubeDesignsArray.Push(new BoxDesign());
-				
-			for(var box : BoxDesign in lvlCreator.CubeDesignsArray){
-				box.BoxColor = EditorGUILayout.ColorField(box.BoxColor);
+			if(lvlData.RuleEnum != ruleFunction.Pair){
+				for(var box : BoxDesign in lvlData.CubeDesignsArray){
+					box.BoxColor = EditorGUILayout.ColorField(box.BoxColor);
+				}
+			}
+			else{
+				for(var q : int = 0; q < lvlData.CubeDesignsArray.length; q += 2){
+					(lvlData.CubeDesignsArray[q] as BoxDesign).BoxColor = EditorGUILayout.ColorField(
+						(lvlData.CubeDesignsArray[q]as BoxDesign).BoxColor);
+					lvlData.CubeDesignsArray[q+1] = lvlData.CubeDesignsArray[q];
+				}
 			}
 		}
 	}
 	
 	function BoxImage () {
-		while(lvlCreator.CubeDesignsArray.length < 10){
-			lvlCreator.CubeDesignsArray.Push(new BoxDesign());
+		while(lvlData.CubeDesignsArray.length < 10){
+			lvlData.CubeDesignsArray.Push(new BoxDesign());
 		}
-		if(lvlCreator.RuleEnum != ruleFunction.Pair){
-			for(var box : BoxDesign in lvlCreator.CubeDesignsArray){
+		
+		if(lvlData.RuleEnum != ruleFunction.Pair){
+			for(var box : BoxDesign in lvlData.CubeDesignsArray){
 				box.BoxImage = EditorGUILayout.ObjectField(box.BoxImage,Texture, true) as Texture;
 			}
 		}
 		else{
-			for(var c : int = 0; c < lvlCreator.CubeDesignsArray.length; c+=2){
-				(lvlCreator.CubeDesignsArray[c] as BoxDesign).BoxImage = EditorGUILayout.ObjectField((lvlCreator.CubeDesignsArray[c] as BoxDesign).BoxImage,
+			for(var c : int = 0; c < lvlData.CubeDesignsArray.length; c+=2){
+				(lvlData.CubeDesignsArray[c] as BoxDesign).BoxImage = EditorGUILayout.ObjectField((lvlData.CubeDesignsArray[c] as BoxDesign).BoxImage,
 				Texture, true) as Texture;
-				(lvlCreator.CubeDesignsArray[c+1] as BoxDesign).BoxImage = (lvlCreator.CubeDesignsArray[c] as BoxDesign).BoxImage;
+				(lvlData.CubeDesignsArray[c+1] as BoxDesign).BoxImage = (lvlData.CubeDesignsArray[c] as BoxDesign).BoxImage;
 			}
 			
 		}
 	}
 	
 	function BoxText () {
-		while(lvlCreator.CubeDesignsArray.length < 10){
-			lvlCreator.CubeDesignsArray.Push(new BoxDesign());
+		while(lvlData.CubeDesignsArray.length < 10){
+			lvlData.CubeDesignsArray.Push(new BoxDesign());
 		}
 		
 		designSameTextColour = EditorGUILayout.Toggle("Same coloured text?", designSameTextColour);
 		if(designSameTextColour){
-			//designTextSameColour
 			designTextSameColour = EditorGUILayout.ColorField(designTextSameColour);
-			for(var box: BoxDesign in lvlCreator.CubeDesignsArray){
+			for(var box: BoxDesign in lvlData.CubeDesignsArray){
 				box.TextColor = designTextSameColour;
 			}
 		}
-		for(var box : BoxDesign in lvlCreator.CubeDesignsArray){
+		for(var box : BoxDesign in lvlData.CubeDesignsArray){
 			box.BoxText = EditorGUILayout.TextField("Text:",box.BoxText);
 			if(!designSameTextColour){
 				box.TextColor = EditorGUILayout.ColorField("Colour:",box.TextColor);
@@ -199,13 +218,13 @@ class LevelCreatorInspector extends Editor{
 		}
 	}
 	function BoxTextAndCubeColour (){
-		while(lvlCreator.CubeDesignsArray.length < 10){
-			lvlCreator.CubeDesignsArray.Push(new BoxDesign());
+		while(lvlData.CubeDesignsArray.length < 10){
+			lvlData.CubeDesignsArray.Push(new BoxDesign());
 		}
-	//designSameBoxColour, designTextSameColour
+		
 		designSameBoxColour = EditorGUILayout.Toggle("Same coloured boxes?",designSameBoxColour);
 		designSameTextColour = EditorGUILayout.Toggle("Same text colour?",designSameTextColour);
-		for(var box : BoxDesign in lvlCreator.CubeDesignsArray){
+		for(var box : BoxDesign in lvlData.CubeDesignsArray){
 			box.BoxText = EditorGUILayout.TextField(box.BoxText);
 			if(!designSameTextColour){
 				box.TextColor = EditorGUILayout.ColorField("Text colour:",box.TextColor);
@@ -215,16 +234,16 @@ class LevelCreatorInspector extends Editor{
 			}
 		}
 		if(designSameTextColour){
-			//designTextSameColour
 			designTextSameColour = EditorGUILayout.ColorField("Text colour",designTextSameColour);
-			for(var box: BoxDesign in lvlCreator.CubeDesignsArray){
+			for(var box: BoxDesign in lvlData.CubeDesignsArray){
 				box.TextColor = designTextSameColour;
 			}
 		}
 		if(designSameBoxColour){
 			//designBoxSameColour
+			designBoxSameColour = (lvlData.CubeDesignsArray[0] as BoxDesign).BoxColor;
 			designBoxSameColour = EditorGUILayout.ColorField("Cube colour:",designBoxSameColour);
-			for(var box : BoxDesign in lvlCreator.CubeDesignsArray){
+			for(var box : BoxDesign in lvlData.CubeDesignsArray){
 				box.BoxColor = designBoxSameColour;
 			}
 		}
