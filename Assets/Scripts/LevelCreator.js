@@ -3,6 +3,24 @@
 // Data from this level
 static public var Data : LevelData;
 
+private var pauseScript : PauseScreenScript;
+private var ruleScript : Rule;
+private var functionPointerCreator : Function;
+private var functionPointerSubCreator : Function;
+private var functionPointerPreCreator : Function;
+private var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
+private var sortedCubes : Array = new Array();
+private var currentLevel: int = 0; // last level is one less than number of levels, starts at 0
+final private var colorsUsedForGrid : int = 2;
+
+private var numberOfCubes : int = 10;
+
+//what the solution looks like for games except "Woords" with needs multiple solutions at once.
+private var FinishState : List.<int> = new List.<int>();													
+
+private var numberOfLevels:int = 9;
+
+
 
 function Awake() {
 
@@ -16,8 +34,8 @@ function Awake() {
 	}
 	
 	//Data.gridGoalScript = GameObject.Find("GridGoal").GetComponent(GridGoalScript);
-	Data.pauseScript = gameObject.GetComponent(PauseScreenScript);
-	Data.ruleScript =  gameObject.GetComponent(Rule);
+	pauseScript = gameObject.GetComponent(PauseScreenScript);
+	ruleScript =  gameObject.GetComponent(Rule);
 
 	LoadLevel();
 }
@@ -31,12 +49,12 @@ function Update () {
 }
 
 function LoadLevel(){
-	Data.pauseScript.togglePauseScreen();
+	pauseScript.togglePauseScreen();
 	
 	AfterLevelCleanup();
 	
-	if (Data.currentLevel < Data.numberOfLevels) {
-		Data.currentLevel++;
+	if (currentLevel < Data.numberOfLevels) {
+		currentLevel++;
 		redoCreation();	//load next level of same game
 	} else {
 		Application.Quit();
@@ -46,68 +64,68 @@ function LoadLevel(){
 }
 
 function AfterLevelCleanup(){
-	Data.sortedCubes.clear(); // this is used to put the boxes in random order at the beginning of each level
+	sortedCubes.clear(); // this is used to put the boxes in random order at the beginning of each level
 }
 
 public function redoCreation() {
-	Data.unsortedCubes = GameObject.FindGameObjectsWithTag("Player");
+	unsortedCubes = GameObject.FindGameObjectsWithTag("Player");
 
 	var nextItem : GameObject; //for making random order
 	var nextIndex : int;
 
 	switch(Data.RuleEnum) {
 		case ruleFunction.Pair:
-			Data.functionPointerCreator = PairCreator;
-			Data.functionPointerPreCreator = NULLFUNCTION;
+			functionPointerCreator = PairCreator;
+			functionPointerPreCreator = NULLFUNCTION;
 
 			break;
 		case ruleFunction.Tower:
-			Data.functionPointerCreator = TowerCreator;
-			Data.functionPointerPreCreator = NULLFUNCTION;
+			functionPointerCreator = TowerCreator;
+			functionPointerPreCreator = NULLFUNCTION;
 				Debug.Log("Pair");
 
 			break;
 		case ruleFunction.Grid:
-			Data.functionPointerCreator = GridCreator;
-			Data.functionPointerPreCreator = presetGridDataBeforeSort;
+			functionPointerCreator = GridCreator;
+			functionPointerPreCreator = presetGridDataBeforeSort;
 			break;
 		case ruleFunction.HumanReadable: 
-			Data.functionPointerCreator = HumanReadableCreator;
-			Data.functionPointerPreCreator = presetStringDataBeforeSort;
+			functionPointerCreator = HumanReadableCreator;
+			functionPointerPreCreator = presetStringDataBeforeSort;
 			break;
 	}
 	
 	switch(Data.CurrentSubRule) {
 		case subRule.Addition:
-			Data.functionPointerSubCreator = AdditionCreator;
+			functionPointerSubCreator = AdditionCreator;
 			break;
 		case subRule.CompositeNumbers:
-			Data.functionPointerSubCreator = CompositeNumbersCreator;
+			functionPointerSubCreator = CompositeNumbersCreator;
 			break;
 		case subRule.WholeLiner:
-			Data.functionPointerSubCreator = WholeLinerCreator;
+			functionPointerSubCreator = WholeLinerCreator;
 			break;
 		case subRule.AnyWord: 
-			Data.functionPointerSubCreator = AnyWordCreator;
+			functionPointerSubCreator = AnyWordCreator;
 			break;
 		default: break;
 	}
 	
-	Data.functionPointerPreCreator(); // set some data before the cubes are randomized
+	functionPointerPreCreator(); // set some data before the cubes are randomized
 	
-	Data.ruleScript.ruleSetup(); // sets the rules in the rulescript
-	Data.ruleScript.MakeLocalCopyPacketData(Data.unsortedCubes); //sets an array with copies of the cobes datapackets. for reference when checking finishstate.
+	ruleScript.ruleSetup(); // sets the rules in the rulescript
+	ruleScript.MakeLocalCopyPacketData(unsortedCubes); //sets an array with copies of the cobes datapackets. for reference when checking finishstate.
 	
 	for(var c: int = 0; c < Data.numberOfCubes; c++) {
-		nextIndex = Random.Range(0,Data.unsortedCubes.Count); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
-		nextItem = Data.unsortedCubes[nextIndex];
-		Data.sortedCubes.Add(nextItem);
-		Data.unsortedCubes.RemoveAt(nextIndex);
+		nextIndex = Random.Range(0,unsortedCubes.Count); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
+		nextItem = unsortedCubes[nextIndex];
+		sortedCubes.Add(nextItem);
+		unsortedCubes.RemoveAt(nextIndex);
 
 	}
 	
-	Data.functionPointerCreator();
-	Data.ruleScript.setFinishState(Data.FinishState);
+	functionPointerCreator();
+	ruleScript.setFinishState(Data.FinishState);
 	
 	
 	var debugstate : String = "";
@@ -122,11 +140,11 @@ public function redoCreation() {
 private function PairCreator () {
 	Debug.Log("Pair Creator");
 	
-	for(var c: int = 0; c < Data.sortedCubes.Count; c+=2) {
+	for(var c: int = 0; c < sortedCubes.Count; c+=2) {
 		var nextItem1 : GameObject;
 		var nextItem2 : GameObject; 
-		nextItem1 = Data.sortedCubes[c];
-		nextItem2 = Data.sortedCubes[c+1];
+		nextItem1 = sortedCubes[c];
+		nextItem2 = sortedCubes[c+1];
 		Data.FinishState.Add(nextItem1.GetComponent(BoxCollisionScript).MyIdNumber);
 		Data.FinishState.Add(nextItem2.GetComponent(BoxCollisionScript).MyIdNumber);
 		Data.FinishState.Add(-1);//separator to next pair
@@ -142,11 +160,11 @@ private function PairCreator () {
 			default : myDebugColor = Color.cyan; break;
 		}
 
-		var PPPPPk: GameObject = Data.sortedCubes[c];
+		var PPPPPk: GameObject = sortedCubes[c];
 		var PPk: BoxDesignScript = PPPPPk.GetComponent(BoxDesignScript);
 		PPk.setDesign(Data.CubeDesignsArray[c] as BoxDesign,Data.DesignEnum);
 		
-		PPPPPk = Data.sortedCubes[c+1];
+		PPPPPk = sortedCubes[c+1];
 		PPk = PPPPPk.GetComponent(BoxDesignScript);
 		PPk.setDesign(Data.CubeDesignsArray[c] as BoxDesign,Data.DesignEnum);
 			/*
@@ -187,9 +205,9 @@ private function presetStringDataBeforeSort() {
 
 private function presetGridDataBeforeSort(){
 	var q: int = 0;
-	var coloredTitles:int =  Mathf.Lerp(Data.gridMinValue, Data.gridMaxValue, Data.currentLevel/Data.numberOfLevels);
+	var coloredTitles:int =  Mathf.Lerp(Data.gridMinValue, Data.gridMaxValue, currentLevel/Data.numberOfLevels);
 
-	for(var cube : UnityEngine.GameObject in Data.unsortedCubes){
+	for(var cube : UnityEngine.GameObject in unsortedCubes){
 
 	 	if(q < coloredTitles){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "1";
@@ -204,7 +222,7 @@ private function presetGridDataBeforeSort(){
 	 	else {
 	 		cube.renderer.material.color = Color.black;
 
-	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "" + (Data.colorsUsedForGrid + 1) ; //not in use
+	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "" + (colorsUsedForGrid + 1) ; //not in use
 	 	}
 	 	q++;
 	 }
@@ -218,10 +236,10 @@ private function GridCreator () {
 	var currentState : String = ""; 
 	
 
-	for(var cube : GameObject in Data.sortedCubes){
+	for(var cube : GameObject in sortedCubes){
 		tempInt = parseInt(cube.GetComponent(BoxCollisionScript).MyDataPacket);
 		Debug.Log("tempInt is: " + tempInt);
-		if(tempInt < Data.colorsUsedForGrid){
+		if(tempInt < colorsUsedForGrid){
 			if(Data.FinishState.Count >= Data.numberOfCubes) {
 				return;
 			}
