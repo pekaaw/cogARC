@@ -1,10 +1,5 @@
-//Class to handles all enums!
-class enums extends MonoBehaviour {
-	public enum ruleFunction { Grid, Pair, Tower, HumanReadable};
-	public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
+#pragma strict
 
-	public enum CubeDesignEnum {ColouredBox,BoxImage, Text, TextAndCubeColour};
-}
 class LevelData extends ScriptableObject {
 
 	//public var CubeDesignArray : Array = new Array();
@@ -16,7 +11,8 @@ class LevelData extends ScriptableObject {
 
 	private var pauseScript : PauseScreenScript;
 	private var ruleScript : Rule;
-
+	private var gridGoalScript : GridGoalScript;
+	
 	public var NextLevel : int;
 	public var RuleEnum : ruleFunction;
 

@@ -26,7 +26,7 @@ function Start () {
 	} else {
 		Application.Quit();
 	}
-	RuleEnum = getRulesFromCreation.RuleEnum;
+	RuleEnum = getRulesFromCreation.LevelDataInstance.RuleEnum;
 	
 	
 }
