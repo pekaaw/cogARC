@@ -50,7 +50,7 @@ function OnGUI () {
 
 	
 	GUI.Box (Rect (x1,y1,width,height), "Your Task");
-	if(levelCreator.RuleEnum == ruleFunction.Grid) {
+	if(levelCreator.Data.RuleEnum == ruleFunction.Grid) {
 		var scaleX : int = (height-margine) / 3 - margine;
 		var scaleY : int = scaleX;
 		var i : int = 0;
@@ -84,7 +84,7 @@ public function MakeLocalCopyPacketData(cubesObjects : Array) {
 	CubesData = new Array();
 	var tempString : String = "BHARLG";
 	
-	for(var qbs : int = 0; qbs < levelCreator.numberOfCubes; qbs ++) {
+	for(var qbs : int = 0; qbs < levelCreator.Data.numberOfCubes; qbs ++) {
 		CubesData.Push("BHARLG");
 	}
 	for(var cube : UnityEngine.GameObject in cubesObjects) {
@@ -96,7 +96,7 @@ public function MakeLocalCopyPacketData(cubesObjects : Array) {
 public function ruleSetup(){
 	levelCreator = gameObject.GetComponent(LevelCreator);
 
-	switch(levelCreator.RuleEnum) {
+	switch(levelCreator.Data.RuleEnum) {
 		case ruleFunction.Pair: 
 			functionPointer = PairTester;
 			break;
@@ -111,8 +111,8 @@ public function ruleSetup(){
 			break;
 	};
 	
-	switch(levelCreator.CurrentSubRule) {
-		case subRule.compositeNumbers: 
+	switch(levelCreator.Data.CurrentSubRule) {
+		case subRule.CompositeNumbers: 
 			functionPointerSubRule = compositeNumbersTester;
 			break;
 		case subRule.Addition:

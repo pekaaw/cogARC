@@ -40,7 +40,7 @@ function Start() {
 
 
 	// Get ruleSet from LevelCreator
-	RuleEnum = getGodOfCreation.LevelDataInstance.RuleEnum;
+	RuleEnum = getGodOfCreation.Data.RuleEnum;
 
 	// Option 1: prepare a temp array for making chains in GameState
 	var arr : Array = new Array(); 

@@ -1,66 +1,23 @@
 ﻿#pragma strict
 
 // Data from this level
-static public var LevelDataInstance : LevelData;
+static public var Data : LevelData;
 
-
-
-
-
-// TODO: outputTextC4 should be removed. It is a debug feature
-//var outputTextC4 : UnityEngine.TextMesh;
-//
-//private var pauseScript : PauseScreenScript;
-//private var ruleScript : Rule;
-//private var gridGoalScript : GridGoalScript;
-//
-//public var NextLevel : int;
-//public var RuleEnum : ruleFunction;
-
-//private var functionPointerCreator : Function;
-//private var functionPointerSubCreator : Function;
-//private var functionPointerPreCreator : Function;
-//
-//
-//public enum ruleFunction { Grid, Pair, Tower, HumanReadable};
-//public enum subRule {Addition,compositeNumbers,WholeLiner,AnyWord};
-//public var CurrentSubRule : subRule;
-//
-//public var CubeDesignsArray : Array = new Array();
-//public enum CubeDesignEnum {ColouredBox,BoxImage, Text, TextAndCubeColour};
-//public var DesignEnum : CubeDesignEnum;
-//
-//private var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
-//private var sortedCubes : Array = new Array();
-////var unsortedCubesIDs : Array = new Array(); //the cubes Ids to be added to the FinishState.
-//var numberOfCubes : int = 10;
-//
-////what the solution looks like for games except "Woords" with needs multiple solutions at once.
-//var FinishState : List.<int> = new List.<int>(); 
-//												
-//
-//
-//var numberOfLevels:int = 9;
-//private var currentLevel: int = 0; // last level is one less than number of levels, starts at 0
-//
-//public var gridMinValue : int;
-//public var gridMaxValue : int;
-//final private var colorsUsedForGrid : int = 2;
 
 function Awake() {
 
-	if( LevelDataInstance == null ) {
-		LevelDataInstance = ScriptableObject.CreateInstance("LevelData");
+	if( Data == null ) {
+		Data = ScriptableObject.CreateInstance("LevelData");
 	}
 	
-	Debug.Log(LevelDataInstance.RuleEnum);
-	for(var q : int = LevelDataInstance.CubeDesignsArray.length ; q < LevelDataInstance.numberOfCubes; q++) {
-		LevelDataInstance.CubeDesignsArray.push(new BoxDesign());
+	Debug.Log(Data.RuleEnum);
+	for(var q : int = Data.CubeDesignsArray.length ; q < Data.numberOfCubes; q++) {
+		Data.CubeDesignsArray.push(new BoxDesign());
 	}
 	
-	//LevelDataInstance.gridGoalScript = GameObject.Find("GridGoal").GetComponent(GridGoalScript);
-	LevelDataInstance.pauseScript = gameObject.GetComponent(PauseScreenScript);
-	LevelDataInstance.ruleScript =  gameObject.GetComponent(Rule);
+	//Data.gridGoalScript = GameObject.Find("GridGoal").GetComponent(GridGoalScript);
+	Data.pauseScript = gameObject.GetComponent(PauseScreenScript);
+	Data.ruleScript =  gameObject.GetComponent(Rule);
 
 	LoadLevel();
 }
@@ -74,88 +31,88 @@ function Update () {
 }
 
 function LoadLevel(){
-	LevelDataInstance.pauseScript.togglePauseScreen();
+	Data.pauseScript.togglePauseScreen();
 	
 	AfterLevelCleanup();
 	
-	if (LevelDataInstance.currentLevel < LevelDataInstance.numberOfLevels) {
-		LevelDataInstance.currentLevel++;
+	if (Data.currentLevel < Data.numberOfLevels) {
+		Data.currentLevel++;
 		redoCreation();	//load next level of same game
 	} else {
 		Application.Quit();
-		Application.LoadLevel(LevelDataInstance.NextLevel); //load next scene
+		Application.LoadLevel(Data.NextLevel); //load next scene
 	}
 
 }
 
 function AfterLevelCleanup(){
-	LevelDataInstance.sortedCubes.clear(); // this is used to put the boxes in random order at the beginning of each level
+	Data.sortedCubes.clear(); // this is used to put the boxes in random order at the beginning of each level
 }
 
 public function redoCreation() {
-	LevelDataInstance.unsortedCubes = GameObject.FindGameObjectsWithTag("Player");
+	Data.unsortedCubes = GameObject.FindGameObjectsWithTag("Player");
 
 	var nextItem : GameObject; //for making random order
 	var nextIndex : int;
 
-	switch(LevelDataInstance.RuleEnum) {
+	switch(Data.RuleEnum) {
 		case ruleFunction.Pair:
-			LevelDataInstance.functionPointerCreator = PairCreator;
-			LevelDataInstance.functionPointerPreCreator = NULLFUNCTION;
+			Data.functionPointerCreator = PairCreator;
+			Data.functionPointerPreCreator = NULLFUNCTION;
 
 			break;
 		case ruleFunction.Tower:
-			LevelDataInstance.functionPointerCreator = TowerCreator;
-			LevelDataInstance.functionPointerPreCreator = NULLFUNCTION;
+			Data.functionPointerCreator = TowerCreator;
+			Data.functionPointerPreCreator = NULLFUNCTION;
 				Debug.Log("Pair");
 
 			break;
 		case ruleFunction.Grid:
-			LevelDataInstance.functionPointerCreator = GridCreator;
-			LevelDataInstance.functionPointerPreCreator = presetGridDataBeforeSort;
+			Data.functionPointerCreator = GridCreator;
+			Data.functionPointerPreCreator = presetGridDataBeforeSort;
 			break;
 		case ruleFunction.HumanReadable: 
-			LevelDataInstance.functionPointerCreator = HumanReadableCreator;
-			LevelDataInstance.functionPointerPreCreator = presetStringDataBeforeSort;
+			Data.functionPointerCreator = HumanReadableCreator;
+			Data.functionPointerPreCreator = presetStringDataBeforeSort;
 			break;
 	}
 	
-	switch(LevelDataInstance.CurrentSubRule) {
+	switch(Data.CurrentSubRule) {
 		case subRule.Addition:
-			LevelDataInstance.functionPointerSubCreator = AdditionCreator;
+			Data.functionPointerSubCreator = AdditionCreator;
 			break;
 		case subRule.CompositeNumbers:
-			LevelDataInstance.functionPointerSubCreator = CompositeNumbersCreator;
+			Data.functionPointerSubCreator = CompositeNumbersCreator;
 			break;
 		case subRule.WholeLiner:
-			LevelDataInstance.functionPointerSubCreator = WholeLinerCreator;
+			Data.functionPointerSubCreator = WholeLinerCreator;
 			break;
 		case subRule.AnyWord: 
-			LevelDataInstance.functionPointerSubCreator = AnyWordCreator;
+			Data.functionPointerSubCreator = AnyWordCreator;
 			break;
 		default: break;
 	}
 	
-	LevelDataInstance.functionPointerPreCreator(); // set some data before the cubes are randomized
+	Data.functionPointerPreCreator(); // set some data before the cubes are randomized
 	
-	LevelDataInstance.ruleScript.ruleSetup(); // sets the rules in the rulescript
-	LevelDataInstance.ruleScript.MakeLocalCopyPacketData(LevelDataInstance.unsortedCubes); //sets an array with copies of the cobes datapackets. for reference when checking finishstate.
+	Data.ruleScript.ruleSetup(); // sets the rules in the rulescript
+	Data.ruleScript.MakeLocalCopyPacketData(Data.unsortedCubes); //sets an array with copies of the cobes datapackets. for reference when checking finishstate.
 	
-	for(var c: int = 0; c < LevelDataInstance.numberOfCubes; c++) {
-		nextIndex = Random.Range(0,LevelDataInstance.unsortedCubes.Count); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
-		nextItem = LevelDataInstance.unsortedCubes[nextIndex];
-		LevelDataInstance.sortedCubes.Add(nextItem);
-		LevelDataInstance.unsortedCubes.RemoveAt(nextIndex);
+	for(var c: int = 0; c < Data.numberOfCubes; c++) {
+		nextIndex = Random.Range(0,Data.unsortedCubes.Count); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
+		nextItem = Data.unsortedCubes[nextIndex];
+		Data.sortedCubes.Add(nextItem);
+		Data.unsortedCubes.RemoveAt(nextIndex);
 
 	}
 	
-	LevelDataInstance.functionPointerCreator();
-	LevelDataInstance.ruleScript.setFinishState(LevelDataInstance.FinishState);
+	Data.functionPointerCreator();
+	Data.ruleScript.setFinishState(Data.FinishState);
 	
 	
 	var debugstate : String = "";
-	for(var q:int = 0 ; q < LevelDataInstance.FinishState.Count; q++) {
-		debugstate += LevelDataInstance.FinishState[q] + ", ";
+	for(var q:int = 0 ; q < Data.FinishState.Count; q++) {
+		debugstate += Data.FinishState[q] + ", ";
 	}
 	Debug.Log("GOAL THIS ROUND IS\n" + debugstate);
 }
@@ -165,14 +122,14 @@ public function redoCreation() {
 private function PairCreator () {
 	Debug.Log("Pair Creator");
 	
-	for(var c: int = 0; c < LevelDataInstance.sortedCubes.Count; c+=2) {
+	for(var c: int = 0; c < Data.sortedCubes.Count; c+=2) {
 		var nextItem1 : GameObject;
 		var nextItem2 : GameObject; 
-		nextItem1 = LevelDataInstance.sortedCubes[c];
-		nextItem2 = LevelDataInstance.sortedCubes[c+1];
-		LevelDataInstance.FinishState.Add(nextItem1.GetComponent(BoxCollisionScript).MyIdNumber);
-		LevelDataInstance.FinishState.Add(nextItem2.GetComponent(BoxCollisionScript).MyIdNumber);
-		LevelDataInstance.FinishState.Add(-1);//separator to next pair
+		nextItem1 = Data.sortedCubes[c];
+		nextItem2 = Data.sortedCubes[c+1];
+		Data.FinishState.Add(nextItem1.GetComponent(BoxCollisionScript).MyIdNumber);
+		Data.FinishState.Add(nextItem2.GetComponent(BoxCollisionScript).MyIdNumber);
+		Data.FinishState.Add(-1);//separator to next pair
 		
 		
 		var myDebugColor : UnityEngine.Color;
@@ -185,13 +142,13 @@ private function PairCreator () {
 			default : myDebugColor = Color.cyan; break;
 		}
 
-		var PPPPPk: GameObject = LevelDataInstance.sortedCubes[c];
+		var PPPPPk: GameObject = Data.sortedCubes[c];
 		var PPk: BoxDesignScript = PPPPPk.GetComponent(BoxDesignScript);
-		PPk.setDesign(LevelDataInstance.CubeDesignsArray[c] as BoxDesign,LevelDataInstance.DesignEnum);
+		PPk.setDesign(Data.CubeDesignsArray[c] as BoxDesign,Data.DesignEnum);
 		
-		PPPPPk = LevelDataInstance.sortedCubes[c+1];
+		PPPPPk = Data.sortedCubes[c+1];
 		PPk = PPPPPk.GetComponent(BoxDesignScript);
-		PPk.setDesign(LevelDataInstance.CubeDesignsArray[c] as BoxDesign,LevelDataInstance.DesignEnum);
+		PPk.setDesign(Data.CubeDesignsArray[c] as BoxDesign,Data.DesignEnum);
 			/*
 		(sortedCubes[c] as GameObject).renderer.material.color = myDebugColor;
 		(sortedCubes[c+1] as GameObject).renderer.material.color = myDebugColor;
@@ -230,16 +187,16 @@ private function presetStringDataBeforeSort() {
 
 private function presetGridDataBeforeSort(){
 	var q: int = 0;
-	var coloredTitles:int =  Mathf.Lerp(LevelDataInstance.gridMinValue, LevelDataInstance.gridMaxValue, LevelDataInstance.currentLevel/LevelDataInstance.numberOfLevels);
+	var coloredTitles:int =  Mathf.Lerp(Data.gridMinValue, Data.gridMaxValue, Data.currentLevel/Data.numberOfLevels);
 
-	for(var cube : UnityEngine.GameObject in LevelDataInstance.unsortedCubes){
+	for(var cube : UnityEngine.GameObject in Data.unsortedCubes){
 
 	 	if(q < coloredTitles){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "1";
 	 		cube.renderer.material.color = Color.blue;
 	 		//::TO DO::set skin colored
 	 	}
-	 	else if (q < LevelDataInstance.numberOfCubes-1){
+	 	else if (q < Data.numberOfCubes-1){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "0";
 	 		cube.renderer.material.color = Color.yellow;
 	 		//::TO DO::set skin uncolored
@@ -247,7 +204,7 @@ private function presetGridDataBeforeSort(){
 	 	else {
 	 		cube.renderer.material.color = Color.black;
 
-	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "" + (LevelDataInstance.colorsUsedForGrid + 1) ; //not in use
+	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "" + (Data.colorsUsedForGrid + 1) ; //not in use
 	 	}
 	 	q++;
 	 }
@@ -261,19 +218,19 @@ private function GridCreator () {
 	var currentState : String = ""; 
 	
 
-	for(var cube : GameObject in LevelDataInstance.sortedCubes){
+	for(var cube : GameObject in Data.sortedCubes){
 		tempInt = parseInt(cube.GetComponent(BoxCollisionScript).MyDataPacket);
 		Debug.Log("tempInt is: " + tempInt);
-		if(tempInt < LevelDataInstance.colorsUsedForGrid){
-			if(LevelDataInstance.FinishState.Count >= LevelDataInstance.numberOfCubes) {
+		if(tempInt < Data.colorsUsedForGrid){
+			if(Data.FinishState.Count >= Data.numberOfCubes) {
 				return;
 			}
-			LevelDataInstance.FinishState.Add(tempInt);
+			Data.FinishState.Add(tempInt);
 			currentState += cube.GetComponent(BoxCollisionScript).MyIdNumber + " ";
 		}
 		
 		// TODO: remove debugstuff	
-		LevelDataInstance.outputTextC4.text = currentState;
+		Data.outputTextC4.text = currentState;
 
 	}
 }

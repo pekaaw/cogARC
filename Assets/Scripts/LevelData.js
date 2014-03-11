@@ -11,7 +11,7 @@ class LevelData extends ScriptableObject {
 
 	private var pauseScript : PauseScreenScript;
 	private var ruleScript : Rule;
-	private var gridGoalScript : GridGoalScript;
+	//private var gridGoalScript : GridGoalScript;
 	
 	public var NextLevel : int;
 	public var RuleEnum : ruleFunction;
