@@ -16,9 +16,6 @@ private static var historyGameState1 : int[];
 private static var historyGameState2 : int[]; //these are check against eachother to stabilize the inputdata
 private static var historyGameState3 : int[]; //tests are only done when all 3 are the same
 
-var FinishState : List.<int> = new List.<int>(); //what the solution looks like for games except 
-													//"Woords" which needs multiple solutions at once.
-													
 var CubesData : Array;		//local copy of the data contained in the 
 
 function Start () {
@@ -27,8 +24,8 @@ function Start () {
 
 function Update () {
 var currentState : String = ""; 
-	for(var d : int  = 0 ; d < FinishState.Count ; d++) {
-		currentState += FinishState[d] + " ";
+	for(var d : int  = 0 ; d < levelCreator.Data.FinishState.Count ; d++) {
+		currentState += levelCreator.Data.FinishState[d] + " ";
 	}
 
  outputTextC.text = currentState;
@@ -58,7 +55,7 @@ function OnGUI () {
 			var figy : int = y1 + (scaleY + margine) * c + margine;
 			for(var q :int = 0; q < 3 ; q++) {
 				var figx : int = x1 + (scaleX + margine) * q + margine;
-				if(FinishState[i] == 1) {
+				if(levelCreator.Data.FinishState[i] == 1) {
 					GUI.DrawTexture(Rect(figx,figy,scaleX,scaleY), textureA, ScaleMode.ScaleToFit, true);
 				} else {
 					GUI.DrawTexture(Rect(figx,figy,scaleX,scaleY), textureB, ScaleMode.ScaleToFit, true);
@@ -128,11 +125,6 @@ public function ruleSetup(){
 
 }
 
-
-public function setFinishState(newState : List.<int>) {
-	FinishState = newState;
-}
-
 //Task Completion Tests
 
 public function Test (boxes : List.<int>){
@@ -162,7 +154,7 @@ public function Test (boxes : List.<int>){
 	outputTextC2.text = currentdebugstate;
  
 	functionPointer(boxes);
-	if(FinishState.Count < 1){
+	if(levelCreator.Data.FinishState.Count < 1){
 		levelCreator.LoadLevel();
 		//congrats, save score, load next level
 	}
@@ -175,18 +167,18 @@ private function PairTester (boxes : List.<int>) {
 	var q : int = 0;
 	while(q+1 < historyGameState1.length){ 
 		
-		for(var r : int = 0; r < FinishState.Count; r+=3){
-			if((historyGameState1[q] == FinishState[r] && historyGameState1[q + 1] == FinishState[r + 1]) ||
-				(historyGameState1[q + 1] == FinishState[r] && historyGameState1[q] == FinishState[r + 1])) {
+		for(var r : int = 0; r < levelCreator.Data.FinishState.Count; r+=3){
+			if((historyGameState1[q] == levelCreator.Data.FinishState[r] && historyGameState1[q + 1] == levelCreator.Data.FinishState[r + 1]) ||
+				(historyGameState1[q + 1] == levelCreator.Data.FinishState[r] && historyGameState1[q] == levelCreator.Data.FinishState[r + 1])) {
 					if(q + 2 > historyGameState1.length && historyGameState1[q+2] != -1) {
 						Debug.Log("UNexpected Third Part OF a PaiR");
 						return;
 					}
 					//pair found
-					//light flares at the cubes with IDs FinishState[r] and FinishState[r+1]
+					//light flares at the cubes with IDs levelCreator.Data.FinishState[r] and levelCreator.Data.FinishState[r+1]
 					Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 					for(var t:int = 0; t < 3; t++){ //remove finishState[r, r+1, r+2]
-						FinishState.RemoveAt(r);
+						levelCreator.Data.FinishState.RemoveAt(r);
 					}
 					r-=3;
 				}
@@ -210,14 +202,14 @@ private function GridTester (boxes : List.<int>) {
 	Debug.Log("Grid");
 	var tempString : String; //because unity is being a Bitch.
 	var tempInt : int;//because unity is being a Bitch.
-	for (var c : int = 0 ; c < FinishState.Count ; c++){
+	for (var c : int = 0 ; c < levelCreator.Data.FinishState.Count ; c++){
 	tempString = CubesData[boxes[c]];//because unity is being a Bitch.
 	tempInt = parseInt(tempString);//because unity is being a Bitch.
-		if (c == boxes.Count || tempInt != FinishState[c]) {
+		if (c == boxes.Count || tempInt != levelCreator.Data.FinishState[c]) {
 			return;
 		}
 	}
-	FinishState.Clear();
+	levelCreator.Data.FinishState.Clear();
 	Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 }
 
@@ -241,7 +233,7 @@ private function AdditionTester(boxes : List.<int>){
 			answer += tempIntCaster;
 			c++;
 		}
-		if(answer == FinishState[0]) {
+		if(answer == levelCreator.Data.FinishState[0]) {
 			Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 			
 			return;
@@ -252,8 +244,8 @@ private function AdditionTester(boxes : List.<int>){
 }
 
 private function WholeLinerTester(boxes : List.<int>){
-	for (var c : int = 0 ; c < FinishState.Count ; c++){
-		if (c == boxes.Count || boxes[c] != FinishState[c]) {
+	for (var c : int = 0 ; c < levelCreator.Data.FinishState.Count ; c++){
+		if (c == boxes.Count || boxes[c] != levelCreator.Data.FinishState[c]) {
 			return;
 		}
 	}

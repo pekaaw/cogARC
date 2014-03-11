@@ -116,8 +116,6 @@ public function redoCreation() {
 	}
 	
 	functionPointerCreator();
-	ruleScript.setFinishState(Data.FinishState);
-	
 	
 	var debugstate : String = "";
 	for(var q:int = 0 ; q < Data.FinishState.Count; q++) {
