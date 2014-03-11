@@ -35,6 +35,51 @@ var currentState : String = "";
 
 }
 
+
+function OnGUI () {
+	var x1 : int = 20;
+	var y1 : int = 20;
+	var width : int = Screen.width - 2 * x1;
+	var height : int = Screen.height / 4; // this is the height of the goal-box- 
+										//frame and also the width and 
+										//height of the grid-goal-visualizer.
+	var margine : int = 5; //increasing this will make the grid-goal-visualizer smaller.
+	var textureA : Texture = Resources.Load("coloredtitle") as Texture; // images used for the grid-goal-visualizer
+	var textureB : Texture = Resources.Load("uncoloredtitle") as Texture;
+	
+
+	
+	GUI.Box (Rect (x1,y1,width,height), "Your Task");
+	if(levelCreator.RuleEnum == ruleFunction.Grid) {
+		var scaleX : int = (height-margine) / 3 - margine;
+		var scaleY : int = scaleX;
+		var i : int = 0;
+		for(var c:int = 0; c < 3 ; c++) {
+			var figy : int = y1 + (scaleY + margine) * c + margine;
+			for(var q :int = 0; q < 3 ; q++) {
+				var figx : int = x1 + (scaleX + margine) * q + margine;
+				if(FinishState[i] == 1) {
+					GUI.DrawTexture(Rect(figx,figy,scaleX,scaleY), textureA, ScaleMode.ScaleToFit, true);
+				} else {
+					GUI.DrawTexture(Rect(figx,figy,scaleX,scaleY), textureB, ScaleMode.ScaleToFit, true);
+
+				}
+				i++;
+			}
+		
+		}
+		
+		
+	}
+	  
+
+
+
+}
+
+
+
+
 public function MakeLocalCopyPacketData(cubesObjects : Array) {
 	CubesData = new Array();
 	var tempString : String = "BHARLG";
