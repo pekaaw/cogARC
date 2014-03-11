@@ -13,15 +13,6 @@ private var sortedCubes : Array = new Array();
 private var currentLevel: int = 0; // last level is one less than number of levels, starts at 0
 final private var colorsUsedForGrid : int = 2;
 
-private var numberOfCubes : int = 10;
-
-//what the solution looks like for games except "Woords" with needs multiple solutions at once.
-private var FinishState : List.<int> = new List.<int>();													
-
-private var numberOfLevels:int = 9;
-
-
-
 function Awake() {
 
 	if( Data == null ) {
@@ -196,12 +187,6 @@ private function presetStringDataBeforeSort() {
 
 
 }
-
-
-
-
-
-
 
 private function presetGridDataBeforeSort(){
 	var q: int = 0;
