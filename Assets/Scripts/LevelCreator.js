@@ -1,7 +1,7 @@
 ﻿#pragma strict
 
 // Data from this level
-static public var Data : LevelData;
+public var Data : LevelData;
 
 private var pauseScript : PauseScreenScript;
 private var ruleScript : Rule;
