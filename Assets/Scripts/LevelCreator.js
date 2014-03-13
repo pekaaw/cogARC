@@ -189,7 +189,7 @@ private function presetStringDataBeforeSort() {
 
 private function presetGridDataBeforeSort(){
 	var q: int = 0;
-	var coloredTitles:int =  Mathf.Lerp(Data.gridMinValue+1, Data.gridMaxValue, currentLevel/Data.numberOfLevels);
+	var coloredTitles:int =  Mathf.Lerp(Data.gridMinValue, Data.gridMaxValue, currentLevel/Data.numberOfLevels);
 
 	for(var cube : UnityEngine.GameObject in unsortedCubes){
 
