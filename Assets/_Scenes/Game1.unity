@@ -2402,6 +2402,28 @@ MonoBehaviour:
     TextColor: {r: 1, g: 1, b: 1, a: 1}
     BoxText: Box
   fontName: Gudea-Bold
+--- !u!114 &1022894375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e6c3352948ff4f41a08f829bb72cca3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameName: 
+  GameHint: 
+  NextLevel: 0
+  RuleEnum: 0
+  CurrentSubRule: 0
+  DesignEnum: 0
+  gridMinValue: 1
+  gridMaxValue: 1
+  FinishState: 
+  numberOfLevels: 9
+  numberOfCubes: 10
 --- !u!1 &1030219206
 GameObject:
   m_ObjectHideFlags: 0
@@ -3373,6 +3395,7 @@ GameObject:
   - 114: {fileID: 1770470369}
   - 114: {fileID: 1770470368}
   - 114: {fileID: 1770470372}
+  - 114: {fileID: 1770470373}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -3463,6 +3486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c23a4dcb40e8d94db16ad493b2313d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 1022894375}
 --- !u!114 &1770470372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3483,6 +3507,18 @@ MonoBehaviour:
     height: 50
   SizeFont: 20
   GuiSkin: {fileID: 0}
+--- !u!114 &1770470373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1770470366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e953a50d447bbae46a640fecd18585bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cogarcSkin: {fileID: 11400000, guid: 63607dace7096ca4581e9a102500aa92, type: 2}
 --- !u!1 &1781661028
 GameObject:
   m_ObjectHideFlags: 0

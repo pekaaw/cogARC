@@ -3,7 +3,7 @@
 // Data from this level
 public var Data : LevelData;
 
-private var pauseScript : PauseScreenScript;
+private var LoadingScript : LoadingScreen;
 private var ruleScript : Rule;
 private var functionPointerCreator : Function;
 private var functionPointerSubCreator : Function;
@@ -14,7 +14,6 @@ private var currentLevel: int = 0; // last level is one less than number of leve
 final private var colorsUsedForGrid : int = 2;
 
 function Awake() {
-
 	if( Data == null ) {
 		Data = ScriptableObject.CreateInstance("LevelData");
 	}
@@ -25,8 +24,8 @@ function Awake() {
 	}
 	
 	//Data.gridGoalScript = GameObject.Find("GridGoal").GetComponent(GridGoalScript);
-	pauseScript = gameObject.GetComponent(PauseScreenScript);
 	ruleScript =  gameObject.GetComponent(Rule);
+	LoadingScript = gameObject.GetComponent(LoadingScreen);
 
 	LoadLevel();
 }
@@ -40,7 +39,7 @@ function Update () {
 }
 
 function LoadLevel(){
-	pauseScript.togglePauseScreen();
+	LoadingScript.Activate(Data.GameName, Data.GameHint, Data.numberOfLevels, currentLevel);
 	
 	AfterLevelCleanup();
 	
@@ -188,7 +187,7 @@ private function presetStringDataBeforeSort() {
 
 private function presetGridDataBeforeSort(){
 	var q: int = 0;
-	var coloredTitles:int =  Mathf.Lerp(Data.gridMinValue, Data.gridMaxValue, currentLevel/Data.numberOfLevels);
+	var coloredTitles:int =  Mathf.Lerp(Data.gridMinValue+1, Data.gridMaxValue, currentLevel/Data.numberOfLevels);
 
 	for(var cube : UnityEngine.GameObject in unsortedCubes){
 

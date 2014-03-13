@@ -2,6 +2,8 @@
 
 public var cogarcSkin : GUISkin;
 
+private var isActive : boolean;
+
 private var screenWidth : int;
 private var screenHeight : int;
 
@@ -10,10 +12,24 @@ private var instructionBox 	: UnityEngine.Rect;
 private var highscoreBox 	: UnityEngine.Rect;
 private var startButtonBox 	: UnityEngine.Rect;
 
+private var gameTitle : String;
+private var gameHint : String;
+private var gameLevels : int;
+private var currentGameLevel : int;
+
+private var CubeContainer : GameObject;
+
+
+
 private var counter : int = 0;
+
+function Awake() {
+	CubeContainer = GameObject.Find("FrameMarkerContainer");
+}
 
 function Start () {
 
+	isActive = false;
 	screenWidth = Screen.width;
 	screenHeight = Screen.height;
 
@@ -37,40 +53,68 @@ function Update () {
 
 }
 
+function Activate(header : String, hint : String, numberOfLevels : int, currentLevel : int) {
+	gameTitle  = header;
+	gameHint = hint;
+	gameLevels  = numberOfLevels;
+	currentGameLevel = currentLevel;
+	isActive = true;
+}  
+function Activate() {
+	currentGameLevel ++;
+	isActive = true;
+} 
+
+function StopTime() {
+	Time.timeScale = 0;
+	CubeContainer.SetActive(false);
+
+
+}
+function StartTime() {
+	Time.timeScale = 1;
+	CubeContainer.SetActive(true);
+
+}
+
 function OnGUI() {
-
-	GUI.skin = cogarcSkin;
-
-	// set screen size screen size has changed (example: orientation change)
-	if( screenWidth != Screen.width  || screenWidth != Screen.width) 
-	{
-		screenWidth = Screen.width;
-		screenHeight = Screen.height;
-		setBoxSizes();
-	}
+	if(isActive) {
+	StopTime();
+		GUI.skin = cogarcSkin;
 	
-	GUI.Label(
-		headlineBox,
-		"Game Name"
-		);
-		
-	GUI.Box(
-		instructionBox,
-		"Hallo"
-		);
-
-	GUI.Box(
-		highscoreBox,
-		"Highscore"
-		);
-		
-	if( GUI.Button( startButtonBox, "Start!" ) )
-	{
-		// onClick
-		//UnityEngine.Object.Destroy(this);
-		this.gameObject.SetActive(false);
-		
-		// ToDo: activate this level in some way here...
+		// set screen size screen size has changed (example: orientation change)
+		if( screenWidth != Screen.width  || screenWidth != Screen.width) 
+		{
+			screenWidth = Screen.width;
+			screenHeight = Screen.height;
+			setBoxSizes();
+		}
+	
+		GUI.Label(
+			headlineBox,
+			gameTitle + " (" + currentGameLevel + " / " + gameLevels + ")"
+			);
+			
+		GUI.Box(
+			instructionBox,
+			gameHint
+			);
+	
+		GUI.Box(
+			highscoreBox,
+			"Highscore"
+			);
+			
+		if( GUI.Button( startButtonBox, "Start!" ) )
+		{
+			// onClick
+			//UnityEngine.Object.Destroy(this);
+			//this.gameObject.SetActive(false);
+			
+			// ToDo: activate this level in some way here...
+			isActive = false;
+			StartTime();
+		}
 	}
 }
 

@@ -4,6 +4,8 @@ class LevelData extends ScriptableObject {
 
 	// TODO: outputTextC4 should be removed. It is a debug feature
 	//var outputTextC4 : UnityEngine.TextMesh;
+	public var GameName : String;
+	public var GameHint : String;
 
 	public var NextLevel : int;
 	public var RuleEnum : ruleFunction;
@@ -20,6 +22,6 @@ class LevelData extends ScriptableObject {
 	public var FinishState : List.<int> = new List.<int>();													
 
 	public var numberOfLevels : int = 9;
-	public var numberOfCubes : int = 10;
+	public var numberOfCubes : int = 10; //NB! :should no longer be changed when using grid rules: NB!
 
 }
