@@ -12,7 +12,7 @@ class LevelData extends ScriptableObject {
 
 	public var CurrentSubRule : subRule;
 
-	public var CubeDesignsArray : Array = new Array();
+	public var CubeDesignsArray = new ArrayList();
 	public var DesignEnum : CubeDesignEnum;
 
 	public var gridMinValue : int;
