@@ -10,7 +10,7 @@ class LevelData extends ScriptableObject {
 
 	public var CurrentSubRule : subRule;
 
-	public var CubeDesignsArray : Array = new Array();
+	public var CubeDesignsArray = new ArrayList();
 	public var DesignEnum : CubeDesignEnum;
 
 	public var gridMinValue : int;
@@ -21,5 +21,6 @@ class LevelData extends ScriptableObject {
 
 	public var numberOfLevels : int = 9;
 	public var numberOfCubes : int = 10;
-
+	
+	
 }

@@ -16,13 +16,15 @@ final private var colorsUsedForGrid : int = 2;
 function Awake() {
 
 	if( Data == null ) {
-		Data = ScriptableObject.CreateInstance("LevelData");
+		Debug.LogWarning("Data is null");
+//		Data = ScriptableObject.CreateInstance("LevelData");
+		Data = new LevelData();
 	}
 	
 	Debug.Log(Data.RuleEnum);
-	for(var q : int = Data.CubeDesignsArray.length ; q < Data.numberOfCubes; q++) {
-		Data.CubeDesignsArray.push(new BoxDesign());
-	}
+	//for(var q : int = Data.CubeDesignsArray.length ; q < Data.numberOfCubes; q++) {
+		//Data.CubeDesignsArray.push(new BoxDesign());
+	//}
 	
 	//Data.gridGoalScript = GameObject.Find("GridGoal").GetComponent(GridGoalScript);
 	pauseScript = gameObject.GetComponent(PauseScreenScript);
