@@ -80,6 +80,9 @@ public function redoCreation() {
 
 	var nextItem : GameObject; //for making random order
 	var nextIndex : int;
+	
+	var presetData: boolean = false;
+	var isTextAnswer : boolean = false;
 
 	switch(Data.RuleEnum) {
 		case ruleFunction.Pair:
@@ -90,38 +93,43 @@ public function redoCreation() {
 		case ruleFunction.Tower:
 			functionPointerCreator = TowerCreator;
 			functionPointerPreCreator = NULLFUNCTION;
+			isTextAnswer = true;
 				Debug.Log("Pair");
 
 			break;
 		case ruleFunction.Grid:
 			functionPointerCreator = GridCreator;
 			functionPointerPreCreator = presetGridDataBeforeSort;
+			presetData = true;
 			break;
 		case ruleFunction.HumanReadable: 
 			functionPointerCreator = HumanReadableCreator;
 			functionPointerPreCreator = NULLFUNCTION;
+			isTextAnswer = true;
 			break;
 	}
-	switch(Data.CurrentSubRule) {
-		case subRule.Addition:
-			functionPointerSubCreator = AdditionCreator;
-			break;
-		case subRule.CompositeNumbers:
-			functionPointerSubCreator = AnyWordCreator;
-			break;
-		case subRule.WholeLiner:
-			functionPointerSubCreator = WholeLinerCreator;
-			break;
-		case subRule.AnyWord: 
-			functionPointerSubCreator = AnyWordCreator;
-			break;
-		default: break;
+	if(isTextAnswer){
+		switch(Data.CurrentSubRule) {
+			case subRule.Addition:
+				functionPointerSubCreator = AdditionCreator;
+				break;
+			case subRule.CompositeNumbers:
+				functionPointerSubCreator = AnyWordCreator;
+				break;
+			case subRule.WholeLiner:
+				functionPointerSubCreator = WholeLinerCreator;
+				break;
+			case subRule.AnyWord: 
+				functionPointerSubCreator = AnyWordCreator;
+				break;
+			default: break;
+		}
 	}
-	
-	functionPointerPreCreator(); // set some data before the cubes are randomized
-	
+	if(presetData) {
+		functionPointerPreCreator(); // set some data before the cubes are randomized
+		ruleScript.MakeLocalCopyPacketData(unsortedCubes); //sets an array with copies of the cubes datapackets. for reference when checking finishstate.
+	}
 	ruleScript.ruleSetup(); // sets the rules in the rulescript
-	ruleScript.MakeLocalCopyPacketData(unsortedCubes); //sets an array with copies of the cobes datapackets. for reference when checking finishstate.
 	
 	for(var c: int = 0; c < Data.numberOfCubes; c++) {
 		nextIndex = Random.Range(0,unsortedCubes.Count); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
