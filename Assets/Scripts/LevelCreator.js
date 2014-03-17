@@ -98,16 +98,15 @@ public function redoCreation() {
 			break;
 		case ruleFunction.HumanReadable: 
 			functionPointerCreator = HumanReadableCreator;
-			functionPointerPreCreator = presetStringDataBeforeSort;
+			functionPointerPreCreator = NULLFUNCTION;
 			break;
 	}
-	
 	switch(Data.CurrentSubRule) {
 		case subRule.Addition:
 			functionPointerSubCreator = AdditionCreator;
 			break;
 		case subRule.CompositeNumbers:
-			functionPointerSubCreator = CompositeNumbersCreator;
+			functionPointerSubCreator = AnyWordCreator;
 			break;
 		case subRule.WholeLiner:
 			functionPointerSubCreator = WholeLinerCreator;
@@ -193,13 +192,22 @@ private function TowerCreator () {
 
 
 
+private function setStringDataWithoutOrder(cubes : Array , dataStrings : String[]) {
+	//sets string[0] to ParamCubes[0] and string[7] to ParamCubes[7] 
+	for( var i:int;i<cubes.length;i++) {
+		(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = dataStrings[i];
+		
+	}
+}
 
 
-
-private function presetStringDataBeforeSort() {
-
-
-
+private function setStringDataInOrder(cubes : Array , dataStrings : String[]) {
+	//sets string[0] to sceneCube[0] and string[7] to sceneCube[7] 
+	for( var i:int;i<cubes.length;i++) {
+		(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket =
+			 dataStrings[(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber];
+		
+	}
 }
 
 private function presetGridDataBeforeSort(){
@@ -208,12 +216,12 @@ private function presetGridDataBeforeSort(){
 
 	for(var cube : UnityEngine.GameObject in unsortedCubes){
 
-	 	if(q < coloredTitles){
+	 	if(cube.GetComponent(BoxCollisionScript).MyIdNumber < coloredTitles){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "1";
 	 		cube.renderer.material.color = Color.blue;
 	 		//::TO DO::set skin colored
 	 	}
-	 	else if (q < Data.numberOfCubes-1){
+	 	else if (cube.GetComponent(BoxCollisionScript).MyIdNumber < Data.numberOfCubes-1){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "0";
 	 		cube.renderer.material.color = Color.yellow;
 	 		//::TO DO::set skin uncolored
@@ -232,18 +240,18 @@ private function GridCreator () {
 	var tempInt : int;
 	
 	
-	var currentState : String = ""; 
+	//var currentState : String = ""; 
 	
 
 	for(var cube : GameObject in sortedCubes){
 		tempInt = parseInt(cube.GetComponent(BoxCollisionScript).MyDataPacket);
-		Debug.Log("tempInt is: " + tempInt);
+	//	Debug.Log("tempInt is: " + tempInt);
 		if(tempInt < colorsUsedForGrid){
 			if(Data.FinishState.Count >= Data.numberOfCubes) {
 				return;
 			}
 			Data.FinishState.Add(tempInt);
-			currentState += cube.GetComponent(BoxCollisionScript).MyIdNumber + " ";
+	//		currentState += cube.GetComponent(BoxCollisionScript).MyIdNumber + " ";
 		}
 		
 		// TODO: remove debugstuff	
@@ -261,17 +269,16 @@ function AdditionCreator() {
 }
 
 function WholeLinerCreator(){
-
-}
-
-function CompositeNumbersCreator(){
+//strict string - should have full length
 
 }
 
 function AnyWordCreator(){
+// find solution in currentstate - the point is not to have full length
 	
 }
 
 function NULLFUNCTION() {
+	//this function does nothing
 	return;
 }
