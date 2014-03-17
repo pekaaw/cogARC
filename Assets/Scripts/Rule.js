@@ -237,7 +237,8 @@ private function AdditionTester(boxes : List.<int>){
 		}
 		if(answer == levelCreator.Data.FinishState[0]) {
 			Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
-			
+			levelCreator.Data.FinishState.Clear();
+
 			return;
 		}
 		answer = 0;
@@ -248,13 +249,39 @@ private function AdditionTester(boxes : List.<int>){
 private function WholeLinerTester(boxes : List.<int>){
 	for (var c : int = 0 ; c < levelCreator.Data.FinishState.Count ; c++){
 		if (c == boxes.Count || boxes[c] != levelCreator.Data.FinishState[c]) {
+			levelCreator.Data.FinishState.Clear();
+
 			return;
 		}
 	}
 	Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 }
 
-private function AnyWordTester(boxes : List.<int>){
+private function AnyWordTester(boxes : List.<int>){ 
+//NB: checks if current state contains the finishstate-word. 
+/*eks: if "1,2,3,-1,5,8,9,6,-1" contains "5,8,9,6" - True
+								contains "5,8,9" - False
+								contains "5,8,9,6,2" - False
+								contains "1,2,3" - True
+								*/
+	var i:int = 0;
+
+	while(i < boxes.Count) {
+		var c:int = 0; 
+		while(CubesData[boxes[i]] == CubesData[levelCreator.Data.FinishState[c]] && boxes[i] != -1) {
+			c++;
+			i++;
+			if(levelCreator.Data.FinishState[c] == -1 && boxes[i] == -1 && c > 1) {
+				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
+				levelCreator.Data.FinishState.Clear();
+				return;
+			}
+		}
+		i++;
+
+	}
+
+
 
 }
 function NULLFUNCTION(boxes : List.<int>) {
