@@ -55,7 +55,26 @@ class BoxDesign extends System.Object {
 		return returnObject;
 	}
 	
-	public function FromJSONObject( jsonObject : Boomlagoon.JSON.JSONObject ) {
+	public function FromJSONObject( jsonObject : Boomlagoon.JSON.JSONObject ) : BoxDesign {
+		var colorObject : Boomlagoon.JSON.JSONObject;
+		var textColorObject : Boomlagoon.JSON.JSONObject;
+		var text : String;
+		colorObject = jsonObject.GetValue("BoxColor") as Boomlagoon.JSON.JSONObject;
+		textColorObject = jsonObject.GetValue("TextColor") as Boomlagoon.JSON.JSONObject;
+		text = jsonObject.GetValue("BoxText") as String;
 		
+		var design : BoxDesign = new BoxDesign();
+		design.BoxColor = Color(
+			float.Parse(colorObject.GetValue("r") as String),
+			float.Parse(colorObject.GetValue("g") as String),
+			float.Parse(colorObject.GetValue("b") as String),
+			float.Parse(colorObject.GetValue("a") as String) );
+		design.TextColor = Color(
+			float.Parse(textColorObject.GetValue("r") as String),
+			float.Parse(textColorObject.GetValue("g") as String),
+			float.Parse(textColorObject.GetValue("b") as String),
+			float.Parse(textColorObject.GetValue("a") as String) );
+		design.BoxText = text;
+		return design;
 	}
 }
