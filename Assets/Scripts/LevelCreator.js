@@ -15,6 +15,7 @@ private var sortedCubes : Array = new Array();
 private var currentLevel: int = 0; // last level is one less than number of levels, starts at 0
 final private var colorsUsedForGrid : int = 2;
 
+
 function Awake() {
 	if( Data == null ) {
 		Debug.LogWarning("Data is null");
