@@ -263,6 +263,8 @@ private function AnyWordTester(boxes : List.<int>){
 								contains "5,8,9" - False
 								contains "5,8,9,6,2" - False
 								contains "1,2,3" - True
+
+Note: only the word starting at index 0 of the finishstate will be used for testing
 								*/
 	var i:int = 0;
 
