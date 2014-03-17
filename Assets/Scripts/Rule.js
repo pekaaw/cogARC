@@ -9,7 +9,7 @@ var levelCreator : LevelCreator;
 	var outputTextC2 : UnityEngine.TextMesh;
 	var outputTextC3 : UnityEngine.TextMesh;
 
-
+private var isTextAnswer : boolean; 
 
 
 private static var historyGameState1 : int[];
@@ -90,9 +90,9 @@ public function MakeLocalCopyPacketData(cubesObjects : Array) {
 	 }
 }
 
-public function ruleSetup(){
+public function ruleSetup(isTextAnswerParam : boolean){
 	levelCreator = gameObject.GetComponent(LevelCreator);
-
+	isTextAnswer = isTextAnswerParam;
 	switch(levelCreator.Data.RuleEnum) {
 		case ruleFunction.Pair: 
 			functionPointer = PairTester;
@@ -107,20 +107,22 @@ public function ruleSetup(){
 			functionPointer = HumanReadableTester;
 			break;
 	};
-	
-	switch(levelCreator.Data.CurrentSubRule) {
-		case subRule.CompositeNumbers: 
-			functionPointerSubRule = compositeNumbersTester;
-			break;
-		case subRule.Addition:
-			functionPointerSubRule = AdditionTester;
-			break;
-		case subRule.WholeLiner:
-			functionPointerSubRule = WholeLinerTester;
-			break;
-		case subRule.AnyWord:
-			functionPointerSubRule = AnyWordTester;
-			break;
+	if(isTextAnswer){
+		switch(levelCreator.Data.CurrentSubRule) {
+			case subRule.CompositeNumbers: 
+				functionPointerSubRule = compositeNumbersTester;
+				break;
+			case subRule.Addition:
+				functionPointerSubRule = AdditionTester;
+				break;
+			case subRule.WholeLiner:
+				functionPointerSubRule = WholeLinerTester;
+				break;
+			case subRule.AnyWord:
+				functionPointerSubRule = AnyWordTester;
+				break;
+			default : functionPointerSubRule = NULLFUNCTION;//this function does nothing
+		}
 	}
 
 }
@@ -255,3 +257,8 @@ private function WholeLinerTester(boxes : List.<int>){
 private function AnyWordTester(boxes : List.<int>){
 
 }
+function NULLFUNCTION(boxes : List.<int>) {
+	//this function does nothing
+	return;
+}
+

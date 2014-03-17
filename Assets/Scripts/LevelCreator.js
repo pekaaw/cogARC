@@ -129,7 +129,7 @@ public function redoCreation() {
 		functionPointerPreCreator(); // set some data before the cubes are randomized
 		ruleScript.MakeLocalCopyPacketData(unsortedCubes); //sets an array with copies of the cubes datapackets. for reference when checking finishstate.
 	}
-	ruleScript.ruleSetup(); // sets the rules in the rulescript
+	ruleScript.ruleSetup(isTextAnswer); // sets the rules in the rulescript
 	
 	for(var c: int = 0; c < Data.numberOfCubes; c++) {
 		nextIndex = Random.Range(0,unsortedCubes.Count); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
