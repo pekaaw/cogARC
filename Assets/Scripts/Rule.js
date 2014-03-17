@@ -275,6 +275,8 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 			i++;
 			if(levelCreator.Data.FinishState[c] == -1 && boxes[i] == -1 && c > 1) {
 				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
+				// ToDo: possibly, instead of Clear() we might just remove this word so 
+				// that we can have more than one word in the solution. this should actually work for words, we could just make a really loooooooooooooooong finishstate and I am gonna keep on rambelling for  a while to annoy daniel, because i know he really hates these long comments and then i am gonna add a really important message at the very end.
 				levelCreator.Data.FinishState.Clear();
 				return;
 			}
