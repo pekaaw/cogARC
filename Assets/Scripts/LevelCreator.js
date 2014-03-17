@@ -25,7 +25,7 @@ function Awake() {
 	else
 	{
 		SaveDesignString = Data.SaveDesignString;
-		
+		decodeDesignArray();
 		// some mysterious place
 		// 	AssetDatabase.CreateAsset( Data, "MyData" );
 	}
@@ -290,4 +290,39 @@ function AnyWordCreator(){
 function NULLFUNCTION() {
 	//this function does nothing
 	return;
+}
+
+function encodeDesignArray() : void {
+	var CubeDesignObject : Boomlagoon.JSON.JSONObject = new Boomlagoon.JSON.JSONObject();
+	var SingleDesignObject : Boomlagoon.JSON.JSONObject;
+	var length : int = Data.CubeDesignsArray.Count;
+	var design : BoxDesign;
+	
+	CubeDesignObject.Add( "NumberOfBoxes", length.ToString() );
+
+	for( var x : int = 0; x < length; x++ )
+	{
+		// get design from inspector
+		design = Data.CubeDesignsArray[x];
+
+		// Create a JSONObject out of the design
+		SingleDesignObject = design.ToJSONObject();
+		
+		// Add the designJsonObject to the collection of jsonobjects
+		CubeDesignObject.Add( x.ToString(), SingleDesignObject );
+	}
+	
+	// Save the jsonobject with designs in a serializable field in data
+	Data.SaveDesignString = CubeDesignObject.ToString();
+}
+
+function decodeDesignArray() {
+	var cubeDesigns : ArrayList = new ArrayList();
+	var cubeDesignsInJSONObject : Boomlagoon.JSON.JSONObject;
+	
+	//cubeDesignsInJSONObject
+	
+	// TESTING ONGOING
+	//Data.CubeDesignsArray = cubeDesigns;
+	//Debug.LogError("OOps, cubedesign should be empty..");
 }

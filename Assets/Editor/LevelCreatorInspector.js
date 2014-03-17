@@ -39,11 +39,6 @@ class LevelCreatorInspector extends Editor{
 			lvlCreator.Data.CubeDesignsArray.Add( new BoxDesign());
 			//Debug.LogWarning(lvlCreator.Data.CubeDesignsArray.Count);
 		}
-		
-		if( lvlCreator.Data.SaveDesign )
-		{
-			Debug.LogError("OnEnable LevelCreatorInspector: " + lvlCreator.Data.SaveDesign );
-		}
 	}
 	
 	override function OnInspectorGUI () {
@@ -64,37 +59,13 @@ class LevelCreatorInspector extends Editor{
 		if(GUI.changed){
 			EditorUtility.SetDirty(target);
 			serializedObject.Update();
+			lvlCreator.encodeDesignArray();
 		}
 		
 		EditorGUILayout.EndVertical();
 	}
 	
-	function OnDisable(){
-		var CubeDesignObject : Boomlagoon.JSON.JSONObject = new Boomlagoon.JSON.JSONObject();
-		var SingleDesignObject : Boomlagoon.JSON.JSONObject;
-		var length : int = lvlCreator.Data.CubeDesignsArray.Count;
-		var design : BoxDesign;
-		
-		CubeDesignObject.Add( length.ToString(), length.ToString() );
-
-		//for( var design : BoxDesign in lvlCreator.Data.CubeDesignsArray )
-		for( var x : int = 0; x < length; x++ )
-		{
-			//CubeDesignObject.Add( "hei " + design.ToString(), design.ToString() );
-			design = lvlCreator.Data.CubeDesignsArray[x];
-			//SingleDesignObject = new Boomlagoon.JSON.JSONObject();
-
-			SingleDesignObject = design.ToJSONObject();
-			
-			CubeDesignObject.Add( x.ToString(), SingleDesignObject );
-			//CubeDesignObject.Add( x.ToString(), lvlCreator.Data.CubeDesignsArray[x].ToString() );
-		}
-		
-		Debug.LogWarning( CubeDesignObject.ToString() );
-		
-		lvlCreator.Data.SaveDesign = CubeDesignObject;
-		lvlCreator.Data.SaveDesignString = CubeDesignObject.ToString();
-		
+	function OnDisable() {
 		
 	}
 	
