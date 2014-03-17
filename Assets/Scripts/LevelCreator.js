@@ -3,6 +3,8 @@
 // Data from this level
 public var Data : LevelData;
 
+public var SaveDesignString : String;
+
 private var LoadingScript : LoadingScreen;
 private var ruleScript : Rule;
 private var functionPointerCreator : Function;
@@ -19,6 +21,13 @@ function Awake() {
 //		Data = ScriptableObject.CreateInstance("LevelData");
 		Data = new LevelData();
 	}
+	else
+	{
+		SaveDesignString = Data.SaveDesignString;
+		
+		// some mysterious place
+		// 	AssetDatabase.CreateAsset( Data, "MyData" );
+	}
 	
 	Debug.Log(Data.RuleEnum);
 	//for(var q : int = Data.CubeDesignsArray.length ; q < Data.numberOfCubes; q++) {
@@ -27,6 +36,7 @@ function Awake() {
 	
 	//Data.gridGoalScript = GameObject.Find("GridGoal").GetComponent(GridGoalScript);
 	ruleScript =  gameObject.GetComponent(Rule);
+
 	LoadingScript = gameObject.GetComponent(LoadingScreen);
 
 	LoadLevel();
@@ -37,6 +47,11 @@ function Start () {
 }
 
 function Update () {
+	if( Data.SaveDesignString ) {
+		//Debug.LogWarning("JSON String" + Data.SaveDesignString); 
+		GameObject.Find("DebugText4").GetComponent(TextMesh).text = Data.SaveDesignString;
+	}
+
 
 }
 
