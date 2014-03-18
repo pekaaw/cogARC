@@ -72,6 +72,16 @@ class LevelCreatorInspector extends Editor{
 	function ChooseMainRule() {
 		lvlCreator.Data.RuleEnum = EditorGUILayout.EnumPopup("Select rule:",lvlCreator.Data.RuleEnum);
 		
+		//Array fun times
+		if(lvlCreator.Data.RuleEnum == ruleFunction.Grid){
+			while(lvlCreator.Data.CubeDesignsArray.Count > 9){
+				lvlCreator.Data.CubeDesignsArray.RemoveAt(lvlCreator.Data.CubeDesignsArray.Count-1);
+			}
+		} else {
+			while(lvlCreator.Data.CubeDesignsArray.Count < 10){
+				lvlCreator.Data.CubeDesignsArray.Add( new BoxDesign());
+			}
+		}
 		if (lvlCreator.Data.RuleEnum == ruleFunction.Grid){
 			Grid();
 		}else if(lvlCreator.Data.RuleEnum == ruleFunction.Tower){
