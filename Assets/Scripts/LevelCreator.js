@@ -317,7 +317,6 @@ function encodeDesignArray() : void {
 }
 
 function decodeDesignArray() {
-	Debug.LogWarning("decodeDesignArray running");
 	var cubeDesigns : ArrayList = new ArrayList();
 	var cubeDesignsInJSONObject : Boomlagoon.JSON.JSONObject;
 	var cubeDesignJSONObject : Boomlagoon.JSON.JSONObject;
@@ -325,57 +324,65 @@ function decodeDesignArray() {
 	var colorJSONObject : Boomlagoon.JSON.JSONObject;
 	var length : int;
 	var counter : int;
-	var strForConversion : String;
 	
 	var colorR : int;
 	var colorG : int;
 	var colorB : int;
 	var colorA : int;
 	
+	// Get the designs from the JSON-string in Data
 	cubeDesignsInJSONObject = Boomlagoon.JSON.JSONObject.Parse(Data.SaveDesignString) ;
 	
-	strForConversion = cubeDesignsInJSONObject.GetString("NumberOfBoxes") as String;
-	length = parseInt( strForConversion );
-	
-	Debug.LogWarning(cubeDesignsInJSONObject.ToString());
-	
+	// Find number of cubedesigns
+	length = parseInt( cubeDesignsInJSONObject["NumberOfBoxes"].Str );
+
+	// for each design: add it to the data
 	for( counter = 0; counter < length; counter++ )
 	{
-		Debug.LogWarning("DesignArray.Count: " + Data.CubeDesignsArray.Count);
-		
+		// this will hold the new design we will build from data
 		var newDesign = new BoxDesign();
 		
+		// Get the data for this BoxDesign
 		cubeDesignJSONValue = cubeDesignsInJSONObject.GetValue(counter.ToString());
 		
+		// Parse it till a readable format
 		cubeDesignJSONObject = Boomlagoon.JSON.JSONObject
 								.Parse(	cubeDesignJSONValue.ToString());
 		
+		// Set color of the box
 		cubeDesignJSONValue = cubeDesignJSONObject.GetValue("BoxColor");
 		
 		colorJSONObject = Boomlagoon.JSON.JSONObject
 								.Parse( cubeDesignJSONValue.ToString() );
+			
+		newDesign.BoxColor.r = parseFloat(colorJSONObject["r"].Str);
+		newDesign.BoxColor.g = parseFloat(colorJSONObject["g"].Str);
+		newDesign.BoxColor.b = parseFloat(colorJSONObject["b"].Str);
+		newDesign.BoxColor.a = parseFloat(colorJSONObject["a"].Str);
 		
-		Debug.LogWarning("CubeDesign: " + cubeDesignJSONObject);
-		Debug.LogWarning("Color: " + colorJSONObject );
+		// Set color of the text
+		cubeDesignJSONValue = cubeDesignJSONObject.GetValue("TextColor");
 		
+		colorJSONObject = Boomlagoon.JSON.JSONObject
+								.Parse( cubeDesignJSONValue.ToString() );
+			
+		newDesign.TextColor.r = parseFloat(colorJSONObject["r"].Str);
+		newDesign.TextColor.g = parseFloat(colorJSONObject["g"].Str);
+		newDesign.TextColor.b = parseFloat(colorJSONObject["b"].Str);
+		newDesign.TextColor.a = parseFloat(colorJSONObject["a"].Str);
+		
+		// Set text on the box
+		newDesign.BoxText = cubeDesignJSONObject["BoxText"].Str;
+		
+		// Replace data
 		if( counter < Data.CubeDesignsArray.Count )
 		{
-			Debug.LogWarning("design: " + counter );
-			//Data.CubeDesignsArray[counter] = new BoxDesign();
-			//(Data.CubeDesignsArray[counter] as BoxDesign).BoxColor = Color.cyan;
-			
+			Data.CubeDesignsArray[counter] = newDesign;
 		}
+		// or add data
 		else
 		{
-			Data.CubeDesignsArray.Add( new BoxDesign() );
-			//(Data.CubeDesignsArray[counter] as BoxDesign).BoxColor = Color.cyan;
+			Data.CubeDesignsArray.Add( newDesign );
 		}
-
-		Debug.LogWarning("Added new design");
-
 	}
-	
-	// TESTING ONGOING
-	//Data.CubeDesignsArray = cubeDesigns;
-	//Debug.LogError("OOps, cubedesign should be empty..");
 }
