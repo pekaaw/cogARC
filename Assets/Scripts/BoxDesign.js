@@ -47,34 +47,65 @@ class BoxDesign extends System.Object {
 		//save BoxText		
 		returnObject.Add( "BoxText", this.BoxText );
 
-
-//		returnObject.Add( "BoxImage", this.BoxImage.ToString() );
-//		returnObject.Add( "TextColor", this.TextColor.ToString() );
-//		returnObject.Add( "BoxText", this.BoxText.ToString() );
+		if( this.BoxImage != null )
+		{
+			returnObject.Add( "ImageExist", "true" );
+			returnObject.Add( "BoxImage", this.BoxImage.ToString() );
+		}
+		else
+		{
+			returnObject.Add( "ImageExist", "false" );
+		}
 		
 		return returnObject;
 	}
 	
-	public function FromJSONObject( jsonObject : Boomlagoon.JSON.JSONObject ) : BoxDesign {
+	public function FromJSONObject( jsonObject : Boomlagoon.JSON.JSONObject ) {
 		var colorObject : Boomlagoon.JSON.JSONObject;
 		var textColorObject : Boomlagoon.JSON.JSONObject;
 		var text : String;
-		colorObject = jsonObject.GetValue("BoxColor") as Boomlagoon.JSON.JSONObject;
-		textColorObject = jsonObject.GetValue("TextColor") as Boomlagoon.JSON.JSONObject;
-		text = jsonObject.GetValue("BoxText") as String;
+		var textureName : String;
 		
-		var design : BoxDesign = new BoxDesign();
-		design.BoxColor = Color(
-			float.Parse(colorObject.GetValue("r") as String),
-			float.Parse(colorObject.GetValue("g") as String),
-			float.Parse(colorObject.GetValue("b") as String),
-			float.Parse(colorObject.GetValue("a") as String) );
-		design.TextColor = Color(
-			float.Parse(textColorObject.GetValue("r") as String),
-			float.Parse(textColorObject.GetValue("g") as String),
-			float.Parse(textColorObject.GetValue("b") as String),
-			float.Parse(textColorObject.GetValue("a") as String) );
-		design.BoxText = text;
-		return design;
+		var tempValue : Boomlagoon.JSON.JSONValue;
+		
+		// Get colorObject as a JSONObject
+		tempValue = jsonObject.GetValue("BoxColor");
+		colorObject = Boomlagoon.JSON.JSONObject.Parse( tempValue.ToString() );
+
+		// Get TextColorObject as a JSONObject
+		tempValue = jsonObject.GetValue("TextColor");
+		textColorObject = Boomlagoon.JSON.JSONObject.Parse( tempValue.ToString() );
+		
+		// Get BoxText
+		text = jsonObject.GetValue("BoxText").Str;
+		
+		// Get BoxImage
+		if( jsonObject.GetValue("ImageExist").Str == "true" )
+		{
+			// Get textureName
+			textureName = jsonObject.GetString("BoxImage");
+			
+			// remove the last part of the word to get the name without type
+			// example: 'circle_red (UnityEngine.Texture2D)' -> 'circle_red'
+			var indexToLastWord : int = textureName.LastIndexOf(" ");
+			if( indexToLastWord > -1 )
+			{
+				textureName = textureName.Remove( indexToLastWord );
+			}
+		}
+		
+		// Set the properties and load texture
+		this.BoxColor = Color(
+			float.Parse(colorObject.GetValue("r").Str),
+			float.Parse(colorObject.GetValue("g").Str),
+			float.Parse(colorObject.GetValue("b").Str),
+			float.Parse(colorObject.GetValue("a").Str) );
+		this.TextColor = Color(
+			float.Parse(textColorObject.GetValue("r").Str),
+			float.Parse(textColorObject.GetValue("g").Str),
+			float.Parse(textColorObject.GetValue("b").Str),
+			float.Parse(textColorObject.GetValue("a").Str) );
+		this.BoxText = text;
+		this.BoxImage = Resources.Load( "BoxDesign/" + textureName ) as Texture;
 	}
 }
