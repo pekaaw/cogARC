@@ -37,7 +37,7 @@ function OnGUI () {
 }
 
 function calculateScore() {
-	score = 1000.0f - (timer * TimeScoreMultiplyer)*10.0f;
+	score = 1000.0f - (timer*timer * TimeScoreMultiplyer)*10.0f / 1000;
 	if(score < 0){
 		score = 0;
 	}

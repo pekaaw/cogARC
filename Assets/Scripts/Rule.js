@@ -241,10 +241,61 @@ private function AnyWordTester(boxes : List.<int>){
 
 Note: only the word starting at index 0 of the finishstate will be used for testing
 			*/
-	var i:int = 0;
+	var inIndex:int = 0;
+	var finIndex:int = 0;	
+	
+	while(inIndex < boxes.Count)
+	{
+		while(finIndex < levelCreator.Data.FinishState.Count)
+		{
+			var wordFound:boolean = false;
+			if(CubesData[boxes[inIndex]] == CubesData[levelCreator.Data.FinishState[finIndex]]){// finds a possible start of this word
+				var tempInIndex:int = inIndex;
+				var tempFinIndex:int = finIndex;
+				// while boxes follows the pattern of this word
+				while(boxes[inIndex] != -1 && CubesData[boxes[tempInIndex]] == CubesData[levelCreator.Data.FinishState[tempFinIndex]]) {
+					
+					
+					tempInIndex ++;
+					tempFinIndex ++;
+					if(levelCreator.Data.FinishState[tempFinIndex] == -1 && boxes[tempInIndex] == -1) // if a -1 is found for both at the same time we will have a correct word
+					{
+						wordFound = true;
+						Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
+						// this should actually work for words, we could just make a really loooooooooooooooong finishstate and I am gonna keep on rambelling for  a while to annoy Daniel, because i know he really hates these long comments and then i am gonna add a really important message at the very end. and here it is, do not, ever, ever, ever run this algorithm without at the end having a -1
+						while (levelCreator.Data.FinishState[tempFinIndex] == -1)
+						{
+							levelCreator.Data.FinishState.RemoveAt(tempFinIndex); // delete the -1 after the word and additional -1's after the word, this last part will mostly be skipped
+						}
+						while (tempFinIndex > 0 && levelCreator.Data.FinishState[tempFinIndex-1] != -1) 
+						{
+							levelCreator.Data.FinishState.RemoveAt(tempFinIndex-1); // remove the word it self, here we can count points for letters
+							tempFinIndex--;
+						}
+					}
+				}	
+			}
+			if(!wordFound){ // if the word was found it will already be ready for the next word.
+				while (levelCreator.Data.FinishState[finIndex] != -1)//otherwise skip to next word,finishstate
+				{
+					finIndex++;
+				}
+				finIndex++;
+			}
+		}
+		while (boxes[inIndex] != -1)//skip to next word,currentstate
+		{
+			inIndex++;
+		}
+		inIndex++;
+		finIndex = 0;
+	}
+}
+			
 
-	while(i < boxes.Count) {
-		var c:int = 0; 
+		
+		/*
+		::::::::I WANT TO KEEP THIS UNTIL I KNOW THIS NEW THING WORKS
 		while(CubesData[boxes[i]] == CubesData[levelCreator.Data.FinishState[c]] && boxes[i] != -1) {
 			c++;
 			i++;
@@ -252,13 +303,18 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 				// ToDo: possibly, instead of Clear() we might just remove this word so 
 				// that we can have more than one word in the solution. this should actually work for words, we could just make a really loooooooooooooooong finishstate and I am gonna keep on rambelling for  a while to annoy Daniel, because i know he really hates these long comments and then i am gonna add a really important message at the very end.
+				
+				for(var w: int = 0; w < c ; w++) {
+					
+				}
+				
 				levelCreator.Data.FinishState.Clear();
 				return;
 			}
 		}
 		i++;
 	}
-}
+	*/
 
 function NULLFUNCTION(boxes : List.<int>) {
 	//this function does nothing
