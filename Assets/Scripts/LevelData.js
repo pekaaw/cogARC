@@ -27,4 +27,7 @@ class LevelData extends ScriptableObject {
 	
 	public var SaveDesignString : String;
 	//public var SaveDesign : Boomlagoon.JSON.JSONObject;
+	
+	public var TimeEstimate : int;
+	public var CorrectBonus : int;
 }
