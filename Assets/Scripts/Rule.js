@@ -17,13 +17,18 @@ private static var historyGameState3 : int[]; //tests are only done when all 3 a
 
 var CubesData : Array;		//local copy of the data contained in the 
 
+function Awake() {
+
+	levelCreator = gameObject.GetComponent(LevelCreator);
+}
+
 function Update () {
 var currentState : String = ""; 
 	for(var d : int  = 0 ; d < levelCreator.Data.FinishState.Count ; d++) {
 		currentState += levelCreator.Data.FinishState[d] + " ";
 	}
 
- outputTextC.text = currentState;
+// outputTextC.text = currentState;
 }
 
 function OnGUI () {
@@ -72,7 +77,6 @@ public function MakeLocalCopyPacketData(cubesObjects : Array) {
 }
 
 public function ruleSetup(isTextAnswerParam : boolean){
-	levelCreator = gameObject.GetComponent(LevelCreator);
 	isTextAnswer = isTextAnswerParam;
 	switch(levelCreator.Data.RuleEnum) {
 		case ruleFunction.Pair: 
@@ -236,7 +240,7 @@ private function AnyWordTester(boxes : List.<int>){
 								contains "1,2,3" - True
 
 Note: only the word starting at index 0 of the finishstate will be used for testing
-								*/
+			*/
 	var i:int = 0;
 
 	while(i < boxes.Count) {
