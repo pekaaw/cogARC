@@ -14,6 +14,11 @@ private var score : int;
 private var scoreArray : int[];
 private var scoresLoaded = false;
 
+function Awake() {
+	timerAndScore = gameObject.GetComponent(TimerAndScore);
+
+}
+
 
 function Start () {
 	//Gives the game a name if there is no name
