@@ -4,23 +4,18 @@ private var functionPointerSubRule : Function;
 //Enum defined in LevelCreator.js
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
 
-var levelCreator : LevelCreator;
-	var outputTextC : UnityEngine.TextMesh;
-	var outputTextC2 : UnityEngine.TextMesh;
-	var outputTextC3 : UnityEngine.TextMesh;
+private var levelCreator : LevelCreator;
+private	var outputTextC : UnityEngine.TextMesh;
+private	var outputTextC2 : UnityEngine.TextMesh;
+private	var outputTextC3 : UnityEngine.TextMesh;
 
 private var isTextAnswer : boolean; 
-
 
 private static var historyGameState1 : int[];
 private static var historyGameState2 : int[]; //these are check against eachother to stabilize the inputdata
 private static var historyGameState3 : int[]; //tests are only done when all 3 are the same
 
 var CubesData : Array;		//local copy of the data contained in the 
-
-function Start () {
-
-}
 
 function Update () {
 var currentState : String = ""; 
@@ -29,9 +24,7 @@ var currentState : String = "";
 	}
 
  outputTextC.text = currentState;
-
 }
-
 
 function OnGUI () {
 	var x1 : int = 20;
@@ -43,8 +36,6 @@ function OnGUI () {
 	var margine : int = 5; //increasing this will make the grid-goal-visualizer smaller.
 	var textureA : Texture = Resources.Load("coloredtitle") as Texture; // images used for the grid-goal-visualizer
 	var textureB : Texture = Resources.Load("uncoloredtitle") as Texture;
-	
-
 	
 	GUI.Box (Rect (x1,y1,width,height), "Your Task");
 	if(levelCreator.Data.RuleEnum == ruleFunction.Grid) {
@@ -63,19 +54,9 @@ function OnGUI () {
 				}
 				i++;
 			}
-		
 		}
-		
-		
 	}
-	  
-
-
-
 }
-
-
-
 
 public function MakeLocalCopyPacketData(cubesObjects : Array) {
 	CubesData = new Array();
@@ -107,6 +88,7 @@ public function ruleSetup(isTextAnswerParam : boolean){
 			functionPointer = HumanReadableTester;
 			break;
 	};
+	
 	if(isTextAnswer){
 		switch(levelCreator.Data.CurrentSubRule) {
 			case subRule.CompositeNumbers: 
@@ -124,30 +106,28 @@ public function ruleSetup(isTextAnswerParam : boolean){
 			default : functionPointerSubRule = NULLFUNCTION;//this function does nothing
 		}
 	}
-
 }
 
 //Task Completion Tests
 
 public function Test (boxes : List.<int>){
-//::::::::::this block of code is only to stabilize the input[start]::::::::::::
-
-	
-
-	historyGameState3 = historyGameState2;// order 1
-	historyGameState2 = historyGameState1; // order 2
-	historyGameState1 = boxes.ToArray(); //order 3
+	//This code block test to make sure that you get the same input three times
+	//	before it let you advance
+	historyGameState3 = historyGameState2;
+	historyGameState2 = historyGameState1;
+	historyGameState1 = boxes.ToArray();
 	
 	if(!historyGameState3 || historyGameState3.length != historyGameState1.Length || historyGameState3.length != historyGameState2.length) {
 		return;
 	}
 	for(var c:int = 0 ; c < historyGameState1.length ; c ++) {
 		if(historyGameState1[c] != historyGameState2[c] || historyGameState2[c] != historyGameState3[c]) {
-			Debug.Log("UNexpected CHANGE in HISTORY");
+			Debug.Log("Unexpected CHANGE in HISTORY");
 			return;
 		}
 	}
-	//::::::::::this block of code is only to stabilize the input[end]::::::::::::
+	//Checking of history is done here
+	
 	var currentdebugstate : String = "";
 	
 	for ( var f:int = 0 ; f < historyGameState1.length;f++) {
@@ -156,6 +136,7 @@ public function Test (boxes : List.<int>){
 	outputTextC2.text = currentdebugstate;
  
 	functionPointer(boxes);
+	
 	if(levelCreator.Data.FinishState.Count < 1){
 		levelCreator.LoadLevel();
 		//congrats, save score, load next level
@@ -163,9 +144,6 @@ public function Test (boxes : List.<int>){
 }
 
 private function PairTester (boxes : List.<int>) {
-	Debug.Log("Pair");
-	
-	
 	var q : int = 0;
 	while(q+1 < historyGameState1.length){ 
 		
@@ -182,31 +160,25 @@ private function PairTester (boxes : List.<int>) {
 					for(var t:int = 0; t < 3; t++){ //remove finishState[r, r+1, r+2]
 						levelCreator.Data.FinishState.RemoveAt(r);
 					}
-					r-=3;
-				}
+				r-=3;
 			}
-			do{
-				q++;
-			} while(q < historyGameState1.Length && historyGameState1[q-1] != -1);
+		}
+		do{
+			q++;
+		} while(q < historyGameState1.Length && historyGameState1[q-1] != -1);
 	}
 }
 
 private function TowerTester (boxes : List.<int>) {
 	functionPointerSubRule(boxes);
-	Debug.Log("Tower");
-	
-	
-	
-	
 }
 
 private function GridTester (boxes : List.<int>) {
-	Debug.Log("Grid");
-	var tempString : String; //because unity is being a Bitch.
-	var tempInt : int;//because unity is being a Bitch.
+	var tempString : String; //Because unity is being a Bitch.
+	var tempInt : int;//Because unity is being a Bitch.
 	for (var c : int = 0 ; c < levelCreator.Data.FinishState.Count ; c++){
-	tempString = CubesData[boxes[c]];//because unity is being a Bitch.
-	tempInt = parseInt(tempString);//because unity is being a Bitch.
+	tempString = CubesData[boxes[c]];//Because unity is being a Bitch.
+	tempInt = parseInt(tempString);//Because unity is being a Bitch.
 		if (c == boxes.Count || tempInt != levelCreator.Data.FinishState[c]) {
 			return;
 		}
@@ -217,7 +189,6 @@ private function GridTester (boxes : List.<int>) {
 
 private function HumanReadableTester (boxes : List.<int>) {
 	functionPointerSubRule(boxes);
-	Debug.Log("Human Readable");
 }
 
 
@@ -276,20 +247,16 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 			if(levelCreator.Data.FinishState[c] == -1 && boxes[i] == -1 && c > 1) {
 				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 				// ToDo: possibly, instead of Clear() we might just remove this word so 
-				// that we can have more than one word in the solution. this should actually work for words, we could just make a really loooooooooooooooong finishstate and I am gonna keep on rambelling for  a while to annoy daniel, because i know he really hates these long comments and then i am gonna add a really important message at the very end.
+				// that we can have more than one word in the solution. this should actually work for words, we could just make a really loooooooooooooooong finishstate and I am gonna keep on rambelling for  a while to annoy Daniel, because i know he really hates these long comments and then i am gonna add a really important message at the very end.
 				levelCreator.Data.FinishState.Clear();
 				return;
 			}
 		}
 		i++;
-
 	}
-
-
-
 }
+
 function NULLFUNCTION(boxes : List.<int>) {
 	//this function does nothing
 	return;
 }
-
