@@ -48,11 +48,7 @@ function Start () {
 }
 
 function Update () {
-	if( Data.SaveDesignString ) {
-		//Debug.LogWarning("JSON String" + Data.SaveDesignString); 
-		GameObject.Find("DebugText4").GetComponent(TextMesh).text = Data.SaveDesignString;
-	}
-
+	//GameObject.Find("DebugText4").GetComponent(TextMesh).text = Data.SaveDesignString;
 
 }
 
