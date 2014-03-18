@@ -1,33 +1,33 @@
 ﻿#pragma strict
 //other scripts used by this script
-var getGodOfCreation : LevelCreator;
-var getRules : Rule;
+private var getGodOfCreation : LevelCreator;
+private var getRules : Rule;
 
 // the current rule effects how the gamestate is set up
 private var RuleEnum : ruleFunction;
 
 //debug output on mobile devices
-var outputTextC : UnityEngine.TextMesh;
+private var outputTextC : UnityEngine.TextMesh;
 
 // GameState formated based on the ruleset currently in use.
 // this is sendt to the rulescript to see if the goal(s) has been met.
-var GameState : List.<int> = new List.<int>();
+private var GameState : List.<int> = new List.<int>();
 
 //:::::option 1 ::::: List of chains
-var chainsOfCubesTemp : int[];
+private var chainsOfCubesTemp : int[];
 //::::::::::::::::::: END>List of chains
 
 //:::::option 2 ::::: square grid
-final var GRID_ROW_SIZE : int = 3; // these two should be the same for reliability, but they don't have to be
-final var GRID_COLUMN_SIZE : int = 3;
-final var GRID_SIZE : int = GRID_ROW_SIZE * GRID_COLUMN_SIZE; //do not change this
+final private var GRID_ROW_SIZE : int = 3; // these two should be the same for reliability, but they don't have to be
+final private var GRID_COLUMN_SIZE : int = 3;
+final private var GRID_SIZE : int = GRID_ROW_SIZE * GRID_COLUMN_SIZE; //do not change this
 
 // NUMBER_OF_SIDES: Used in WorldState
 // 2 means up and down
 // 4 means horizontal sides
 // 6 means all sides
-final var NUMBER_OF_SIDES : int = 6;
-final var NUMBER_OF_CUBES : int  = 10;
+final private var NUMBER_OF_SIDES : int = 6;
+final private var NUMBER_OF_CUBES : int  = 10;
 
 // WorldState will contain (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ints with value -1.
 var WorldState : int[];
@@ -37,7 +37,6 @@ var WorldState : int[];
 function Start() {
 	getGodOfCreation = GameObject.Find("Scripts").GetComponent(LevelCreator);
 	getRules = GameObject.Find("Scripts").GetComponent(Rule);
-
 
 	// Get ruleSet from LevelCreator
 	RuleEnum = getGodOfCreation.Data.RuleEnum;
@@ -55,7 +54,6 @@ function Start() {
 	 		arr.Push(-1);
  	}
  	WorldState = arr.ToBuiltin(int);
-
 }
 
 function Update () {
@@ -112,7 +110,7 @@ function SetDataWorldState(idNumber : int, otherIdNumber : int, sideHit : int) :
 	{
 	// :::::TO DO .... or maybe not :::: 	
 	// odd case : more than one collition on this side, do something smart!
-	return;
+		return;
 	}
 }
 
@@ -140,45 +138,44 @@ function SetDataChainNonOverwrite(idNumber : int, otherIdNumber : int, sideHit :
 	}
 	else {
 	// :::::TO DO NOTHING:::: 	
-	// odd case : more than one collition on this side, do something smart!
-	return;
+	// Odd case : more than one collition on this side, do something smart!
+		return;
 	}
 }
 
 function ClearData() : void 
 {
-	// reset WorldState
+	// Reset WorldState.
 	for ( var i : int  = 0 ; i < WorldState.length ; i++) {
 		WorldState[i] = -1;
 	}
-	
-	// reset GameState
+	// Reset GameState.
 	GameState.Clear();
 }
 
 function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) : void { // 'this'(leftof('other')?)
 	var index : int;
 	var indexOther : int;
-	//NOTE ::::::: this function is made for making chains of data
+	//NOTE ::::::: This function is made for making chains of data
 	// it doesn't handle duplicated cubeIds or more than 1 connection on each of 2 out of the 6 sides on each of the cubes.
 	//if more than one cube is colliding with the left side of a cube one will overwrite the other and it's
 	//possible that paradoxical connections occurs. even though reality can handle 3d doesn't mean it will look nice when
 	//squeezed in to a 1d array
 
-	index = GameState.IndexOf(idNumber); // finds the index of 'this' and 'other' in the list
-												//returns -1 is not found
+	index = GameState.IndexOf(idNumber); // Finds the index of 'this' and 'other' in the list,
+										 //returns -1 is not found.
 	indexOther = GameState.IndexOf(otherIdNumber);
 
 	
 	if(Mathf.Abs(index - indexOther) == 1 && index != -1 && indexOther != -1) {
-		return; //these have already been connected : the difference in index is 1 and both are in the list.
+		return; //These have already been connected : the difference in index is 1 and both are in the list.
 	}
 	
-	// the first cube (index) is not in the list
+	// If the first cube (index) is not in the list.
 	if(index == -1) {
-		//the indexOther is not in the list so add new
+		//the indexOther is not in the list so add new.
 		if(indexOther == -1) {
-			//add new pair at the end
+			//Add new pair at the end.
 			if(leftOfOther) {
 
 				addPairAtEnd(idNumber,otherIdNumber);
@@ -188,9 +185,9 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 				addPairAtEnd(otherIdNumber,idNumber);
 			}
 		} 
-		// indexOther is in list, put beside it
+		//If indexOther is in list, put beside it.
 		else {
-			//connect new to 'other'. 'other' should already be part of a chain.
+			//Connect new to 'other'. 'other' should already be part of a chain.
 			if(leftOfOther) {
 
 				insertAtIndex(indexOther,idNumber);
@@ -198,28 +195,23 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 
 				insertAtIndex(indexOther+1,idNumber);
 			}
-			
 		}
 	} 
-	// index is in the list already (already connected to another cube)
+	// Index is in the list already (already connected to another cube).
 	else {
-		// indexOther is not in the list - not connected.
+		// IndexOther is not in the list - not connected.
 		if ( indexOther == -1) {
 			if(leftOfOther) {
-
 				insertAtIndex(index+1,otherIdNumber);
 			} else {
-
 				insertAtIndex(index,otherIdNumber);
 			}
 		} else {
 			// Both existed, so move one block of items to be connected 
 			// to 'other' on it's left or right side.
 			if(leftOfOther) {
-
 				fuseBlock(index, indexOther );
 			} else {
-
 				fuseBlock( index, indexOther + 1);
 			}
 		}
@@ -233,11 +225,10 @@ function addPairAtEnd(first : int, second : int) {
    GameState.Add(first);
    GameState.Add(second);
    GameState.Add(-1);
-
 }
 
 function insertAtIndex( index : int, newNumber : int) {
-// inserts 'newNumber' at index 'index' in ' GameState ' pushing the one in and those after one index up;
+// Inserts 'newNumber' at index 'index' in ' GameState ' pushing the one in and those after one index up.
 	try {
   		 GameState.Insert(index, newNumber);
 	}
@@ -245,8 +236,6 @@ function insertAtIndex( index : int, newNumber : int) {
 		Debug.Log(err); // PLEASE DO NOT CLUSTER-F___ THE ALGORITHM! This algorithm is for words / one dimensional connections of cubes only. 
 	}
 }
-// DONE!!!!!...............I THINK
-
 function fuseBlock( startBlockIndex : int, targetIndex : int) {
 // startBlockIndex should be the first index in the block to move to targetIndex,
 // but this function will change this variable to find the start so any index in 
@@ -255,55 +244,40 @@ function fuseBlock( startBlockIndex : int, targetIndex : int) {
 // be the same as 'other's index in the list if it's from the other side the 
 // targetIndex should be  'other's index + 1;
 
-	//sets the starting point for the block to actually be the first in the block
+	//Sets the starting point for the block to actually be the first in the block.
 	while (startBlockIndex > 0 &&  GameState [startBlockIndex-1] != -1){
-	
 		startBlockIndex--;
 	}
 
 	var count : int = 0;
 	while ( GameState[(startBlockIndex + count)] != -1) {
-		//counts how many needs to be moved
+		//Counts how many needs to be moved.
 		count ++;
 	}
 	
-	//copies the block to a temp-workspace-int[]
+	//Copies the block to a temp-workspace-int[]
 	 GameState.CopyTo(startBlockIndex,chainsOfCubesTemp,0,count); //index,targetarray,targetindex,itemcount
 	
-	// removes the block and the extra -1 separator
+	// Removes the block and the extra -1 separator.
 	GameState.RemoveRange(startBlockIndex,count+1);
 	
 	// Now, since we removed count+1 blocks in the array,
-	// we need to adjust the index if it was 
+	// we need to adjust the index if it was.
 	if(targetIndex > startBlockIndex) {
-		// since the block has been removed the targetIndex will need to be 
-		//ajusted if the block was of a lower index than the target
+		// Since the block has been removed the targetIndex will need to be 
+		//ajusted if the block was of a lower index than the target.
 		targetIndex -= count+1; 
 	}
 
-var c : int  =  count - 1;
+	var c : int  =  count - 1;
 	while ( c >= 0) {
-		// reinsert one by one from the temp-workspace-int[] in opposite order to the targetIndex 
-
+		// Reinsert one by one from the temp-workspace-int[] in opposite order to the targetIndex.
         insertAtIndex(targetIndex,chainsOfCubesTemp[c]);
         c--;
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
 //GRRIIIIDDDDDDDDDAYO
 // sides ::::	 0  : left , 1  = back , 2 = right , 3 = front
-
 function MakeGrid( ): boolean {
 	var entryPoint : int = -1;
 	var cursorX : int;
@@ -324,7 +298,6 @@ function MakeGrid( ): boolean {
 	GameState.Clear();
 	for (var y : int  = 0 ; y < GRID_COLUMN_SIZE ; y++)
 	{
-
 		for (var x : int  = 0 ; x < GRID_ROW_SIZE ; x++)
 		{
 			GameState.Add(cursorX/NUMBER_OF_SIDES);

@@ -26,5 +26,7 @@ class LevelData extends ScriptableObject {
 	public var numberOfCubes : int = 10; //NB! :should no longer be changed when using grid rules: NB!
 	
 	public var SaveDesignString : String;
-	//public var SaveDesign : Boomlagoon.JSON.JSONObject;
+	
+	public var TimeEstimate : int;
+	public var CorrectBonus : int;
 }

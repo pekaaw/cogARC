@@ -44,17 +44,21 @@ class LevelCreatorInspector extends Editor{
 	override function OnInspectorGUI () {
 		serializedObject.Update();
 		GUI.changed = false;
-		DrawDefaultInspector();
+		//DrawDefaultInspector();
 		
 		//EditorGUILayout.HelpBox("Default over, custom nedenfor", MessageType.None);
 		EditorGUILayout.BeginVertical();
+		
+		lvlCreator.Data.numberOfLevels = EditorGUILayout.IntField("Number of levles:",lvlCreator.Data.numberOfLevels);
+		lvlCreator.Data.TimeEstimate = EditorGUILayout.IntField("Seconds per level:", lvlCreator.Data.TimeEstimate);
+		EditorGUILayout.BeginHorizontal();
+		EditorGUILayout.LabelField("Score per correct task:");
+		lvlCreator.Data.CorrectBonus = EditorGUILayout.IntField(lvlCreator.Data.CorrectBonus);
+		EditorGUILayout.EndHorizontal();
+		
 		ChooseMainRule();
 		
 		ChooseDesign();
-		
-		lvlCreator.Data.numberOfLevels = EditorGUILayout.IntField("Number of levles:",lvlCreator.Data.numberOfLevels);
-		//timeEstimate = EditorGUILayout.IntField("Seconds per level:", timeEstimate);
-		//scorePerRight = EditorGUILayout.IntField("Score per right:", scorePerRight);
 		
 		if(GUI.changed){
 			EditorUtility.SetDirty(target);
@@ -72,6 +76,16 @@ class LevelCreatorInspector extends Editor{
 	function ChooseMainRule() {
 		lvlCreator.Data.RuleEnum = EditorGUILayout.EnumPopup("Select rule:",lvlCreator.Data.RuleEnum);
 		
+		//Array fun times
+		if(lvlCreator.Data.RuleEnum == ruleFunction.Grid){
+			while(lvlCreator.Data.CubeDesignsArray.Count > 9){
+				lvlCreator.Data.CubeDesignsArray.RemoveAt(lvlCreator.Data.CubeDesignsArray.Count-1);
+			}
+		} else {
+			while(lvlCreator.Data.CubeDesignsArray.Count < 10){
+				lvlCreator.Data.CubeDesignsArray.Add( new BoxDesign());
+			}
+		}
 		if (lvlCreator.Data.RuleEnum == ruleFunction.Grid){
 			Grid();
 		}else if(lvlCreator.Data.RuleEnum == ruleFunction.Tower){

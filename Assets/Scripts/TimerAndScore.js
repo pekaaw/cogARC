@@ -6,8 +6,15 @@ public var SizeFont : int = 20;
 
 private var timer : float = 0.0f;
 private var score : int;
+private var scoreBonuses : int;
 private var timerText : String;
 public var GuiSkin : GUISkin = null;
+
+function Start () {
+	var lvlCre : LevelCreator = GameObject.Find("Scripts").GetComponent(LevelCreator);
+	scoreBonuses = lvlCre.Data.CorrectBonus;
+	timer = -(lvlCre.Data.TimeEstimate);
+}
 
 function Update () {
 	timer += Time.deltaTime;
@@ -37,7 +44,8 @@ function OnGUI () {
 }
 
 function calculateScore() {
-	score = 1000.0f - (timer*timer * TimeScoreMultiplyer)*10.0f / 1000;
+	score = 1000.0f - (timer * TimeScoreMultiplyer)*10.0f;
+	score += scoreBonuses;
 	if(score < 0){
 		score = 0;
 	}
@@ -54,3 +62,6 @@ function getScore(){
 	return score;
 }
 
+function scoreBonus( Bonus : int) {
+	scoreBonuses += Bonus;
+}
