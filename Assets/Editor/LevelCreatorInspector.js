@@ -44,17 +44,21 @@ class LevelCreatorInspector extends Editor{
 	override function OnInspectorGUI () {
 		serializedObject.Update();
 		GUI.changed = false;
-		DrawDefaultInspector();
+		//DrawDefaultInspector();
 		
 		//EditorGUILayout.HelpBox("Default over, custom nedenfor", MessageType.None);
 		EditorGUILayout.BeginVertical();
+		
+		lvlCreator.Data.numberOfLevels = EditorGUILayout.IntField("Number of levles:",lvlCreator.Data.numberOfLevels);
+		lvlCreator.Data.TimeEstimate = EditorGUILayout.IntField("Seconds per level:", lvlCreator.Data.TimeEstimate);
+		EditorGUILayout.BeginHorizontal();
+		EditorGUILayout.LabelField("Score per correct task:");
+		lvlCreator.Data.CorrectBonus = EditorGUILayout.IntField(lvlCreator.Data.CorrectBonus);
+		EditorGUILayout.EndHorizontal();
+		
 		ChooseMainRule();
 		
 		ChooseDesign();
-		
-		lvlCreator.Data.numberOfLevels = EditorGUILayout.IntField("Number of levles:",lvlCreator.Data.numberOfLevels);
-		//timeEstimate = EditorGUILayout.IntField("Seconds per level:", timeEstimate);
-		//scorePerRight = EditorGUILayout.IntField("Score per right:", scorePerRight);
 		
 		if(GUI.changed){
 			EditorUtility.SetDirty(target);
