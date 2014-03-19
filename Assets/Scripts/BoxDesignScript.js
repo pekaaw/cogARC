@@ -22,18 +22,7 @@ class BoxDesignScript extends MonoBehaviour {
 	
 	public function setDesign( boxDesign : BoxDesign, designType : CubeDesignEnum ) {
 	
-		// store design
-		//design = new BoxDesign(); //boxDesign;
 		design = boxDesign;
-		//design.BoxText = "TestingTesting";
-		
-		Debug.Log("setDesign is running");
-		
-		//Debug.Log( "boxDesign: " );
-		//Debug.Log( design.BoxText );
-		//if( !boxDesign ) {
-		//	Debug.Log("boxDesign er null!");
-		//}
 		
 		// Set color on box
 		if( designType == CubeDesignEnum.ColouredBox ||
@@ -93,18 +82,10 @@ class BoxDesignScript extends MonoBehaviour {
 		cubeText.anchor = TextAnchor.MiddleCenter;
 		//cubeText.text = design.BoxText;
 		
-		Debug.Log("awake is running");
 	}
 	
 	function Start() {
 
-		{ // TEST
-//			var bDesign : BoxDesign;
-//			
-//			bDesign = new BoxDesign();
-//
-//			setDesign( bDesign, BoxDesignEnum.Image );
-		} // TEST ended
 	}
 	
 	private function setLocalScale() {
