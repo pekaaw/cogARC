@@ -78,7 +78,7 @@ class LevelCreatorInspector extends Editor{
 		
 		//Array fun times
 		if(lvlCreator.Data.RuleEnum == ruleFunction.Grid){
-			while(lvlCreator.Data.CubeDesignsArray.Count > 9){
+			while(lvlCreator.Data.CubeDesignsArray.Count > 2){
 				lvlCreator.Data.CubeDesignsArray.RemoveAt(lvlCreator.Data.CubeDesignsArray.Count-1);
 			}
 		} else {
