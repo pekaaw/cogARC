@@ -2782,7 +2782,9 @@ MonoBehaviour:
   FinishState: 
   numberOfLevels: 9
   numberOfCubes: 10
-  SaveDesignString: 
+  SaveDesignString: '{"NumberOfBoxes":"9","0":{"BoxColor":{"r":"0.6784314","g":"0.6784314","b":"0.6784314","a":"1"},"TextColor":{"r":"1","g":"1","b":"1","a":"1"},"BoxText":"","ImageExist":"false"},"1":{"BoxColor":{"r":"0.6392157","g":"0.6392157","b":"0.6392157","a":"1"},"TextColor":{"r":"1","g":"1","b":"1","a":"1"},"BoxText":"","ImageExist":"false"},"2":{"BoxColor":{"r":"1","g":"0.9215686","b":"0.01568628","a":"1"},"TextColor":{"r":"1","g":"1","b":"1","a":"1"},"BoxText":"","ImageExist":"false"},"3":{"BoxColor":{"r":"1","g":"0.9215686","b":"0.01568628","a":"1"},"TextColor":{"r":"1","g":"1","b":"1","a":"1"},"BoxText":"","ImageExist":"false"},"4":{"BoxColor":{"r":"1","g":"0.9215686","b":"0.01568628","a":"1"},"TextColor":{"r":"1","g":"1","b":"1","a":"1"},"BoxText":"","ImageExist":"false"},"5":{"BoxColor":{"r":"1","g":"0.9215686","b":"0.01568628","a":"1"},"TextColor":{"r":"1","g":"1","b":"1","a":"1"},"BoxText":"","ImageExist":"false"},"6":{"BoxColor":{"r":"1","g":"0.9215686","b":"0.01568628","a":"1"},"TextColor":{"r":"1","g":"1","b":"1","a":"1"},"BoxText":"","ImageExist":"false"},"7":{"BoxColor":{"r":"1","g":"0.9215686","b":"0.01568628","a":"1"},"TextColor":{"r":"1","g":"1","b":"1","a":"1"},"BoxText":"","ImageExist":"false"},"8":{"BoxColor":{"r":"1","g":"0.9215686","b":"0.01568628","a":"1"},"TextColor":{"r":"1","g":"1","b":"1","a":"1"},"BoxText":"","ImageExist":"false"}}'
+  TimeEstimate: 0
+  CorrectBonus: 0
 --- !u!1 &1269074896
 GameObject:
   m_ObjectHideFlags: 0
@@ -3160,6 +3162,11 @@ Prefab:
       propertyPath: Data
       value: 
       objectReference: {fileID: 1139012623}
+    - target: {fileID: 11400010, guid: ec161464a4ea395468235172209bdd40, type: 2}
+      propertyPath: GuiSkin
+      value: 
+      objectReference: {fileID: 11400000, guid: 63607dace7096ca4581e9a102500aa92,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ec161464a4ea395468235172209bdd40, type: 2}
   m_RootGameObject: {fileID: 1770470366}
@@ -3442,11 +3449,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10609a45729220a42aea7be251808d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getGodOfCreation: {fileID: 1770470371}
-  getRules: {fileID: 1770470370}
-  outputTextC: {fileID: 1030219208}
-  GameState: 
-  chainsOfCubesTemp: 
   WorldState: 
 --- !u!114 &1770470370
 MonoBehaviour:
@@ -3494,7 +3496,7 @@ MonoBehaviour:
     width: 95
     height: 50
   SizeFont: 20
-  GuiSkin: {fileID: 0}
+  GuiSkin: {fileID: 11400000, guid: 63607dace7096ca4581e9a102500aa92, type: 2}
 --- !u!114 &1770470373
 MonoBehaviour:
   m_ObjectHideFlags: 0

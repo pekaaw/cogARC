@@ -223,12 +223,13 @@ private function presetGridDataBeforeSort(){
 
 	 	if(cube.GetComponent(BoxCollisionScript).MyIdNumber < coloredTitles){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "1";
-	 		cube.renderer.material.color = Color.blue;
+	 		cube.renderer.material.color = (Data.CubeDesignsArray[0] as BoxDesign).BoxColor;
+
 	 		//::TO DO::set skin colored
 	 	}
 	 	else if (cube.GetComponent(BoxCollisionScript).MyIdNumber < Data.numberOfCubes-1){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "0";
-	 		cube.renderer.material.color = Color.yellow;
+	 		cube.renderer.material.color = (Data.CubeDesignsArray[1] as BoxDesign).BoxColor;
 	 		//::TO DO::set skin uncolored
 	 	}
 	 	else {

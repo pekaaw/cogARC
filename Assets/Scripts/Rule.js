@@ -15,11 +15,21 @@ private static var historyGameState1 : int[];
 private static var historyGameState2 : int[]; //these are check against eachother to stabilize the inputdata
 private static var historyGameState3 : int[]; //tests are only done when all 3 are the same
 
+private static var colorColored : Color;
+private static var colorUncolored : Color;
+
 var CubesData : Array;		//local copy of the data contained in the 
 
 function Awake() {
 
 	levelCreator = gameObject.GetComponent(LevelCreator);
+	
+}
+function Start() {
+	colorColored = (levelCreator.Data.CubeDesignsArray[0] as BoxDesign).BoxColor;
+	colorUncolored = (levelCreator.Data.CubeDesignsArray[1] as BoxDesign).BoxColor;
+
+
 }
 
 function Update () {
@@ -29,6 +39,21 @@ var currentState : String = "";
 	}
 
 // outputTextC.text = currentState;
+}
+
+function DrawRectangleForGridHint(rect : Rect, colored : boolean)
+{
+	var color : Color;
+    var texture: Texture2D = new Texture2D(1, 1);
+    if(colored){
+    	color = colorColored;
+    } else {
+    	color = colorUncolored;
+    }
+    texture.SetPixel(0, 0, color);
+    texture.wrapMode = TextureWrapMode.Repeat;
+    texture.Apply();
+    GUI.DrawTexture(rect, texture);
 }
 
 function OnGUI () {
@@ -52,9 +77,10 @@ function OnGUI () {
 			for(var q :int = 0; q < 3 ; q++) {
 				var figx : int = x1 + (scaleX + margine) * q + margine;
 				if(levelCreator.Data.FinishState[i] == 1) {
-					GUI.DrawTexture(Rect(figx,figy,scaleX,scaleY), textureA, ScaleMode.ScaleToFit, true);
+					DrawRectangleForGridHint(Rect(figx,figy,scaleX,scaleY), true);
 				} else {
-					GUI.DrawTexture(Rect(figx,figy,scaleX,scaleY), textureB, ScaleMode.ScaleToFit, true);
+					DrawRectangleForGridHint(Rect(figx,figy,scaleX,scaleY), false);
+
 
 				}
 				i++;
