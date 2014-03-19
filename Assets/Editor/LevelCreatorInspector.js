@@ -34,6 +34,9 @@ class LevelCreatorInspector extends Editor{
 		if( lvlCreator.Data == null ) {
 			lvlCreator.Data = ScriptableObject.CreateInstance("LevelData");
 		}
+		else {
+			lvlCreator.decodeDesignArray();
+		}
 		
 		for(var q = lvlCreator.Data.CubeDesignsArray.Count; q < 10; q++){
 			lvlCreator.Data.CubeDesignsArray.Add( new BoxDesign());
@@ -64,6 +67,7 @@ class LevelCreatorInspector extends Editor{
 			EditorUtility.SetDirty(target);
 			serializedObject.Update();
 			lvlCreator.encodeDesignArray();
+			lvlCreator.decodeDesignArray();
 		}
 		
 		EditorGUILayout.EndVertical();
