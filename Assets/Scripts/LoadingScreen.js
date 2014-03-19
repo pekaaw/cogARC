@@ -29,7 +29,7 @@ function Awake() {
 
 function Start () {
 
-	isActive = false;
+//	isActive = false;
 	screenWidth = Screen.width;
 	screenHeight = Screen.height;
 
@@ -54,15 +54,21 @@ function Update () {
 }
 
 function Activate(header : String, hint : String, numberOfLevels : int, currentLevel : int) {
+	Awake();
 	gameTitle  = header;
 	gameHint = hint;
 	gameLevels  = numberOfLevels;
 	currentGameLevel = currentLevel;
+	//isActive = true;
+	//CubeContainer.SetActive(false);
+
+	StopTime();
 	isActive = true;
 }  
 function Activate() {
 	currentGameLevel ++;
 	isActive = true;
+	StopTime();
 } 
 
 function StopTime() {
@@ -79,7 +85,6 @@ function StartTime() {
 
 function OnGUI() {
 	if(isActive) {
-	StopTime();
 		GUI.skin = cogarcSkin;
 	
 		// set screen size screen size has changed (example: orientation change)

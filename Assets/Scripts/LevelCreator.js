@@ -72,6 +72,7 @@ function AfterLevelCleanup(){
 }
 
 public function redoCreation() {
+// God, i am unsatisfied!
 	unsortedCubes = GameObject.FindGameObjectsWithTag("Player");
 
 	var nextItem : GameObject; //for making random order
