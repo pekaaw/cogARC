@@ -47,6 +47,24 @@ function Start () {
 	
 }
 
+function OnEnable() {
+	Debug.LogWarning( "LevelCreator OnEnable is running." );
+	if( Data.SaveDesignString.length != 0 )
+	{
+		Debug.LogWarning("SaveDesignString: " + Data.SaveDesignString );
+		decodeDesignArray();
+		
+		for( var i : int; i < Data.CubeDesignsArray.Count; i++ )
+		{
+			Debug.LogWarning("BoxDesign " + i + ": " + Data.CubeDesignsArray.ToString() );
+		}
+	}
+	else
+	{
+		Debug.LogWarning("SaveDesignString empty");
+	}
+}
+
 function Update () {
 	//GameObject.Find("DebugText4").GetComponent(TextMesh).text = Data.SaveDesignString;
 
