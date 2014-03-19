@@ -1,13 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Rule.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ScoreScreen.js">
     <Files>
-      <File FileName="Assets\Scripts\LevelCreator.js" Line="68" Column="102" />
+      <File FileName="Assets\Scripts\LevelCreator.js" Line="354" Column="2" />
       <File FileName="Assets\Scripts\WorldState.js" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LevelCreator.js" Line="238" Column="1" />
-      <File FileName="Assets\Scripts\PauseScreenScript.js" Line="55" Column="22" />
-      <File FileName="Assets\Scripts\Rule.js" Line="32" Column="3" />
+      <File FileName="Assets\Scripts\PauseScreenScript.js" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Rule.js" Line="41" Column="1" />
       <File FileName="Assets\Scripts\BoxCollisionScript.js" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LevelData.js" Line="15" Column="29" />
+      <File FileName="Assets\Scripts\BoxDesign.js" Line="5" Column="21" />
+      <File FileName="Assets\Scripts\ScoreScreen.js" Line="134" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

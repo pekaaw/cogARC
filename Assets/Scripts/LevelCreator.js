@@ -220,16 +220,15 @@ private function presetGridDataBeforeSort(){
 	var coloredTitles:int =  Mathf.Lerp(Data.gridMinValue, Data.gridMaxValue, currentLevel/Data.numberOfLevels);
 
 	for(var cube : UnityEngine.GameObject in unsortedCubes){
-
+		var designScript: BoxDesignScript = cube.GetComponent(BoxDesignScript);
 	 	if(cube.GetComponent(BoxCollisionScript).MyIdNumber < coloredTitles){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "1";
-	 		cube.renderer.material.color = (Data.CubeDesignsArray[0] as BoxDesign).BoxColor;
-
+			designScript.setDesign(Data.CubeDesignsArray[0] as BoxDesign,Data.DesignEnum);
 	 		//::TO DO::set skin colored
 	 	}
 	 	else if (cube.GetComponent(BoxCollisionScript).MyIdNumber < Data.numberOfCubes-1){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "0";
-	 		cube.renderer.material.color = (Data.CubeDesignsArray[1] as BoxDesign).BoxColor;
+			designScript.setDesign(Data.CubeDesignsArray[1] as BoxDesign,Data.DesignEnum);
 	 		//::TO DO::set skin uncolored
 	 	}
 	 	else {
@@ -264,6 +263,8 @@ private function GridCreator () {
 		//Data.outputTextC4.text = currentState;
 
 	}
+	var c:int = 0;
+	c++;
 }
 
 private function HumanReadableCreator () {

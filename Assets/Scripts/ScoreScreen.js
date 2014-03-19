@@ -131,7 +131,7 @@ function OnApplicationQuit() {
 	// add something to a int[] object.
 	var tempScoreArray : Array;
 	tempScoreArray = scoreArray;
-	if(tempScoreArray.length == 0){
+	if(!tempScoreArray || tempScoreArray.length == 0){
 		return;
 	}
 	tempScoreArray.push(score);
