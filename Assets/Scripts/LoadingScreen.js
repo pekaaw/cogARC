@@ -24,7 +24,7 @@ private var CubeContainer : GameObject;
 private var counter : int = 0;
 
 function Awake() {
-	CubeContainer = GameObject.Find("FrameMarkerContainer");
+//	CubeContainer = GameObject.Find("FrameMarkerContainer");
 }
 
 function Start () {
@@ -54,7 +54,7 @@ function Update () {
 }
 
 function Activate(header : String, hint : String, numberOfLevels : int, currentLevel : int) {
-	Awake();
+	CubeContainer = GameObject.Find("FrameMarkerContainer");
 	gameTitle  = header;
 	gameHint = hint;
 	gameLevels  = numberOfLevels;
@@ -74,8 +74,9 @@ function Activate() {
 function StopTime() {
 	Time.timeScale = 0;
 	CubeContainer.SetActive(false);
-
-
+	var c:int =0;
+	c++;
+	c++;
 }
 function StartTime() {
 	Time.timeScale = 1;

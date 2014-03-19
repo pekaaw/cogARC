@@ -53,13 +53,14 @@ function Update () {
 }
 
 function LoadLevel(){
-	LoadingScript.Activate(Data.GameName, Data.GameHint, Data.numberOfLevels, currentLevel);
 	
 	AfterLevelCleanup();
 	
 	if (currentLevel < Data.numberOfLevels) {
 		currentLevel++;
 		redoCreation();	//load next level of same game
+		LoadingScript.Activate(Data.GameName, Data.GameHint, Data.numberOfLevels, currentLevel);
+
 	} else {
 		Application.Quit();
 		Application.LoadLevel(Data.NextLevel); //load next scene
@@ -74,7 +75,6 @@ function AfterLevelCleanup(){
 public function redoCreation() {
 // God, i am unsatisfied!
 	unsortedCubes = GameObject.FindGameObjectsWithTag("Player");
-
 	var nextItem : GameObject; //for making random order
 	var nextIndex : int;
 	
@@ -129,7 +129,7 @@ public function redoCreation() {
 	ruleScript.ruleSetup(isTextAnswer); // sets the rules in the rulescript
 	
 	for(var c: int = 0; c < Data.numberOfCubes; c++) {
-		nextIndex = Random.Range(0,unsortedCubes.Count); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
+		nextIndex = Random.Range(0,unsortedCubes.length); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
 		nextItem = unsortedCubes[nextIndex];
 		sortedCubes.Add(nextItem);
 		unsortedCubes.RemoveAt(nextIndex);
