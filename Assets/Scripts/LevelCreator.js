@@ -129,7 +129,7 @@ public function redoCreation() {
 	ruleScript.ruleSetup(isTextAnswer); // sets the rules in the rulescript
 	
 	for(var c: int = 0; c < Data.numberOfCubes; c++) {
-		nextIndex = Random.Range(0,unsortedCubes.length); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
+		nextIndex = Random.Range(0,unsortedCubes.length-1); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
 		nextItem = unsortedCubes[nextIndex];
 		sortedCubes.Add(nextItem);
 		unsortedCubes.RemoveAt(nextIndex);

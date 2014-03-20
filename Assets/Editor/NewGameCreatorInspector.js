@@ -8,7 +8,7 @@ class NewGameCreatorInspector extends Editor{
 		myself = target as NewGameCreator;
 	}
 	function OnInspectorGUI () {
-		if(GUILayout.Button("Add all needed scripts!")) {
+		if(GUILayout.Button("Add all needed to create a new game!")) {
 			var obj = new GameObject("Empty");
 			obj.AddComponent(LevelCreator);
 			obj.AddComponent(Rule);
@@ -17,7 +17,12 @@ class NewGameCreatorInspector extends Editor{
 			obj.AddComponent(TimerAndScore);
 			obj.AddComponent(LoadingScreen);
 			obj.AddComponent(ScoreScreen);
-			obj.name = "Level";
+			obj.name = "Scripts";
+			
+			
+			Instantiate(Resources.Load("Prefab/ARCamera"));
+			Instantiate(Resources.Load("Prefab/FrameMarkerContainer"));
+			Instantiate(Resources.Load("Prefab/PauseScreen"));
 			
 			var sel = Selection.activeGameObject;
 			DestroyImmediate(sel);
