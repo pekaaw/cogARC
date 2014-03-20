@@ -26,9 +26,10 @@ function Awake() {
 	
 }
 function Start() {
-	colorColored = (levelCreator.Data.CubeDesignsArray[0] as BoxDesign).BoxColor;
-	colorUncolored = (levelCreator.Data.CubeDesignsArray[1] as BoxDesign).BoxColor;
-
+	if(levelCreator.Data.CubeDesignsArray) {
+		colorColored = (levelCreator.Data.CubeDesignsArray[0] as BoxDesign).BoxColor;
+		colorUncolored = (levelCreator.Data.CubeDesignsArray[1] as BoxDesign).BoxColor;
+	}
 
 }
 

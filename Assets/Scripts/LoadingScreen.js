@@ -54,7 +54,7 @@ function Update () {
 }
 
 function Activate(header : String, hint : String, numberOfLevels : int, currentLevel : int) {
-	CubeContainer = GameObject.Find("FrameMarkerContainer");
+	CubeContainer = GameObject.Find("CubeContainer");
 	gameTitle  = header;
 	gameHint = hint;
 	gameLevels  = numberOfLevels;

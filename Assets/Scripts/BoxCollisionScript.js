@@ -1,16 +1,22 @@
-﻿#pragma strict
+#pragma strict
 enum Sides {LEFT, BACK, RIGHT, FRONT, TOP , BOTTOM}; // copy of same in worldstate
 // Other scripts used by this:
 var MyWorldCenterC : GyroRotor;
 var myWorldState : WorldState;
 var getRulesFromCreation : LevelCreator;
+var framemarkerContainer : TransformDistributor;
 
 private var RuleEnum : ruleFunction; // the current rule effects how the gamestate is set up
 var MyIdNumber : int; //this boxs unik ID number
 public var MyDataPacket : String; //this boxs data
 
-function Awake() {
+private var markerWithTransform : GameObject;
 
+function Awake() {
+	var transformDistributer : TransformDistributor;
+
+	transformDistributer = GameObject.Find("FrameMarkerContainer").GetComponent(TransformDistributor);
+	markerWithTransform = transformDistributer.GetMarker(0);
 
 }
 
@@ -32,6 +38,10 @@ function Start () {
 }
 
 function Update () {
+	if(markerWithTransform){
+		gameObject.transform.position = markerWithTransform.transform.position;
+		gameObject.transform.rotation = markerWithTransform.transform.rotation;
+	}
 
 }
 

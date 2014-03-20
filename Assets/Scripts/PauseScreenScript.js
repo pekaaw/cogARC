@@ -8,6 +8,10 @@ public var ButtonFontSize : int = 50;
 
 private var PauseScreenRect = Rect(Screen.width/2 - 300,500,300,200);
 
+function Awake(){
+	Pause = false;
+
+}
 
 function OnGUI () {
 	
