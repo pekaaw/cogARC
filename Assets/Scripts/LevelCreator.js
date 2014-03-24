@@ -345,6 +345,12 @@ function decodeDesignArray() {
 	// Get the designs from the JSON-string in Data
 	cubeDesignsInJSONObject = Boomlagoon.JSON.JSONObject.Parse(Data.SaveDesignString) ;
 	
+	if( Data.SaveDesignString == null || Data.SaveDesignString == "" || cubeDesignsInJSONObject == null)
+	{
+		Debug.LogError("You have not specified the design that the boxes should use.");
+		return;
+	}
+
 	// Find number of cubedesigns
 	length = parseInt( cubeDesignsInJSONObject["NumberOfBoxes"].Str );
 
