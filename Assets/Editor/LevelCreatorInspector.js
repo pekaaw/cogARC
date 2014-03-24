@@ -23,7 +23,8 @@ class LevelCreatorInspector extends Editor{
 	var gridRandInfoBox : String = "Having this toggled will make the same levels after eachother, toggle it"
 	+" off to make random sequences of levles.";
 	var humanReadableInfoBox : String = "Will read the boxes as the player sees them";
-	var additionInfoBox : String = "Calculates the numbers on the cubes.";
+	var additionInfoBox : String = "Calculates the numbers on the cubes."
+		+" Move sliders to choose Min and Max amount of cubes.";
 	var compositeNumbersInfoBox : String = "Allows the user to put cubes together to form a whole number.";
 	var wholeLinerInfoBox : String = "Will read all cubes as the player sees them.";
 	var anyWordInfoBox : String = "Used for creating words and wordcombinations with boxes.";
@@ -143,6 +144,9 @@ class LevelCreatorInspector extends Editor{
 	
 	function Addition () {
 		EditorGUILayout.HelpBox(additionInfoBox, MessageType.None);
+		
+		lvlCreator.Data.additionMinValue = EditorGUILayout.IntSlider("MIN:",lvlCreator.Data.additionMinValue, 1, 9);
+		lvlCreator.Data.additionMaxValue = EditorGUILayout.IntSlider("MAX:",lvlCreator.Data.additionMaxValue, lvlCreator.Data.additionMinValue, 9);
 	}
 	
 	function CompositeNumbers () {

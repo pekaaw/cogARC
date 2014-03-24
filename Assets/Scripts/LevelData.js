@@ -16,10 +16,12 @@ class LevelData extends ScriptableObject {
 	public var gridMinValue : int;
 	public var gridMaxValue : int;
 
+	public var additionMinValue : int;
+	public var additionMaxValue : int;
 	//what the solution looks like for games except "Woords" with needs multiple solutions at once.
 	public var FinishState : List.<int> = new List.<int>();													
 
-	final public var numberOfLevels : int = 9;
+	public var numberOfLevels : int = 9;
 
 	public var numberOfCubes : int = 10; //NB! :should no longer be changed when using grid rules: NB!
 	
