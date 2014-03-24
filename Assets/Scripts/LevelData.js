@@ -21,11 +21,13 @@ class LevelData extends ScriptableObject {
 	//what the solution looks like for games except "Woords" with needs multiple solutions at once.
 	public var FinishState : List.<int> = new List.<int>();													
 
-	public var numberOfLevels : int = 9;
+	final public var numberOfLevels : int = 9;
 
 	public var numberOfCubes : int = 10; //NB! :should no longer be changed when using grid rules: NB!
 	
 	public var SaveDesignString : String;
+	
+	public var GoalString : String[numberOfLevels];
 	
 	public var TimeEstimate : int;
 	public var CorrectBonus : int;
