@@ -20,7 +20,7 @@ class NewGameCreatorInspector extends Editor{
 			obj.name = "Scripts";
 			
 			
-			Instantiate(Resources.Load("Prefab/ARCamera"));
+			Instantiate(Resources.Load("Prefab/ARCamera 1"));
 			Instantiate(Resources.Load("Prefab/FrameMarkerContainer"));
 			Instantiate(Resources.Load("Prefab/CubeContainer"));
 			Instantiate(Resources.Load("Prefab/PauseScreen"));
