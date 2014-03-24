@@ -9,3 +9,5 @@
 *.meta
 *Bash.lnk
 */QCAR/unity.txt
+*.js~
+*.cs~
