@@ -24,10 +24,23 @@ class BoxDesignScript extends MonoBehaviour {
 	
 		design = boxDesign;
 		
+		//var cubeMaterial : Material = new Material(Shader.Find("Transparent/Diffuse"));
+		//gameObject.renderer.material.color = Color(0,0,0,0);
+		gameObject.renderer.material.shader = Shader.Find("Transparent/Diffuse");
+	
+		// Set shader as Transparent/Diffuse	
+//		var materialColor : Array = gameObject.renderer.materials;
+//		if( materialColor.length > 0 ) {
+//			var colorMaterial : Material = new Material(Shader.Find("Transparent/Diffuse"));
+//			materialColor.Add(colorMaterial);
+//			gameObject.renderer.materials = materialColor;
+//		}
+		
 		// Set color on box
 		if( designType == CubeDesignEnum.ColouredBox ||
 				designType == CubeDesignEnum.TextAndCubeColour ) {
 			
+			//cubeMaterial.SetColor("_Color", design.BoxColor);
 			gameObject.renderer.material.color = design.BoxColor;
 		}
 		
@@ -45,21 +58,27 @@ class BoxDesignScript extends MonoBehaviour {
 				cubeText.color = design.TextColor;
 			}
 		}
-
+		
 		// If we have a texture we want on the cube
 		if( designType == CubeDesignEnum.BoxImage ) {
 			if( design.BoxImage != null) {
 				// Create material from texture
-				var boxMaterial : Material = new Material(Shader.Find("Transparent/Diffuse"));
-				boxMaterial.SetTexture( "_MainTex", design.BoxImage );
+				//var boxMaterial : Material = new Material(Shader.Find("Transparent/Diffuse"));
+				//boxMaterial.SetTexture( "_MainTex", design.BoxImage );
+				//cubeMaterial.SetTexture( "_MainTex", design.BoxImage );
+				gameObject.renderer.material.SetTexture( "_MainTex", design.BoxImage );
 				
-				// Add Material (we cannot manipulate renderer.materials directly)
-				var materials : Array = gameObject.renderer.materials;
-				//materials.Add( Resources.Load("BoxPair0", UnityEngine.Material ) );
-				materials.Add( boxMaterial );
-				gameObject.renderer.materials = materials;
+//				// Add Material (we cannot manipulate renderer.materials directly)
+//				var materials : Array = gameObject.renderer.materials;
+//				//materials.Add( Resources.Load("BoxPair0", UnityEngine.Material ) );
+//				materials.Add( boxMaterial );
+//				gameObject.renderer.materials = materials;
 			}
 		}
+		
+		//var objectMaterials : Array = gameObject.renderer.materials;
+		//objectMaterials.Add( cubeMaterial );
+		//gameObject.renderer.materials = objectMaterials;
 	}
 
 	function Awake() {
