@@ -2,8 +2,6 @@
 
 class LevelData extends ScriptableObject {
 
-	// TODO: outputTextC4 should be removed. It is a debug feature
-	//var outputTextC4 : UnityEngine.TextMesh;
 	public var GameName : String;
 	public var GameHint : String;
 
@@ -27,7 +25,7 @@ class LevelData extends ScriptableObject {
 	
 	public var SaveDesignString : String;
 	
-	public var GoalString : String[numberOfLevels];
+	public var GoalString : String[];
 	
 	public var TimeEstimate : int;
 	public var CorrectBonus : int;
