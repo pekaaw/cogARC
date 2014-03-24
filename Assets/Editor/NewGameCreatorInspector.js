@@ -22,7 +22,9 @@ class NewGameCreatorInspector extends Editor{
 			
 			Instantiate(Resources.Load("Prefab/ARCamera"));
 			Instantiate(Resources.Load("Prefab/FrameMarkerContainer"));
+			Instantiate(Resources.Load("Prefab/CubeContainer"));
 			Instantiate(Resources.Load("Prefab/PauseScreen"));
+			
 			
 			var sel = Selection.activeGameObject;
 			DestroyImmediate(sel);
