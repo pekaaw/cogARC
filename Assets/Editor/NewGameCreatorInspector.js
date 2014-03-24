@@ -1,5 +1,5 @@
 ﻿#pragma strict
-
+#pragma downcast
 @CustomEditor (NewGameCreator)
 class NewGameCreatorInspector extends Editor{
 	private var myself : NewGameCreator;
