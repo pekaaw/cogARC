@@ -16,7 +16,13 @@ function Awake() {
 	var transformDistributer : TransformDistributor;
 
 	transformDistributer = GameObject.Find("FrameMarkerContainer").GetComponent(TransformDistributor);
-	markerWithTransform = transformDistributer.GetMarker(0);
+	//markerWithTransform = transformDistributer.GetMarker(0);
+	markerWithTransform = transformDistributer.GetMarker(MyIdNumber);
+	
+	if(markerWithTransform){
+		gameObject.transform.position = markerWithTransform.transform.position;
+		gameObject.transform.rotation = markerWithTransform.transform.rotation;
+	}
 
 }
 
@@ -38,10 +44,6 @@ function Start () {
 }
 
 function Update () {
-	if(markerWithTransform){
-		gameObject.transform.position = markerWithTransform.transform.position;
-		gameObject.transform.rotation = markerWithTransform.transform.rotation;
-	}
 
 }
 

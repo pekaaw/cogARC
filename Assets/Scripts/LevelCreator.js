@@ -189,7 +189,16 @@ private function PairCreator () {
 
 private function TowerCreator () {
 	Debug.Log("Tower");
+	functionPointerSubCreator();
 }
+
+private function HumanReadableCreator () {
+	Debug.Log("Human Readable");
+	functionPointerSubCreator();
+}
+
+
+
 
 
 
@@ -268,16 +277,27 @@ private function GridCreator () {
 	c++;
 }
 
-private function HumanReadableCreator () {
-	Debug.Log("Human Readable");
-}
+
 
 function AdditionCreator() {
+var numberOfCubesUsedForAnswer : int = 3;
+
+	for(var i : int = 0 ; i < numberOfCubesUsedForAnswer ; i++)
+	{
+		Data.FinishState.Add((sortedCubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber);
+	}
+
 
 }
 
 function WholeLinerCreator(){
 //strict string - should have full length
+	for(var i:int = 0; i < sortedCubes.length; i++)
+	{
+		Data.FinishState.Add(i);
+	}
+	Data.FinishState.Add(-1);
+
 
 }
 
