@@ -28,6 +28,7 @@ class LevelCreatorInspector extends Editor{
 	var compositeNumbersInfoBox : String = "Allows the user to put cubes together to form a whole number.";
 	var wholeLinerInfoBox : String = "Will read all cubes as the player sees them.";
 	var anyWordInfoBox : String = "Used for creating words and wordcombinations with boxes.";
+	var boxImageInfoBox : String = "Images used for the boxes must be located under Resources/BoxDesign.";
 	
 	function OnEnable () {
 		lvlCreator = target;
@@ -206,7 +207,7 @@ class LevelCreatorInspector extends Editor{
 	}
 	
 	function BoxImage () {
-
+		EditorGUILayout.HelpBox(boxImageInfoBox, MessageType.None);
 		if(lvlCreator.Data.RuleEnum != ruleFunction.Pair){
 			for(var box : BoxDesign in lvlCreator.Data.CubeDesignsArray){
 				box.BoxImage = EditorGUILayout.ObjectField(box.BoxImage,Texture, true) as Texture;
@@ -215,7 +216,7 @@ class LevelCreatorInspector extends Editor{
 		else{
 			for(var c : int = 0; c < lvlCreator.Data.CubeDesignsArray.Count; c+=2){
 				(lvlCreator.Data.CubeDesignsArray[c] as BoxDesign).BoxImage = EditorGUILayout.ObjectField((lvlCreator.Data.CubeDesignsArray[c] as BoxDesign).BoxImage,
-				Texture, true) as Texture;
+				Texture, false) as Texture;
 				(lvlCreator.Data.CubeDesignsArray[c+1] as BoxDesign).BoxImage = (lvlCreator.Data.CubeDesignsArray[c] as BoxDesign).BoxImage;
 			}
 			
