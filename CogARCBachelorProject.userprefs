@@ -1,15 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ScoreScreen.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\WorldState.js">
     <Files>
-      <File FileName="Assets\Scripts\LevelCreator.js" Line="354" Column="2" />
-      <File FileName="Assets\Scripts\WorldState.js" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PauseScreenScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Rule.js" Line="41" Column="1" />
-      <File FileName="Assets\Scripts\BoxCollisionScript.js" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\LevelData.js" Line="15" Column="29" />
-      <File FileName="Assets\Scripts\BoxDesign.js" Line="5" Column="21" />
-      <File FileName="Assets\Scripts\ScoreScreen.js" Line="134" Column="1" />
+      <File FileName="Assets\Scripts\LevelCreator.js" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Rule.js" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LevelCreator.js" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LevelData.js" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\WorldState.js" Line="91" Column="15" />
+      <File FileName="Assets\Scripts\IDScript.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -18,7 +16,7 @@
       <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\WorldState.js" line="128" />
       <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\WorldState.js" line="353" />
       <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\WorldState.js" line="102" />
-      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\LevelCreator.js" line="144" />
+      <Breakpoint file="C:\Users\jakob\Documents\Unity\CogARCBachelorProject\Assets\Scripts\BoxCollisionScript.js" line="44" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
