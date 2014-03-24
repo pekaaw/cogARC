@@ -22,6 +22,7 @@ class NewGameCreatorInspector extends Editor{
 			obj = Instantiate(Resources.Load("Prefab/ARCamera 1"));
 			obj.name = "ARCamera 1";
 			obj = Instantiate(Resources.Load("Prefab/FrameMarkerContainer"));
+			obj.AddComponent("TransformDistributor");
 			obj.name = "FrameMarkerContainer";
 			obj = Instantiate(Resources.Load("Prefab/CubeContainer"));
 			obj.name = "CubeContainer";
