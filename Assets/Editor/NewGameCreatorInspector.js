@@ -20,11 +20,18 @@ class NewGameCreatorInspector extends Editor{
 			obj.name = "Scripts";
 			
 			
-			Instantiate(Resources.Load("Prefab/ARCamera 1"));
-			Instantiate(Resources.Load("Prefab/FrameMarkerContainer"));
-			Instantiate(Resources.Load("Prefab/CubeContainer"));
-			Instantiate(Resources.Load("Prefab/PauseScreen"));
-			
+			obj = Instantiate(Resources.Load("Prefab/ARCamera 1"));
+			obj.name = "ARCamer 1";
+			obj = Instantiate(Resources.Load("Prefab/FrameMarkerContainer"));
+			obj.name = "FrameMarkerContainer";
+			obj = Instantiate(Resources.Load("Prefab/CubeContainer"));
+			obj.name = "CubeContainer";
+			obj = Instantiate(Resources.Load("Prefab/PauseScreen"));
+			obj.name = "PauseScreen";
+			obj = Instantiate(Resources.Load("Prefab/PauseScreen"));
+			obj.name = "PauseScreen";
+			obj = Instantiate(Resources.Load("Prefab/RealworldaxisVisualizer"));
+			obj.name = "RealworldaxisVisualizer";
 			
 			var sel = Selection.activeGameObject;
 			DestroyImmediate(sel);
