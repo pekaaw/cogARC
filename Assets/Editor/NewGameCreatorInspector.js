@@ -19,15 +19,12 @@ class NewGameCreatorInspector extends Editor{
 			obj.AddComponent(ScoreScreen);
 			obj.name = "Scripts";
 			
-			
 			obj = Instantiate(Resources.Load("Prefab/ARCamera 1"));
 			obj.name = "ARCamer 1";
 			obj = Instantiate(Resources.Load("Prefab/FrameMarkerContainer"));
 			obj.name = "FrameMarkerContainer";
 			obj = Instantiate(Resources.Load("Prefab/CubeContainer"));
 			obj.name = "CubeContainer";
-			obj = Instantiate(Resources.Load("Prefab/PauseScreen"));
-			obj.name = "PauseScreen";
 			obj = Instantiate(Resources.Load("Prefab/PauseScreen"));
 			obj.name = "PauseScreen";
 			obj = Instantiate(Resources.Load("Prefab/RealworldaxisVisualizer"));
