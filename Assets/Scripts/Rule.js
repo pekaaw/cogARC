@@ -142,6 +142,7 @@ public function ruleSetup(isTextAnswerParam : boolean){
 //Task Completion Tests
 
 public function Test (boxes : List.<int>){
+	//boxes contains the id numbers of the boxes
 	//This code block test to make sure that you get the same input three times
 	//	before it let you advance
 	historyGameState3 = historyGameState2;
