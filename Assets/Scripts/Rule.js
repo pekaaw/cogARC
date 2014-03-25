@@ -26,7 +26,7 @@ function Awake() {
 	
 }
 function Start() {
-	if(levelCreator.Data.CubeDesignsArray) {
+	if(levelCreator.Data.CubeDesignsArray && levelCreator.Data.RuleEnum == ruleFunction.Grid) {
 		colorColored = (levelCreator.Data.CubeDesignsArray[0] as BoxDesign).BoxColor;
 		colorUncolored = (levelCreator.Data.CubeDesignsArray[1] as BoxDesign).BoxColor;
 	}

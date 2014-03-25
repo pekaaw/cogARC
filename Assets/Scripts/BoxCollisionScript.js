@@ -20,8 +20,7 @@ function Awake() {
 	markerWithTransform = transformDistributer.GetMarker(MyIdNumber);
 	
 	if(markerWithTransform){
-		gameObject.transform.position = markerWithTransform.transform.position;
-		gameObject.transform.rotation = markerWithTransform.transform.rotation;
+		gameObject.transform.parent = markerWithTransform.transform;
 	}
 
 }
