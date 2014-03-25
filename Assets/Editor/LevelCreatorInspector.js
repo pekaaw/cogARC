@@ -158,6 +158,10 @@ class LevelCreatorInspector extends Editor{
 	}
 	function AnyWord () {
 		EditorGUILayout.HelpBox(anyWordInfoBox, MessageType.None);
+		if(GUILayout.Button("Open file browser")){
+			lvlCreator.Data.FileString = EditorUtility.OpenFilePanel("File with words:","Assets","txt");
+		}
+		EditorGUILayout.LabelField("Current text file is: " + lvlCreator.Data.FileString);
 	}
 	
 	function ChooseDesign() {
