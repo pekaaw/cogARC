@@ -229,6 +229,9 @@ private function presetGridDataBeforeSort(){
 	var q: int = 0;
 	var coloredTitles:int =  Mathf.Lerp(Data.gridMinValue, Data.gridMaxValue, currentLevel/Data.numberOfLevels);
 
+	Debug.LogWarning((Data.CubeDesignsArray[0] as BoxDesign).BoxColor);
+	Debug.LogWarning((Data.CubeDesignsArray[1] as BoxDesign).BoxColor);
+
 	for(var cube : UnityEngine.GameObject in unsortedCubes){
 		var designScript: BoxDesignScript = cube.GetComponent(BoxDesignScript);
 	 	if(cube.GetComponent(BoxCollisionScript).MyIdNumber < coloredTitles){
@@ -261,7 +264,7 @@ private function GridCreator () {
 	for(var cube : GameObject in sortedCubes){
 		tempInt = parseInt(cube.GetComponent(BoxCollisionScript).MyDataPacket);
 	//	Debug.Log("tempInt is: " + tempInt);
-		if(tempInt < colorsUsedForGrid){
+		if(tempInt < colorsUsedForGrid){ //if this cube is in use
 			if(Data.FinishState.Count >= Data.numberOfCubes) {
 				return;
 			}
