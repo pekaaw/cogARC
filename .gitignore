@@ -6,11 +6,7 @@
 *.csproj
 *.unityproj
 *.sln
-*.meta
 *Bash.lnk
 */QCAR/unity.txt
 *.js~
 *.cs~
-
-gsl-khsølrhkgd_Data/
-ProjectSettings/
