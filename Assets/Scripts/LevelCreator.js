@@ -61,7 +61,7 @@ function LoadLevel(){
 	if (currentLevel < Data.numberOfLevels) {
 		currentLevel++;
 		redoCreation();	//load next level of same game
-		LoadingScript.Activate(Data.GameName, Data.GameHint, Data.numberOfLevels, currentLevel);
+		LoadingScript.Activate(Data.GameName, Data.LevelGoalText, Data.numberOfLevels, currentLevel);
 
 	} else {
 		Application.Quit();

@@ -14,9 +14,12 @@ private var gameLevels : int;
 private var currentGameLevel : int;
 private var CubeContainer : GameObject;
 private var counter : int = 0;
+private var wrapText : GUIStyle;
 
 function Awake() {
 	cogarcSkin = Resources.Load("GUISkins/cogARC");
+	wrapText = new GUIStyle();
+	wrapText.wordWrap = true;
 }
 
 function Start () {
@@ -67,8 +70,6 @@ function StopTime() {
 	Time.timeScale = 0;
 	CubeContainer.SetActive(false);
 	var c:int =0;
-	c++;
-	c++;
 }
 function StartTime() {
 	Time.timeScale = 1;
@@ -95,7 +96,7 @@ function OnGUI() {
 			
 		GUI.Box(
 			instructionBox,
-			gameHint
+			gameHint,wrapText
 			);
 	
 		GUI.Box(

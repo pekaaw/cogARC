@@ -3,7 +3,6 @@
 class LevelData extends ScriptableObject {
 
 	public var GameName : String;
-	public var GameHint : String;
 
 	public var NextLevel : int;
 	public var RuleEnum : ruleFunction;
