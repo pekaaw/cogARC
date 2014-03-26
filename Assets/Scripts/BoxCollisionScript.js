@@ -28,7 +28,9 @@ function Start () {
 	markerWithTransform = transformDistributer.GetMarker(MyIdNumber);
 	
 	if(markerWithTransform){
-		var halfScale:int = 0.6;
+	
+	
+		var halfScale:float = 0.6f;
 		gameObject.transform.parent = markerWithTransform.transform;
 		gameObject.transform.localPosition = Vector3(0,-halfScale,0);
 		gameObject.transform.localRotation = Quaternion.identity;
@@ -37,7 +39,7 @@ function Start () {
 		
 	} else {
 	
-		Debug.LogError("Hakuna Matata");
+		Debug.LogError("Hakuna Matata"); // something is wrong with a framemarker, or a framemarker is missing from 
 	}
 	
 	
