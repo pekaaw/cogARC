@@ -3,8 +3,6 @@
 // Data from this level
 public var Data : LevelData;
 
-public var SaveDesignString : String;
-
 private var LoadingScript : LoadingScreen;
 private var ruleScript : Rule;
 private var functionPointerCreator : Function;
@@ -19,15 +17,19 @@ final private var colorsUsedForGrid : int = 2;
 function Awake() {
 	if( Data == null ) {
 		Debug.LogWarning("Data is null");
-//		Data = ScriptableObject.CreateInstance("LevelData");
+
 		Data = new LevelData();
+		
+		while(Data.CubeDesignsArray.Count < 10){
+			Data.CubeDesignsArray.Add( new BoxDesign());
+		}
+		
+		encodeDesignArray();
+		decodeDesignArray();
 	}
 	else
 	{
-		SaveDesignString = Data.SaveDesignString;
 		decodeDesignArray();
-		// some mysterious place
-		// 	AssetDatabase.CreateAsset( Data, "MyData" );
 	}
 	
 	Debug.Log(Data.RuleEnum);
@@ -353,6 +355,14 @@ function decodeDesignArray() {
 	// Get the designs from the JSON-string in Data
 	cubeDesignsInJSONObject = Boomlagoon.JSON.JSONObject.Parse(Data.SaveDesignString) ;
 	
+	// If we do not have data, try to make them
+	if( Data.SaveDesignString == null || Data.SaveDesignString == "" || cubeDesignsInJSONObject == null)
+	{
+		encodeDesignArray();
+		cubeDesignsInJSONObject = Boomlagoon.JSON.JSONObject.Parse(Data.SaveDesignString) ;
+	}
+	
+	// If we still have no data, print error and return
 	if( Data.SaveDesignString == null || Data.SaveDesignString == "" || cubeDesignsInJSONObject == null)
 	{
 		Debug.LogError("You have not specified the design that the boxes should use.");
