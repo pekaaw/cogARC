@@ -28,10 +28,11 @@ function Start () {
 	markerWithTransform = transformDistributer.GetMarker(MyIdNumber);
 	
 	if(markerWithTransform){
+		var halfScale:int = 0.6;
 		gameObject.transform.parent = markerWithTransform.transform;
-		gameObject.transform.localPosition = Vector3(0,0.5,0);
+		gameObject.transform.localPosition = Vector3(0,-halfScale,0);
 		gameObject.transform.localRotation = Quaternion.identity;
-		gameObject.transform.localScale = Vector3(1.2,1.2,1.2);
+		gameObject.transform.localScale = Vector3(halfScale * 2,halfScale * 2, halfScale * 2);
 
 		
 	} else {
