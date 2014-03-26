@@ -85,7 +85,7 @@ class BoxDesignScript extends MonoBehaviour {
 		// Create GameObject to put text on. Bind it to box.
 		cubeHandle = new GameObject();
 		cubeHandle.name = "TextMeshToBox";
-		cubeHandle.transform.parent = gameObject.transform.parent;
+		cubeHandle.transform.parent = gameObject.transform;
 		cubeHandle.transform.rotation = Quaternion.identity;
 		cubeHandle.transform.Rotate( Vector3( 90, 0, 0 ) );
 		cubeHandle.transform.localPosition = Vector3( 0.0, 0.01, 0.0 );
