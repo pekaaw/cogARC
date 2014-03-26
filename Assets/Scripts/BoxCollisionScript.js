@@ -34,6 +34,9 @@ function Start () {
 		gameObject.transform.localScale = Vector3.one;
 
 		
+	} else {
+	
+		Debug.LogError("Hakuna Matata");
 	}
 	
 	
