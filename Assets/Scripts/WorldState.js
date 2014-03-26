@@ -30,7 +30,7 @@ final private var NUMBER_OF_SIDES : int = 6;
 final private var NUMBER_OF_CUBES : int  = 10;
 
 // WorldState will contain (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ints with value -1.
-var WorldState : int[];
+private var WorldState : int[];
 //::::::::::::::::::: END>square grid
 
 
