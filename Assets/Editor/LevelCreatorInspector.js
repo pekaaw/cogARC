@@ -61,6 +61,10 @@ class LevelCreatorInspector extends Editor{
 		lvlCreator.Data.CorrectBonus = EditorGUILayout.IntField(lvlCreator.Data.CorrectBonus);
 		EditorGUILayout.EndHorizontal();
 		
+		EditorGUILayout.LabelField("Task description:");
+		lvlCreator.Data.LevelGoalText = 
+			EditorGUILayout.TextArea(lvlCreator.Data.LevelGoalText, GUILayout.Height(30));
+		
 		ChooseMainRule();
 		
 		ChooseDesign();
