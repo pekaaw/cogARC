@@ -29,9 +29,9 @@ function Start () {
 	
 	if(markerWithTransform){
 		gameObject.transform.parent = markerWithTransform.transform;
-		gameObject.transform.localPosition = Vector3.zero;
+		gameObject.transform.localPosition = Vector3(0,0.5,0);
 		gameObject.transform.localRotation = Quaternion.identity;
-		gameObject.transform.localScale = Vector3.one;
+		gameObject.transform.localScale = Vector3(1.2,1.2,1.2);
 
 		
 	} else {
