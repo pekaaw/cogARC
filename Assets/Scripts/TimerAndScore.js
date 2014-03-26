@@ -9,12 +9,12 @@ private var score : int;
 private var scoreBonuses : int;
 private var timerText : String;
 private var GuiSkin : GUISkin = null;
+private var timeEstimate : float;
 
 function Start () {
 	var lvlCre : LevelCreator = GameObject.Find("Scripts").GetComponent(LevelCreator);
 	scoreBonuses = lvlCre.Data.CorrectBonus;
-	timer = -(lvlCre.Data.TimeEstimate);
-	
+	timeEstimate = lvlCre.Data.TimeEstimate;
 	GuiSkin = Resources.Load("GUISkins/cogARC");
 }
 
@@ -46,7 +46,7 @@ function OnGUI () {
 }
 
 function calculateScore() {
-	score = 1000.0f - (timer * TimeScoreMultiplyer)*10.0f;
+	score = Mathf.Lerp(00.0,100.0,((timeEstimate-timer)/timeEstimate));
 	score += scoreBonuses;
 	if(score < 0){
 		score = 0;
