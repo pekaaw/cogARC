@@ -26,8 +26,6 @@ class NewGameCreatorInspector extends Editor{
 			obj.name = "FrameMarkerContainer";
 			obj = Instantiate(Resources.Load("Prefab/CubeContainer"));
 			obj.name = "CubeContainer";
-			obj = Instantiate(Resources.Load("Prefab/PauseScreen"));
-			obj.name = "PauseScreen";
 			obj = Instantiate(Resources.Load("Prefab/RealworldaxisVisualizer"));
 			obj.name = "RealworldaxisVisualizer";
 			
