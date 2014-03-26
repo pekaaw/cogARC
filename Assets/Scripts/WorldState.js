@@ -66,26 +66,6 @@ function Update () {
 		}
 	}				
 	
-	// DEBUGGING: Print WorldState to screen
-	var currentState : String = ""; 
-	
-	//	for(var i : int  = 0 ; i < WorldState.length ; i++) {
-	//		currentState += WorldState[i] + " ";
-	//		if(!((i+1)%NUMBER_OF_SIDES))
-	//		{
-	//			currentState += "\n";
-	//		}
-	//	}
-
-	var GameStateToPrint : int[] = GameState.ToArray();
-	for(var d : int  = 0 ; d < GameStateToPrint.length ; d++) {
-		//currentState += GameStateToPrint[d] + " ";
-		currentState += getRules.CubesData[d] + " ";
-		//if(!((d+1)%GRID_ROW_SIZE)) {
-		//	currentState += "\n";
-		//}
-	}
-	
 	//outputTextC.text = currentState;
 	// END OF DEBUGGING
 	if( GameState.Count < 2){
