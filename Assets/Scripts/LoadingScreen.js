@@ -1,30 +1,22 @@
 ﻿#pragma strict
 
-public var cogarcSkin : GUISkin;
-
+private var cogarcSkin : GUISkin;
 private var isActive : boolean;
-
 private var screenWidth : int;
 private var screenHeight : int;
-
 private var headlineBox 	: UnityEngine.Rect;
 private var instructionBox 	: UnityEngine.Rect;
 private var highscoreBox 	: UnityEngine.Rect;
 private var startButtonBox 	: UnityEngine.Rect;
-
 private var gameTitle : String;
 private var gameHint : String;
 private var gameLevels : int;
 private var currentGameLevel : int;
-
 private var CubeContainer : GameObject;
-
-
-
 private var counter : int = 0;
 
 function Awake() {
-//	CubeContainer = GameObject.Find("FrameMarkerContainer");
+	cogarcSkin = Resources.Load("GUISkins/cogARC");
 }
 
 function Start () {

@@ -8,12 +8,14 @@ private var timer : float = 0.0f;
 private var score : int;
 private var scoreBonuses : int;
 private var timerText : String;
-public var GuiSkin : GUISkin = null;
+private var GuiSkin : GUISkin = null;
 
 function Start () {
 	var lvlCre : LevelCreator = GameObject.Find("Scripts").GetComponent(LevelCreator);
 	scoreBonuses = lvlCre.Data.CorrectBonus;
 	timer = -(lvlCre.Data.TimeEstimate);
+	
+	GuiSkin = Resources.Load("GUISkins/cogARC");
 }
 
 function Update () {

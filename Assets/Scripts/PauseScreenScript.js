@@ -3,14 +3,14 @@
 public var Pause = false;
 public var PauseScreenLogo : Texture;
 public var PauseLogoPosition : Rect;
-public var GuiSkin : GUISkin = null;
 public var ButtonFontSize : int = 50;
 
 private var PauseScreenRect = Rect(Screen.width/2 - 300,500,300,200);
+private var GuiSkin : GUISkin = null;
 
 function Awake(){
 	Pause = false;
-
+	GuiSkin = Resources.Load("GUISkins/cogARC");
 }
 
 function OnGUI () {

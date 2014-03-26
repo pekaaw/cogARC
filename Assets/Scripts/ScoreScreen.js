@@ -4,19 +4,19 @@
 public var ScoreScreenVisible = false;
 public var GameName : String = "";
 public var NumberOfScores : int = 10;
-public var GuiSkin : GUISkin = null;
 public var ButtonFontSize : int = 50;
 public var LabelFontSize : int = 50;
-var timerAndScore : TimerAndScore;
 
+private var timerAndScore : TimerAndScore;
 private var ScoreScreenRect : Rect;
 private var score : int;
 private var scoreArray : int[];
 private var scoresLoaded = false;
+private var GuiSkin : GUISkin = null;
 
 function Awake() {
 	timerAndScore = gameObject.GetComponent(TimerAndScore);
-
+	GuiSkin = Resources.Load("GUISkins/cogARC");
 }
 
 
@@ -147,4 +147,3 @@ function OnApplicationQuit() {
 		Debug.Log("Didn't save!");
 	}
 }
-
