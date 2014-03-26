@@ -159,13 +159,6 @@ public function Test (boxes : List.<int>){
 		}
 	}
 	//Checking of history is done here
-	
-	var currentdebugstate : String = "";
-	
-	for ( var f:int = 0 ; f < historyGameState1.length;f++) {
-		currentdebugstate += historyGameState1[f] + " ";
-	}
-	outputTextC2.text = currentdebugstate;
  
 	functionPointer(boxes);
 	

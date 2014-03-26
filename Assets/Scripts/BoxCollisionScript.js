@@ -13,6 +13,14 @@ public var MyDataPacket : String; //this boxs data
 private var markerWithTransform : GameObject;
 
 function Awake() {
+
+
+}
+
+function Start () {
+	var tempObjectForFindingScripts : UnityEngine.GameObject;
+	
+	
 	var transformDistributer : TransformDistributor;
 
 	transformDistributer = GameObject.Find("FrameMarkerContainer").GetComponent(TransformDistributor);
@@ -21,12 +29,14 @@ function Awake() {
 	
 	if(markerWithTransform){
 		gameObject.transform.parent = markerWithTransform.transform;
+		gameObject.transform.localPosition = Vector3.zero;
+		gameObject.transform.localRotation = Quaternion.identity;
+		gameObject.transform.localScale = Vector3.one;
+
+		
 	}
-
-}
-
-function Start () {
-	var tempObjectForFindingScripts : UnityEngine.GameObject;
+	
+	
 	tempObjectForFindingScripts =  GameObject.Find("Scripts");
 	myWorldState = tempObjectForFindingScripts.GetComponent(WorldState);
 	getRulesFromCreation = tempObjectForFindingScripts.GetComponent(LevelCreator);
