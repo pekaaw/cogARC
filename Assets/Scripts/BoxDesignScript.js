@@ -96,12 +96,21 @@ class BoxDesignScript extends MonoBehaviour {
 		// If we have a texture we want on the cube
 		if( designType == CubeDesignEnum.BoxImage ) {
 			if( design.BoxImage != null) {
-				
+								
 				// Set color on box
 				gameObject.renderer.material.color = design.BoxColor;
-								
+				
+				var texMaterial : UnityEngine.Material = new Material(useShader);				
+				var matArray : Array = gameObject.renderer.materials;
+				
+				texMaterial.SetTexture( "_MainTex", design.BoxImage );
+				
+				matArray.Add(texMaterial);
+				
+				gameObject.renderer.materials = matArray;
+				
 				// Set material from texture
-				gameObject.renderer.material.SetTexture( "_MainTex", design.BoxImage );
+				//gameObject.renderer.material.SetTexture( "_MainTex", design.BoxImage );
 				
 			}
 		}
