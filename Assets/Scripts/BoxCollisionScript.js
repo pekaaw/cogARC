@@ -28,8 +28,6 @@ function Start () {
 	markerWithTransform = transformDistributer.GetMarker(MyIdNumber);
 	
 	if(markerWithTransform){
-	
-	
 		var halfScale:float = 0.6f;
 		gameObject.transform.parent = markerWithTransform.transform;
 		gameObject.transform.localPosition = Vector3(0,-halfScale,0);
