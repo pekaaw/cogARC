@@ -297,15 +297,15 @@ private function PresetGridDataBeforeSort(){
 		var designScript: BoxDesignScript = cube.GetComponent(BoxDesignScript);
 	 	if(cube.GetComponent(BoxCollisionScript).MyIdNumber < coloredTitles){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "1";
-			//designScript.setDesign(Data.CubeDesignsArray[0] as BoxDesign,Data.DesignEnum);
-			cube.renderer.material.color = Color.red;
+			designScript.setDesign(Data.CubeDesignsArray[0] as BoxDesign,Data.DesignEnum);
+			//cube.renderer.material.color = Color.red;
 
 	 		//::TO DO::set skin colored
 	 	}
 	 	else if (cube.GetComponent(BoxCollisionScript).MyIdNumber < Data.numberOfCubes-1){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "0";
-			//designScript.setDesign(Data.CubeDesignsArray[1] as BoxDesign,Data.DesignEnum);
-	 		cube.renderer.material.color = Color.green;
+			designScript.setDesign(Data.CubeDesignsArray[1] as BoxDesign,Data.DesignEnum);
+	 		//cube.renderer.material.color = Color.green;
 
 	 		//::TO DO::set skin uncolored
 	 	}
