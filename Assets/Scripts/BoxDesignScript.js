@@ -26,6 +26,7 @@ class BoxDesignScript extends MonoBehaviour {
 		
 		// This we could not use because on the transparent shader is not availible at Android atm
 		//gameObject.renderer.material.shader = Shader.Find("Transparent/Diffuse");
+		//gameObject.renderer.material.shader = Shader.Find("Diffuse");
 		
 		// Set color on box
 		if( designType == CubeDesignEnum.ColouredBox ||

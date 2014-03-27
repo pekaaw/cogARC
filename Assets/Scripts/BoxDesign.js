@@ -8,7 +8,7 @@ class BoxDesign extends System.Object {
 	public var BoxText : String;
 
 	public function BoxDesign() {
-		BoxColor = Color.yellow;
+		BoxColor = Color.gray;
 		BoxColor.a = 1.0;
 		TextColor = Color.white;
 		BoxText = "";
