@@ -37,7 +37,7 @@ class BoxDesignScript extends MonoBehaviour {
 		
 		// Set text on box
 		if( !design.BoxText.Empty ) {
-			if( (designType == CubeDesignEnum.Text || 
+			/*if( (designType == CubeDesignEnum.Text || 
 					designType == CubeDesignEnum.TextAndCubeColour) ) {
 					
 				cubeText.text = design.BoxText;
@@ -47,7 +47,7 @@ class BoxDesignScript extends MonoBehaviour {
 		
 				// Set color on text
 				cubeText.color = design.TextColor;
-			}
+			}*/
 		}
 		
 		// If we have a texture we want on the cube
