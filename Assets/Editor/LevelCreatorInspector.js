@@ -16,8 +16,8 @@ class LevelCreatorInspector extends Editor{
 	var designFoldOut : boolean = true;
 	var designSameBoxColour : boolean = false;
 	var designSameTextColour : boolean = false;
-	var designBoxSameColour : Color;
-	var designTextSameColour : Color;
+	var designBoxSameColour : Color = Color.cyan;
+	var designTextSameColour : Color = Color.blue;
 	//Infobox strings
 	var pairInfoBox : String = "Will compare the boxes as pairs.";
 	var gridRandInfoBox : String = "Having this toggled will make the same levels after eachother, toggle it"
@@ -178,8 +178,8 @@ class LevelCreatorInspector extends Editor{
 					BoxesColoured(); break;
 				case CubeDesignEnum.BoxImage:
 					BoxImage(); break;
-				case CubeDesignEnum.Text:
-					BoxText(); break;
+				/*case CubeDesignEnum.Text:
+					BoxText(); break;*/
 				case CubeDesignEnum.TextAndCubeColour:
 					BoxTextAndCubeColour(); break;
 				default:
@@ -189,7 +189,7 @@ class LevelCreatorInspector extends Editor{
 	}
 	
 	function BoxesColoured () {
-		designSameBoxColour = EditorGUILayout.Toggle("Same colours?", designSameBoxColour);
+		designSameBoxColour = EditorGUILayout.ToggleLeft("Same colours?", designSameBoxColour);
 		/*while(lvlCreator.Data.CubeDesignsArray.Count < 10){
 				lvlCreator.Data.CubeDesignsArray.Push(new BoxDesign());
 		}*/
@@ -233,7 +233,7 @@ class LevelCreatorInspector extends Editor{
 	
 	function BoxText () {
 		
-		designSameTextColour = EditorGUILayout.Toggle("Same coloured text?", designSameTextColour);
+		designSameTextColour = EditorGUILayout.ToggleLeft("Same coloured text?", designSameTextColour);
 		if(designSameTextColour){
 			designTextSameColour = EditorGUILayout.ColorField(designTextSameColour);
 			for(var box: BoxDesign in lvlCreator.Data.CubeDesignsArray){
@@ -249,17 +249,9 @@ class LevelCreatorInspector extends Editor{
 	}
 	function BoxTextAndCubeColour (){
 		
-		designSameBoxColour = EditorGUILayout.Toggle("Same coloured boxes?",designSameBoxColour);
-		designSameTextColour = EditorGUILayout.Toggle("Same text colour?",designSameTextColour);
-		for(var box : BoxDesign in lvlCreator.Data.CubeDesignsArray){
-			box.BoxText = EditorGUILayout.TextField(box.BoxText);
-			if(!designSameTextColour){
-				box.TextColor = EditorGUILayout.ColorField("Text colour:",box.TextColor);
-			}
-			if(!designSameBoxColour){
-				box.BoxColor = EditorGUILayout.ColorField("Cube colour.",box.BoxColor);
-			}
-		}
+		designSameBoxColour = EditorGUILayout.ToggleLeft("Same coloured boxes?",designSameBoxColour);
+		designSameTextColour = EditorGUILayout.ToggleLeft("Same text colour?",designSameTextColour);
+		
 		if(designSameTextColour){
 			designTextSameColour = EditorGUILayout.ColorField("Text colour",designTextSameColour);
 			for(var box: BoxDesign in lvlCreator.Data.CubeDesignsArray){
@@ -274,5 +266,18 @@ class LevelCreatorInspector extends Editor{
 				box.BoxColor = designBoxSameColour;
 			}
 		}
+		EditorGUILayout.Space();
+		
+		for(var box : BoxDesign in lvlCreator.Data.CubeDesignsArray){
+			box.BoxText = EditorGUILayout.TextField("Text:",box.BoxText);
+			if(!designSameTextColour){
+				box.TextColor = EditorGUILayout.ColorField("Text colour:",box.TextColor);
+			}
+			if(!designSameBoxColour){
+				box.BoxColor = EditorGUILayout.ColorField("Cube colour.",box.BoxColor);
+			}
+			EditorGUILayout.Space();
+		}
+		
 	}
 }

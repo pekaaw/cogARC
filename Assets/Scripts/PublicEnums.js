@@ -17,6 +17,6 @@ public enum subRule {
 public enum CubeDesignEnum {
 	ColouredBox,
 	BoxImage,
-	Text,
+	//Text,
 	TextAndCubeColour
 };
