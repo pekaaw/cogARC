@@ -16,8 +16,8 @@ class LevelCreatorInspector extends Editor{
 	var designFoldOut : boolean = true;
 	var designSameBoxColour : boolean = false;
 	var designSameTextColour : boolean = false;
-	var designBoxSameColour : Color;
-	var designTextSameColour : Color;
+	var designBoxSameColour : Color = Color.cyan;
+	var designTextSameColour : Color = Color.blue;
 	//Infobox strings
 	var pairInfoBox : String = "Will compare the boxes as pairs.";
 	var gridRandInfoBox : String = "Having this toggled will make the same levels after eachother, toggle it"
@@ -251,15 +251,7 @@ class LevelCreatorInspector extends Editor{
 		
 		designSameBoxColour = EditorGUILayout.ToggleLeft("Same coloured boxes?",designSameBoxColour);
 		designSameTextColour = EditorGUILayout.ToggleLeft("Same text colour?",designSameTextColour);
-		for(var box : BoxDesign in lvlCreator.Data.CubeDesignsArray){
-			box.BoxText = EditorGUILayout.TextField("Text:",box.BoxText);
-			if(!designSameTextColour){
-				box.TextColor = EditorGUILayout.ColorField("Text colour:",box.TextColor);
-			}
-			if(!designSameBoxColour){
-				box.BoxColor = EditorGUILayout.ColorField("Cube colour.",box.BoxColor);
-			}
-		}
+		
 		if(designSameTextColour){
 			designTextSameColour = EditorGUILayout.ColorField("Text colour",designTextSameColour);
 			for(var box: BoxDesign in lvlCreator.Data.CubeDesignsArray){
@@ -274,5 +266,16 @@ class LevelCreatorInspector extends Editor{
 				box.BoxColor = designBoxSameColour;
 			}
 		}
+		
+		for(var box : BoxDesign in lvlCreator.Data.CubeDesignsArray){
+			box.BoxText = EditorGUILayout.TextField("Text:",box.BoxText);
+			if(!designSameTextColour){
+				box.TextColor = EditorGUILayout.ColorField("Text colour:",box.TextColor);
+			}
+			if(!designSameBoxColour){
+				box.BoxColor = EditorGUILayout.ColorField("Cube colour.",box.BoxColor);
+			}
+		}
+		
 	}
 }
