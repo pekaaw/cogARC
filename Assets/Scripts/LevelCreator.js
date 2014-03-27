@@ -98,7 +98,7 @@ public function redoCreation() {
 			break;
 		case ruleFunction.Grid:
 			functionPointerCreator = GridCreator;
-			functionPointerPreCreator = presetGridDataBeforeSort;
+			functionPointerPreCreator = PresetGridDataBeforeSort;
 			presetData = true;
 			break;
 		case ruleFunction.HumanReadable: 
@@ -111,6 +111,7 @@ public function redoCreation() {
 		switch(Data.CurrentSubRule) {
 			case subRule.Addition:
 				functionPointerSubCreator = AdditionCreator;
+				functionPointerPreCreator = PresetAdditionNumbers;
 				break;
 			case subRule.CompositeNumbers:
 				functionPointerSubCreator = AnyWordCreator;
@@ -209,7 +210,7 @@ private function HumanReadableCreator () {
 
 
 
-private function setStringDataWithoutOrder(cubes : Array , dataStrings : String[]) {
+private function SetStringDataWithoutOrder(cubes : Array , dataStrings : String[]) {
 	//sets string[0] to ParamCubes[0] and string[7] to ParamCubes[7] 
 	for( var i:int;i<cubes.length;i++) {
 		(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = dataStrings[i];
@@ -218,7 +219,7 @@ private function setStringDataWithoutOrder(cubes : Array , dataStrings : String[
 }
 
 
-private function setStringDataInOrder(cubes : Array , dataStrings : String[]) {
+private function SetStringDataInOrder(cubes : Array , dataStrings : String[]) {
 	//sets string[0] to sceneCube[0] and string[7] to sceneCube[7] 
 	for( var i:int;i<cubes.length;i++) {
 		(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket =
@@ -227,7 +228,62 @@ private function setStringDataInOrder(cubes : Array , dataStrings : String[]) {
 	}
 }
 
-private function presetGridDataBeforeSort(){
+private function PresetAdditionNumbers(){
+	var taskIsMadeInAdvance:boolean = false;
+	var design : BoxDesign;
+	var tempInt : int;
+	var tempString : String = (Data.CubeDesignsArray[1] as BoxDesign).BoxText;
+	
+	if(tempString != ""){
+		taskIsMadeInAdvance = true;
+	}
+	
+	
+	if(taskIsMadeInAdvance)
+	{
+		for(var cube : UnityEngine.GameObject in unsortedCubes)
+		{
+			design = Data.CubeDesignsArray[cube.GetComponent(BoxCollisionScript).MyIdNumber] as BoxDesign;
+			tempInt = Random.Range(0, (currentLevel + 1) * 10) - (currentLevel + 1) * 5;
+			if(tempInt < 0){
+				tempString = tempInt + "";
+			} else
+			{
+				tempString = "+" + tempInt;
+			}
+			design.BoxText = tempString;
+			cube.GetComponent(BoxCollisionScript).MyDataPacket = tempInt + "";
+						
+			cube.GetComponent(BoxDesignScript).setDesign( design, Data.DesignEnum);
+
+		}
+	}	
+	else 
+	{
+		for(var cube : UnityEngine.GameObject in unsortedCubes)
+		{
+			design = Data.CubeDesignsArray[cube.GetComponent(BoxCollisionScript).MyIdNumber] as BoxDesign;
+			tempString = design.BoxText;
+			while (tempString[0] == "+" || tempString[0] == " ") {
+				tempString = tempString.Substring(1, tempString.Length - 1);
+			}
+			try 
+			{
+				tempInt = parseInt(tempString);
+			}
+			catch (e) {
+				Debug.LogError(e + "\n Please set the data correctly if you are going to set it.");
+			}
+			cube.GetComponent(BoxCollisionScript).MyDataPacket = tempInt + "";
+
+			cube.GetComponent(BoxDesignScript).setDesign( design, Data.DesignEnum);
+	
+		}
+	
+	}
+}
+
+private function PresetGridDataBeforeSort(){
 	var q: int = 0;
 	var coloredTitles:int =  Mathf.Lerp(Data.gridMinValue, Data.gridMaxValue, currentLevel/Data.numberOfLevels);
 
@@ -290,7 +346,7 @@ private function GridCreator () {
 
 
 function AdditionCreator() {
-var numberOfCubesUsedForAnswer : int = 3;
+var numberOfCubesUsedForAnswer : int =  Mathf.Lerp(Data.additionMinValue, Data.additionMaxValue, currentLevel/Data.numberOfLevels);
 
 	for(var i : int = 0 ; i < numberOfCubesUsedForAnswer ; i++)
 	{
