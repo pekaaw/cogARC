@@ -112,6 +112,8 @@ public function redoCreation() {
 			case subRule.Addition:
 				functionPointerSubCreator = AdditionCreator;
 				functionPointerPreCreator = PresetAdditionNumbers;
+				presetData = true;
+
 				break;
 			case subRule.CompositeNumbers:
 				functionPointerSubCreator = AnyWordCreator;
