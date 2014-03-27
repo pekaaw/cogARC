@@ -4,14 +4,6 @@
 class LevelCreatorInspector extends Editor{
 	//General variables.
 	var lvlCreator : LevelCreator;
-	//Variables for Tower
-	var towerMinBox : int;
-	//Variables for Grid
-	//Variables for Human Readable
-	//Variables for Pair
-	//Variables for time and score
-	var timeEstimate : int;
-	var scorePerRight : int;
 	//Cube design variables
 	var designFoldOut : boolean = true;
 	var designSameBoxColour : boolean = false;
@@ -104,9 +96,6 @@ class LevelCreatorInspector extends Editor{
 	}
 	
 	function Tower () {
-		EditorGUILayout.LabelField("Minimum number of cubes");
-		towerMinBox = EditorGUILayout.IntSlider(towerMinBox, 2, 9);
-		//Subrule
 		lvlCreator.Data.CurrentSubRule = EditorGUILayout.EnumPopup("Subrule:", lvlCreator.Data.CurrentSubRule);
 		ChoseSubRule();
 	}
@@ -163,7 +152,14 @@ class LevelCreatorInspector extends Editor{
 	function AnyWord () {
 		EditorGUILayout.HelpBox(anyWordInfoBox, MessageType.None);
 		if(GUILayout.Button("Open file browser")){
-			lvlCreator.Data.FileString = EditorUtility.OpenFilePanel("File with words:","Assets","txt");
+			lvlCreator.Data.FileString = EditorUtility.OpenFilePanel("File with words:",Application.streamingAssetsPath,"txt");
+			if(lvlCreator.Data.FileString.StartsWith(Application.streamingAssetsPath)){
+				lvlCreator.Data.FileString = lvlCreator.Data.FileString.Substring(Application.streamingAssetsPath.Length+1);
+			}
+			else {
+				lvlCreator.Data.FileString = "File must be in " + Application.streamingAssetsPath;
+			}
+			
 		}
 		EditorGUILayout.LabelField("Current text file is: " + lvlCreator.Data.FileString);
 	}
@@ -174,14 +170,13 @@ class LevelCreatorInspector extends Editor{
 		designFoldOut = EditorGUILayout.Foldout(designFoldOut, "Design Elements");
 		if(designFoldOut){
 			switch(lvlCreator.Data.DesignEnum){
+				case CubeDesignEnum.TextAndCubeColour:
+					BoxTextAndCubeColour(); break;
 				case CubeDesignEnum.ColouredBox:
 					BoxesColoured(); break;
 				case CubeDesignEnum.BoxImage:
 					BoxImage(); break;
-				/*case CubeDesignEnum.Text:
-					BoxText(); break;*/
-				case CubeDesignEnum.TextAndCubeColour:
-					BoxTextAndCubeColour(); break;
+				
 				default:
 					BoxText(); break;
 			}
@@ -219,15 +214,19 @@ class LevelCreatorInspector extends Editor{
 		if(lvlCreator.Data.RuleEnum != ruleFunction.Pair){
 			for(var box : BoxDesign in lvlCreator.Data.CubeDesignsArray){
 				box.BoxImage = EditorGUILayout.ObjectField(box.BoxImage,Texture, true) as Texture;
+				box.BoxColor = EditorGUILayout.ColorField("Cube colour.",box.BoxColor);
 			}
 		}
 		else{
 			for(var c : int = 0; c < lvlCreator.Data.CubeDesignsArray.Count; c+=2){
 				(lvlCreator.Data.CubeDesignsArray[c] as BoxDesign).BoxImage = EditorGUILayout.ObjectField((lvlCreator.Data.CubeDesignsArray[c] as BoxDesign).BoxImage,
-				Texture, false) as Texture;
+					Texture, false) as Texture;
+				(lvlCreator.Data.CubeDesignsArray[c] as BoxDesign).BoxColor = 
+					EditorGUILayout.ColorField("Cube colour.",(lvlCreator.Data.CubeDesignsArray[c] as BoxDesign).BoxColor);
+					
 				(lvlCreator.Data.CubeDesignsArray[c+1] as BoxDesign).BoxImage = (lvlCreator.Data.CubeDesignsArray[c] as BoxDesign).BoxImage;
+				(lvlCreator.Data.CubeDesignsArray[c+1] as BoxDesign).BoxColor = (lvlCreator.Data.CubeDesignsArray[c] as BoxDesign).BoxColor;
 			}
-			
 		}
 	}
 	
