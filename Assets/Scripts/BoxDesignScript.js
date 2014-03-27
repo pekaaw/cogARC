@@ -24,8 +24,52 @@ class BoxDesignScript extends MonoBehaviour {
 	
 		design = boxDesign;
 		
-		// This we could not use because on the transparent shader is not availible at Android atm
-		//gameObject.renderer.material.shader = Shader.Find("Transparent/Diffuse");
+		// Find a shader with transparency
+		var useShader : UnityEngine.Shader;
+		var shaderCounter : int = 0;
+		while( useShader == null )
+		{
+			switch( shaderCounter )
+			{
+				case 0:
+					// Transparent/Diffused is found in Resources/Alpha-Diffuse.shader
+					useShader = Shader.Find("Transparent/Diffuse");
+					Debug.LogWarning("Using shader: Transparent/Diffuse");
+					break;
+				case 1:
+					useShader = Shader.Find("Transparent/VertexLit");
+					Debug.LogWarning("Using shader: Transparent/VertexLit");
+					break;
+				case 2:
+					useShader = Shader.Find("Transparent/Bumped Diffuse");
+					Debug.LogWarning("Using shader: Transparent/Diffuse");
+					break;
+				case 3:
+					useShader = Shader.Find("Transparent/Bumped Specular");
+					Debug.LogWarning("Using shader: Transparent/Diffuse");
+					break;
+				case 4:
+					useShader = Shader.Find("Transparent/Parallax Diffuse");
+					Debug.LogWarning("Using shader: Transparent/Diffuse");
+					break;
+				default:
+					useShader = Shader.Find("Diffuse");
+					Debug.LogWarning("Using default shader: Diffuse");
+					break;
+			}
+			
+			if( shaderCounter >= 10 )
+			{
+				Debug.LogError("Shader not found.");
+				return;
+			}
+			
+			shaderCounter++;
+		}
+		
+		// Set the shader that we found
+		gameObject.renderer.material.shader = useShader;
+		
 		
 		// Set color on box
 		if( designType == CubeDesignEnum.ColouredBox ||
@@ -37,8 +81,7 @@ class BoxDesignScript extends MonoBehaviour {
 		
 		// Set text on box
 		if( !design.BoxText.Empty ) {
-			/*if( (designType == CubeDesignEnum.Text || 
-					designType == CubeDesignEnum.TextAndCubeColour) ) {
+			if( designType == CubeDesignEnum.TextAndCubeColour ) {
 					
 				cubeText.text = design.BoxText;
 
@@ -47,14 +90,19 @@ class BoxDesignScript extends MonoBehaviour {
 		
 				// Set color on text
 				cubeText.color = design.TextColor;
-			}*/
+			}
 		}
 		
 		// If we have a texture we want on the cube
 		if( designType == CubeDesignEnum.BoxImage ) {
 			if( design.BoxImage != null) {
+				
+				// Set color on box
+				gameObject.renderer.material.color = design.BoxColor;
+								
 				// Set material from texture
 				gameObject.renderer.material.SetTexture( "_MainTex", design.BoxImage );
+				
 			}
 		}
 	}
