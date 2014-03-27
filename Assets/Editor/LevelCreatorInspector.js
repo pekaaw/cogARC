@@ -266,6 +266,7 @@ class LevelCreatorInspector extends Editor{
 				box.BoxColor = designBoxSameColour;
 			}
 		}
+		EditorGUILayout.Space();
 		
 		for(var box : BoxDesign in lvlCreator.Data.CubeDesignsArray){
 			box.BoxText = EditorGUILayout.TextField("Text:",box.BoxText);
@@ -275,6 +276,7 @@ class LevelCreatorInspector extends Editor{
 			if(!designSameBoxColour){
 				box.BoxColor = EditorGUILayout.ColorField("Cube colour.",box.BoxColor);
 			}
+			EditorGUILayout.Space();
 		}
 		
 	}
