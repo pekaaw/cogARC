@@ -231,17 +231,21 @@ private function SetStringDataInOrder(cubes : Array , dataStrings : String[]) {
 }
 
 private function PresetAdditionNumbers(){
-	var taskIsNotMadeInAdvance:boolean = false;
+	var taskIsMadeInAdvance:boolean = true;
 	var design : BoxDesign;
 	var tempInt : int;
-	var tempString : String = (Data.CubeDesignsArray[1] as BoxDesign).BoxText;
+	var tempString : String;
 	
-	if(String.IsNullOrEmpty(tempString)){
-		taskIsNotMadeInAdvance = true;
+	
+	for(var tempDesign : BoxDesign in Data.CubeDesignsArray){
+		tempString = tempDesign.BoxText;
+		if(String.IsNullOrEmpty(tempString)){
+			taskIsMadeInAdvance = false;
+		}
 	}
 	
 	
-	if(taskIsNotMadeInAdvance)
+	if(!taskIsMadeInAdvance)
 	{
 		for(var cube : UnityEngine.GameObject in unsortedCubes)
 		{
@@ -276,6 +280,13 @@ private function PresetAdditionNumbers(){
 			catch (e) {
 				Debug.LogError(e + "\n Please set the data correctly if you are going to set it.");
 			}
+			if(tempInt < 0){
+				tempString = tempInt + "";
+			} else
+			{
+				tempString = "+" + tempInt;
+			}
+			
 			cube.GetComponent(BoxCollisionScript).MyDataPacket = tempInt + "";
 
 			cube.GetComponent(BoxDesignScript).setDesign( design, Data.DesignEnum);
@@ -348,9 +359,9 @@ private function GridCreator () {
 
 
 function AdditionCreator() {
-var numberOfCubesUsedForAnswer : int =  Mathf.Lerp(Data.additionMinValue, Data.additionMaxValue, currentLevel/Data.numberOfLevels);
+	Data.currentAdditionValue =  Mathf.Lerp(Data.additionMinValue, Data.additionMaxValue, currentLevel/Data.numberOfLevels);
 
-	for(var i : int = 0 ; i < numberOfCubesUsedForAnswer ; i++)
+	for(var i : int = 0 ; i < Data.currentAdditionValue ; i++)
 	{
 		Data.FinishState.Add((sortedCubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber);
 	}

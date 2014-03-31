@@ -1,6 +1,7 @@
 ﻿#pragma strict
 private var functionPointer : Function;
 private var functionPointerSubRule : Function;
+private var functionPointerHintGUI : Function;
 //Enum defined in LevelCreator.js
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
 
@@ -58,36 +59,7 @@ function DrawRectangleForGridHint(rect : Rect, colored : boolean)
 }
 
 function OnGUI () {
-	var x1 : int = 20;
-	var y1 : int = 20;
-	var width : int = Screen.width - 2 * x1;
-	var height : int = Screen.height / 4; // this is the height of the goal-box- 
-										//frame and also the width and 
-										//height of the grid-goal-visualizer.
-	var margine : int = 5; //increasing this will make the grid-goal-visualizer smaller.
-	var textureA : Texture = Resources.Load("coloredtitle") as Texture; // images used for the grid-goal-visualizer
-	var textureB : Texture = Resources.Load("uncoloredtitle") as Texture;
-	
-	GUI.Box (Rect (x1,y1,width,height), "Your Task");
-	if(levelCreator.Data.RuleEnum == ruleFunction.Grid) {
-		var scaleX : int = (height-margine) / 3 - margine;
-		var scaleY : int = scaleX;
-		var i : int = 0;
-		for(var c:int = 0; c < 3 ; c++) {
-			var figy : int = y1 + (scaleY + margine) * c + margine;
-			for(var q :int = 0; q < 3 ; q++) {
-				var figx : int = x1 + (scaleX + margine) * q + margine;
-				if(levelCreator.Data.FinishState[i] == 1) {
-					DrawRectangleForGridHint(Rect(figx,figy,scaleX,scaleY), true);
-				} else {
-					DrawRectangleForGridHint(Rect(figx,figy,scaleX,scaleY), false);
-
-
-				}
-				i++;
-			}
-		}
-	}
+	functionPointerHintGUI();
 }
 
 public function MakeLocalCopyPacketData(cubesObjects : Array) {
@@ -108,15 +80,20 @@ public function ruleSetup(isTextAnswerParam : boolean){
 	switch(levelCreator.Data.RuleEnum) {
 		case ruleFunction.Pair: 
 			functionPointer = PairTester;
+			functionPointerHintGUI = OnPresetStringGUI;
 			break;
 		case ruleFunction.Tower:
 			functionPointer = TowerTester;
+			functionPointerHintGUI = OnPresetStringGUI;
 			break;
 		case ruleFunction.Grid:
 			functionPointer = GridTester;
+			functionPointerHintGUI = OnGridGUI;
 			break;
 		case ruleFunction.HumanReadable: 
 			functionPointer = HumanReadableTester;
+			functionPointerHintGUI = OnPresetStringGUI;
+
 			break;
 	};
 	
@@ -127,6 +104,7 @@ public function ruleSetup(isTextAnswerParam : boolean){
 				break;
 			case subRule.Addition:
 				functionPointerSubRule = AdditionTester;
+				functionPointerHintGUI = OnAdditionGUI;
 				break;
 			case subRule.WholeLiner:
 				functionPointerSubRule = WholeLinerTester;
@@ -341,3 +319,56 @@ function NULLFUNCTION(boxes : List.<int>) {
 	//this function does nothing
 	return;
 }
+
+
+function OnPresetStringGUI () {
+// just show the text written in the inspector
+
+}
+
+function OnAdditionGUI () {
+ //display answer for task and number of cubes to be used.
+ 	var x1 : int = 20;
+	var y1 : int = 20;
+	var width : int = Screen.width - 2 * x1;
+	var height : int = Screen.height / 4;
+ 	var tempString : String;
+ 	tempString =  "Use " + levelCreator.Data.currentAdditionValue + " boxes to add up to the target value: " + levelCreator.Data.FinishState[0];
+	GUI.Box (Rect (x1,y1,width,height),tempString);
+}
+
+function OnGridGUI () {
+// display hit and show complete-state for grid for set amount of time
+
+	var x1 : int = 20;
+	var y1 : int = 20;
+	var width : int = Screen.width - 2 * x1;
+	var height : int = Screen.height / 4; // this is the height of the goal-box- 
+										//frame and also the
+										//height of the grid-goal-visualizer.
+	var margine : int = 5; //increasing this will make the grid-goal-visualizer smaller.
+	var textureA : Texture = Resources.Load("coloredtitle") as Texture; // images used for the grid-goal-visualizer
+	var textureB : Texture = Resources.Load("uncoloredtitle") as Texture;
+	
+	GUI.Box (Rect (x1,y1,width,height), levelCreator.Data.LevelGoalText);
+	if(levelCreator.Data.RuleEnum == ruleFunction.Grid) {
+		var scaleX : int = (height-margine) / 3 - margine;
+		var scaleY : int = scaleX;
+		var i : int = 0;
+		for(var c:int = 0; c < 3 ; c++) {
+			var figy : int = y1 + (scaleY + margine) * c + margine;
+			for(var q :int = 0; q < 3 ; q++) {
+				var figx : int = x1 + (scaleX + margine) * q + margine;
+				if(levelCreator.Data.FinishState[i] == 1) {
+					DrawRectangleForGridHint(Rect(figx,figy,scaleX,scaleY), true);
+				} else {
+					DrawRectangleForGridHint(Rect(figx,figy,scaleX,scaleY), false);
+
+
+				}
+				i++;
+			}
+		}
+	}
+}
+
