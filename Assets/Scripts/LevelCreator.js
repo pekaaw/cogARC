@@ -231,17 +231,17 @@ private function SetStringDataInOrder(cubes : Array , dataStrings : String[]) {
 }
 
 private function PresetAdditionNumbers(){
-	var taskIsMadeInAdvance:boolean = false;
+	var taskIsNotMadeInAdvance:boolean = false;
 	var design : BoxDesign;
 	var tempInt : int;
 	var tempString : String = (Data.CubeDesignsArray[1] as BoxDesign).BoxText;
 	
-	if(tempString != ""){
-		taskIsMadeInAdvance = true;
+	if(String.IsNullOrEmpty(tempString)){
+		taskIsNotMadeInAdvance = true;
 	}
 	
 	
-	if(taskIsMadeInAdvance)
+	if(taskIsNotMadeInAdvance)
 	{
 		for(var cube : UnityEngine.GameObject in unsortedCubes)
 		{
