@@ -203,10 +203,12 @@ private function AdditionTester(boxes : List.<int>){
 	var c : int = 0;
 	var answer : int = 0;
 	var tempIntCaster : int = 0;
-	while(c < boxes.Count){
-		while(boxes[c]!=-1) {
-		tempIntCaster = parseInt(CubesData[boxes[c]] as String);
+	var letterCount : int = 0;
+	while(c < boxes.Count && letterCount < levelCreator.Data.currentAdditionValue){
+		while(boxes[c]!=-1 && letterCount < levelCreator.Data.currentAdditionValue) {
+			tempIntCaster = parseInt(CubesData[boxes[c]] as String);
 			answer += tempIntCaster;
+			letterCount++;
 			c++;
 		}
 		if(answer == levelCreator.Data.FinishState[0]) {
@@ -215,6 +217,7 @@ private function AdditionTester(boxes : List.<int>){
 
 			return;
 		}
+		letterCount = 0;
 		answer = 0;
 		c++;
 	}

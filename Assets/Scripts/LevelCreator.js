@@ -12,6 +12,8 @@ private var unsortedCubes : Array; //cubes with tag "Player" found on stage used
 private var sortedCubes : Array = new Array();
 private var currentLevel: int = 0; // last level is one less than number of levels, starts at 0
 final private var colorsUsedForGrid : int = 2;
+private var additionTaskIsMadeInAdvance:boolean = true;
+
 
 
 function Awake() {
@@ -231,21 +233,20 @@ private function SetStringDataInOrder(cubes : Array , dataStrings : String[]) {
 }
 
 private function PresetAdditionNumbers(){
-	var taskIsMadeInAdvance:boolean = true;
 	var design : BoxDesign;
 	var tempInt : int;
 	var tempString : String;
 	
-	
-	for(var tempDesign : BoxDesign in Data.CubeDesignsArray){
-		tempString = tempDesign.BoxText;
-		if(String.IsNullOrEmpty(tempString)){
-			taskIsMadeInAdvance = false;
+	if(additionTaskIsMadeInAdvance){
+		for(var tempDesign : BoxDesign in Data.CubeDesignsArray){
+			tempString = tempDesign.BoxText;
+			if(String.IsNullOrEmpty(tempString)){
+				additionTaskIsMadeInAdvance = false;
+			}
 		}
 	}
 	
-	
-	if(!taskIsMadeInAdvance)
+	if(!additionTaskIsMadeInAdvance)
 	{
 		for(var cube : UnityEngine.GameObject in unsortedCubes)
 		{
@@ -360,12 +361,12 @@ private function GridCreator () {
 
 function AdditionCreator() {
 	Data.currentAdditionValue =  Mathf.Lerp(Data.additionMinValue, Data.additionMaxValue, currentLevel/Data.numberOfLevels);
-
+	var tempInt : int = 0;
 	for(var i : int = 0 ; i < Data.currentAdditionValue ; i++)
 	{
-		Data.FinishState.Add((sortedCubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber);
+		tempInt += parseInt((sortedCubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket);
 	}
-
+	Data.FinishState.Add(tempInt);
 
 }
 
