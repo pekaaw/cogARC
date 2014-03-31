@@ -227,7 +227,7 @@ private function AdditionTester(boxes : List.<int>){
 	var tempIntCaster : int = 0;
 	while(c < boxes.Count){
 		while(boxes[c]!=-1) {
-		tempIntCaster = CubesData[boxes[c]];
+		tempIntCaster = parseInt(CubesData[boxes[c]] as String);
 			answer += tempIntCaster;
 			c++;
 		}

@@ -8,6 +8,7 @@ class BoxDesignScript extends MonoBehaviour {
 	private var cubeHandle : GameObject;
 	private var cubeText : UnityEngine.TextMesh;
 	private var textRenderer : UnityEngine.MeshRenderer;
+	private var isInitialized : boolean = false; 
 
 	function BoxDesignScript() {
 		design = new BoxDesign();
@@ -21,6 +22,11 @@ class BoxDesignScript extends MonoBehaviour {
 	}
 	
 	public function setDesign( boxDesign : BoxDesign, designType : CubeDesignEnum ) {
+		if(!isInitialized){
+			setMeUp();
+		
+		}
+	
 	
 		design = boxDesign;
 		
@@ -117,25 +123,10 @@ class BoxDesignScript extends MonoBehaviour {
 	}
 
 	function Awake() {
-		// Create GameObject to put text on. Bind it to box.
-		cubeHandle = new GameObject();
-		cubeHandle.name = "TextMeshToBox";
-		cubeHandle.transform.parent = gameObject.transform;
-		cubeHandle.transform.rotation = Quaternion.identity;
-		cubeHandle.transform.Rotate( Vector3( 90, 0, 0 ) );
-		cubeHandle.transform.localPosition = Vector3( 0.0, 0.01, 0.0 );
+		if(!isInitialized){
+			setMeUp();
 		
-		// Add a MeshRenderer with font-material
-		textRenderer = cubeHandle.AddComponent(MeshRenderer);
-		textRenderer.material = Resources.Load(fontName, Material);
-		
-		// Add a TextMesh with text
-		cubeText = cubeHandle.AddComponent(TextMesh);
-		cubeText.font = Resources.Load(fontName, Font);
-		//cubeText.color = design.TextColor;
-		cubeText.anchor = TextAnchor.MiddleCenter;
-		//cubeText.text = design.BoxText;
-		
+		}
 	}
 	
 	function Start() {
@@ -157,6 +148,28 @@ class BoxDesignScript extends MonoBehaviour {
 		
 		// Change scale of text so that it will fit onto the cube
 		cubeText.transform.localScale = Vector2( newScale, newScale );
+	}
+	private function setMeUp(){
+		// Create GameObject to put text on. Bind it to box.
+		cubeHandle = new GameObject();
+		cubeHandle.name = "TextMeshToBox";
+		cubeHandle.transform.parent = gameObject.transform;
+		cubeHandle.transform.rotation = Quaternion.identity;
+		cubeHandle.transform.Rotate( Vector3( 90, 0, 0 ) );
+		cubeHandle.transform.localPosition = Vector3( 0.0, 0.01, 0.0 );
+		
+		// Add a MeshRenderer with font-material
+		textRenderer = cubeHandle.AddComponent(MeshRenderer);
+		textRenderer.material = Resources.Load(fontName, Material);
+		
+		// Add a TextMesh with text
+		cubeText = cubeHandle.AddComponent(TextMesh);
+		cubeText.font = Resources.Load(fontName, Font);
+		//cubeText.color = design.TextColor;
+		cubeText.anchor = TextAnchor.MiddleCenter;
+		//cubeText.text = design.BoxText;
+		
+		isInitialized = true;
 	}
 
 }
