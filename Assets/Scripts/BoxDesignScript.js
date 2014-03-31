@@ -40,27 +40,27 @@ class BoxDesignScript extends MonoBehaviour {
 				case 0:
 					// Transparent/Diffused is found in Resources/Alpha-Diffuse.shader
 					useShader = Shader.Find("Transparent/Diffuse");
-					Debug.LogWarning("Using shader: Transparent/Diffuse");
+					//Debug.LogWarning("Using shader: Transparent/Diffuse");
 					break;
 				case 1:
 					useShader = Shader.Find("Transparent/VertexLit");
-					Debug.LogWarning("Using shader: Transparent/VertexLit");
+					//Debug.LogWarning("Using shader: Transparent/VertexLit");
 					break;
 				case 2:
 					useShader = Shader.Find("Transparent/Bumped Diffuse");
-					Debug.LogWarning("Using shader: Transparent/Diffuse");
+					//Debug.LogWarning("Using shader: Transparent/Diffuse");
 					break;
 				case 3:
 					useShader = Shader.Find("Transparent/Bumped Specular");
-					Debug.LogWarning("Using shader: Transparent/Diffuse");
+					//Debug.LogWarning("Using shader: Transparent/Diffuse");
 					break;
 				case 4:
 					useShader = Shader.Find("Transparent/Parallax Diffuse");
-					Debug.LogWarning("Using shader: Transparent/Diffuse");
+					//Debug.LogWarning("Using shader: Transparent/Diffuse");
 					break;
 				default:
 					useShader = Shader.Find("Diffuse");
-					Debug.LogWarning("Using default shader: Diffuse");
+					//Debug.LogWarning("Using default shader: Diffuse");
 					break;
 			}
 			
