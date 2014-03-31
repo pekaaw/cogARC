@@ -360,8 +360,11 @@ private function GridCreator () {
 
 
 function AdditionCreator() {
-	Data.currentAdditionValue =  Mathf.Lerp(Data.additionMinValue, Data.additionMaxValue, currentLevel/Data.numberOfLevels);
+
 	var tempInt : int = 0;
+	var tempFloat : float = 0.0f;
+	tempFloat = (currentLevel + 0.0f)/(Data.numberOfLevels + 0.0f);
+	Data.currentAdditionValue = Mathf.Lerp(Data.additionMinValue, Data.additionMaxValue, tempFloat);
 	for(var i : int = 0 ; i < Data.currentAdditionValue ; i++)
 	{
 		tempInt += parseInt((sortedCubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket);
