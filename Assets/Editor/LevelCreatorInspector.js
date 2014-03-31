@@ -10,6 +10,8 @@ class LevelCreatorInspector extends Editor{
 	var designSameTextColour : boolean = false;
 	var designBoxSameColour : Color = Color.cyan;
 	var designTextSameColour : Color = Color.blue;
+	var pairColor : UnityEngine.Color = new Color();
+
 	//Infobox strings
 	var pairInfoBox : String = "Will compare the boxes as pairs.";
 	var gridRandInfoBox : String = "Having this toggled will make the same levels after eachother, toggle it"
@@ -202,9 +204,16 @@ class LevelCreatorInspector extends Editor{
 			}
 			else{
 				for(var q : int = 0; q < lvlCreator.Data.CubeDesignsArray.Count; q += 2){
-					(lvlCreator.Data.CubeDesignsArray[q] as BoxDesign).BoxColor = EditorGUILayout.ColorField(
-						(lvlCreator.Data.CubeDesignsArray[q]as BoxDesign).BoxColor);
-					lvlCreator.Data.CubeDesignsArray[q+1] = lvlCreator.Data.CubeDesignsArray[q];
+					
+					// Get color that is in box allready
+					pairColor = (lvlCreator.Data.CubeDesignsArray[q] as BoxDesign).BoxColor;
+					
+					// Set new color
+					pairColor = EditorGUILayout.ColorField( pairColor );
+
+					// Put the new color to the cubes that will be a pair
+					(lvlCreator.Data.CubeDesignsArray[q] as BoxDesign).BoxColor = pairColor;
+					(lvlCreator.Data.CubeDesignsArray[q+1] as BoxDesign).BoxColor = pairColor;
 				}
 			}
 		}
