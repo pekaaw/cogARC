@@ -12,6 +12,9 @@ public var MyDataPacket : String; //this boxs data
 
 private var markerWithTransform : GameObject;
 
+public var HalfCubeScale:float = 0.6f;
+
+
 function Awake() {
 
 
@@ -28,11 +31,10 @@ function Start () {
 	markerWithTransform = transformDistributer.GetMarker(MyIdNumber);
 	
 	if(markerWithTransform){
-		var halfScale:float = 0.6f;
 		gameObject.transform.parent = markerWithTransform.transform;
-		gameObject.transform.localPosition = Vector3(0,-halfScale,0);
+		gameObject.transform.localPosition = Vector3(0,-HalfCubeScale,0);
 		gameObject.transform.localRotation = Quaternion.identity;
-		gameObject.transform.localScale = Vector3(halfScale * 2,halfScale * 2, halfScale * 2);
+		gameObject.transform.localScale = Vector3(HalfCubeScale * 2,HalfCubeScale * 2, HalfCubeScale * 2);
 
 		
 	} else {

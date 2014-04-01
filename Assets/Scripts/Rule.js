@@ -370,7 +370,7 @@ function OnCompositeGUI () {
 		var width : int = Screen.width - 2 * x1;
 		var height : int = Screen.height / 4;
 	 	var tempString : String;
-	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to add up to the target value: " + levelCreator.Data.FinishState[0];
+	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to spell the target number: " + levelCreator.Data.FinishState[0] + ". Sorry about the 6's and 9's you better try both... ";
 		GUI.Box (Rect (x1,y1,width,height),tempString);
 	}
 }
