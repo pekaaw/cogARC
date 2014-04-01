@@ -224,8 +224,8 @@ private function AdditionTester(boxes : List.<int>){
 	var answer : int = 0;
 	var tempIntCaster : int = 0;
 	var letterCount : int = 0;
-	while(c < boxes.Count && letterCount < levelCreator.Data.currentAdditionValue){
-		while(boxes[c]!=-1 && letterCount < levelCreator.Data.currentAdditionValue) {
+	while(c < boxes.Count && letterCount < levelCreator.Data.currentNumberOfBoxesUsedForTask){
+		while(boxes[c]!=-1 && letterCount < levelCreator.Data.currentNumberOfBoxesUsedForTask) {
 			tempIntCaster = parseInt(CubesData[boxes[c]] as String);
 			answer += tempIntCaster;
 			letterCount++;
@@ -357,7 +357,20 @@ function OnAdditionGUI () {
 		var width : int = Screen.width - 2 * x1;
 		var height : int = Screen.height / 4;
 	 	var tempString : String;
-	 	tempString =  "Use " + levelCreator.Data.currentAdditionValue + " boxes to add up to the target value: " + levelCreator.Data.FinishState[0];
+	 	tempString =  "Use " + levelCreator.Data.currentNumberOfBoxesUsedForTask + " boxes to add up to the target value: " + levelCreator.Data.FinishState[0];
+		GUI.Box (Rect (x1,y1,width,height),tempString);
+	}
+}
+
+function OnCompositeGUI () {
+ //display answer for task and number of cubes to be used.
+ if(levelCreator.Data.FinishState.Count > 0){
+ 		var x1 : int = 20;
+		var y1 : int = 20;
+		var width : int = Screen.width - 2 * x1;
+		var height : int = Screen.height / 4;
+	 	var tempString : String;
+	 	tempString =  "Use " + levelCreator.Data.currentNumberOfBoxesUsedForTask + " boxes to add up to the target value: " + levelCreator.Data.FinishState[0];
 		GUI.Box (Rect (x1,y1,width,height),tempString);
 	}
 }

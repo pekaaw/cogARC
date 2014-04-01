@@ -141,8 +141,8 @@ class LevelCreatorInspector extends Editor{
 	function Addition () {
 		EditorGUILayout.HelpBox(additionInfoBox, MessageType.None);
 		
-		lvlCreator.Data.additionMinValue = EditorGUILayout.IntSlider("MIN:",lvlCreator.Data.additionMinValue, 2, 10);
-		lvlCreator.Data.additionMaxValue = EditorGUILayout.IntSlider("MAX:",lvlCreator.Data.additionMaxValue, lvlCreator.Data.additionMinValue, 10);
+		lvlCreator.Data.MinNumberOfBoxesUsedForTask = EditorGUILayout.IntSlider("MIN:",lvlCreator.Data.MinNumberOfBoxesUsedForTask, 2, 10);
+		lvlCreator.Data.MaxNumberOfBoxesUsedForTask = EditorGUILayout.IntSlider("MAX:",lvlCreator.Data.MaxNumberOfBoxesUsedForTask, lvlCreator.Data.MinNumberOfBoxesUsedForTask, 10);
 	}
 	
 	function CompositeNumbers () {

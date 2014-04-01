@@ -379,8 +379,8 @@ function AdditionCreator() {
 	var tempFloat : float = 0.0f;
 
 	tempFloat = (currentLevel + 0.0f)/(Data.numberOfLevels + 0.0f);
-	Data.currentAdditionValue = Mathf.Lerp(Data.additionMinValue, Data.additionMaxValue, tempFloat);
-	for(var i : int = 0 ; i < Data.currentAdditionValue ; i++)
+	Data.currentNumberOfBoxesUsedForTask = Mathf.Lerp(Data.MinNumberOfBoxesUsedForTask, Data.MaxNumberOfBoxesUsedForTask, tempFloat);
+	for(var i : int = 0 ; i < Data.currentNumberOfBoxesUsedForTask ; i++)
 	{
 		tempInt += parseInt((sortedCubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket);
 	}

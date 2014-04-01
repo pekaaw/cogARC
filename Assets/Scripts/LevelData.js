@@ -15,9 +15,11 @@ class LevelData extends ScriptableObject {
 	public var gridMinValue : int;
 	public var gridMaxValue : int;
 
-	public var additionMinValue : int;
-	public var additionMaxValue : int;
-	public var currentAdditionValue : int;
+	public var MinNumberOfBoxesUsedForTask : int;
+	public var MaxNumberOfBoxesUsedForTask : int;
+	public var currentNumberOfBoxesUsedForTask : int;
+
+	
 	//what the solution looks like for games except "Woords" with needs multiple solutions at once.
 	public var FinishState : List.<int> = new List.<int>();													
 
