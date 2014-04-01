@@ -220,6 +220,7 @@ private function SetStringDataWithoutOrder(cubes : Array , dataStrings : String[
 	var design : BoxDesign;
 	//sets string[0] to ParamCubes[0] and string[7] to ParamCubes[7] 
 	for( var i:int;i<cubes.length;i++) {
+		design = new BoxDesign();
 		(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = dataStrings[i];
 		design.BoxText = dataStrings[i];
 		(cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
@@ -379,8 +380,8 @@ function AdditionCreator() {
 	var tempFloat : float = 0.0f;
 
 	tempFloat = (currentLevel + 0.0f)/(Data.numberOfLevels + 0.0f);
-	Data.currentNumberOfBoxesUsedForTask = Mathf.Lerp(Data.MinNumberOfBoxesUsedForTask, Data.MaxNumberOfBoxesUsedForTask, tempFloat);
-	for(var i : int = 0 ; i < Data.currentNumberOfBoxesUsedForTask ; i++)
+	Data.CurrentNumberOfBoxesUsedForTask = Mathf.Lerp(Data.MinNumberOfBoxesUsedForTask, Data.MaxNumberOfBoxesUsedForTask, tempFloat);
+	for(var i : int = 0 ; i < Data.CurrentNumberOfBoxesUsedForTask ; i++)
 	{
 		tempInt += parseInt((sortedCubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket);
 	}
@@ -400,9 +401,13 @@ function WholeLinerCreator(){
 }
 
 function CompositeNumberCreator(){
-// find solution in currentstate - the point is not to have full length
-	Data.FinishState.Add((sortedCubes[0] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber);
-	Data.FinishState.Add((sortedCubes[1] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber);
+var goal : int = 0;
+	for(var q : int = 0 ; q < Data.CurrentNumberOfBoxesUsedForTask ; q++)
+	{
+		goal *= 10;
+		goal += parseInt((sortedCubes[q] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket);
+	}
+	Data.FinishState.Add(goal);
 	Data.FinishState.Add(-1);
 	
 	

@@ -17,7 +17,7 @@ class LevelData extends ScriptableObject {
 
 	public var MinNumberOfBoxesUsedForTask : int;
 	public var MaxNumberOfBoxesUsedForTask : int;
-	public var currentNumberOfBoxesUsedForTask : int;
+	public var CurrentNumberOfBoxesUsedForTask : int;
 
 	
 	//what the solution looks like for games except "Woords" with needs multiple solutions at once.
