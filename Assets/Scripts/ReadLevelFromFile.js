@@ -10,48 +10,55 @@ function Start () {
 
 function readFile () {
 	var fileName = lvlCreator.Data.FileString;
-	var splitOnThis : String[] = [","," "];
+	var splitOnThis : String[] = ["\n","\r"];
+	var charSplitOnThis : char[] = ["\n"[0], ","[0], " "[0],"\r"[0]];
 	
-	if(File.Exists(Application.streamingAssetsPath + "/" + fileName)){
-		var sr = new StreamReader(Application.streamingAssetsPath + "/" + fileName);
-	    var fileContents = sr.ReadToEnd();
-	    sr.Close();
-	 	
-	    var lines = fileContents.Split("\n"[0]);
-	    
-	    //Les in starten av fila
-	    var themeOfGame = lines[0].Substring((("Subject: ") as String).Length);
-	    Debug.Log(themeOfGame);
-	    
-	    for (var c : int = 4; c < lines.Length;) {
-	    	var letters = lines[c+3].Split(splitOnThis,StringSplitOptions.RemoveEmptyEntries);
-	    	Debug.Log(letters);
-	    	
-	    	var words = lines[c+5].Split(splitOnThis,StringSplitOptions.RemoveEmptyEntries);
-	    	
-	    	for(var q : int = 0; q < words.Length; q++){
-	    		//Debug.LogWarning("Before: " + words[q]);
-	    		for(var l : int = 0; l < words[q].Length; l++){
-		    		for(var p : int = 0; p < letters.Length; p++){
-		    			if(words[q][l] == letters[p]){
-		    				words[q] = words[q].Replace(words[q][l],System.Convert.ToChar(p));
-		    				Debug.LogWarning(words[q]);
-		    			}
-		    		}
-	    		}
-	    		Debug.LogWarning("After: " + words[q]);
-    		}
-    		c += 9;
-		}
-		var ret : List.<String> = new List.<String>();
-		for(letter in letters){
-			ret.Add(letter);
-		}
-		for(var k : int = 0; k < words.Length; k++){
-			ret.Add(words[k]);
-			ret.Add("-1");
-		}
-		Debug.LogWarning(ret);
-		return ret;
+	if(!File.Exists(Application.streamingAssetsPath + "/" + fileName)){
+		return;
 	}
+	var sr = new StreamReader(Application.streamingAssetsPath + "/" + fileName);
+	var fileContents = sr.ReadToEnd();
+	sr.Close();
+	 	
+	var lines = fileContents.Split(splitOnThis,StringSplitOptions.RemoveEmptyEntries);
+	for(line in lines){
+	   	line.TrimEnd(charSplitOnThis);
+	}
+	var themeOfGame = lines[0].Substring((("Subject: ") as String).Length);
+	Debug.Log(themeOfGame);
+	//Return value to contain all return stuffs
+	var ret : List.<String> = new List.<String>();
+	    
+	for (var c : int = 2; c < lines.Length; c += 0) {
+	  	while(lines[c].StartsWith("--") || lines[c].Length == 0 || lines[c].StartsWith("Level ")
+	  									|| lines[c].StartsWith("Letters")){
+	   		c++;
+	   	}
+	    	
+	   	var letters = lines[c].Split(charSplitOnThis,StringSplitOptions.RemoveEmptyEntries);
+	   	Debug.LogWarning(lines[c]);
+	   	c++;
+	   	if(lines[c].StartsWith("Words")){
+	   		c++;
+	   	}
+	   	var words = lines[c].Split(charSplitOnThis,StringSplitOptions.RemoveEmptyEntries);
+	    c++;
+	    for(var z : int = 0; z < letters.Length; z++){
+	    	ret.Add(letters[z]);
+	    }
+	   	for(var q : int = 0; q < words.Length; q++){
+	   		//ret.Add(words[q]);
+	   		//ret.Add(words[q].Length.ToString());
+	   		ret.Add("-1");
+	    	
+	    	for(var p : int = 0; p < letters.Length; p++){
+		    	if(words[q].Contains(letters[p])){
+		    		ret.Add(p.ToString());
+		  		}
+			}
+	   	}
+	   	c++;
+	}
+	return ret;
 }
+
