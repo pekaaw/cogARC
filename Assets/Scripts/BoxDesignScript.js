@@ -137,14 +137,26 @@ class BoxDesignScript extends MonoBehaviour {
 		
 		var renderingSize : Vector3;
 		var newScale : float;
+		var scaleX : float;
+		var scaleY : float;
 		
 		// Get size and calculate new scaling to get text to fit
 		renderingSize = textRenderer.bounds.size;
-		newScale = 1 / renderingSize.x;
+		scaleX = 1 / renderingSize.x;
+		scaleY = 1 / renderingSize.y;
 		
-		if( newScale == Mathf.Infinity ) {
-			newScale = 1;
+		// Scale should not be more than 2 and
+		// never ever more than 5.
+		if( scaleX > 5 )
+		{
+			scaleX = 1;
 		}
+		if( scaleY > 5 )
+		{
+			scaleY = 1;
+		}
+		
+		newScale = Mathf.Min(scaleX, scaleY) * 0.7;
 		
 		// Change scale of text so that it will fit onto the cube
 		cubeText.transform.localScale = Vector2( newScale, newScale );
@@ -156,7 +168,8 @@ class BoxDesignScript extends MonoBehaviour {
 		cubeHandle.transform.parent = gameObject.transform;
 		cubeHandle.transform.rotation = Quaternion.identity;
 		cubeHandle.transform.Rotate( Vector3( 90, 0, 0 ) );
-		cubeHandle.transform.localPosition = Vector3( 0.0, 0.01, 0.0 );
+		// 0.51 to translate text from middle of cube to outside and avoid clipping
+		cubeHandle.transform.localPosition = Vector3( 0.0, 0.51, 0.0 );
 		
 		// Add a MeshRenderer with font-material
 		textRenderer = cubeHandle.AddComponent(MeshRenderer);
