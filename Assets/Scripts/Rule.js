@@ -101,6 +101,7 @@ public function ruleSetup(isTextAnswerParam : boolean){
 		switch(levelCreator.Data.CurrentSubRule) {
 			case subRule.CompositeNumbers: 
 				functionPointerSubRule = compositeNumbersTester;
+				functionPointerHintGUI = OnCompositeGUI;
 				break;
 			case subRule.Addition:
 				functionPointerSubRule = AdditionTester;
