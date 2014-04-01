@@ -6,6 +6,7 @@ private var functionPointerHintGUI : Function;
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
 
 private var levelCreator : LevelCreator;
+
 private	var outputTextC : UnityEngine.TextMesh;
 private	var outputTextC2 : UnityEngine.TextMesh;
 private	var outputTextC3 : UnityEngine.TextMesh;
@@ -22,7 +23,6 @@ private static var colorUncolored : Color;
 var CubesData : Array;		//local copy of the data contained in the 
 
 function Awake() {
-
 	levelCreator = gameObject.GetComponent(LevelCreator);
 	
 }
@@ -123,26 +123,33 @@ public function Test (boxes : List.<int>){
 	//boxes contains the id numbers of the boxes
 	//This code block test to make sure that you get the same input three times
 	//	before it let you advance
-	historyGameState3 = historyGameState2;
-	historyGameState2 = historyGameState1;
-	historyGameState1 = boxes.ToArray();
+	if(levelCreator.Data.FinishState.Count > 0){
 	
-	if(!historyGameState3 || historyGameState3.length != historyGameState1.Length || historyGameState3.length != historyGameState2.length) {
-		return;
-	}
-	for(var c:int = 0 ; c < historyGameState1.length ; c ++) {
-		if(historyGameState1[c] != historyGameState2[c] || historyGameState2[c] != historyGameState3[c]) {
-			Debug.Log("Unexpected CHANGE in HISTORY");
+		historyGameState3 = historyGameState2;
+		historyGameState2 = historyGameState1;
+		historyGameState1 = boxes.ToArray();
+		
+		if(!historyGameState3 || historyGameState3.length != historyGameState1.Length || historyGameState3.length != historyGameState2.length) {
 			return;
 		}
-	}
-	//Checking of history is done here
- 
-	functionPointer(boxes);
-	
-	if(levelCreator.Data.FinishState.Count < 1){
-		levelCreator.LoadLevel();
-		//congrats, save score, load next level
+		for(var c:int = 0 ; c < historyGameState1.length ; c ++) {
+			if(historyGameState1[c] != historyGameState2[c] || historyGameState2[c] != historyGameState3[c]) {
+				Debug.Log("Unexpected CHANGE in HISTORY");
+				return;
+			}
+		}
+		//Checking of history is done here
+	 
+		functionPointer(boxes);
+		
+		if(levelCreator.Data.FinishState.Count == 0){
+
+			yield WaitForSeconds (3);
+
+
+			levelCreator.LoadLevel();
+		}
+			//congrats, save score, load next level
 	}
 }
 
@@ -196,7 +203,20 @@ private function HumanReadableTester (boxes : List.<int>) {
 
 
 private function compositeNumbersTester(boxes : List.<int>){
-	return;
+	var c : int = 0;
+	var answer : int = 0;
+	var tempIntCaster : int = 0;
+	while(c < boxes.Count && c < levelCreator.Data.FinishState.Count - 1)
+	{
+		tempIntCaster *= 10;
+		tempIntCaster += parseInt(CubesData[boxes[c]] as String);
+		c++;
+	}
+	if(tempIntCaster == levelCreator.Data.FinishState[0]) {
+			Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
+			levelCreator.Data.FinishState.Clear();
+			return;
+	}
 }
 
 private function AdditionTester(boxes : List.<int>){
@@ -331,13 +351,15 @@ function OnPresetStringGUI () {
 
 function OnAdditionGUI () {
  //display answer for task and number of cubes to be used.
- 	var x1 : int = 20;
-	var y1 : int = 20;
-	var width : int = Screen.width - 2 * x1;
-	var height : int = Screen.height / 4;
- 	var tempString : String;
- 	tempString =  "Use " + levelCreator.Data.currentAdditionValue + " boxes to add up to the target value: " + levelCreator.Data.FinishState[0];
-	GUI.Box (Rect (x1,y1,width,height),tempString);
+ if(levelCreator.Data.FinishState.Count > 0){
+ 		var x1 : int = 20;
+		var y1 : int = 20;
+		var width : int = Screen.width - 2 * x1;
+		var height : int = Screen.height / 4;
+	 	var tempString : String;
+	 	tempString =  "Use " + levelCreator.Data.currentAdditionValue + " boxes to add up to the target value: " + levelCreator.Data.FinishState[0];
+		GUI.Box (Rect (x1,y1,width,height),tempString);
+	}
 }
 
 function OnGridGUI () {

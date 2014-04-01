@@ -3,7 +3,7 @@
 // Data from this level
 public var Data : LevelData;
 
-private var LoadingScript : LoadingScreen;
+private var loadingScript : LoadingScreen;
 private var ruleScript : Rule;
 private var functionPointerCreator : Function;
 private var functionPointerSubCreator : Function;
@@ -42,7 +42,7 @@ function Awake() {
 	//Data.gridGoalScript = GameObject.Find("GridGoal").GetComponent(GridGoalScript);
 	ruleScript =  gameObject.GetComponent(Rule);
 
-	LoadingScript = gameObject.GetComponent(LoadingScreen);
+	loadingScript = gameObject.GetComponent(LoadingScreen);
 
 	LoadLevel();
 }
@@ -63,7 +63,7 @@ function LoadLevel(){
 	if (currentLevel < Data.numberOfLevels) {
 		currentLevel++;
 		redoCreation();	//load next level of same game
-		LoadingScript.Activate(Data.GameName, Data.LevelGoalText, Data.numberOfLevels, currentLevel);
+		loadingScript.Activate(Data.GameName, Data.LevelGoalText, Data.numberOfLevels, currentLevel);
 
 	} else {
 		Application.Quit();
@@ -118,7 +118,9 @@ public function redoCreation() {
 
 				break;
 			case subRule.CompositeNumbers:
-				functionPointerSubCreator = AnyWordCreator;
+				functionPointerSubCreator = CompositeNumberCreator;
+				functionPointerPreCreator = setOneToNineNumbers;
+				presetData = true;
 				break;
 			case subRule.WholeLiner:
 				functionPointerSubCreator = WholeLinerCreator;
@@ -215,10 +217,12 @@ private function HumanReadableCreator () {
 
 
 private function SetStringDataWithoutOrder(cubes : Array , dataStrings : String[]) {
+	var design : BoxDesign;
 	//sets string[0] to ParamCubes[0] and string[7] to ParamCubes[7] 
 	for( var i:int;i<cubes.length;i++) {
 		(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = dataStrings[i];
-		
+		design.BoxText = dataStrings[i];
+		(cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
 	}
 }
 
@@ -230,6 +234,16 @@ private function SetStringDataInOrder(cubes : Array , dataStrings : String[]) {
 			 dataStrings[(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber];
 		
 	}
+}
+
+private function setOneToNineNumbers () {
+	var arr = new Array ();
+	for(var q : int = 0 ; q < 10; q ++)
+	{
+		arr.Push (q + "");
+	}
+	SetStringDataWithoutOrder(unsortedCubes, arr.ToBuiltin(String));
+
 }
 
 private function PresetAdditionNumbers(){
@@ -363,6 +377,7 @@ function AdditionCreator() {
 
 	var tempInt : int = 0;
 	var tempFloat : float = 0.0f;
+
 	tempFloat = (currentLevel + 0.0f)/(Data.numberOfLevels + 0.0f);
 	Data.currentAdditionValue = Mathf.Lerp(Data.additionMinValue, Data.additionMaxValue, tempFloat);
 	for(var i : int = 0 ; i < Data.currentAdditionValue ; i++)
@@ -384,10 +399,19 @@ function WholeLinerCreator(){
 
 }
 
-function AnyWordCreator(){
+function CompositeNumberCreator(){
 // find solution in currentstate - the point is not to have full length
+	Data.FinishState.Add((sortedCubes[0] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber);
+	Data.FinishState.Add((sortedCubes[1] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber);
+	Data.FinishState.Add(-1);
+	
 	
 }
+
+
+function AnyWordCreator(){ } // ToDo: All
+
+
 
 function NULLFUNCTION() {
 	//this function does nothing
