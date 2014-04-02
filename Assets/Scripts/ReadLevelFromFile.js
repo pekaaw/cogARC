@@ -2,14 +2,7 @@
 import System.IO;
 import System;
 
-var lvlCreator : LevelCreator;
-
-function Start () {
-	readFile();
-}
-
-function readFile () : List.<String> {
-	var fileName = lvlCreator.Data.FileString;
+public function ReadFile (fileName : String) : List.<String> {
 	var splitOnThis : String[] = ["\n","\r"];
 	var charSplitOnThis : char[] = ["\n"[0], ","[0], " "[0],"\r"[0]];
 	

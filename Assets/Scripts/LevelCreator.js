@@ -14,6 +14,8 @@ private var currentLevel: int = 0; // last level is one less than number of leve
 final private var colorsUsedForGrid : int = 2;
 private var additionTaskIsMadeInAdvance:boolean = true;
 
+private var WOOORDSFILE : List.<String>;
+
 
 
 function Awake() {
@@ -43,6 +45,8 @@ function Awake() {
 	ruleScript =  gameObject.GetComponent(Rule);
 
 	loadingScript = gameObject.GetComponent(LoadingScreen);
+	
+	WOOORDSFILE = gameObject.GetComponent(ReadLevelFromFile).ReadFile(Data.FileString);
 
 	LoadLevel();
 }
