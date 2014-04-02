@@ -8,7 +8,7 @@ function Start () {
 	readFile();
 }
 
-function readFile () {
+function readFile () : List.<String> {
 	var fileName = lvlCreator.Data.FileString;
 	var splitOnThis : String[] = ["\n","\r"];
 	var charSplitOnThis : char[] = ["\n"[0], ","[0], " "[0],"\r"[0]];
