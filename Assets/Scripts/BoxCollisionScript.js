@@ -1,10 +1,9 @@
 #pragma strict
 enum Sides {LEFT, BACK, RIGHT, FRONT, TOP , BOTTOM}; // copy of same in worldstate
 // Other scripts used by this:
-var MyWorldCenterC : GyroRotor;
-var myWorldState : WorldState;
-var getRulesFromCreation : LevelCreator;
-var framemarkerContainer : TransformDistributor;
+private var MyWorldCenterC : GyroRotor;
+private var myWorldState : WorldState;
+private var getRulesFromCreation : LevelCreator;
 
 private var RuleEnum : ruleFunction; // the current rule effects how the gamestate is set up
 var MyIdNumber : int; //this boxs unik ID number

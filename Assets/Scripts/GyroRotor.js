@@ -1,22 +1,22 @@
 ﻿#pragma strict
 
 // ------------These are the real world unit vectors
-var gyroUnitXVec3 : UnityEngine.Vector3 = new UnityEngine.Vector3(0,0,0);//down
-var gyroUnitYVec3 : UnityEngine.Vector3 = new UnityEngine.Vector3(0,0,0);//in
-var gyroUnitZVec3 : UnityEngine.Vector3 = new UnityEngine.Vector3(0,0,0);//right
+private var gyroUnitXVec3 : UnityEngine.Vector3 = new UnityEngine.Vector3(0,0,0);//down
+private var gyroUnitYVec3 : UnityEngine.Vector3 = new UnityEngine.Vector3(0,0,0);//in
+private var gyroUnitZVec3 : UnityEngine.Vector3 = new UnityEngine.Vector3(0,0,0);//right
 final var verticalRange : int = 40; // how many degrees deviant from strait up is counted as top-bottom collision
 
 //--------------------------------------------------
 
 // ------------These are the gameobjects used to find the real world unit vectors
-var sideVec3 : UnityEngine.GameObject; //x
-var topVec3 : UnityEngine.GameObject; //y
-var backVec3 : UnityEngine.GameObject;//z
-var centerVec3 : UnityEngine.GameObject;// center 
+private var sideVec3 : UnityEngine.GameObject; //x
+private var topVec3 : UnityEngine.GameObject; //y
+private var backVec3 : UnityEngine.GameObject;//z
+private var centerVec3 : UnityEngine.GameObject;// center 
 //--------------------------------------------------
 
 //-------------output text for debug on mobil-------
-var outputTextC : UnityEngine.TextMesh;
+private var outputTextC : UnityEngine.TextMesh;
 //--------------------------------------------------
 
 function Start () {
