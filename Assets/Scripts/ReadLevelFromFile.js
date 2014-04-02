@@ -39,16 +39,16 @@ public function ReadFile (fileName : String) : List.<String> {
 	    for(var z : int = 0; z < letters.Length; z++){
 	    	ret.Add(letters[z]);
 	    }
+	    //Add -1 and number of words
+	    ret.Add(words.Length);
+	    ret.Add("-1");
 	   	for(var q : int = 0; q < words.Length; q++){
-	   		//ret.Add(words[q]);
-	   		//ret.Add(words[q].Length.ToString());
-	   		ret.Add("-1");
-	    	
 	    	for(var p : int = 0; p < letters.Length; p++){
 		    	if(words[q].Contains(letters[p])){
 		    		ret.Add(p.ToString());
 		  		}
 			}
+			ret.Add("-1");
 	   	}
 	   	c++;
 	}
