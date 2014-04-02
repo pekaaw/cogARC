@@ -15,6 +15,7 @@ final private var colorsUsedForGrid : int = 2;
 private var additionTaskIsMadeInAdvance:boolean = true;
 
 private var WOOORDSFILE : List.<String>;
+private var numberOfWordsThisLevel : int;
 
 
 
@@ -46,7 +47,6 @@ function Awake() {
 
 	loadingScript = gameObject.GetComponent(LoadingScreen);
 	
-	WOOORDSFILE = gameObject.GetComponent(ReadLevelFromFile).ReadFile(Data.FileString);
 
 	LoadLevel();
 }
@@ -131,6 +131,10 @@ public function redoCreation() {
 				break;
 			case subRule.AnyWord: 
 				functionPointerSubCreator = AnyWordCreator;
+				functionPointerPreCreator = PresetWoordsData;
+				presetData = true;
+				
+
 				break;
 			default: break;
 		}
@@ -215,7 +219,26 @@ private function HumanReadableCreator () {
 
 
 
-
+private function PresetWoordsData() {
+	var c : int = 0;
+	var dataStrings : String[] = new String [Data.numberOfCubes];
+	if(!WOOORDSFILE || WOOORDSFILE.Count < 1) {
+		WOOORDSFILE = gameObject.GetComponent(ReadLevelFromFile).ReadFile(Data.FileString);
+	}
+	while(c < Data.numberOfCubes && WOOORDSFILE[c] != "-1") 
+	{
+		dataStrings[c] = WOOORDSFILE[c];
+		c++;
+	}
+	numberOfWordsThisLevel = parseInt(WOOORDSFILE[c+2]);
+	WOOORDSFILE.RemoveRange(0,c+2);
+	while(c < Data.numberOfCubes) 
+	{
+		dataStrings[c] = "$CUBE_NOT_IN_USE$";
+ 		c++;
+ 	}
+  
+} 
 
 
 
@@ -224,10 +247,14 @@ private function SetStringDataWithoutOrder(cubes : Array , dataStrings : String[
 	var design : BoxDesign;
 	//sets string[0] to ParamCubes[0] and string[7] to ParamCubes[7] 
 	for( var i:int;i<cubes.length;i++) {
-		design = new BoxDesign();
-		(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = dataStrings[i];
-		design.BoxText = dataStrings[i];
-		(cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
+		if(dataStrings[i] != "$CUBE_NOT_IN_USE$") {
+			design = new BoxDesign();
+			(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = dataStrings[i];
+			design.BoxText = dataStrings[i];
+			(cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
+		} else {
+			(cubes[i] as GameObject).renderer.material.color = Color.black;
+		}
 	}
 }
 

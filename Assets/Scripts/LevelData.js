@@ -25,7 +25,7 @@ class LevelData extends ScriptableObject {
 
 	public var numberOfLevels : int = 9;
 
-	public var numberOfCubes : int = 10; //NB! :should no longer be changed when using grid rules: NB!
+	final public var numberOfCubes : int = 10; //NB! :should no longer be changed when using grid rules: NB!
 	
 	public var SaveDesignString : String;
 	
