@@ -230,14 +230,15 @@ private function PresetWoordsData() {
 		dataStrings[c] = WOOORDSFILE[c];
 		c++;
 	}
-	numberOfWordsThisLevel = parseInt(WOOORDSFILE[c+2]);
-	WOOORDSFILE.RemoveRange(0,c+2);
+	numberOfWordsThisLevel = parseInt(WOOORDSFILE[c+1]);
+	WOOORDSFILE.RemoveRange(0,c+3);
 	while(c < Data.numberOfCubes) 
 	{
 		dataStrings[c] = "$CUBE_NOT_IN_USE$";
  		c++;
  	}
   
+	SetStringDataInOrder(unsortedCubes , dataStrings);
 } 
 
 
@@ -260,11 +261,18 @@ private function SetStringDataWithoutOrder(cubes : Array , dataStrings : String[
 
 
 private function SetStringDataInOrder(cubes : Array , dataStrings : String[]) {
+var design : BoxDesign;
 	//sets string[0] to sceneCube[0] and string[7] to sceneCube[7] 
 	for( var i:int;i<cubes.length;i++) {
-		(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket =
+		if(dataStrings[i] != "$CUBE_NOT_IN_USE$") {
+			design = new BoxDesign();
+			design.BoxText = dataStrings[(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber];
+			(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket =
 			 dataStrings[(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber];
-		
+			 (cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
+		} else {
+			(cubes[i] as GameObject).renderer.material.color = Color.black;
+		}
 	}
 }
 
@@ -445,9 +453,22 @@ var goal : int = 0;
 }
 
 
-function AnyWordCreator(){ } // ToDo: All
+function AnyWordCreator(){
+	var c : int = 0;
+ 	for(var q:int = 0; q < numberOfWordsThisLevel ; q ++) {
+ 		do{
+ 			Data.FinishState.Add(parseInt(WOOORDSFILE[c]));
+ 			c++;
+ 		} while(WOOORDSFILE[c] != "-1");
+ 		Data.FinishState.Add(-1);
+ 		WOOORDSFILE.RemoveRange(0,c + 1);
+ 		c = 0;
+ 	
+ 	}
+   
 
 
+}
 
 function NULLFUNCTION() {
 	//this function does nothing

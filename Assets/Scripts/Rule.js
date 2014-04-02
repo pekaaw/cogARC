@@ -263,7 +263,8 @@ private function AnyWordTester(boxes : List.<int>){
 								contains "1,2,3" - True
 
 Note: only the word starting at index 0 of the finishstate will be used for testing
-			*/
+		
+				*/
 	var inIndex:int = 0;
 	var finIndex:int = 0;	
 	
@@ -276,7 +277,10 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 				var tempInIndex:int = inIndex;
 				var tempFinIndex:int = finIndex;
 				// while boxes follows the pattern of this word
-				while(boxes[inIndex] != -1 && CubesData[boxes[tempInIndex]] == CubesData[levelCreator.Data.FinishState[tempFinIndex]]) {
+				while(tempInIndex < boxes.Count 
+				&& tempFinIndex < levelCreator.Data.FinishState.Count 
+				&& CubesData[boxes[tempInIndex]] + "" == CubesData[levelCreator.Data.FinishState[tempFinIndex]] + "" 
+				) {
 					
 					
 					tempInIndex ++;
@@ -294,6 +298,20 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 						{
 							levelCreator.Data.FinishState.RemoveAt(tempFinIndex-1); // remove the word it self, here we can count points for letters
 							tempFinIndex--;
+						}
+						return; // because I don't want to check if you have more than one word correct in the same frame.
+					} else { 
+						if(levelCreator.Data.FinishState[tempFinIndex] == -1 || boxes[tempInIndex] == -1) //else did one of the words end?
+						{
+							//if so skip both to the next word
+							while(tempFinIndex < levelCreator.Data.FinishState.Count && levelCreator.Data.FinishState[tempFinIndex] != -1){
+								tempFinIndex++;
+							}
+							while(tempInIndex < boxes[tempInIndex] && boxes[tempInIndex] != -1){
+								tempInIndex++;
+							}
+							tempFinIndex++;
+							tempInIndex++;
 						}
 					}
 				}	
