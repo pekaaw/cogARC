@@ -24,8 +24,8 @@ function Start () {
 	//Gives the game a name if there is no name
 	if (GameName == ""){
 		GameName = "Unnamed";
-	}
-	ScoreScreenRect = Rect((Screen.width/2) - 720/2,15,720, 1000);	
+	}//x,y start bredde høyde
+	ScoreScreenRect = Rect( 350,25,Screen.width - 700, Screen.height - 50);	
 }
 
 function OnGUI() {
