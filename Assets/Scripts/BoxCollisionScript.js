@@ -72,7 +72,7 @@ function OnTriggerEnter (other : Collider) {
 
 function OnTriggerStay (other : Collider) {
 var verticalSide : int; // 0 : horizontal ; 1 : top ; 2 : bottom
-	if(other.tag == "Player") {
+	if(other.tag == "Player" && MyDataPacket != "" && other.GetComponent(BoxCollisionScript).MyDataPacket != "") {
 		//renderer.material.color = Color.green;
 		
 		verticalSide = MyWorldCenterC.collisionIsVertical( // if the collision is not vertical 

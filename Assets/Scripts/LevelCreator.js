@@ -139,18 +139,26 @@ public function redoCreation() {
 			default: break;
 		}
 	}
-	if(presetData) {
+	if(presetData)
+	{
 		functionPointerPreCreator(); // set some data before the cubes are randomized
+		
 		ruleScript.MakeLocalCopyPacketData(unsortedCubes); //sets an array with copies of the cubes datapackets. for reference when checking finishstate.
 	}
 	ruleScript.ruleSetup(isTextAnswer); // sets the rules in the rulescript
 	
 	for(var c: int = 0; c < Data.numberOfCubes; c++) {
-		nextIndex = Random.Range(0,unsortedCubes.length-1); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
-		nextItem = unsortedCubes[nextIndex];
-		sortedCubes.Add(nextItem);
-		unsortedCubes.RemoveAt(nextIndex);
 
+		nextIndex = Random.Range(0,unsortedCubes.length-1); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
+		
+		if((unsortedCubes[nextIndex] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket != "")
+		{
+			nextItem = unsortedCubes[nextIndex];
+			sortedCubes.Add(nextItem);
+			unsortedCubes.RemoveAt(nextIndex);
+		} else {
+			unsortedCubes.RemoveAt(nextIndex);
+		}
 	}
 	
 	functionPointerCreator();
@@ -189,10 +197,12 @@ private function PairCreator () {
 		
 		var tempCubeObject: GameObject = sortedCubes[c];
 		var tempDesignScript: BoxDesignScript = tempCubeObject.GetComponent(BoxDesignScript);
+		tempCubeObject.GetComponent(BoxCollisionScript).MyDataPacket = "c"; //just because all cubes must have a datapacket to pass
 		tempDesignScript.setDesign(Data.CubeDesignsArray[c] as BoxDesign,Data.DesignEnum);
 		
 		tempCubeObject = sortedCubes[c+1];
 		tempDesignScript = tempCubeObject.GetComponent(BoxDesignScript);
+		tempCubeObject.GetComponent(BoxCollisionScript).MyDataPacket = "c+1";
 		tempDesignScript.setDesign(Data.CubeDesignsArray[c+1] as BoxDesign,Data.DesignEnum);
 			/*
 		(sortedCubes[c] as GameObject).renderer.material.color = myDebugColor;
@@ -255,6 +265,7 @@ private function SetStringDataWithoutOrder(cubes : Array , dataStrings : String[
 			(cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
 		} else {
 			(cubes[i] as GameObject).renderer.material.color = Color.black;
+			(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = "";
 		}
 	}
 }
@@ -271,7 +282,10 @@ var design : BoxDesign;
 			 dataStrings[(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber];
 			 (cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
 		} else {
-			(cubes[i] as GameObject).renderer.material.color = Color.black;
+			for( var cube : GameObject in cubes){
+				cube.renderer.material.color = Color.black;
+				cube.GetComponent(BoxCollisionScript).MyDataPacket = "";
+			}
 		}
 	}
 }
@@ -378,7 +392,7 @@ private function PresetGridDataBeforeSort(){
 	 	else {
 	 		cube.renderer.material.color = Color.black;
 
-	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "" + (colorsUsedForGrid + 1) ; //not in use
+	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "";//not in use
 	 	}
 	 	q++;
 	 }
@@ -395,13 +409,12 @@ private function GridCreator () {
 	for(var cube : GameObject in sortedCubes){
 		tempInt = parseInt(cube.GetComponent(BoxCollisionScript).MyDataPacket);
 	//	Debug.Log("tempInt is: " + tempInt);
-		if(tempInt < colorsUsedForGrid){ //if this cube is in use
-			if(Data.FinishState.Count >= Data.numberOfCubes) {
-				return;
-			}
-			Data.FinishState.Add(tempInt);
-	//		currentState += cube.GetComponent(BoxCollisionScript).MyIdNumber + " ";
+		if(Data.FinishState.Count >= Data.numberOfCubes) {
+			return;
 		}
+		Data.FinishState.Add(tempInt);
+	//	currentState += cube.GetComponent(BoxCollisionScript).MyIdNumber + " ";
+	
 		
 		// TODO: remove debugstuff	
 		//Data.outputTextC4.text = currentState;
