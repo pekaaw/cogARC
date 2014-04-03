@@ -48,17 +48,16 @@ class LevelCreatorInspector extends Editor{
 		//EditorGUILayout.HelpBox("Default over, custom nedenfor", MessageType.None);
 		EditorGUILayout.BeginVertical();
 		
+		lvlCreator.Data.GameName = EditorGUILayout.TextField("Name of game:", lvlCreator.Data.GameName);
 		lvlCreator.Data.numberOfLevels = EditorGUILayout.IntField("Number of levles:",lvlCreator.Data.numberOfLevels);
 		lvlCreator.Data.TimeEstimate = EditorGUILayout.IntField("Seconds per level:", lvlCreator.Data.TimeEstimate);
 		EditorGUILayout.BeginHorizontal();
 		EditorGUILayout.LabelField("Score per correct task:");
 		lvlCreator.Data.CorrectBonus = EditorGUILayout.IntField(lvlCreator.Data.CorrectBonus);
 		EditorGUILayout.EndHorizontal();
-		
 		EditorGUILayout.LabelField("Task description:");
 		lvlCreator.Data.LevelGoalText = 
-			EditorGUILayout.TextArea(lvlCreator.Data.LevelGoalText, GUILayout.Height(30));
-		
+			EditorGUILayout.TextArea(lvlCreator.Data.LevelGoalText, GUILayout.ExpandHeight(true));
 		ChooseMainRule();
 		
 		ChooseDesign();
@@ -107,11 +106,6 @@ class LevelCreatorInspector extends Editor{
 		EditorGUILayout.LabelField("Please select wanted number of cubes.");
 		lvlCreator.Data.gridMinValue = EditorGUILayout.IntSlider("MIN:",lvlCreator.Data.gridMinValue, 1, 9);
 		lvlCreator.Data.gridMaxValue = EditorGUILayout.IntSlider("MAX:",lvlCreator.Data.gridMaxValue, lvlCreator.Data.gridMinValue, 9);
-		// wanted levles
-		lvlCreator.Data.numberOfLevels = EditorGUILayout.IntField("Number of levles:", lvlCreator.Data.numberOfLevels);
-		if(lvlCreator.Data.numberOfLevels < 1) {
-			lvlCreator.Data.numberOfLevels = 1;
-		}
 	}
 	
 	function HumanReadable () {
@@ -227,7 +221,7 @@ class LevelCreatorInspector extends Editor{
 		EditorGUILayout.HelpBox(boxImageInfoBox, MessageType.None);
 		if(lvlCreator.Data.RuleEnum != ruleFunction.Pair){
 			for(var box : BoxDesign in lvlCreator.Data.CubeDesignsArray){
-				box.BoxImage = EditorGUILayout.ObjectField(box.BoxImage,Texture, true) as Texture;
+				box.BoxImage = EditorGUILayout.ObjectField(box.BoxImage,Texture, false) as Texture;
 				box.BoxColor = EditorGUILayout.ColorField("Cube colour.",box.BoxColor);
 			}
 		}
@@ -283,7 +277,12 @@ class LevelCreatorInspector extends Editor{
 		EditorGUILayout.Space();
 		
 		for(var box : BoxDesign in lvlCreator.Data.CubeDesignsArray){
-			box.BoxText = EditorGUILayout.TextField("Text:",box.BoxText);
+			if(!(lvlCreator.Data.CurrentSubRule == subRule.CompositeNumbers) && 
+				!(lvlCreator.Data.CurrentSubRule == subRule.Addition) &&
+				!(lvlCreator.Data.CurrentSubRule == subRule.AnyWord) &&
+				(lvlCreator.Data.RuleEnum == ruleFunction.HumanReadable)){
+				box.BoxText = EditorGUILayout.TextField("Text:",box.BoxText);
+			}
 			if(!designSameTextColour){
 				box.TextColor = EditorGUILayout.ColorField("Text colour:",box.TextColor);
 			}

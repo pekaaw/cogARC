@@ -1,6 +1,5 @@
 ﻿#pragma strict
 
-public var TimeScoreMultiplyer : float = 0.9f;
 public var PlacementRectangle : Rect = Rect(Screen.width,20,95,50);
 public var SizeFont : int = 20;
 
