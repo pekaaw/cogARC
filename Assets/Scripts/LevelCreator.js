@@ -283,8 +283,10 @@ var design : BoxDesign;
 			 (cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
 		} else {
 			for( var cube : GameObject in cubes){
-				cube.renderer.material.color = Color.black;
-				cube.GetComponent(BoxCollisionScript).MyDataPacket = "";
+				if((cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber == cube.GetComponent(BoxCollisionScript).MyIdNumber){
+					cube.renderer.material.color = Color.black;
+					cube.GetComponent(BoxCollisionScript).MyDataPacket = "";
+				}
 			}
 		}
 	}

@@ -292,7 +292,7 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 						wordFound = true;
 						Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 						// this should actually work for words, we could just make a really loooooooooooooooong finishstate and I am gonna keep on rambelling for  a while to annoy Daniel, because i know he really hates these long comments and then i am gonna add a really important message at the very end. and here it is, do not, ever, ever, ever run this algorithm without at the end having a -1
-						while (levelCreator.Data.FinishState[tempFinIndex] == -1)
+						while (tempFinIndex < levelCreator.Data.FinishState.Count && levelCreator.Data.FinishState[tempFinIndex] == -1)
 						{
 							levelCreator.Data.FinishState.RemoveAt(tempFinIndex); // delete the -1 after the word and additional -1's after the word, this last part will mostly be skipped
 						}
