@@ -1,6 +1,5 @@
 ﻿#pragma strict
 
-public var MainMenuRect = Rect(200,200,200,200);
 public var NameOfGames :String[];
 public var ButtonsPerRow : int = 4;
 public var MainMenuTitle : String = "Main Menu!";
@@ -9,12 +8,15 @@ public var LogoPoistion : Rect;
 public var GuiSkin : GUISkin = null;
 public var ButtonFontSize : int = 50;
 
+private var MainMenuRect = Rect(200,200,200,200);
+
 function Start () {
 	for(var i = 0; i < NameOfGames.Length; i++){
 		if(NameOfGames[i] == ""){
 			NameOfGames[i] = "Unnamed";
 		}
 	}
+	MainMenuRect = Rect(25,25,Screen.width-50, Screen.height-50);
 }
 
 function OnGUI () {

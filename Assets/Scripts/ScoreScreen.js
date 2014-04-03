@@ -27,7 +27,7 @@ function Start () {
 	if (GameName == ""){
 		GameName = "Unnamed";
 	}//x,y start bredde høyde
-	ScoreScreenRect = Rect( 350,25,Screen.width - 700, Screen.height - 50);	
+	ScoreScreenRect = Rect(350,25,Screen.width - 700, Screen.height - 50);	
 }
 
 function OnGUI() {
@@ -72,7 +72,7 @@ function ScoreScreenGUILayout() {
 	GUILayout.BeginHorizontal();
 	GUILayout.FlexibleSpace();
 	if(GUILayout.Button("Play again!")){
-		//Do something
+		Application.LoadLevel(Application.loadedLevel);
 	}
 	GUILayout.FlexibleSpace();
 	if(GUILayout.Button("Main Menu")){
