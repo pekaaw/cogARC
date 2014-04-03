@@ -8,7 +8,7 @@ public var LogoPoistion : Rect;
 public var GuiSkin : GUISkin = null;
 public var ButtonFontSize : int = 50;
 
-private var MainMenuRect = Rect(200,200,200,200);
+private var MainMenuRect : Rect;
 
 function Start () {
 	for(var i = 0; i < NameOfGames.Length; i++){
@@ -16,7 +16,8 @@ function Start () {
 			NameOfGames[i] = "Unnamed";
 		}
 	}
-	MainMenuRect = Rect(25,25,Screen.width-50, Screen.height-50);
+	MainMenuRect = Rect((Screen.width/2) - 500,(Screen.height/2)- 200,
+		(Screen.width/2)+500,(Screen.height/2)+200);
 }
 
 function OnGUI () {
