@@ -1,14 +1,13 @@
 ﻿#pragma strict
 
-public var PlacementRectangle : Rect = Rect(Screen.width,20,95,50);
-public var SizeFont : int = 20;
-
+private var SizeFont : int = 50;
 private var timer : float = 0.0f;
 private var score : int;
 private var scoreBonuses : int;
 private var timerText : String;
 private var GuiSkin : GUISkin = null;
 private var timeEstimate : float;
+private var PlacementRectangle : Rect = Rect(Screen.width-450,20,445,400);
 
 function Start () {
 	var lvlCre : LevelCreator = GameObject.Find("Scripts").GetComponent(LevelCreator);
