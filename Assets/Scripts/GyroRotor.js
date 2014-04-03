@@ -22,6 +22,12 @@ private var outputTextC : UnityEngine.TextMesh;
 function Start () {
 	if(SystemInfo.supportsGyroscope){
 		Input.gyro.enabled = true;
+		sideVec3 = GameObject.FindGameObjectWithTag("MyWorldVectorX");
+		topVec3 = GameObject.FindGameObjectWithTag("MyWorldVectorY");
+		backVec3 = GameObject.FindGameObjectWithTag("MyWorldVectorZ");
+		centerVec3 = GameObject.FindGameObjectWithTag("MyWorldVectorCenter");
+		
+		
 	}
 }
 
@@ -35,15 +41,18 @@ function Update () {
 		gameObject.transform.rotation = newRot;
 		
 		//calculate real-world-orientation
+		gyroUnitYVec3 = centerVec3.transform.position - topVec3.transform.position;
+		gyroUnitZVec3 = centerVec3.transform.position - backVec3.transform.position;
+		gyroUnitXVec3 = centerVec3.transform.position - sideVec3.transform.position;
 	} else {
 		//this is no gyro on the device
 		gameObject.transform.rotation = Quaternion.identity;
-	
+		gyroUnitYVec3 = Vector3(0,1,0);
+		gyroUnitZVec3 = Vector3(0,0,1);
+		gyroUnitXVec3 = Vector3(1,0,0);
 	}
 	
-	gyroUnitYVec3 = centerVec3.transform.position - topVec3.transform.position;
-	gyroUnitZVec3 = centerVec3.transform.position - backVec3.transform.position;
-	gyroUnitXVec3 = centerVec3.transform.position - sideVec3.transform.position;
+	
 	
 }
 

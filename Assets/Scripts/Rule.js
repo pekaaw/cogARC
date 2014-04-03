@@ -273,7 +273,9 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 		while(finIndex < levelCreator.Data.FinishState.Count)
 		{
 			var wordFound:boolean = false;
-			if(CubesData[boxes[inIndex]] == CubesData[levelCreator.Data.FinishState[finIndex]]){// finds a possible start of this word
+			if(CubesData[boxes[inIndex]] == CubesData[levelCreator.Data.FinishState[finIndex]] 
+			&& (finIndex  == 0 || levelCreator.Data.FinishState[finIndex-1] == -1)
+			&& (inIndex  == 0 || boxes[inIndex-1] == -1)){// finds a possible start of this word
 				var tempInIndex:int = inIndex;
 				var tempFinIndex:int = finIndex;
 				// while boxes follows the pattern of this word
@@ -303,15 +305,9 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 					} else { 
 						if(levelCreator.Data.FinishState[tempFinIndex] == -1 || boxes[tempInIndex] == -1) //else did one of the words end?
 						{
-							//if so skip both to the next word
-							while(tempFinIndex < levelCreator.Data.FinishState.Count && levelCreator.Data.FinishState[tempFinIndex] != -1){
-								tempFinIndex++;
-							}
-							while(tempInIndex < boxes[tempInIndex] && boxes[tempInIndex] != -1){
-								tempInIndex++;
-							}
-							tempFinIndex++;
-							tempInIndex++;
+							//word not correct after all, drop out of while and continue
+								tempInIndex = boxes.Count;
+						
 						}
 					}
 				}	
