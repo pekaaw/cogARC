@@ -106,11 +106,6 @@ class LevelCreatorInspector extends Editor{
 		EditorGUILayout.LabelField("Please select wanted number of cubes.");
 		lvlCreator.Data.gridMinValue = EditorGUILayout.IntSlider("MIN:",lvlCreator.Data.gridMinValue, 1, 9);
 		lvlCreator.Data.gridMaxValue = EditorGUILayout.IntSlider("MAX:",lvlCreator.Data.gridMaxValue, lvlCreator.Data.gridMinValue, 9);
-		// wanted levles
-		lvlCreator.Data.numberOfLevels = EditorGUILayout.IntField("Number of levles:", lvlCreator.Data.numberOfLevels);
-		if(lvlCreator.Data.numberOfLevels < 1) {
-			lvlCreator.Data.numberOfLevels = 1;
-		}
 	}
 	
 	function HumanReadable () {
@@ -282,7 +277,12 @@ class LevelCreatorInspector extends Editor{
 		EditorGUILayout.Space();
 		
 		for(var box : BoxDesign in lvlCreator.Data.CubeDesignsArray){
-			box.BoxText = EditorGUILayout.TextField("Text:",box.BoxText);
+			if(!(lvlCreator.Data.CurrentSubRule == subRule.CompositeNumbers) && 
+				!(lvlCreator.Data.CurrentSubRule == subRule.Addition) &&
+				!(lvlCreator.Data.CurrentSubRule == subRule.AnyWord) &&
+				(lvlCreator.Data.RuleEnum == ruleFunction.HumanReadable)){
+				box.BoxText = EditorGUILayout.TextField("Text:",box.BoxText);
+			}
 			if(!designSameTextColour){
 				box.TextColor = EditorGUILayout.ColorField("Text colour:",box.TextColor);
 			}
