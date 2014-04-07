@@ -51,10 +51,11 @@ class LevelCreatorInspector extends Editor{
 		lvlCreator.Data.GameName = EditorGUILayout.TextField("Name of game:", lvlCreator.Data.GameName);
 		lvlCreator.Data.numberOfLevels = EditorGUILayout.IntField("Number of levles:",lvlCreator.Data.numberOfLevels);
 		lvlCreator.Data.TimeEstimate = EditorGUILayout.IntField("Seconds per level:", lvlCreator.Data.TimeEstimate);
-		EditorGUILayout.BeginHorizontal();
-		EditorGUILayout.LabelField("Score per correct task:");
-		lvlCreator.Data.CorrectBonus = EditorGUILayout.IntField(lvlCreator.Data.CorrectBonus);
-		EditorGUILayout.EndHorizontal();
+		lvlCreator.Data.CorrectBonus = EditorGUILayout.IntField("Score per correct task:",lvlCreator.Data.CorrectBonus);
+		if(lvlCreator.Data.CorrectBonus < 1){
+			lvlCreator.Data.CorrectBonus = 1;
+		}
+		
 		EditorGUILayout.LabelField("Task description:");
 		lvlCreator.Data.LevelGoalText = 
 			EditorGUILayout.TextArea(lvlCreator.Data.LevelGoalText, GUILayout.ExpandHeight(true));
