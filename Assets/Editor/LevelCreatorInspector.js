@@ -284,12 +284,12 @@ class LevelCreatorInspector extends Editor{
 		EditorGUILayout.Space();
 		
 		for(var box : BoxDesign in lvlCreator.Data.CubeDesignsArray){
-			if(!(lvlCreator.Data.CurrentSubRule == subRule.CompositeNumbers) && 
-				!(lvlCreator.Data.CurrentSubRule == subRule.Addition) &&
-				!(lvlCreator.Data.CurrentSubRule == subRule.AnyWord) &&
-				(lvlCreator.Data.RuleEnum == ruleFunction.HumanReadable)){
-				box.BoxText = EditorGUILayout.TextField("Text:",box.BoxText);
-			}
+			if((lvlCreator.Data.RuleEnum == ruleFunction.Grid) ||
+				(lvlCreator.Data.RuleEnum == ruleFunction.Pair)){
+					box.BoxText = EditorGUILayout.TextField("Text:",box.BoxText);
+				}
+
+			
 			if(!designSameTextColour){
 				box.TextColor = EditorGUILayout.ColorField("Text colour:",box.TextColor);
 			}
