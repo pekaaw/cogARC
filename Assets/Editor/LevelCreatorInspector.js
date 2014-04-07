@@ -162,8 +162,14 @@ class LevelCreatorInspector extends Editor{
 	}
 	
 	function ChooseDesign() {
-		lvlCreator.Data.DesignEnum = EditorGUILayout.EnumPopup("Select cube design:",lvlCreator.Data.DesignEnum);
-		
+		if(lvlCreator.Data.RuleEnum == ruleFunction.Tower){
+			lvlCreator.Data.DesignEnum = CubeDesignEnum.TextAndCubeColour;
+		}
+		else if (lvlCreator.Data.RuleEnum == ruleFunction.HumanReadable){
+			lvlCreator.Data.DesignEnum = CubeDesignEnum.TextAndCubeColour;
+		}else{
+			lvlCreator.Data.DesignEnum = EditorGUILayout.EnumPopup("Select cube design:",lvlCreator.Data.DesignEnum);
+		}
 		designFoldOut = EditorGUILayout.Foldout(designFoldOut, "Design Elements");
 		if(designFoldOut){
 			switch(lvlCreator.Data.DesignEnum){
