@@ -53,15 +53,14 @@ var currentState : String = "";
 // outputTextC.text = currentState;
 }
 
-function ShowWrongMarker(pos : Vector3){
+function ShowWrongMarker(pos : Transform){
 	var obj = new GameObject("Empty");
-	var tempVec : Vector3 = pos - Vector3(0,0,2);
-		obj =  Instantiate(Resources.Load("Prefab/WrongMark",GameObject),tempVec,Quaternion.identity);
+	obj = Instantiate(Resources.Load("Prefab/WrongMark"));
+	obj.transform.parent = pos;
+
 }
-function ShowCorrectMarker(pos : Vector3){
-	var obj = new GameObject("Empty " + pos.ToString());
-	var tempVec : Vector3 = pos - Vector3(0,0,2);
-	obj =  Instantiate(Resources.Load("Prefab/RightMark",GameObject),pos,Quaternion.identity);
+function ShowCorrectMarker(pos : Transform){
+	pos.gameObject.GetComponent(BoxCollisionScript).IWasRightAllAlong();
 }
 
 function DrawRectangleForGridHint(rect : Rect, colored : boolean)
@@ -181,20 +180,20 @@ private function PairTester (boxes : List.<int>) {
 		
 		for(var r : int = 0; r < levelCreator.Data.FinishState.Count; r+=3){
 			if((historyGameState1[q] == levelCreator.Data.FinishState[r] && historyGameState1[q + 1] == levelCreator.Data.FinishState[r + 1]) ||
-				(historyGameState1[q + 1] == levelCreator.Data.FinishState[r] && historyGameState1[q] == levelCreator.Data.FinishState[r + 1])) {
-					if(q + 2 > historyGameState1.length && historyGameState1[q+2] != -1) {
-						Debug.Log("UNexpected Third Part OF a PaiR");
-						return;
-					}
-					//pair found
-					//light flares at the cubes with IDs levelCreator.Data.FinishState[r] and levelCreator.Data.FinishState[r+1]
-	
-					ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r]].position);
+				(historyGameState1[q + 1] == levelCreator.Data.FinishState[r] && historyGameState1[q] == levelCreator.Data.FinishState[r + 1])) 
+			{
+				if(q + 2 > historyGameState1.length && historyGameState1[q+2] != -1) {
+					Debug.Log("UNexpected Third Part OF a PaiR");
+					return;
+				}
+				//pair found
+				//light flares at the cubes with IDs levelCreator.Data.FinishState[r] and levelCreator.Data.FinishState[r+1]
 
-					Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
-					for(var t:int = 0; t < 3; t++){ //remove finishState[r, r+1, r+2]
-						levelCreator.Data.FinishState.RemoveAt(r);
-					}
+				ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r]]);
+				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
+				for(var t:int = 0; t < 3; t++){ //remove finishState[r, r+1, r+2]
+					levelCreator.Data.FinishState.RemoveAt(r);
+				}
 				r-=3;
 			}
 		}

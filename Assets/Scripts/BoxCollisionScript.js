@@ -19,6 +19,14 @@ function Awake() {
 
 }
 
+function IWasRightAllAlong(){
+	var obj = new GameObject("Empty " + MyIdNumber);
+	obj = Instantiate(Resources.Load("Prefab/RightMark"));
+	obj.transform.parent = transform;
+	obj.transform.position = transform.position;
+
+}
+
 function Start () {
 	var tempObjectForFindingScripts : UnityEngine.GameObject;
 	
