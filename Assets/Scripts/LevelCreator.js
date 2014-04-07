@@ -17,6 +17,8 @@ private var additionTaskIsMadeInAdvance:boolean = true;
 private var WOOORDSFILE : List.<String>;
 private var numberOfWordsThisLevel : int;
 
+private var hasBeenSetUp : boolean = false;
+
 
 
 function Awake() {
@@ -85,66 +87,67 @@ public function redoCreation() {
 	unsortedCubes = GameObject.FindGameObjectsWithTag("Player");
 	var nextItem : GameObject; //for making random order
 	var nextIndex : int;
-	
-	var presetData: boolean = false;
+
 	var isTextAnswer : boolean = false;
+	if(!hasBeenSetUp) {
 
-	switch(Data.RuleEnum) {
-		case ruleFunction.Pair:
-			functionPointerCreator = PairCreator;
-			functionPointerPreCreator = NULLFUNCTION;
-
-			break;
-		case ruleFunction.Tower:
-			functionPointerCreator = TowerCreator;
-			functionPointerPreCreator = NULLFUNCTION;
-			isTextAnswer = true;
-				Debug.Log("Pair");
-
-			break;
-		case ruleFunction.Grid:
-			functionPointerCreator = GridCreator;
-			functionPointerPreCreator = PresetGridDataBeforeSort;
-			presetData = true;
-			break;
-		case ruleFunction.HumanReadable: 
-			functionPointerCreator = HumanReadableCreator;
-			functionPointerPreCreator = NULLFUNCTION;
-			isTextAnswer = true;
-			break;
-	}
-	if(isTextAnswer){
-		switch(Data.CurrentSubRule) {
-			case subRule.Addition:
-				functionPointerSubCreator = AdditionCreator;
-				functionPointerPreCreator = PresetAdditionNumbers;
-				presetData = true;
+		switch(Data.RuleEnum) {
+			case ruleFunction.Pair:
+				functionPointerCreator = PairCreator;
+				functionPointerPreCreator = PresetActivateAll;		
 
 				break;
-			case subRule.CompositeNumbers:
-				functionPointerSubCreator = CompositeNumberCreator;
-				functionPointerPreCreator = setOneToNineNumbers;
-				presetData = true;
+			case ruleFunction.Tower:
+				functionPointerCreator = TowerCreator;
+				functionPointerPreCreator = NULLFUNCTION;
+				isTextAnswer = true;
+
 				break;
-			case subRule.WholeLiner:
-				functionPointerSubCreator = WholeLinerCreator;
+			case ruleFunction.Grid:
+				functionPointerCreator = GridCreator;
+				functionPointerPreCreator = PresetGridDataBeforeSort;
+		
 				break;
-			case subRule.AnyWord: 
-				functionPointerSubCreator = AnyWordCreator;
-				functionPointerPreCreator = PresetWoordsData;
-				presetData = true;
+			case ruleFunction.HumanReadable: 
+				functionPointerCreator = HumanReadableCreator;
+				functionPointerPreCreator = NULLFUNCTION;
+				isTextAnswer = true;
+				break;
+		}
+		if(isTextAnswer){
+			switch(Data.CurrentSubRule) {
+				case subRule.Addition:
+					functionPointerSubCreator = AdditionCreator;
+					functionPointerPreCreator = PresetAdditionNumbers;
+					
+
+					break;
+				case subRule.CompositeNumbers:
+					functionPointerSubCreator = CompositeNumberCreator;
+					functionPointerPreCreator = setOneToNineNumbers;
+				
+					break;
+				case subRule.WholeLiner:
+					functionPointerSubCreator = WholeLinerCreator;
+					functionPointerPreCreator = PresetActivateAll;
+					break;
+				case subRule.AnyWord: 
+					functionPointerSubCreator = AnyWordCreator;
+					functionPointerPreCreator = PresetWoordsData;
+			
 				
 
-				break;
-			default: break;
+					break;
+				default: break;
+			}
 		}
+		hasBeenSetUp = true;
 	}
-	if(presetData)
-	{
-		functionPointerPreCreator(); // set some data before the cubes are randomized
+	
+	functionPointerPreCreator(); // set some data before the cubes are randomized
 		
-		ruleScript.MakeLocalCopyPacketData(unsortedCubes); //sets an array with copies of the cubes datapackets. for reference when checking finishstate.
-	}
+	ruleScript.MakeLocalCopyPacketData(unsortedCubes); //sets an array with copies of the cubes datapackets. for reference when checking finishstate.
+
 	ruleScript.ruleSetup(isTextAnswer); // sets the rules in the rulescript
 	
 	for(var c: int = 0; c < Data.numberOfCubes; c++) {
@@ -197,12 +200,10 @@ private function PairCreator () {
 		
 		var tempCubeObject: GameObject = sortedCubes[c];
 		var tempDesignScript: BoxDesignScript = tempCubeObject.GetComponent(BoxDesignScript);
-		tempCubeObject.GetComponent(BoxCollisionScript).MyDataPacket = "c"; //just because all cubes must have a datapacket to pass
 		tempDesignScript.setDesign(Data.CubeDesignsArray[c] as BoxDesign,Data.DesignEnum);
 		
 		tempCubeObject = sortedCubes[c+1];
 		tempDesignScript = tempCubeObject.GetComponent(BoxDesignScript);
-		tempCubeObject.GetComponent(BoxCollisionScript).MyDataPacket = "c+1";
 		tempDesignScript.setDesign(Data.CubeDesignsArray[c+1] as BoxDesign,Data.DesignEnum);
 			/*
 		(sortedCubes[c] as GameObject).renderer.material.color = myDebugColor;
@@ -277,17 +278,20 @@ var design : BoxDesign;
 	for( var i:int;i<cubes.length;i++) {
 		if(dataStrings[i] != "$CUBE_NOT_IN_USE$") {
 			design = new BoxDesign();
-			design.BoxText = dataStrings[(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber];
+			design.BoxText = dataStrings[i];
 			(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket =
-			 dataStrings[(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber];
+			 dataStrings[i];
 			 (cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
-		} else {
+		} else {/*
 			for( var cube : GameObject in cubes){
 				if((cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber == cube.GetComponent(BoxCollisionScript).MyIdNumber){
 					cube.renderer.material.color = Color.black;
 					cube.GetComponent(BoxCollisionScript).MyDataPacket = "";
 				}
 			}
+			*/
+			(cubes[i] as GameObject).renderer.material.color = Color.black;
+			(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = "";
 		}
 	}
 }
@@ -300,6 +304,14 @@ private function setOneToNineNumbers () {
 	}
 	SetStringDataWithoutOrder(unsortedCubes, arr.ToBuiltin(String));
 
+}
+
+function PresetActivateAll() {
+	for(var cube : UnityEngine.GameObject in unsortedCubes)
+		{
+			cube.GetComponent(BoxCollisionScript).MyDataPacket = "true";
+		}
+	return;
 }
 
 private function PresetAdditionNumbers(){

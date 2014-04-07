@@ -20,10 +20,20 @@ private static var historyGameState3 : int[]; //tests are only done when all 3 a
 private static var colorColored : Color;
 private static var colorUncolored : Color;
 
+private var boxPositions : Vector3[];
+
 var CubesData : Array;		//local copy of the data contained in the 
 
 function Awake() {
 	levelCreator = gameObject.GetComponent(LevelCreator);
+	var tempArr : Array = GameObject.FindGameObjectsWithTag("Player");
+	boxPositions =  new Vector3[levelCreator.Data.numberOfCubes];
+	for(var cube :GameObject in tempArr) {
+		boxPositions[cube.GetComponent(BoxCollisionScript).MyIdNumber] = cube.transform.position;
+	}
+	
+	
+	
 	
 }
 function Start() {
@@ -41,6 +51,20 @@ var currentState : String = "";
 	}
 
 // outputTextC.text = currentState;
+}
+
+function ShowWrongMarker(pos : Vector3){
+	var obj = new GameObject("Empty");
+
+		
+		obj =  Resources.Load("Prefab/WrongMark",GameObject);
+		obj.transform.position = pos;
+
+}
+function ShowCorrectMarker(pos : Vector3){
+	var obj = new GameObject("Empty");
+	obj =  Resources.Load("Prefab/RightMark",GameObject);
+	obj.transform.position = pos;
 }
 
 function DrawRectangleForGridHint(rect : Rect, colored : boolean)
@@ -167,6 +191,7 @@ private function PairTester (boxes : List.<int>) {
 					}
 					//pair found
 					//light flares at the cubes with IDs levelCreator.Data.FinishState[r] and levelCreator.Data.FinishState[r+1]
+					ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r]]);
 					Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 					for(var t:int = 0; t < 3; t++){ //remove finishState[r, r+1, r+2]
 						levelCreator.Data.FinishState.RemoveAt(r);
