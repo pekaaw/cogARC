@@ -54,9 +54,8 @@ var currentState : String = "";
 }
 
 function ShowWrongMarker(pos : Transform){
-	var obj = new GameObject("Empty");
-	obj = Instantiate(Resources.Load("Prefab/WrongMark"));
-	obj.transform.parent = pos;
+		pos.gameObject.GetComponent(BoxCollisionScript).IWasWrongForOnce();
+
 
 }
 function ShowCorrectMarker(pos : Transform){
@@ -144,7 +143,7 @@ public function Test (boxes : List.<int>){
 	//boxes contains the id numbers of the boxes
 	//This code block test to make sure that you get the same input three times
 	//	before it let you advance
-	if(levelCreator.Data.FinishState.Count > 0){
+	if(levelCreator.Data.FinishState.Count > 0 && gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive()){
 	
 		historyGameState3 = historyGameState2;
 		historyGameState2 = historyGameState1;
@@ -161,11 +160,12 @@ public function Test (boxes : List.<int>){
 		}
 		//Checking of history is done here
 	 
-		functionPointer(boxes);
+		functionPointer(boxes); //This is the testing
 		
 		if(levelCreator.Data.FinishState.Count == 0){
-
-			yield WaitForSeconds (3);
+			gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
+			yield WaitForSeconds (1);
+			
 
 
 			levelCreator.LoadLevel();
@@ -190,6 +190,7 @@ private function PairTester (boxes : List.<int>) {
 				//light flares at the cubes with IDs levelCreator.Data.FinishState[r] and levelCreator.Data.FinishState[r+1]
 
 				ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r]]);
+				ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r+1]]);
 				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 				for(var t:int = 0; t < 3; t++){ //remove finishState[r, r+1, r+2]
 					levelCreator.Data.FinishState.RemoveAt(r);
@@ -210,14 +211,22 @@ private function TowerTester (boxes : List.<int>) {
 private function GridTester (boxes : List.<int>) {
 	var tempString : String; //Because unity is being a Bitch.
 	var tempInt : int;//Because unity is being a Bitch.
-	for (var c : int = 0 ; c < levelCreator.Data.FinishState.Count ; c++){
-	tempString = CubesData[boxes[c]];//Because unity is being a Bitch.
-	tempInt = parseInt(tempString);//Because unity is being a Bitch.
+	for (var c : int = 0 ; c < levelCreator.Data.FinishState.Count ; c++)
+	{
+		tempString = CubesData[boxes[c]];//Because unity is being a Bitch.
+		tempInt = parseInt(tempString);//Because unity is being a Bitch.
 		if (c == boxes.Count || tempInt != levelCreator.Data.FinishState[c]) {
+			for (var box : Transform in boxPositions){
+				ShowWrongMarker(box); //on all the boxes used
+			}
 			return;
 		}
 	}
 	levelCreator.Data.FinishState.Clear();
+	
+	for (var box : Transform in boxPositions){
+		ShowCorrectMarker(box); //on all the boxes used
+	}
 	Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 }
 

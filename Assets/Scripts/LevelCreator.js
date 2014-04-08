@@ -70,13 +70,17 @@ function LoadLevel(){
 		currentLevel++;
 		redoCreation();	//load next level of same game
 		loadingScript.Activate(Data.GameName, Data.LevelGoalText, Data.numberOfLevels, currentLevel);
+		if(	!gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive())  //unpause the timer
+		{
+			gameObject.GetComponent(TimerAndScore).ToggleTimerActive(); //unpause the timer
+		}
 
 	} else {
 	
 		Application.Quit();
 		Application.LoadLevel(Data.NextLevel); //load next scene
 	}
-
+	
 }
 
 function AfterLevelCleanup(){

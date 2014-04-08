@@ -13,6 +13,10 @@ private var markerWithTransform : GameObject;
 
 public var HalfCubeScale:float = 0.6f;
 
+public var HasActiveCorrectMarker : boolean = false;
+public var HasActiveWrongMarker : boolean = false;
+
+
 
 function Awake() {
 
@@ -20,19 +24,33 @@ function Awake() {
 }
 
 function IWasWrongForOnce(){
-	var obj = new GameObject("NonEmpty " + MyIdNumber);
-	obj = Instantiate(Resources.Load("Prefab/WrongMark"));
-	obj.transform.parent = transform;
-	obj.transform.position = transform.position;
-
+	if(MyDataPacket != "" && !HasActiveWrongMarker)
+	{
+		if(HasActiveCorrectMarker){
+			GameObject.Destroy(transform.GetChild(0).gameObject);
+			HasActiveCorrectMarker = false;
+		}
+		var obj = new GameObject("NonEmpty " + MyIdNumber);
+		obj = Instantiate(Resources.Load("Prefab/WrongMark"));
+		obj.transform.parent = transform;
+		obj.transform.position = transform.position;
+		HasActiveWrongMarker = true;
+	}
 }
 
 function IWasRightAllAlong(){
-	var obj = new GameObject("Empty " + MyIdNumber);
-	obj = Instantiate(Resources.Load("Prefab/RightMark"));
-	obj.transform.parent = transform;
-	obj.transform.position = transform.position;
-
+	if(MyDataPacket != "" && !HasActiveCorrectMarker)
+	{
+		if(HasActiveWrongMarker){
+			GameObject.Destroy(transform.GetChild(0).gameObject);
+			HasActiveWrongMarker = false;
+		}
+		var obj = new GameObject("NonEmpty " + MyIdNumber);
+		obj = Instantiate(Resources.Load("Prefab/RightMark"));
+		obj.transform.parent = transform;
+		obj.transform.position = transform.position;
+		HasActiveCorrectMarker = true;
+	}
 }
 
 function Start () {

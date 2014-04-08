@@ -1,8 +1,9 @@
 ﻿#pragma strict
 
 public var longlivety : float = 5.0;
+private var parentScript : BoxCollisionScript;
 function Start () {
-	
+	parentScript = transform.parent.gameObject.GetComponent(BoxCollisionScript);
 }
 
 function Update () {
@@ -12,6 +13,8 @@ function Update () {
 		//show thing
 	}
 	else{
+		parentScript.HasActiveCorrectMarker = false;
+		parentScript.HasActiveWrongMarker = false;
 		Destroy(gameObject);
 	}
 }

@@ -8,6 +8,7 @@ private var timerText : String;
 private var GuiSkin : GUISkin = null;
 private var timeEstimate : float;
 private var PlacementRectangle : Rect = Rect(Screen.width-450,20,445,400);
+public var toggleTimerCountUp : boolean;
 
 function Start () {
 	var lvlCre : LevelCreator = GameObject.Find("Scripts").GetComponent(LevelCreator);
@@ -17,7 +18,16 @@ function Start () {
 }
 
 function Update () {
-	timer += Time.deltaTime;
+	if(toggleTimerCountUp){
+		timer += Time.deltaTime;
+	}
+}
+
+function ToggleTimerActive() {
+	toggleTimerCountUp = !toggleTimerCountUp;
+}
+function CheckToggleTimerActive(): boolean {
+	return toggleTimerCountUp;
 }
 
 function OnGUI () {
