@@ -256,6 +256,9 @@ private function AdditionTester(boxes : List.<int>){
 			c++;
 		}
 		if(answer == levelCreator.Data.FinishState[0]) {
+			for(var pk : int = 0 ; pk < levelCreator.Data.CurrentNumberOfBoxesUsedForTask ; pk++){
+				ShowCorrectMarker(boxPositions[boxes[(c - pk-1)]]); //on all the boxes used
+			}
 			Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 			levelCreator.Data.FinishState.Clear();
 

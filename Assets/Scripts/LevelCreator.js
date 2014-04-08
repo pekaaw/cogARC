@@ -17,7 +17,7 @@ private var additionTaskIsMadeInAdvance:boolean = true;
 private var WOOORDSFILE : List.<String>;
 private var numberOfWordsThisLevel : int;
 
-private var hasBeenSetUp : boolean = false;
+//private var hasBeenSetUp : boolean = false;
 
 
 
@@ -72,6 +72,7 @@ function LoadLevel(){
 		loadingScript.Activate(Data.GameName, Data.LevelGoalText, Data.numberOfLevels, currentLevel);
 
 	} else {
+	
 		Application.Quit();
 		Application.LoadLevel(Data.NextLevel); //load next scene
 	}
@@ -89,7 +90,7 @@ public function redoCreation() {
 	var nextIndex : int;
 
 	var isTextAnswer : boolean = false;
-	if(!hasBeenSetUp) {
+	//if(!hasBeenSetUp) {
 
 		switch(Data.RuleEnum) {
 			case ruleFunction.Pair:
@@ -141,8 +142,8 @@ public function redoCreation() {
 				default: break;
 			}
 		}
-		hasBeenSetUp = true;
-	}
+	//	hasBeenSetUp = true;
+	//}
 	
 	functionPointerPreCreator(); // set some data before the cubes are randomized
 		

@@ -19,6 +19,14 @@ function Awake() {
 
 }
 
+function IWasWrongForOnce(){
+	var obj = new GameObject("NonEmpty " + MyIdNumber);
+	obj = Instantiate(Resources.Load("Prefab/WrongMark"));
+	obj.transform.parent = transform;
+	obj.transform.position = transform.position;
+
+}
+
 function IWasRightAllAlong(){
 	var obj = new GameObject("Empty " + MyIdNumber);
 	obj = Instantiate(Resources.Load("Prefab/RightMark"));
