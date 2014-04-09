@@ -247,6 +247,9 @@ private function compositeNumbersTester(boxes : List.<int>){
 	}
 	if(tempIntCaster == levelCreator.Data.FinishState[0]) {
 			Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
+			for(var pk : int = 0 ; pk < c ; pk++){
+				ShowCorrectMarker(boxPositions[boxes[pk]]); //on all the boxes used
+			}
 			levelCreator.Data.FinishState.Clear();
 			return;
 	}
@@ -282,11 +285,14 @@ private function AdditionTester(boxes : List.<int>){
 private function WholeLinerTester(boxes : List.<int>){
 	for (var c : int = 0 ; c < levelCreator.Data.FinishState.Count ; c++){
 		if (c == boxes.Count || boxes[c] != levelCreator.Data.FinishState[c]) {
-			levelCreator.Data.FinishState.Clear();
 
 			return;
 		}
 	}
+	for(var pk : int = 0 ; pk < boxes.Count ; pk++){
+		ShowCorrectMarker(boxPositions[boxes[pk]]); //on all the boxes used
+	}
+	levelCreator.Data.FinishState.Clear();
 	Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 }
 
@@ -331,8 +337,10 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 						}
 						while ((tempFinIndex - 1) < levelCreator.Data.FinishState.Count && tempFinIndex > 0 && levelCreator.Data.FinishState[tempFinIndex-1] != -1) 
 						{
-							levelCreator.Data.FinishState.RemoveAt(tempFinIndex-1); // remove the word it self, here we can count points for letters
 							tempFinIndex--;
+							ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[tempFinIndex]]); //on all the boxes used
+							levelCreator.Data.FinishState.RemoveAt(tempFinIndex); // remove the word it self, here we can count points for letters
+							
 						}
 						return; // because I don't want to check if you have more than one word correct in the same frame.
 					} else { 
