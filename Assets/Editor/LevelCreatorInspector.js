@@ -152,13 +152,19 @@ class LevelCreatorInspector extends Editor{
 	function AnyWord () {
 		EditorGUILayout.HelpBox(anyWordInfoBox, MessageType.None);
 		if(GUILayout.Button("Open file browser")){
+			var textLocation:String; 
 			lvlCreator.Data.FileString = EditorUtility.OpenFilePanel("File with words:",Application.streamingAssetsPath,"txt");
-			if(lvlCreator.Data.FileString.StartsWith(Application.streamingAssetsPath)){
+			
+			var sr = new System.IO.StreamReader(lvlCreator.Data.FileString);
+			var fileContents = sr.ReadToEnd();
+			
+			lvlCreator.Data.FileStringContent = fileContents; 
+			/*if(lvlCreator.Data.FileString.StartsWith(Application.streamingAssetsPath)){
 				lvlCreator.Data.FileString = lvlCreator.Data.FileString.Substring(Application.streamingAssetsPath.Length+1);
 			}
 			else {
 				lvlCreator.Data.FileString = "File must be in " + Application.streamingAssetsPath;
-			}
+			}*/
 			
 		}
 		EditorGUILayout.LabelField("Current text file is: " + lvlCreator.Data.FileString);

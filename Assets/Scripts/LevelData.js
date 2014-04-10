@@ -32,6 +32,7 @@ class LevelData extends ScriptableObject {
 	public var GoalString : String[];
 	
 	public var FileString : String;
+	public var FileStringContent : String;
 	
 	public var TimeEstimate : int;
 	public var CorrectBonus : int;
