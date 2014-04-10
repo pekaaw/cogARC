@@ -239,7 +239,7 @@ private function PresetWoordsData() {
 	var c : int = 0;
 	var dataStrings : String[] = new String [Data.numberOfCubes];
 	if(!WOOORDSFILE || WOOORDSFILE.Count < 1) {
-		WOOORDSFILE = gameObject.GetComponent(ReadLevelFromFile).ReadFile(Data.FileString);
+		WOOORDSFILE = gameObject.GetComponent(ReadLevelFromFile).ReadFile(Data.FileStringContent);
 	}
 	while(c < Data.numberOfCubes && WOOORDSFILE[c] != "-1") 
 	{
