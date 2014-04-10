@@ -192,6 +192,7 @@ private function PairTester (boxes : List.<int>) {
 				ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r]]);
 				ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r+1]]);
 				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
+				gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
 				for(var t:int = 0; t < 3; t++){ //remove finishState[r, r+1, r+2]
 					levelCreator.Data.FinishState.RemoveAt(r);
 				}
@@ -219,6 +220,7 @@ private function GridTester (boxes : List.<int>) {
 			for (var box : Transform in boxPositions){
 				ShowWrongMarker(box); //on all the boxes used
 			}
+			gameObject.GetComponent(TimerAndScore).scoreBonus(-levelCreator.Data.CorrectBonus); // give negative bonus
 			return;
 		}
 	}
@@ -227,6 +229,7 @@ private function GridTester (boxes : List.<int>) {
 	for (var box : Transform in boxPositions){
 		ShowCorrectMarker(box); //on all the boxes used
 	}
+	gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
 	Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 }
 
@@ -249,6 +252,8 @@ private function compositeNumbersTester(boxes : List.<int>){
 			Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 			for(var pk : int = 0 ; pk < c ; pk++){
 				ShowCorrectMarker(boxPositions[boxes[pk]]); //on all the boxes used
+				gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
+
 			}
 			levelCreator.Data.FinishState.Clear();
 			return;
@@ -271,6 +276,8 @@ private function AdditionTester(boxes : List.<int>){
 			for(var pk : int = 0 ; pk < levelCreator.Data.CurrentNumberOfBoxesUsedForTask ; pk++){
 				ShowCorrectMarker(boxPositions[boxes[(c - pk-1)]]); //on all the boxes used
 			}
+			gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);		
+
 			Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 			levelCreator.Data.FinishState.Clear();
 
@@ -293,6 +300,8 @@ private function WholeLinerTester(boxes : List.<int>){
 		ShowCorrectMarker(boxPositions[boxes[pk]]); //on all the boxes used
 	}
 	levelCreator.Data.FinishState.Clear();
+	gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
+
 	Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 }
 
@@ -338,6 +347,8 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 						while ((tempFinIndex - 1) < levelCreator.Data.FinishState.Count && tempFinIndex > 0 && levelCreator.Data.FinishState[tempFinIndex-1] != -1) 
 						{
 							tempFinIndex--;
+							gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
+
 							ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[tempFinIndex]]); //on all the boxes used
 							levelCreator.Data.FinishState.RemoveAt(tempFinIndex); // remove the word it self, here we can count points for letters
 							
