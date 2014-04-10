@@ -15,11 +15,15 @@ function Start () {
 	scoreBonuses = lvlCre.Data.CorrectBonus;
 	timeEstimate = lvlCre.Data.TimeEstimate;
 	GuiSkin = Resources.Load("GUISkins/cogARC");
+	timer = timeEstimate;
 }
 
 function Update () {
 	if(toggleTimerCountUp){
-		timer += Time.deltaTime;
+		timer -= Time.deltaTime;
+	}
+	if(timer < 0){
+		timer = 0;
 	}
 }
 
