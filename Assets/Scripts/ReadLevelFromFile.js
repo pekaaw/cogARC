@@ -2,18 +2,18 @@
 import System.IO;
 import System;
 
-public function ReadFile (fileName : String) : List.<String> {
+public function ReadFile (fileContent : String) : List.<String> {
 	var splitOnThis : String[] = ["\n","\r"];
 	var charSplitOnThis : char[] = ["\n"[0], ","[0], " "[0],"\r"[0]];
 	
-	if(!File.Exists(Application.streamingAssetsPath + "/" + fileName)){
+	/*if(!File.Exists(Application.streamingAssetsPath + "/" + fileName)){
 		return;
 	}
 	var sr = new StreamReader(Application.streamingAssetsPath + "/" + fileName);
 	var fileContents = sr.ReadToEnd();
 	sr.Close();
-	 	
-	var lines = fileContents.Split(splitOnThis,StringSplitOptions.RemoveEmptyEntries);
+	 */	
+	var lines = fileContent.Split(splitOnThis,StringSplitOptions.RemoveEmptyEntries);
 	for(line in lines){
 	   	line.TrimEnd(charSplitOnThis);
 	}
