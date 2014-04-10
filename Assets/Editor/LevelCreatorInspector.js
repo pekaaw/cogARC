@@ -142,6 +142,9 @@ class LevelCreatorInspector extends Editor{
 	
 	function CompositeNumbers () {
 		EditorGUILayout.HelpBox(compositeNumbersInfoBox, MessageType.None);
+		
+		lvlCreator.Data.MinNumberOfBoxesUsedForTask = EditorGUILayout.IntSlider("MIN:",lvlCreator.Data.MinNumberOfBoxesUsedForTask, 2, 10);
+		lvlCreator.Data.MaxNumberOfBoxesUsedForTask = EditorGUILayout.IntSlider("MAX:",lvlCreator.Data.MaxNumberOfBoxesUsedForTask, lvlCreator.Data.MinNumberOfBoxesUsedForTask, 10);
 	}
 	function WholeLiner () {
 		EditorGUILayout.HelpBox(wholeLinerInfoBox, MessageType.None);
