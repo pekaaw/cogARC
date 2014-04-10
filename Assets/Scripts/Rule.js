@@ -143,35 +143,34 @@ public function Test (boxes : List.<int>){
 	//boxes contains the id numbers of the boxes
 	//This code block test to make sure that you get the same input three times
 	//	before it let you advance
-	if(levelCreator.Data.FinishState.Count > 0 && gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive()){
+	if(gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive()) {
+		if(levelCreator.Data.FinishState.Count > 0){
 	
-		historyGameState3 = historyGameState2;
-		historyGameState2 = historyGameState1;
-		historyGameState1 = boxes.ToArray();
+			historyGameState3 = historyGameState2;
+			historyGameState2 = historyGameState1;
+			historyGameState1 = boxes.ToArray();
 		
-		if(!historyGameState3 || historyGameState3.length != historyGameState1.Length || historyGameState3.length != historyGameState2.length) {
-			return;
-		}
-		for(var c:int = 0 ; c < historyGameState1.length ; c ++) {
-			if(historyGameState1[c] != historyGameState2[c] || historyGameState2[c] != historyGameState3[c]) {
-				Debug.Log("Unexpected CHANGE in HISTORY");
+			if(!historyGameState3 || historyGameState3.length != historyGameState1.Length || historyGameState3.length != historyGameState2.length) {
 				return;
 			}
+			for(var c:int = 0 ; c < historyGameState1.length ; c ++) {
+				if(historyGameState1[c] != historyGameState2[c] || historyGameState2[c] != historyGameState3[c]) {
+					Debug.Log("Unexpected CHANGE in HISTORY");
+					return;
+				}
+			}
+			//Checking of history is done here
+		 
+			functionPointer(boxes); //This is the testing
 		}
-		//Checking of history is done here
-	 
-		functionPointer(boxes); //This is the testing
-		
-		if(levelCreator.Data.FinishState.Count == 0){
+		else // finishState is empty
+		{
 			gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
 			yield WaitForSeconds (1);
-			
-
-
 			levelCreator.LoadLevel();
 		}
-			//congrats, save score, load next level
 	}
+			//congrats, save score, load next level
 }
 
 private function PairTester (boxes : List.<int>) {

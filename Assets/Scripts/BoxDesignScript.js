@@ -110,9 +110,12 @@ class BoxDesignScript extends MonoBehaviour {
 				var matArray : Array = gameObject.renderer.materials;
 				
 				texMaterial.SetTexture( "_MainTex", design.BoxImage );
-				
-				matArray.Add(texMaterial);
-				
+				if(matArray.Count < 1) //if it only has default diffuse 
+				{
+					matArray.Add(texMaterial);
+				} else {
+					matArray[1] = texMaterial;
+				}
 				gameObject.renderer.materials = matArray;
 				
 				// Set material from texture
