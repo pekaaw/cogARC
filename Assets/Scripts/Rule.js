@@ -20,11 +20,17 @@ private static var historyGameState3 : int[]; //tests are only done when all 3 a
 private static var colorColored : Color;
 private static var colorUncolored : Color;
 
+private static var killHintTimer : float;// hint is displayed when this is greater than 0;
+private static var killHintString : String;
+private static var killHintPos : Vector3;
+private static var myMainCamera : Camera;
+
 private var boxPositions : Transform[];
 
 var CubesData : Array;		//local copy of the data contained in the 
 
 function Awake() {
+	myMainCamera = GameObject.Find("ARCamera 1").camera;
 	levelCreator = gameObject.GetComponent(LevelCreator);
 	var tempArr : Array = GameObject.FindGameObjectsWithTag("Player");
 	boxPositions =  new Transform[levelCreator.Data.numberOfCubes];
@@ -49,6 +55,8 @@ var currentState : String = "";
 	for(var d : int  = 0 ; d < levelCreator.Data.FinishState.Count ; d++) {
 		currentState += levelCreator.Data.FinishState[d] + " ";
 	}
+	killHintTimer -=  Time.deltaTime; // only used for certain games but i don't want branching
+									// hint is displayed when this is greater than 0;
 
 // outputTextC.text = currentState;
 }
@@ -271,16 +279,19 @@ private function AdditionTester(boxes : List.<int>){
 			letterCount++;
 			c++;
 		}
-		if(answer == levelCreator.Data.FinishState[0]) {
-			for(var pk : int = 0 ; pk < levelCreator.Data.CurrentNumberOfBoxesUsedForTask ; pk++){
-				ShowCorrectMarker(boxPositions[boxes[(c - pk-1)]]); //on all the boxes used
+		if(letterCount == levelCreator.Data.CurrentNumberOfBoxesUsedForTask) {
+			SetAdditionHintActive(answer + "", boxPositions[boxes[(c - levelCreator.Data.CurrentNumberOfBoxesUsedForTask)]]);
+		
+			if(answer == levelCreator.Data.FinishState[0]) {
+				for(var pk : int = 0 ; pk < levelCreator.Data.CurrentNumberOfBoxesUsedForTask ; pk++){
+					ShowCorrectMarker(boxPositions[boxes[(c - pk-1)]]); //on all the boxes used
+				}
+				gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);		
+				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
+				levelCreator.Data.FinishState.Clear();
+
+				return;
 			}
-			gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);		
-
-			Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
-			levelCreator.Data.FinishState.Clear();
-
-			return;
 		}
 		letterCount = 0;
 		answer = 0;
@@ -416,6 +427,19 @@ function NULLFUNCTION(boxes : List.<int>) {
 }
 
 
+function SetAdditionHintActive(Total : String,pos : Transform){
+	
+	killHintPos = myMainCamera.WorldToScreenPoint(pos.position);
+	killHintString = Total;
+	killHintTimer = 2;
+	
+}
+
+function OnAdditionTotalGUI (TargetString) {
+	OnPresetStringGUI();
+	
+}
+
 function OnPresetStringGUI () {
 // just show the text written in the inspector
 
@@ -429,8 +453,15 @@ function OnAdditionGUI () {
 		var width : int = Screen.width - 2 * x1;
 		var height : int = Screen.height / 4;
 	 	var tempString : String;
-	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to add up to the target value: " + levelCreator.Data.FinishState[0];
+	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to add up" + killHintTimer + " to the target value: " + levelCreator.Data.FinishState[0];
 		GUI.Box (Rect (x1,y1,width,height),tempString);
+		
+		if(killHintTimer > 0) {
+			GUI.Box(new Rect(killHintPos.x,Screen.height - killHintPos.y, 120, 25), "Your Total was " + killHintString);
+			
+			
+			//TODO::
+		}
 	}
 }
 
