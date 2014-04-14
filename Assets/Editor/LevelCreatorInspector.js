@@ -52,6 +52,8 @@ class LevelCreatorInspector extends Editor{
 		lvlCreator.Data.numberOfLevels = EditorGUILayout.IntField("Number of levles:",lvlCreator.Data.numberOfLevels);
 		lvlCreator.Data.TimeEstimate = EditorGUILayout.IntField("Seconds per level:", lvlCreator.Data.TimeEstimate);
 		lvlCreator.Data.CorrectBonus = EditorGUILayout.IntField("Score per correct task:",lvlCreator.Data.CorrectBonus);
+		lvlCreator.Data.HasTimeLimit = EditorGUILayout.ToggleLeft("Is the time estimate a timelimit?", lvlCreator.Data.HasTimeLimit);
+
 		if(lvlCreator.Data.CorrectBonus < 1){
 			lvlCreator.Data.CorrectBonus = 1;
 		}

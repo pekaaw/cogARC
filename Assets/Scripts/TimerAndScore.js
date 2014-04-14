@@ -8,21 +8,31 @@ private var timerText : String;
 private var GuiSkin : GUISkin = null;
 private var timeEstimate : float;
 private var PlacementRectangle : Rect = Rect(Screen.width-450,20,445,400);
+private var posNegative : int; // this is +1 or -1 depending on wether the time is counting up or down
 public var toggleTimerCountUp : boolean;
+public var TimesUp : boolean = false;
+
 
 function Start () {
 	var lvlCre : LevelCreator = GameObject.Find("Scripts").GetComponent(LevelCreator);
 	scoreBonuses = lvlCre.Data.CorrectBonus;
 	timeEstimate = lvlCre.Data.TimeEstimate;
 	GuiSkin = Resources.Load("GUISkins/cogARC");
-	timer = timeEstimate;
+	if(lvlCre.Data.HasTimeLimit){
+		timer = timeEstimate;
+		posNegative = -1;
+	}
+	else {
+		posNegative = 1;
+	}
 }
 
 function Update () {
 	if(toggleTimerCountUp){
-		timer -= Time.deltaTime;
+		timer += Time.deltaTime * posNegative;
 	}
 	if(timer < 0){
+		TimesUp = true;
 		timer = 0;
 	}
 }
@@ -58,7 +68,13 @@ function OnGUI () {
 }
 
 function calculateScore() {
-	score = Mathf.Lerp(00.0,100.0,((timeEstimate-timer)/timeEstimate));
+	if(posNegative > 0){
+		// timer counting upwards
+		score = Mathf.Lerp(00.0,100.0,((timeEstimate-timer)/timeEstimate));
+	} else {
+		// timer counting downwards
+		score = Mathf.Lerp(00.0,100.0,(timer / timeEstimate));
+	}
 	score += scoreBonuses;
 	if(score < 0){
 		score = 0;

@@ -6,6 +6,7 @@ class LevelData extends ScriptableObject {
 
 	public var NextLevel : int;
 	public var RuleEnum : ruleFunction;
+	public var HasTimeLimit : boolean;
 
 	public var CurrentSubRule : subRule;
 

@@ -13,6 +13,7 @@ private	var outputTextC3 : UnityEngine.TextMesh;
 
 private var isTextAnswer : boolean; 
 
+private static var historyHasChangedFromBefore : boolean = true; // if the boxes has been moved since last test()
 private static var historyGameState1 : int[];
 private static var historyGameState2 : int[]; //these are check against eachother to stabilize the inputdata
 private static var historyGameState3 : int[]; //tests are only done when all 3 are the same
@@ -20,6 +21,7 @@ private static var historyGameState3 : int[]; //tests are only done when all 3 a
 private static var colorColored : Color;
 private static var colorUncolored : Color;
 
+private static var killHintOrder : boolean = true;// hint is displayed while this is false;
 private static var killHintTimer : float;// hint is displayed when this is greater than 0;
 private static var killHintString : String;
 private static var killHintPos : Vector3;
@@ -161,12 +163,21 @@ public function Test (boxes : List.<int>){
 			if(!historyGameState3 || historyGameState3.length != historyGameState1.Length || historyGameState3.length != historyGameState2.length) {
 				return;
 			}
+			
 			for(var c:int = 0 ; c < historyGameState1.length ; c ++) {
 				if(historyGameState1[c] != historyGameState2[c] || historyGameState2[c] != historyGameState3[c]) {
 					Debug.Log("Unexpected CHANGE in HISTORY");
+					historyHasChangedFromBefore = true;
+					killHintOrder = true;
+
 					return;
 				}
 			}
+			if (!historyHasChangedFromBefore){
+				return;
+			}
+			historyHasChangedFromBefore = false;
+
 			//Checking of history is done here
 		 
 			functionPointer(boxes); //This is the testing
@@ -291,6 +302,10 @@ private function AdditionTester(boxes : List.<int>){
 				levelCreator.Data.FinishState.Clear();
 
 				return;
+			} else { // else give a penalty
+				gameObject.GetComponent(TimerAndScore).scoreBonus(-levelCreator.Data.CorrectBonus);		
+
+			
 			}
 		}
 		letterCount = 0;
@@ -431,7 +446,7 @@ function SetAdditionHintActive(Total : String,pos : Transform){
 	
 	killHintPos = myMainCamera.WorldToScreenPoint(pos.position);
 	killHintString = Total;
-	killHintTimer = 2;
+	killHintOrder = false;
 	
 }
 
@@ -453,10 +468,10 @@ function OnAdditionGUI () {
 		var width : int = Screen.width - 2 * x1;
 		var height : int = Screen.height / 4;
 	 	var tempString : String;
-	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to add up" + killHintTimer + " to the target value: " + levelCreator.Data.FinishState[0];
+	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to add up to the target value: " + levelCreator.Data.FinishState[0];
 		GUI.Box (Rect (x1,y1,width,height),tempString);
 		
-		if(killHintTimer > 0) {
+		if(!killHintOrder) { // if "the order" to "kill" the hint has not been given, display the hint.
 			GUI.Box(new Rect(killHintPos.x,Screen.height - killHintPos.y, 120, 25), "Your Total was " + killHintString);
 			
 			
