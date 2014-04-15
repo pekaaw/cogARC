@@ -498,7 +498,9 @@ function OnCompositeGUI () {
 
 function OnGridGUI () {
 // display hit and show complete-state for grid for set amount of time
-	if(!levelCreator.Data.HintHasTimeLimit || killHintTimer > 0) { 
+	if((!levelCreator.Data.HintHasTimeLimit || killHintTimer > 0) && Time.timeScale > 0) 
+	{// only show while time is running and time has not run out or while time is running and you have infinete time 
+																						
 		var x1 : int = 20;
 		var y1 : int = 20;
 		var width : int = Screen.width - 2 * x1;

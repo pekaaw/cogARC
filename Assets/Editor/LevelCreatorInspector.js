@@ -113,7 +113,7 @@ class LevelCreatorInspector extends Editor{
 			lvlCreator.Data.GridHintMaxValue = EditorGUILayout.IntSlider("End:",lvlCreator.Data.GridHintMaxValue, 0, 99);
 		}
 		//Min, max
-		EditorGUILayout.LabelField("Please select wanted number of cubes.");
+		EditorGUILayout.LabelField("Please select wanted number of cubes of the first colour.");
 		lvlCreator.Data.GridMinValue = EditorGUILayout.IntSlider("MIN:",lvlCreator.Data.GridMinValue, 1, 9);
 		lvlCreator.Data.GridMaxValue = EditorGUILayout.IntSlider("MAX:",lvlCreator.Data.GridMaxValue, lvlCreator.Data.GridMinValue, 9);
 	}
