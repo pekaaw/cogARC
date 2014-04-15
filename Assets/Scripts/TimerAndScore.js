@@ -16,7 +16,7 @@ public var TimesUp : boolean = false;
 function Start () {
 	var lvlCre : LevelCreator = GameObject.Find("Scripts").GetComponent(LevelCreator);
 	scoreBonuses = lvlCre.Data.CorrectBonus;
-	timeEstimate = lvlCre.Data.TimeEstimate;
+	timeEstimate = lvlCre.Data.TimeEstimate * lvlCre.Data.numberOfLevels;
 	GuiSkin = Resources.Load("GUISkins/cogARC");
 	if(lvlCre.Data.HasTimeLimit){
 		timer = timeEstimate;
