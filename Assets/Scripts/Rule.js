@@ -22,7 +22,7 @@ private static var colorColored : Color;
 private static var colorUncolored : Color;
 
 private static var killHintOrder : boolean = true;// hint is displayed while this is false;
-private static var killHintTimer : float;// hint is displayed when this is greater than 0;
+private static var killHintTimer : float;// hint is displayed when this is greater than 0 or -1;
 private static var killHintString : String;
 private static var killHintPos : Vector3;
 private static var myMainCamera : Camera;
@@ -118,6 +118,9 @@ public function ruleSetup(isTextAnswerParam : boolean){
 		case ruleFunction.Grid:
 			functionPointer = GridTester;
 			functionPointerHintGUI = OnGridGUI;
+			if(levelCreator.Data.HintHasTimeLimit){
+				killHintTimer = levelCreator.Data.CurrentGridHintValue;
+			}
 			break;
 		case ruleFunction.HumanReadable: 
 			functionPointer = HumanReadableTester;
@@ -168,7 +171,7 @@ public function Test (boxes : List.<int>){
 				if(historyGameState1[c] != historyGameState2[c] || historyGameState2[c] != historyGameState3[c]) {
 					Debug.Log("Unexpected CHANGE in HISTORY");
 					historyHasChangedFromBefore = true;
-					killHintOrder = true;
+					killHintOrder = true;// hides the hint when addition rule
 
 					return;
 				}
@@ -495,35 +498,41 @@ function OnCompositeGUI () {
 
 function OnGridGUI () {
 // display hit and show complete-state for grid for set amount of time
-
-	var x1 : int = 20;
-	var y1 : int = 20;
-	var width : int = Screen.width - 2 * x1;
-	var height : int = Screen.height / 4; // this is the height of the goal-box- 
+	if(!levelCreator.Data.HintHasTimeLimit || killHintTimer > 0) { 
+		var x1 : int = 20;
+		var y1 : int = 20;
+		var width : int = Screen.width - 2 * x1;
+		var height : int = Screen.height / 4; // this is the height of the goal-box- 
 										//frame and also the
 										//height of the grid-goal-visualizer.
-	var margine : int = 5; //increasing this will make the grid-goal-visualizer smaller.
-	var textureA : Texture = Resources.Load("coloredtitle") as Texture; // images used for the grid-goal-visualizer
-	var textureB : Texture = Resources.Load("uncoloredtitle") as Texture;
+		var margine : int = 5; //increasing this will make the grid-goal-visualizer smaller.
+		var textureA : Texture = Resources.Load("coloredtitle") as Texture; // images used for the grid-goal-visualizer
+		var textureB : Texture = Resources.Load("uncoloredtitle") as Texture;
 	
-	GUI.Box (Rect (x1,y1,width,height), levelCreator.Data.LevelGoalText);
-	if(levelCreator.Data.RuleEnum == ruleFunction.Grid) {
-		var scaleX : int = (height-margine) / 3 - margine;
-		var scaleY : int = scaleX;
-		var i : int = 0;
-		for(var c:int = 0; c < 3 ; c++) {
-			var figy : int = y1 + (scaleY + margine) * c + margine;
-			for(var q :int = 0; q < 3 ; q++) {
-				var figx : int = x1 + (scaleX + margine) * q + margine;
-				if(levelCreator.Data.FinishState[i] == 1) {
-					DrawRectangleForGridHint(Rect(figx,figy,scaleX,scaleY), true);
-				} else {
-					DrawRectangleForGridHint(Rect(figx,figy,scaleX,scaleY), false);
-
-
+		GUI.Box (Rect (x1,y1,width,height),"");
+		if(levelCreator.Data.RuleEnum == ruleFunction.Grid) {
+			var scaleX : int = (height-margine) / 3 - margine;
+			var scaleY : int = scaleX;
+			var i : int = 0;
+			for(var c:int = 0; c < 3 ; c++) {
+				var figy : int = y1 + (scaleY + margine) * c + margine;
+				for(var q :int = 0; q < 3 ; q++) {
+					var figx : int = x1 + (scaleX + margine) * q + margine;
+					if(levelCreator.Data.FinishState[i] == 1) {
+						DrawRectangleForGridHint(Rect(figx,figy,scaleX,scaleY), true);
+					} else {
+						DrawRectangleForGridHint(Rect(figx,figy,scaleX,scaleY), false);
+					}
+					i++;
 				}
-				i++;
 			}
+		}
+		figx +=  scaleX + margine * 2;
+		if(levelCreator.Data.HintHasTimeLimit){
+			GUI.Box (Rect (figx,y1,width - figx,height),"The figure will disappear in " + Mathf.RoundToInt(killHintTimer) + " seconds.");
+		} else 
+		{
+			GUI.Box (Rect (figx,y1,width - figx,height),"You have no time-limit.\n Just place the cubes as you see on the figure as fast as possible.");
 		}
 	}
 }

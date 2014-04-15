@@ -13,8 +13,12 @@ class LevelData extends ScriptableObject {
 	public var CubeDesignsArray = new ArrayList();
 	public var DesignEnum : CubeDesignEnum;
 
-	public var gridMinValue : int;
-	public var gridMaxValue : int;
+	public var GridMinValue : int;
+	public var GridMaxValue : int;
+	public var HintHasTimeLimit : boolean;
+	public var GridHintMinValue : int;
+	public var GridHintMaxValue : int;
+	public var CurrentGridHintValue : int;
 
 	public var MinNumberOfBoxesUsedForTask : int;
 	public var MaxNumberOfBoxesUsedForTask : int;

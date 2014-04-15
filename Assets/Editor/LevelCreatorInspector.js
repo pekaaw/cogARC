@@ -105,10 +105,17 @@ class LevelCreatorInspector extends Editor{
 	}
 	
 	function Grid () {
+	EditorGUILayout.LabelField("TimeLimit to see How to make the solution. (Seconds)");
+		lvlCreator.Data.HintHasTimeLimit = EditorGUILayout.ToggleLeft("Is there a timelimit to see the hint?", lvlCreator.Data.HintHasTimeLimit);
+		if(lvlCreator.Data.HintHasTimeLimit){
+			EditorGUILayout.LabelField("Select the lower and upper limits in seconds.");
+			lvlCreator.Data.GridHintMinValue = EditorGUILayout.IntSlider("Start:",lvlCreator.Data.GridHintMinValue, 0, 99);
+			lvlCreator.Data.GridHintMaxValue = EditorGUILayout.IntSlider("End:",lvlCreator.Data.GridHintMaxValue, 0, 99);
+		}
 		//Min, max
 		EditorGUILayout.LabelField("Please select wanted number of cubes.");
-		lvlCreator.Data.gridMinValue = EditorGUILayout.IntSlider("MIN:",lvlCreator.Data.gridMinValue, 1, 9);
-		lvlCreator.Data.gridMaxValue = EditorGUILayout.IntSlider("MAX:",lvlCreator.Data.gridMaxValue, lvlCreator.Data.gridMinValue, 9);
+		lvlCreator.Data.GridMinValue = EditorGUILayout.IntSlider("MIN:",lvlCreator.Data.GridMinValue, 1, 9);
+		lvlCreator.Data.GridMaxValue = EditorGUILayout.IntSlider("MAX:",lvlCreator.Data.GridMaxValue, lvlCreator.Data.GridMinValue, 9);
 	}
 	
 	function HumanReadable () {

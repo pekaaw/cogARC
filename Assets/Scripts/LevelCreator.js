@@ -386,8 +386,10 @@ private function PresetAdditionNumbers(){
 
 private function PresetGridDataBeforeSort(){
 	var q: int = 0;
-	var coloredTitles:int =  Mathf.Lerp(Data.gridMinValue, Data.gridMaxValue, currentLevel/Data.numberOfLevels);
-
+	var coloredTitles:int =  Mathf.Lerp(Data.GridMinValue, Data.GridMaxValue, currentLevel/Data.numberOfLevels);
+	if(Data.HintHasTimeLimit){
+		Data.CurrentGridHintValue =  Mathf.Lerp(Data.GridHintMinValue, Data.GridHintMaxValue, currentLevel/Data.numberOfLevels);
+	}
 
 	Debug.LogWarning((Data.CubeDesignsArray[0] as BoxDesign).BoxColor);
 	Debug.LogWarning((Data.CubeDesignsArray[1] as BoxDesign).BoxColor);
