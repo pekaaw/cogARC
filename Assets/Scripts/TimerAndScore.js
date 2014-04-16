@@ -19,12 +19,22 @@ function Start () {
 	timeEstimate = lvlCre.Data.TimeEstimate * lvlCre.Data.numberOfLevels;
 	GuiSkin = Resources.Load("GUISkins/cogARC");
 	if(lvlCre.Data.HasTimeLimit){
-		timer = timeEstimate;
-		posNegative = -1;
+		timer = lvlCre.Data.TimeEstimate;
+		posNegative = -1; // time will count downwards
 	}
 	else {
 		posNegative = 1;
 	}
+}
+
+function ResetTimeAndAddAsBonus(){
+	var lvlCre : LevelCreator = GameObject.Find("Scripts").GetComponent(LevelCreator);
+	if (timer > 0){
+		scoreBonuses += TimeScore();
+	}
+	timeEstimate = lvlCre.Data.TimeEstimate;
+	timer = timeEstimate;
+	TimesUp = false;
 }
 
 function Update () {
@@ -32,8 +42,10 @@ function Update () {
 		timer += Time.deltaTime * posNegative;
 	}
 	if(timer < 0){
-		TimesUp = true;
 		timer = 0;
+	}
+	if(posNegative < 0 && timer == 0){
+		TimesUp = true;
 	}
 }
 
@@ -68,17 +80,22 @@ function OnGUI () {
 }
 
 function calculateScore() {
-	if(posNegative > 0){
-		// timer counting upwards
-		score = Mathf.Lerp(00.0,100.0,((timeEstimate-timer)/timeEstimate));
-	} else {
-		// timer counting downwards
-		score = Mathf.Lerp(00.0,100.0,(timer / timeEstimate));
-	}
+	score = TimeScore();
 	score += scoreBonuses;
 	if(score < 0){
 		score = 0;
 	}
+}
+function TimeScore():int {
+	var ret : int;
+	if(posNegative > 0){
+		// timer counting upwards
+		ret = Mathf.Lerp(00.0,100.0,((timeEstimate-timer)/timeEstimate));
+	} else {
+		// timer counting downwards
+		ret = Mathf.Lerp(00.0,100.0,(timer / timeEstimate));
+	}
+	return ret;
 }
 
 function makeTimerText() {

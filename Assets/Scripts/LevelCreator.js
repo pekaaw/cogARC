@@ -63,7 +63,6 @@ function Update () {
 }
 
 function LoadLevel(){
-	
 	AfterLevelCleanup();
 	
 	if (currentLevel < Data.numberOfLevels) {
@@ -77,7 +76,7 @@ function LoadLevel(){
 
 	} else {
 	
-		Application.Quit();
+		//Application.Quit();
 		Application.LoadLevel(Data.NextLevel); //load next scene
 	}
 	
@@ -85,6 +84,7 @@ function LoadLevel(){
 
 function AfterLevelCleanup(){
 	sortedCubes.clear(); // this is used to put the boxes in random order at the beginning of each level
+	Data.FinishState.Clear();
 }
 
 public function redoCreation() {

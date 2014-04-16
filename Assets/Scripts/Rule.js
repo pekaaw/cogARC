@@ -1,7 +1,7 @@
 ﻿#pragma strict
-private var functionPointer : Function;
-private var functionPointerSubRule : Function;
-private var functionPointerHintGUI : Function;
+private var functionPointer : Function = NULLFUNCTION;
+private var functionPointerSubRule : Function = NULLFUNCTION;
+private var functionPointerHintGUI : Function = NULLFUNCTION;
 //Enum defined in LevelCreator.js
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
 
@@ -53,13 +53,20 @@ function Start() {
 }
 
 function Update () {
-var currentState : String = ""; 
-	for(var d : int  = 0 ; d < levelCreator.Data.FinishState.Count ; d++) {
-		currentState += levelCreator.Data.FinishState[d] + " ";
+	if( !gameObject.GetComponent(TimerAndScore).TimesUp) 
+	{
+		var currentState : String = ""; 
+		for(var d : int  = 0 ; d < levelCreator.Data.FinishState.Count ; d++) {
+			currentState += levelCreator.Data.FinishState[d] + " ";
+		}
+		killHintTimer -=  Time.deltaTime; // only used for certain games but i don't want branching
+	}								// hint is displayed when this is greater than 0;
+	else 
+	{
+		gameObject.GetComponent(TimerAndScore).ResetTimeAndAddAsBonus();
+		gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
+		levelCreator.LoadLevel();
 	}
-	killHintTimer -=  Time.deltaTime; // only used for certain games but i don't want branching
-									// hint is displayed when this is greater than 0;
-
 // outputTextC.text = currentState;
 }
 
@@ -157,7 +164,7 @@ public function Test (boxes : List.<int>){
 	//This code block test to make sure that you get the same input three times
 	//	before it let you advance
 	if(gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive()) {
-		if(levelCreator.Data.FinishState.Count > 0){
+		if(levelCreator.Data.FinishState.Count > 0 && !gameObject.GetComponent(TimerAndScore).TimesUp){
 	
 			historyGameState3 = historyGameState2;
 			historyGameState2 = historyGameState1;
@@ -186,13 +193,15 @@ public function Test (boxes : List.<int>){
 			functionPointer(boxes); //This is the testing
 		}
 		else // finishState is empty
-		{
+		{		//congrats, save score, load next level
+			gameObject.GetComponent(TimerAndScore).ResetTimeAndAddAsBonus();
 			gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
 			yield WaitForSeconds (1);
+			
 			levelCreator.LoadLevel();
 		}
 	}
-			//congrats, save score, load next level
+	
 }
 
 private function PairTester (boxes : List.<int>) {
@@ -438,6 +447,11 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 		i++;
 	}
 	*/
+
+function NULLFUNCTION() {
+	//this function does nothing
+	return;
+}
 
 function NULLFUNCTION(boxes : List.<int>) {
 	//this function does nothing

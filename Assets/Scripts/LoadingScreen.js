@@ -49,7 +49,11 @@ function Update () {
 }
 
 function Activate(header : String, hint : String, numberOfLevels : int, currentLevel : int) {
+	
 	CubeContainer = GameObject.Find("CubeContainer");
+	if(!CubeContainer){
+		CubeContainer = GameObject.Find("FrameMarkerContainer");
+	}
 	gameTitle  = header;
 	gameHint = hint;
 	gameLevels  = numberOfLevels;
@@ -60,16 +64,11 @@ function Activate(header : String, hint : String, numberOfLevels : int, currentL
 	StopTime();
 	isActive = true;
 }  
-function Activate() {
-	currentGameLevel ++;
-	isActive = true;
-	StopTime();
-} 
 
 function StopTime() {
 	Time.timeScale = 0;
 	CubeContainer.SetActive(false);
-	var c:int =0;
+	var c:int = 0;
 }
 function StartTime() {
 	Time.timeScale = 1;

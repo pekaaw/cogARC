@@ -58,8 +58,14 @@ function Start () {
 	
 	
 	var transformDistributer : TransformDistributor;
-
-	transformDistributer = GameObject.Find("FrameMarkerContainer").GetComponent(TransformDistributor);
+	var frameMarkerContainerTemp : GameObject;
+	frameMarkerContainerTemp = GameObject.Find("FrameMarkerContainer");
+	transformDistributer = frameMarkerContainerTemp.GetComponent(TransformDistributor);
+	if(!transformDistributer){
+		frameMarkerContainerTemp.AddComponent(TransformDistributor);
+		transformDistributer = frameMarkerContainerTemp.GetComponent(TransformDistributor);
+	}
+	
 	//markerWithTransform = transformDistributer.GetMarker(0);
 	markerWithTransform = transformDistributer.GetMarker(MyIdNumber);
 	
