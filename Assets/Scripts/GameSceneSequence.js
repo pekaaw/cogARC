@@ -1,6 +1,6 @@
 ﻿#pragma strict
 private var sequence : List.<int> = new List.<int>();	
-private var currentGameIndex :int;												
+private var currentGameIndex :int = -1;												
 
 function Awake() {
 	GameObject.DontDestroyOnLoad (transform.gameObject);
@@ -14,13 +14,16 @@ function Start () {
 function Update () {
 
 }
-
+function ClearSequence(){
+	sequence.Clear();
+	currentGameIndex = -1;	
+}
 function GetNextLevel():int {
 	currentGameIndex++;
 	if(currentGameIndex >= sequence.Count) {
 		Application.Quit();
 	}
-	return currentGameIndex;
+	return sequence[currentGameIndex];
 }
 
 function AddMulti(arr : int[]){

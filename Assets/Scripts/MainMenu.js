@@ -20,6 +20,7 @@ function Start () {
 	MainMenuRect = Rect((Screen.width/2) - 500,(Screen.height/2)- 200,
 		(Screen.width/2)+500,(Screen.height/2)+200);
 	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
+	gameSequence.ClearSequence();
 }
 
 function OnGUI () {
@@ -41,28 +42,31 @@ function OnGUI () {
 	GUILayout.BeginArea(MainMenuRect);
 	GUILayout.BeginHorizontal();
 	var i : int;
-	for(i = 0; i < NameOfGames.Length - 2; i++){
+	for(i = 0; i < NameOfGames.Length - 1; i++){
 		if((i % ButtonsPerRow) == 0 && i > 0 ){
 			GUILayout.EndHorizontal();
 			GUILayout.BeginHorizontal();
 		}
 		if(GUILayout.Button(NameOfGames[i])){
-			Application.LoadLevel(i+1);
+			gameSequence.AddAtEnd(i+1);
+			Application.LoadLevel(gameSequence.GetNextLevel());
 		}
 		GUILayout.FlexibleSpace();
 	}
-	if(GUILayout.Button(NameOfGames[i])){
+	GUILayout.EndHorizontal();
+	GUILayout.BeginHorizontal();
+	if(GUILayout.Button(NameOfGames[i+0])){
 	
 		var tempArray : Array = new Array();
 
-		for(i = 0; i < NameOfGames.Length - 2; i++){
-			tempArray.push(i+1);
+		for(var q = 1; q < NameOfGames.Length ; q++){
+			tempArray.push(q);
 		}
 		gameSequence.AddMulti(tempArray.ToBuiltin(int));
 		Application.LoadLevel(gameSequence.GetNextLevel());
 	}
 	GUILayout.FlexibleSpace();
-	if(GUILayout.Button(NameOfGames[i+1])){
+	if(GUILayout.Button("Quit")){
 		Application.Quit();
 	}
 	GUILayout.FlexibleSpace();
