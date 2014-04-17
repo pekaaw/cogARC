@@ -2,7 +2,7 @@
 
 // Data from this level
 public var Data : LevelData;
-
+private var gameSequence : GameSceneSequence;
 private var loadingScript : LoadingScreen;
 private var ruleScript : Rule;
 private var functionPointerCreator : Function;
@@ -48,7 +48,7 @@ function Awake() {
 	ruleScript =  gameObject.GetComponent(Rule);
 
 	loadingScript = gameObject.GetComponent(LoadingScreen);
-	
+	gameSequence= GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
 
 	LoadLevel();
 }
@@ -77,7 +77,7 @@ function LoadLevel(){
 	} else {
 	
 		//Application.Quit();
-		Application.LoadLevel(Data.NextLevel); //load next scene
+		Application.LoadLevel(gameSequence.GetNextLevel()); //load next scene
 	}
 	
 }

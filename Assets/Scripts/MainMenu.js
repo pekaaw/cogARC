@@ -7,6 +7,7 @@ public var LogoTexture : Texture;
 public var LogoPoistion : Rect;
 public var GuiSkin : GUISkin = null;
 public var ButtonFontSize : int = 50;
+private var gameSequence : GameSceneSequence;
 
 private var MainMenuRect : Rect;
 
@@ -18,6 +19,7 @@ function Start () {
 	}
 	MainMenuRect = Rect((Screen.width/2) - 500,(Screen.height/2)- 200,
 		(Screen.width/2)+500,(Screen.height/2)+200);
+	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
 }
 
 function OnGUI () {
@@ -38,8 +40,8 @@ function OnGUI () {
 	
 	GUILayout.BeginArea(MainMenuRect);
 	GUILayout.BeginHorizontal();
-	
-	for(var i = 0; i < NameOfGames.Length; i++){
+	var i : int;
+	for(i = 0; i < NameOfGames.Length - 2; i++){
 		if((i % ButtonsPerRow) == 0 && i > 0 ){
 			GUILayout.EndHorizontal();
 			GUILayout.BeginHorizontal();
@@ -49,6 +51,21 @@ function OnGUI () {
 		}
 		GUILayout.FlexibleSpace();
 	}
+	if(GUILayout.Button(NameOfGames[i+1])){
+	
+		var tempArray : Array = new Array();
+
+		for(i = 0; i < NameOfGames.Length - 2; i++){
+			tempArray.push(i+1);
+		}
+		gameSequence.AddMulti(tempArray.ToBuiltin(int));
+		Application.LoadLevel(gameSequence.GetNextLevel());
+	}
+	GUILayout.FlexibleSpace();
+	if(GUILayout.Button(NameOfGames[i+2])){
+		Application.Quit();
+	}
+	GUILayout.FlexibleSpace();
 	GUILayout.EndHorizontal();
 	GUILayout.EndArea();
 	
