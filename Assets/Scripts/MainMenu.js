@@ -51,7 +51,7 @@ function OnGUI () {
 		}
 		GUILayout.FlexibleSpace();
 	}
-	if(GUILayout.Button(NameOfGames[i+1])){
+	if(GUILayout.Button(NameOfGames[i])){
 	
 		var tempArray : Array = new Array();
 
@@ -62,7 +62,7 @@ function OnGUI () {
 		Application.LoadLevel(gameSequence.GetNextLevel());
 	}
 	GUILayout.FlexibleSpace();
-	if(GUILayout.Button(NameOfGames[i+2])){
+	if(GUILayout.Button(NameOfGames[i+1])){
 		Application.Quit();
 	}
 	GUILayout.FlexibleSpace();
