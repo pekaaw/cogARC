@@ -15,6 +15,8 @@ private var scoresLoaded = false;
 private var GuiSkin : GUISkin = null;
 private var GameName : String = "";
 
+
+
 function Awake() {
 	timerAndScore = gameObject.GetComponent(TimerAndScore);
 	GuiSkin = Resources.Load("GUISkins/cogARC");
@@ -26,7 +28,12 @@ function Start () {
 	//Gives the game a name if there is no name
 	if (GameName == ""){
 		GameName = "Unnamed";
-	}//x,y start bredde høyde
+	}
+	if (GameObject.Find("SceneSequence").GetComponent(GameSceneSequence).IsMultyLeveled())
+	{
+		GameName = "Multy Game Combo";
+	}
+	//x,y start bredde høyde
 	ScoreScreenRect = Rect(350,25,Screen.width - 700, Screen.height - 50);	
 }
 
@@ -123,9 +130,10 @@ function toggleScreenVisibility(){
 	ScoreScreenVisible = !ScoreScreenVisible;
 }
 
+
 //This is run on quit
 //This saves the scores so it can be loaded later.
-function OnApplicationQuit() {
+function RegistrerScore() {
 	var score : int;
 	score = timerAndScore.getScore();
 	

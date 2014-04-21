@@ -69,6 +69,7 @@ function LoadLevel(){
 		currentLevel++;
 		redoCreation();	//load next level of same game
 		loadingScript.Activate(Data.GameName, Data.LevelGoalText, Data.numberOfLevels, currentLevel);
+		gameObject.GetComponent(TimerAndScore).scoreBonus(gameSequence.GetScore());
 		if(	!gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive())  //unpause the timer
 		{
 			gameObject.GetComponent(TimerAndScore).ToggleTimerActive(); //unpause the timer
@@ -77,7 +78,15 @@ function LoadLevel(){
 	} else {
 	
 		//Application.Quit();
-		Application.LoadLevel(gameSequence.GetNextLevel()); //load next scene
+		var nextLevel : int = gameSequence.GetNextLevel();
+		if(nextLevel == 0) // return to mainmenu
+		{
+			gameObject.GetComponent(ScoreScreen).RegistrerScore();
+			gameObject.GetComponent(ScoreScreen).toggleScreenVisibility();
+		} else {
+			gameSequence.SaveScore(gameObject.GetComponent(TimerAndScore).getScore());
+			Application.LoadLevel(nextLevel); //load next scene
+		}
 	}
 	
 }

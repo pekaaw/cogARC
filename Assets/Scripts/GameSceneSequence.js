@@ -1,6 +1,8 @@
 ﻿#pragma strict
 private var sequence : List.<int> = new List.<int>();	
-private var currentGameIndex :int = -1;												
+private var currentGameIndex :int = -1;		
+
+private var score : int = 0;										
 
 function Awake() {
 	GameObject.DontDestroyOnLoad (transform.gameObject);
@@ -14,10 +16,24 @@ function Start () {
 function Update () {
 
 }
+function IsMultyLeveled ():boolean {
+	return (sequence.Count > 2);
+}
+
 function ClearSequence(){
 	sequence.Clear();
-	currentGameIndex = -1;	
+	currentGameIndex = -1;
+	score = 0;	
 }
+
+function SaveScore(a : int) {
+	score = a;
+}
+
+function GetScore() : int {
+	return score;
+}
+
 function GetNextLevel():int {
 	currentGameIndex++;
 	if(currentGameIndex >= sequence.Count) {
