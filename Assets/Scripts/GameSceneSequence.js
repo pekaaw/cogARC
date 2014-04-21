@@ -39,6 +39,10 @@ function GetNextLevel():int {
 	if(currentGameIndex >= sequence.Count) {
 		Application.Quit();
 	}
+	if(sequence[currentGameIndex] == 0){
+		ClearSequence();
+		return 0;
+	}
 	return sequence[currentGameIndex];
 }
 
