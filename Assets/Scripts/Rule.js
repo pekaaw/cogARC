@@ -10,6 +10,7 @@ private var levelCreator : LevelCreator;
 private	var outputTextC : UnityEngine.TextMesh;
 private	var outputTextC2 : UnityEngine.TextMesh;
 private	var outputTextC3 : UnityEngine.TextMesh;
+private var DebugText : String = "Arne";
 
 private var isTextAnswer : boolean; 
 
@@ -95,6 +96,7 @@ function DrawRectangleForGridHint(rect : Rect, colored : boolean)
 }
 
 function OnGUI () {
+	GUI.Box (Rect (200,50,DebugText.Length*20,20),DebugText);
 	functionPointerHintGUI();
 }
 
@@ -171,6 +173,7 @@ public function Test (boxes : List.<int>){
 			historyGameState1 = boxes.ToArray();
 		
 			if(!historyGameState3 || historyGameState3.length != historyGameState1.Length || historyGameState3.length != historyGameState2.length) {
+				historyHasChangedFromBefore = true;
 				return;
 			}
 			
@@ -354,6 +357,16 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 				*/
 	var inIndex:int = 0;
 	var finIndex:int = 0;	
+	
+	DebugText = "";
+	
+	for(var boxDebug : int in boxes) {
+		if(boxDebug != -1)
+			DebugText += CubesData[boxDebug] + " ";
+		else {
+			DebugText += ", ";
+		}
+	}
 	
 	while(inIndex < boxes.Count)
 	{
