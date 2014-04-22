@@ -33,9 +33,7 @@ function Start () {
 	if (GameObject.Find("SceneSequence").GetComponent(GameSceneSequence).IsMultyLeveled())
 	{
 		GameName = "Multy Game Combo";
-	}
-	//x,y start bredde høyde
-	ScoreScreenRect = Rect(350,25,Screen.width - 700, Screen.height - 50);	
+	}	
 }
 
 function OnGUI() {
@@ -46,7 +44,7 @@ function OnGUI() {
 			fillScoreArray();
 			scoresLoaded = true;
 		}
-		
+		ScoreScreenRect = Rect(350,25,Screen.width - 700, Screen.height - 50);	
 		GUI.skin = GuiSkin;
 		var originalButtonSize = GUI.skin.button.fontSize;
 		var originalLabelSize = GUI.skin.label.fontSize;
@@ -105,18 +103,17 @@ function fillScoreArray() {
 	//Load scores from player prefs file.
 	scoreHolder = PlayerPrefsX.GetIntArray(playerName + GameName);
 	
+	//Testing to make sure that we have the amount of scores needed.
+	if(scoreHolder.length < NumberOfScores){
+		for(var i = scoreHolder.length; i < NumberOfScores; i++){
+			scoreHolder.Add(i * 10);
+			scoreHolder[i] = i * 10;
+		}
+	}
 	scoreHolder.sort();
 	//Gets the highest number at top.
 	scoreHolder.reverse();
 	
-	//Testing to make sure that we have the amount of scores needed.
-	if(scoreHolder.length < NumberOfScores){
-		for(var i = scoreHolder.length; i < NumberOfScores; i++){
-			scoreHolder.Add(i);
-			scoreHolder[i] = i;
-		}
-	}
-		
 	if(scoreHolder.length > NumberOfScores){
 		scoreHolder.length = NumberOfScores;
 	}
@@ -135,26 +132,22 @@ function toggleScreenVisibility(){
 //This is run on quit
 //This saves the scores so it can be loaded later.
 function RegistrerScore() {
-	var score : int;
 	score = timerAndScore.getScore();
 	
 	//This is because Unity is silly and won't let me
 	// add something to a int[] object.
 	var tempScoreArray : Array;
 	tempScoreArray = scoreArray;
-	if(!tempScoreArray || tempScoreArray.length == 0){
-		return;
-	}
+//	if(!tempScoreArray || tempScoreArray.length == 0){
+//		return;
+//	}
 	tempScoreArray.push(score);
 	
 	var tempIntArray = new int[tempScoreArray.length];
 	for(var i:int = 0; i < tempScoreArray.length; i++){
 		tempIntArray[i] = tempScoreArray[i];
-		Debug.Log(i);
 	}
 	
-	var succes = PlayerPrefsX.SetIntArray(playerName + GameName, tempIntArray);
-	if(succes == false){
-		Debug.Log("Didn't save!");
-	}
+	PlayerPrefsX.SetIntArray(playerName + GameName, tempIntArray);
+	fillScoreArray();
 }
