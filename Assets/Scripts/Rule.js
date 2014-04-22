@@ -30,7 +30,7 @@ private static var myMainCamera : Camera;
 
 private var boxPositions : Transform[];
 
-var CubesData : Array;		//local copy of the data contained in the 
+public var CubesData : Array;		//local copy of the data contained in the 
 
 function Awake() {
 	myMainCamera = GameObject.Find("ARCamera 1").camera;
@@ -96,7 +96,7 @@ function DrawRectangleForGridHint(rect : Rect, colored : boolean)
 }
 
 function OnGUI () {
-	GUI.Box (Rect (200,50,DebugText.Length*20,20),DebugText);
+	GUI.Box (Rect (200,50,DebugText.Length*10,20),DebugText);
 	functionPointerHintGUI();
 }
 
@@ -360,7 +360,7 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 	
 	DebugText = "";
 	
-	for(var boxDebug : int in boxes) {
+	for(var boxDebug : int in levelCreator.Data.FinishState) {
 		if(boxDebug != -1)
 			DebugText += CubesData[boxDebug] + " ";
 		else {
