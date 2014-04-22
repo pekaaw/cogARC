@@ -275,14 +275,17 @@ private function SetStringDataWithoutOrder(cubes : Array , dataStrings : String[
 	var design : BoxDesign;
 	//sets string[0] to ParamCubes[0] and string[7] to ParamCubes[7] 
 	for( var i:int;i<cubes.length;i++) {
+	design = new BoxDesign();
 		if(dataStrings[i] != "$CUBE_NOT_IN_USE$") {
-			design = new BoxDesign();
 			(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = dataStrings[i];
 			design.BoxText = dataStrings[i];
 			(cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
 		} else {
-			(cubes[i] as GameObject).renderer.material.color = Color.black;
+			design.BoxText = "";
+			design.BoxColor = Color.cyan;
 			(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = "";
+			(cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
+
 		}
 	}
 }
@@ -295,23 +298,24 @@ private function SetStringDataInOrder(cubes : Array , dataStrings : String[]) {
 
 var design : BoxDesign;
 	//sets string[0] to sceneCube[0] and string[7] to sceneCube[7] 
+	
 	for( var i:int;i<cubes.length;i++) {
+		design = new BoxDesign();
+
 		if(dataStrings[i] != "$CUBE_NOT_IN_USE$") {
-			design = new BoxDesign();
 			design.BoxText = dataStrings[i];
-			(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket =
-			 dataStrings[i];
+			(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = dataStrings[i];
 			 (cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
 		} else { // this box should not have a data packet / not in use
 			for( var cube : GameObject in cubes){
 				if((cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber == cube.GetComponent(BoxCollisionScript).MyIdNumber){
-					cube.renderer.material.color = Color.black;
+					design.BoxColor = Color.black;
+					design.BoxText = "";
 					cube.GetComponent(BoxCollisionScript).MyDataPacket = "";
+					(cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
+
 				}
 			}
-			
-			(cubes[i] as GameObject).renderer.material.color = Color.black;
-			(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = "";
 		}
 	}
 }
