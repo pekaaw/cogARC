@@ -1,4 +1,4 @@
-﻿#pragma strict
+#pragma strict
 import System.IO;
 import System;
 
@@ -43,14 +43,24 @@ public function ReadFile (fileContent : String) : List.<String> {
 	    ret.Add("-1");
 	    ret.Add(""+words.Length);
 	    ret.Add("-1");
+	    
+	    var indexOf : int;
+	    var letter : String;
 	   	for(var q : int = 0; q < words.Length; q++){
-	    	for(var p : int = 0; p < letters.Length; p++){
-	    		//Debug.LogWarning(words[q].IndexOf(letters[p]).ToString());
-	    		ret.Add(words[q].IndexOf(letters[p]).ToString());
-		    	//if(words[q].IndexOf(letters[p]), p){
-		    	//	ret.Add(p.ToString());
-		  		//}
-			}
+	    	for(var r : int = 0; r < words[q].Length; r++){
+				indexOf = -1;
+		    	for(var p : int = 0; p < letters.Length; p++){
+		    	
+		    		if(words[q][r] == letters[p]) {
+		    			indexOf = p;
+		    		}
+		    	}
+		    	if(indexOf != -1)
+		   			ret.Add(words[q][p].ToString());
+			    	//if(words[q].IndexOf(letters[p]), p){
+			    	//	ret.Add(p.ToString());
+			  		//}
+				}
 			ret.Add("-1");
 	   	}
 	   	c++;
