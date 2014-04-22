@@ -45,9 +45,11 @@ public function ReadFile (fileContent : String) : List.<String> {
 	    ret.Add("-1");
 	   	for(var q : int = 0; q < words.Length; q++){
 	    	for(var p : int = 0; p < letters.Length; p++){
-		    	if(words[q].Contains(letters[p])){
-		    		ret.Add(p.ToString());
-		  		}
+	    		//Debug.LogWarning(words[q].IndexOf(letters[p]).ToString());
+	    		ret.Add(words[q].IndexOf(letters[p],p).ToString());
+		    	//if(words[q].IndexOf(letters[p]), p){
+		    	//	ret.Add(p.ToString());
+		  		//}
 			}
 			ret.Add("-1");
 	   	}
