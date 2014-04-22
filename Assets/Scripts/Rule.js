@@ -28,6 +28,8 @@ private var guiBoxPosition : Rect;
 private var cogarcSkin : GUISkin;
 private var CubesData : Array;		//local copy of the data contained in the 
 
+
+
 function Awake() {
 	myMainCamera = GameObject.Find("ARCamera 1").camera;
 	levelCreator = gameObject.GetComponent(LevelCreator);
@@ -88,7 +90,6 @@ function DrawRectangleForGridHint(rect : Rect, colored : boolean)
     GUI.DrawTexture(rect, texture);
 }
 
-	GUI.Box (Rect (200,50,DebugText.Length*10,20),DebugText);
 
 public function MakeLocalCopyPacketData(cubesObjects : Array) {
 	CubesData = new Array();
@@ -475,6 +476,8 @@ function OnGUI () {
 	if(Time.timeScale == 0){
 		return;
 	}
+	GUI.Box (Rect (200,50,DebugText.Length*10,20),DebugText);
+
 	GUI.skin = cogarcSkin;
 	GUI.skin.box.fontSize = 50;
 	guiBoxPosition = Rect(200,15, Screen.width - 600, 250);
@@ -558,3 +561,12 @@ function OnGridGUI () {
 	}
 }
 
+
+function GetCubesData () : Array
+{
+	var tempArray : Array = new Array();
+	for(var a : String in CubesData){
+		tempArray.Push(a);
+	}
+	return tempArray;
+}

@@ -505,7 +505,7 @@ var goal : int = 0;
 function AnyWordCreator(){
 	var c : int = 0;
 	var newIndex : int = 0;
-	var tempArray : Array = ruleScript.CubesData;
+	var tempArray : Array = ruleScript.GetCubesData();
  	for(var q:int = 0; q < numberOfWordsThisLevel ; q ++) {
  		do{
  			newIndex = parseInt(WOOORDSFILE[c]);
