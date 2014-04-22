@@ -189,7 +189,10 @@ public function Test (boxes : List.<int>){
 		}
 		else // finishState is empty
 		{		//congrats, save score, load next level
-			gameObject.GetComponent(TimerAndScore).ResetTimeAndAddAsBonus();
+			if(GameObject.Find("SceneSequence").GetComponent(GameSceneSequence).IsThereMoreLevels()) {
+				gameObject.GetComponent(TimerAndScore).ResetTimeAndAddAsBonus();
+			}
+			
 			gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
 			yield WaitForSeconds (1);
 			

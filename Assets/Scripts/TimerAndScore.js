@@ -33,8 +33,13 @@ function ResetTimeAndAddAsBonus(){
 	if (timer > 0){
 		scoreBonuses += TimeScore();
 	}
+	
 	timeEstimate = lvlCre.Data.TimeEstimate;
-	timer = timeEstimate;
+	if(posNegative < 0) {
+		timer = timeEstimate;
+	} else {
+		timer = 0;
+	}
 	TimesUp = false;
 }
 

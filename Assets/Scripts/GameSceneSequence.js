@@ -34,6 +34,12 @@ function GetScore() : int {
 	return score;
 }
 
+function IsThereMoreLevels(): boolean {
+	var ret : boolean = (currentGameIndex < sequence.Count);
+	return ret;
+
+}
+
 function GetNextLevel():int {
 	currentGameIndex++;
 	if(currentGameIndex >= sequence.Count) {

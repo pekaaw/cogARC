@@ -138,9 +138,9 @@ function RegistrerScore() {
 	// add something to a int[] object.
 	var tempScoreArray : Array;
 	tempScoreArray = scoreArray;
-//	if(!tempScoreArray || tempScoreArray.length == 0){
-//		return;
-//	}
+	if(!tempScoreArray || tempScoreArray.length == 0){
+		tempScoreArray = new Array();
+	}
 	tempScoreArray.push(score);
 	
 	var tempIntArray = new int[tempScoreArray.length];
