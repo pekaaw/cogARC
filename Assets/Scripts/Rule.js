@@ -1,23 +1,18 @@
 ﻿#pragma strict
-private var functionPointer : Function = NULLFUNCTION;
-private var functionPointerSubRule : Function = NULLFUNCTION;
-private var functionPointerHintGUI : Function = NULLFUNCTION;
 //Enum defined in LevelCreator.js
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
-
 private var levelCreator : LevelCreator;
 
-private	var outputTextC : UnityEngine.TextMesh;
-private	var outputTextC2 : UnityEngine.TextMesh;
-private	var outputTextC3 : UnityEngine.TextMesh;
 private var DebugText : String = "Arne";
-
 private var isTextAnswer : boolean; 
-
 private static var historyHasChangedFromBefore : boolean = true; // if the boxes has been moved since last test()
 private static var historyGameState1 : int[];
 private static var historyGameState2 : int[]; //these are check against eachother to stabilize the inputdata
 private static var historyGameState3 : int[]; //tests are only done when all 3 are the same
+
+private var functionPointer : Function = NULLFUNCTION;
+private var functionPointerSubRule : Function = NULLFUNCTION;
+private var functionPointerHintGUI : Function = NULLFUNCTION;
 
 private static var colorColored : Color;
 private static var colorUncolored : Color;
@@ -29,8 +24,9 @@ private static var killHintPos : Vector3;
 private static var myMainCamera : Camera;
 
 private var boxPositions : Transform[];
-
-public var CubesData : Array;		//local copy of the data contained in the 
+private var guiBoxPosition : Rect;
+private var cogarcSkin : GUISkin;
+private var CubesData : Array;		//local copy of the data contained in the 
 
 function Awake() {
 	myMainCamera = GameObject.Find("ARCamera 1").camera;
@@ -41,9 +37,7 @@ function Awake() {
 		boxPositions[cube.GetComponent(BoxCollisionScript).MyIdNumber] = cube.transform;
 	}
 	
-	
-	
-	
+	cogarcSkin = Resources.Load("GUISkins/cogARC");
 }
 function Start() {
 	if(levelCreator.Data.CubeDesignsArray && levelCreator.Data.RuleEnum == ruleFunction.Grid) {
@@ -68,7 +62,6 @@ function Update () {
 		gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
 		levelCreator.LoadLevel();
 	}
-// outputTextC.text = currentState;
 }
 
 function ShowWrongMarker(pos : Transform){
@@ -95,10 +88,7 @@ function DrawRectangleForGridHint(rect : Rect, colored : boolean)
     GUI.DrawTexture(rect, texture);
 }
 
-function OnGUI () {
 	GUI.Box (Rect (200,50,DebugText.Length*10,20),DebugText);
-	functionPointerHintGUI();
-}
 
 public function MakeLocalCopyPacketData(cubesObjects : Array) {
 	CubesData = new Array();
@@ -115,6 +105,7 @@ public function MakeLocalCopyPacketData(cubesObjects : Array) {
 
 public function ruleSetup(isTextAnswerParam : boolean){
 	isTextAnswer = isTextAnswerParam;
+	
 	switch(levelCreator.Data.RuleEnum) {
 		case ruleFunction.Pair: 
 			functionPointer = PairTester;
@@ -480,26 +471,31 @@ function SetAdditionHintActive(Total : String,pos : Transform){
 	
 }
 
-function OnAdditionTotalGUI (TargetString) {
+function OnGUI () {
+	if(Time.timeScale == 0){
+		return;
+	}
+	GUI.skin = cogarcSkin;
+	GUI.skin.box.fontSize = 50;
+	guiBoxPosition = Rect(200,15, Screen.width - 600, 250);
+	functionPointerHintGUI();
+}
+
+function OnAdditionTotalGUI () {
 	OnPresetStringGUI();
 	
 }
 
 function OnPresetStringGUI () {
-// just show the text written in the inspector
-
+		GUI.Box (guiBoxPosition,levelCreator.Data.LevelGoalText);
 }
 
 function OnAdditionGUI () {
  //display answer for task and number of cubes to be used.
  if(levelCreator.Data.FinishState.Count > 0){
- 		var x1 : int = 20;
-		var y1 : int = 20;
-		var width : int = Screen.width - 2 * x1;
-		var height : int = Screen.height / 4;
 	 	var tempString : String;
 	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to add up to the target value: " + levelCreator.Data.FinishState[0];
-		GUI.Box (Rect (x1,y1,width,height),tempString);
+		GUI.Box (guiBoxPosition,tempString);
 		
 		if(!killHintOrder) { // if "the order" to "kill" the hint has not been given, display the hint.
 			GUI.Box(new Rect(killHintPos.x,Screen.height - killHintPos.y, 120, 25), "Your Total was " + killHintString);
@@ -513,13 +509,9 @@ function OnAdditionGUI () {
 function OnCompositeGUI () {
  //display answer for task and number of cubes to be used.
  if(levelCreator.Data.FinishState.Count > 0){
- 		var x1 : int = 20;
-		var y1 : int = 20;
-		var width : int = Screen.width - 2 * x1;
-		var height : int = Screen.height / 4;
 	 	var tempString : String;
 	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to spell the target number: " + levelCreator.Data.FinishState[0] + ". Sorry about the 6's and 9's you better try both... ";
-		GUI.Box (Rect (x1,y1,width,height),tempString);
+		GUI.Box (guiBoxPosition,tempString);
 	}
 }
 
@@ -538,7 +530,7 @@ function OnGridGUI () {
 		var textureA : Texture = Resources.Load("coloredtitle") as Texture; // images used for the grid-goal-visualizer
 		var textureB : Texture = Resources.Load("uncoloredtitle") as Texture;
 	
-		GUI.Box (Rect (x1,y1,width,height),"");
+		GUI.Box (guiBoxPosition,"");
 		if(levelCreator.Data.RuleEnum == ruleFunction.Grid) {
 			var scaleX : int = (height-margine) / 3 - margine;
 			var scaleY : int = scaleX;

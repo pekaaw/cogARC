@@ -20,33 +20,17 @@ function Awake() {
 	cogarcSkin = Resources.Load("GUISkins/cogARC");
 	wrapText = new GUIStyle();
 	wrapText.wordWrap = true;
+	wrapText.fontSize = 45;
 }
 
 function Start () {
 
-//	isActive = false;
 	screenWidth = Screen.width;
 	screenHeight = Screen.height;
 
 	setBoxSizes();
 }
 
-
-function Update () {
-
-	if(Input.GetKeyDown(KeyCode.Space))
-	{
-		if( cogarcSkin == null )
-		{
-			cogarcSkin = Resources.LoadAssetAtPath("Assets/Skins/cogARC.GUISkin", GUISkin);
-		}
-		else
-		{
-			cogarcSkin = null;
-		}
-	}
-
-}
 
 function Activate(header : String, hint : String, numberOfLevels : int, currentLevel : int) {
 	
@@ -58,8 +42,6 @@ function Activate(header : String, hint : String, numberOfLevels : int, currentL
 	gameHint = hint;
 	gameLevels  = numberOfLevels;
 	currentGameLevel = currentLevel;
-	//isActive = true;
-	//CubeContainer.SetActive(false);
 
 	StopTime();
 	isActive = true;
@@ -68,7 +50,6 @@ function Activate(header : String, hint : String, numberOfLevels : int, currentL
 function StopTime() {
 	Time.timeScale = 0;
 	CubeContainer.SetActive(false);
-	var c:int = 0;
 }
 function StartTime() {
 	Time.timeScale = 1;
@@ -79,6 +60,8 @@ function StartTime() {
 function OnGUI() {
 	if(isActive) {
 		GUI.skin = cogarcSkin;
+		GUI.skin.label.fontSize = 70;
+		
 	
 		// set screen size screen size has changed (example: orientation change)
 		if( screenWidth != Screen.width  || screenWidth != Screen.width) 
@@ -105,11 +88,6 @@ function OnGUI() {
 			
 		if( GUI.Button( startButtonBox, "Start!" ) )
 		{
-			// onClick
-			//UnityEngine.Object.Destroy(this);
-			//this.gameObject.SetActive(false);
-			
-			// ToDo: activate this level in some way here...
 			isActive = false;
 			StartTime();
 		}
@@ -120,7 +98,7 @@ function setBoxSizes() {
 	headlineBox.x = screenWidth * 1/4;			// x = 25%
 	headlineBox.y = screenHeight * 1/20;		// y = 5 %
 	headlineBox.width = screenWidth * 1/2;		// width = 50%
-	headlineBox.height = screenHeight * 15/100;	// height = 15%
+	headlineBox.height = screenHeight * 30/100;	// height = 15%
 	
 	instructionBox.x = screenWidth * 1/15;		// x = 10/150
 	instructionBox.y = screenHeight * 1/4;		// y = 25%
