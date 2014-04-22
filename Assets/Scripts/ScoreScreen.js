@@ -14,13 +14,14 @@ private var scoreArray : int[];
 private var scoresLoaded = false;
 private var GuiSkin : GUISkin = null;
 private var GameName : String = "";
-
+private var playerName : String = "";
 
 
 function Awake() {
 	timerAndScore = gameObject.GetComponent(TimerAndScore);
 	GuiSkin = Resources.Load("GUISkins/cogARC");
 	this.GameName = gameObject.GetComponent(LevelCreator).Data.GameName;
+	playerName = PlayerPrefs.GetString("UserName");
 }
 
 
@@ -102,7 +103,7 @@ function fillScoreArray() {
 	var scoreHolder = new Array();
 	
 	//Load scores from player prefs file.
-	scoreHolder = PlayerPrefsX.GetIntArray(GameName);
+	scoreHolder = PlayerPrefsX.GetIntArray(playerName + GameName);
 	
 	scoreHolder.sort();
 	//Gets the highest number at top.
@@ -152,7 +153,7 @@ function RegistrerScore() {
 		Debug.Log(i);
 	}
 	
-	var succes = PlayerPrefsX.SetIntArray(GameName, tempIntArray);
+	var succes = PlayerPrefsX.SetIntArray(playerName + GameName, tempIntArray);
 	if(succes == false){
 		Debug.Log("Didn't save!");
 	}
