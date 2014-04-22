@@ -56,7 +56,7 @@ public function ReadFile (fileContent : String) : List.<String> {
 		    		}
 		    	}
 		    	if(indexOf != -1)
-		   			ret.Add(words[q][p].ToString());
+		   			ret.Add(words[q][r].ToString());
 			    	//if(words[q].IndexOf(letters[p]), p){
 			    	//	ret.Add(p.ToString());
 			  		//}

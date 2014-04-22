@@ -504,17 +504,16 @@ var goal : int = 0;
 
 function AnyWordCreator(){
 	var c : int = 0;
-	var newIndex : int = 0;
+	var newLetter : String = "";
 	var tempArray : Array = ruleScript.GetCubesData();
  	for(var q:int = 0; q < numberOfWordsThisLevel ; q ++) {
  		do{
- 			newIndex = parseInt(WOOORDSFILE[c]);
+ 			newLetter = WOOORDSFILE[c];
  			for (var boxi : int = 0; boxi < tempArray.length; boxi++) {
-				if (dataStringsForWooords[newIndex] == tempArray[boxi])
+				if (newLetter == tempArray[boxi])
 				{
-					newIndex = boxi;
-		 			Data.FinishState.Add(newIndex);
-					boxi = tempArray.length;
+		 			Data.FinishState.Add(boxi);
+					boxi = tempArray.length; //break out of for loop
 				}
  				
  			}
