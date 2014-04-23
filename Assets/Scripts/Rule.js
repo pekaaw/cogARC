@@ -28,6 +28,7 @@ private var guiBoxPosition : Rect;
 private var cogarcSkin : GUISkin;
 private var CubesData : Array;		//local copy of the data contained in the 
 
+private var wrapText : GUIStyle;
 
 
 function Awake() {
@@ -40,6 +41,9 @@ function Awake() {
 	}
 	
 	cogarcSkin = Resources.Load("GUISkins/cogARC");
+	wrapText = new GUIStyle();
+	wrapText.wordWrap = true;
+	wrapText.fontSize = 45;
 }
 function Start() {
 	if(levelCreator.Data.CubeDesignsArray && levelCreator.Data.RuleEnum == ruleFunction.Grid) {
@@ -479,7 +483,7 @@ function OnGUI () {
 	if(Time.timeScale == 0){
 		return;
 	}
-	GUI.Box (Rect (200,50,DebugText.Length*10,20),DebugText);
+	GUI.Box (Rect (200,50,DebugText.Length*10,20),DebugText,wrapText);
 
 	GUI.skin = cogarcSkin;
 	GUI.skin.box.fontSize = 50;
@@ -501,10 +505,10 @@ function OnAdditionGUI () {
  if(levelCreator.Data.FinishState.Count > 0){
 	 	var tempString : String;
 	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to add up to the target value: " + levelCreator.Data.FinishState[0];
-		GUI.Box (guiBoxPosition,tempString);
+		GUI.Box (guiBoxPosition,tempString,wrapText);
 		
 		if(!killHintOrder) { // if "the order" to "kill" the hint has not been given, display the hint.
-			GUI.Box(new Rect(killHintPos.x,Screen.height - killHintPos.y, 120, 25), "Your Total was " + killHintString);
+			GUI.Box(new Rect(killHintPos.x,Screen.height - killHintPos.y, 120, 25), "Your Total was " + killHintString,wrapText);
 			
 			
 			//TODO::
@@ -517,7 +521,7 @@ function OnCompositeGUI () {
  if(levelCreator.Data.FinishState.Count > 0){
 	 	var tempString : String;
 	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to spell the target number: " + levelCreator.Data.FinishState[0] + ". Sorry about the 6's and 9's you better try both... ";
-		GUI.Box (guiBoxPosition,tempString);
+		GUI.Box (guiBoxPosition,tempString,wrapText);
 	}
 }
 
@@ -556,10 +560,10 @@ function OnGridGUI () {
 		}
 		figx +=  scaleX + margine * 2;
 		if(levelCreator.Data.HintHasTimeLimit){
-			GUI.Box (Rect (figx,y1,width - figx,height),"The figure will disappear in " + Mathf.RoundToInt(killHintTimer) + " seconds.");
+			GUI.Box (Rect (figx,y1,width - figx,height),"The figure will disappear in " + Mathf.RoundToInt(killHintTimer) + " seconds.",wrapText);
 		} else 
 		{
-			GUI.Box (Rect (figx,y1,width - figx,height),"You have no time-limit.\n Just place the cubes as you see on the figure as fast as possible.");
+			GUI.Box (Rect (figx,y1,width - figx,height),"You have no time-limit.\n Just place the cubes as you see on the figure as fast as possible.",wrapText);
 		}
 	}
 }
