@@ -15,12 +15,18 @@ private var currentGameLevel : int;
 private var CubeContainer : GameObject;
 private var counter : int = 0;
 private var wrapText : GUIStyle;
+private var highScoreScores : Array;
 
 function Awake() {
 	cogarcSkin = Resources.Load("GUISkins/cogARC");
 	wrapText = new GUIStyle();
 	wrapText.wordWrap = true;
 	wrapText.fontSize = 45;
+	
+	var userName : String = PlayerPrefs.GetString("UserName");
+	//Load scores from player prefs file.
+	highScoreScores = PlayerPrefsX.GetIntArray(userName + gameTitle);
+	
 }
 
 function Start () {
@@ -80,11 +86,8 @@ function OnGUI() {
 			instructionBox,
 			gameHint,wrapText
 			);
-	
-		GUI.Box(
-			highscoreBox,
-			"Highscore"
-			);
+			
+		highScore();
 			
 		if( GUI.Button( startButtonBox, "Start!" ) )
 		{
@@ -114,4 +117,45 @@ function setBoxSizes() {
 	startButtonBox.y = screenHeight * 4/5;		// y = 80%;
 	startButtonBox.width = screenWidth * 1/5;	// width = 1/5 of screen
 	startButtonBox.height = screenHeight * 1/10;	// height = 10%
+}
+
+function highScore() {
+
+	GUILayout.BeginArea(highscoreBox);
+	
+	var originalAlignment = GUI.skin.label.alignment;
+	var originalLabelFontSize = GUI.skin.label.fontSize;
+	//Anchor that text to the middle!
+	GUI.skin.label.alignment = TextAnchor.MiddleCenter;   
+	
+	GUI.skin.label.fontSize = 40;
+	
+	
+	
+	//Testing to make sure that we have the amount of scores needed.
+	if(highScoreScores.length < 10){
+		for(var i = highScoreScores.length; i < 10; i++){
+			highScoreScores.Add(i * 10);
+			highScoreScores[i] = i * 10;
+		}
+	}
+	highScoreScores.sort();
+	//Gets the highest number at top.
+	highScoreScores.reverse();
+	
+	if(highScoreScores.length > 10){
+		highScoreScores.length = 10;
+	}
+	
+	GUILayout.Label("Highscores:");
+	//GUILayout.Label(gameTitle);
+	for(i = 0; i < highScoreScores.length; i++){
+		GUILayout.Label("Number "+(i+1) + ": " + highScoreScores[i].ToString());
+		GUILayout.FlexibleSpace();
+	}
+
+	//Resests the alignment of text to the usual Middle Left.
+	GUI.skin.label.alignment = originalAlignment;
+	
+	GUILayout.EndArea();
 }
