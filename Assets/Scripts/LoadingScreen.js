@@ -16,13 +16,14 @@ private var CubeContainer : GameObject;
 private var counter : int = 0;
 private var wrapText : GUIStyle;
 private var highScoreScores : Array;
+private var timerScript : TimerAndScore;
 
 function Awake() {
 	cogarcSkin = Resources.Load("GUISkins/cogARC");
 	wrapText = new GUIStyle();
 	wrapText.wordWrap = true;
 	wrapText.fontSize = 45;
-	
+	timerScript = gameObject.GetComponent(TimerAndScore);
 	var userName : String = PlayerPrefs.GetString("UserName");
 	//Load scores from player prefs file.
 	highScoreScores = PlayerPrefsX.GetIntArray(userName + gameTitle);
@@ -56,10 +57,18 @@ function Activate(header : String, hint : String, numberOfLevels : int, currentL
 function StopTime() {
 	Time.timeScale = 0;
 	CubeContainer.SetActive(false);
+	if(timerScript.CheckToggleTimerActive())
+	{
+		timerScript.ToggleTimerActive();
+	}
 }
 function StartTime() {
 	Time.timeScale = 1;
 	CubeContainer.SetActive(true);
+	if(!timerScript.CheckToggleTimerActive())
+	{
+		timerScript.ToggleTimerActive();
+	}
 
 }
 

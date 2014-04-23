@@ -64,7 +64,9 @@ function Update () {
 	}								// hint is displayed when this is greater than 0;
 	else 
 	{
-		gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
+		if(gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive()) {
+			gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
+		}
 		levelCreator.LoadLevel();
 	}
 }
@@ -192,7 +194,9 @@ public function Test (boxes : List.<int>){
 		}
 		else // finishState is empty
 		{		//congrats, save score, load next level
-			gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
+			if(gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive()) {
+				gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
+			}
 			yield WaitForSeconds (1);
 			
 			levelCreator.LoadLevel();
