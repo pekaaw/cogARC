@@ -2,7 +2,6 @@
 //Enum defined in LevelCreator.js
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
 private var levelCreator : LevelCreator;
-
 private var DebugText : String = "Arne";
 private var isTextAnswer : boolean; 
 private static var historyHasChangedFromBefore : boolean = true; // if the boxes has been moved since last test()
