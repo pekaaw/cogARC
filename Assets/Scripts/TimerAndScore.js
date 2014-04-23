@@ -27,7 +27,7 @@ function Start () {
 		posNegative = 1;
 	}
 }
-
+/*
 function ResetTimeAndAddAsBonus(){
 	var lvlCre : LevelCreator = GameObject.Find("Scripts").GetComponent(LevelCreator);
 	if (timer > 0){
@@ -41,7 +41,7 @@ function ResetTimeAndAddAsBonus(){
 		timer = 0;
 	}
 	TimesUp = false;
-}
+}*/
 
 function Update () {
 	if(toggleTimerCountUp){
@@ -112,6 +112,7 @@ function makeTimerText() {
 }
 
 function getScore(){
+	score = TimeScore() + scoreBonuses;
 	return score;
 }
 

@@ -494,6 +494,9 @@ function WholeLinerCreator(){
 
 function CompositeNumberCreator(){
 var goal : int = 0;
+var tempFloat : float = 0.0f;
+	tempFloat = (currentLevel + 0.0f)/(Data.numberOfLevels + 0.0f);
+	Data.CurrentNumberOfBoxesUsedForTask = Mathf.Lerp(Data.MinNumberOfBoxesUsedForTask, Data.MaxNumberOfBoxesUsedForTask, tempFloat);
 	for(var q : int = 0 ; q < Data.CurrentNumberOfBoxesUsedForTask ; q++)
 	{
 		goal *= 10;

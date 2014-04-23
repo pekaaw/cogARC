@@ -64,7 +64,6 @@ function Update () {
 	}								// hint is displayed when this is greater than 0;
 	else 
 	{
-		gameObject.GetComponent(TimerAndScore).ResetTimeAndAddAsBonus();
 		gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
 		levelCreator.LoadLevel();
 	}
@@ -193,10 +192,6 @@ public function Test (boxes : List.<int>){
 		}
 		else // finishState is empty
 		{		//congrats, save score, load next level
-			if(GameObject.Find("SceneSequence").GetComponent(GameSceneSequence).IsThereMoreLevels()) {
-				gameObject.GetComponent(TimerAndScore).ResetTimeAndAddAsBonus();
-			}
-			
 			gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
 			yield WaitForSeconds (1);
 			
@@ -272,23 +267,30 @@ private function HumanReadableTester (boxes : List.<int>) {
 
 private function compositeNumbersTester(boxes : List.<int>){
 	var c : int = 0;
-	var answer : int = 0;
 	var tempIntCaster : int = 0;
-	while(c < boxes.Count && c < levelCreator.Data.FinishState.Count - 1)
+	var numberOfDegits : int = 0;
+	while(c < boxes.Count )
 	{
-		tempIntCaster *= 10;
-		tempIntCaster += parseInt(CubesData[boxes[c]] as String);
-		c++;
-	}
-	if(tempIntCaster == levelCreator.Data.FinishState[0]) {
-			Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
-			for(var pk : int = 0 ; pk < c ; pk++){
-				ShowCorrectMarker(boxPositions[boxes[pk]]); //on all the boxes used
+		if(boxes[c] == -1) { //try next "word"
+			tempIntCaster = 0;
+			numberOfDegits = 0;
+		
+		} else {
+			tempIntCaster *= 10;
+			numberOfDegits ++;
+			tempIntCaster += parseInt(CubesData[boxes[c]] as String);
+		
+			if(tempIntCaster == levelCreator.Data.FinishState[0] 
+				&& numberOfDegits == levelCreator.Data.CurrentNumberOfBoxesUsedForTask) 
+			{
+				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
+				ShowCorrectMarker(boxPositions[boxes[c]]); //on all the boxes used
 				gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
-
+				levelCreator.Data.FinishState.Clear();
+				return;
 			}
-			levelCreator.Data.FinishState.Clear();
-			return;
+		}
+		c++;
 	}
 }
 
@@ -316,8 +318,8 @@ private function AdditionTester(boxes : List.<int>){
 				levelCreator.Data.FinishState.Clear();
 
 				return;
-			} else { // else give a penalty
-				gameObject.GetComponent(TimerAndScore).scoreBonus(-levelCreator.Data.CorrectBonus);		
+			} else { // else give a penalty? penalty in this game is overpowered so we removed it
+				//gameObject.GetComponent(TimerAndScore).scoreBonus(-levelCreator.Data.CorrectBonus);		
 
 			
 			}
