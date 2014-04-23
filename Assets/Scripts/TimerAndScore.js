@@ -9,13 +9,17 @@ private var GuiSkin : GUISkin = null;
 private var timeEstimate : float;
 private var PlacementRectangle : Rect = Rect(Screen.width-450,20,445,400);
 private var posNegative : int; // this is +1 or -1 depending on wether the time is counting up or down
+private var gameSequence : GameSceneSequence;
 public var toggleTimerCountUp : boolean;
 public var TimesUp : boolean = false;
 
 
 function Start () {
 	var lvlCre : LevelCreator = GameObject.Find("Scripts").GetComponent(LevelCreator);
+	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
+
 	scoreBonuses = 0;//lvlCre.Data.CorrectBonus;
+	scoreBonuses += gameSequence.GetScore();
 	timeEstimate = lvlCre.Data.TimeEstimate * lvlCre.Data.numberOfLevels;
 	GuiSkin = Resources.Load("GUISkins/cogARC");
 	if(lvlCre.Data.HasTimeLimit){

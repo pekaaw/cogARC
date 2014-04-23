@@ -50,7 +50,7 @@ function Awake() {
 	ruleScript =  gameObject.GetComponent(Rule);
 
 	loadingScript = gameObject.GetComponent(LoadingScreen);
-	gameSequence= GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
+	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
 
 	LoadLevel();
 }
@@ -71,7 +71,6 @@ function LoadLevel(){
 		currentLevel++;
 		redoCreation();	//load next level of same game
 		loadingScript.Activate(Data.GameName, Data.LevelGoalText, Data.numberOfLevels, currentLevel);
-		gameObject.GetComponent(TimerAndScore).scoreBonus(gameSequence.GetScore());
 		if(	!gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive())  //unpause the timer
 		{
 			gameObject.GetComponent(TimerAndScore).ToggleTimerActive(); //unpause the timer
