@@ -356,7 +356,7 @@ private function PresetAdditionNumbers(){
 		for(var cube : UnityEngine.GameObject in unsortedCubes)
 		{
 			design = Data.CubeDesignsArray[cube.GetComponent(BoxCollisionScript).MyIdNumber] as BoxDesign;
-			tempInt = Random.Range(0, (currentLevel + 1) * 10) - (currentLevel + 1) * 5;
+			tempInt = Random.Range(0, (currentLevel + 1) + 5) - (currentLevel + 2);
 			if(tempInt < 0){
 				tempString = tempInt + "";
 			} else

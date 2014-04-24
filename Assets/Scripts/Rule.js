@@ -197,7 +197,7 @@ public function Test (boxes : List.<int>){
 				gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
 			}
 			yield WaitForSeconds (1);
-			
+			killHintOrder = true;// hides the hint when addition rule
 			levelCreator.LoadLevel();
 		}
 	}
