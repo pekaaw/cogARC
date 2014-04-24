@@ -15,8 +15,10 @@ public static var buttonStyle : GUIStyle;
 
 private var textFieldStyle : GUIStyle;
 
+private var mainMenu : GameObject;
+
 function Start () {
-	Debug.Log("Start RegisterName.js");
+	//Debug.Log("Start RegisterName.js");
 	
 	// Get stored username and if empty, put default string there
 	storedName = PlayerPrefs.GetString("UserName", stringToEdit);
@@ -34,10 +36,9 @@ function Start () {
 	
 	inputStyle = null;
 	textFieldStyle = null;
-}
-
-function Update () {
-
+	
+	mainMenu = GameObject.Find("Main Menu");
+	mainMenu.SetActive(false);
 }
 
 function OnGUI () {
@@ -114,10 +115,14 @@ function OnGUI () {
 		// store username in player preferances
 		PlayerPrefs.SetString("UserName", storedName);
 		
+		//Find main menu and activate
+		if(mainMenu)
+			mainMenu.SetActive(true);
 		// Remove this script and what it's gui
 		UnityEngine.Object.Destroy(this);
 		
 		// Load mainscreen
-		Application.LoadLevel( 0 );
+		//Application.LoadLevel( 0 );
+		
 	}
 }

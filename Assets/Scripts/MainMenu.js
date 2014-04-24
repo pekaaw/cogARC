@@ -69,6 +69,10 @@ function OnGUI () {
 	if(GUILayout.Button("Quit")){
 		Application.Quit();
 	}
+	if(GUILayout.Button("Name")){
+		var obj = new GameObject("Empty");
+		obj = Instantiate(Resources.Load("Prefab/RegisterName"));
+	}
 	GUILayout.FlexibleSpace();
 	GUILayout.EndHorizontal();
 	GUILayout.EndArea();
