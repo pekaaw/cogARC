@@ -28,8 +28,7 @@ function OnGUI () {
 		GUILayout.BeginArea(PauseScreenRect);
 		GUILayout.BeginVertical();
 		GUILayout.FlexibleSpace();
-		//GEts us buttons in a row
-		GUILayout.BeginHorizontal();
+		
 		if(GUILayout.Button("RESUME")){
 			togglePauseScreen();
 		}
@@ -38,8 +37,6 @@ function OnGUI () {
 			//Reloads the level
 			Application.LoadLevel(Application.loadedLevel);
 		}
-		//Ends our row of two buttons
-		GUILayout.EndHorizontal();
 		
 		GUILayout.FlexibleSpace();
 		if(GUILayout.Button("Main Menu")){
