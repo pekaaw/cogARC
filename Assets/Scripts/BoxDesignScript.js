@@ -152,17 +152,20 @@ class BoxDesignScript extends MonoBehaviour {
 		// never ever more than 5.
 		if( scaleX > 5 )
 		{
-			scaleX = 1;
+			scaleX = 5;
 		}
 		if( scaleY > 5 )
 		{
-			scaleY = 1;
+			scaleY = 5;
 		}
 		
-		newScale = Mathf.Min(scaleX, scaleY) * 0.7;
-		
+		//newScale = Mathf.Min(scaleX, scaleY) * 0.7;
+		if(cubeText.text.Length != 0){
+			cubeText.characterSize = 1;
+			cubeText.characterSize = (cubeText.characterSize * 2) / cubeText.text.Length; //BECAUSE UNITY IS BEEEING A BIATCH!!!!!
+		}
 		// Change scale of text so that it will fit onto the cube
-		cubeText.transform.localScale = Vector2( newScale, newScale );
+		//cubeText.transform.localScale = Vector2( newScale, newScale );
 	}
 	private function setMeUp(){
 		// Create GameObject to put text on. Bind it to box.
