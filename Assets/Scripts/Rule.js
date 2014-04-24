@@ -279,15 +279,18 @@ private function compositeNumbersTester(boxes : List.<int>){
 			numberOfDegits = 0;
 		
 		} else {
-			tempIntCaster *= 10;
-			numberOfDegits ++;
+			tempIntCaster *= 10; // the old state is multiplied by 10, this does nothing the first time (0 * 10 = 0) in each word
+			numberOfDegits ++; // counting number of digits in the current
 			tempIntCaster += parseInt(CubesData[boxes[c]] as String);
 		
-			if(tempIntCaster == levelCreator.Data.FinishState[0] 
+			if(tempIntCaster == levelCreator.Data.FinishState[0] // if the answer is right and you used enough cubes and not to many
 				&& numberOfDegits == levelCreator.Data.CurrentNumberOfBoxesUsedForTask) 
 			{
 				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
-				ShowCorrectMarker(boxPositions[boxes[c]]); //on all the boxes used
+				for(var l : int = c ; l > c - numberOfDegits ; l --)
+				{
+					ShowCorrectMarker(boxPositions[boxes[l]]); //on all the boxes used
+				}
 				gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
 				levelCreator.Data.FinishState.Clear();
 				return;
