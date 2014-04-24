@@ -4,7 +4,7 @@ public var PauseScreenLogo : Texture;
 public var PauseLogoPosition : Rect;
 public var ButtonFontSize : int = 50;
 
-private var PauseScreenRect = Rect(Screen.width/2 - 400,500,400,200);
+private var PauseScreenRect = Rect(Screen.width/2 - 150,500,300,200);
 private var GuiSkin : GUISkin = null;
 private var Pause = false;
 
