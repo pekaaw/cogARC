@@ -9,18 +9,50 @@ public var GuiSkin : GUISkin = null;
 public var ButtonFontSize : int = 50;
 private var gameSequence : GameSceneSequence;
 
+private var icons : Texture2D[]; // = new Texture[9];
+//private var icons = Resources.LoadAll.<Texture2D>("icons");
+
+
 private var MainMenuRect : Rect;
 
 function Start () {
+
+	//icons = Resources.LoadAll.<Texture2D>("icons");
+
+	// Create the icons array with the length of number of games
+	// + 2 for name registration and exit button.
+	icons = new Texture2D[NameOfGames.Length + 2];
+	
+	Debug.LogWarning("Icons lenght: " + icons.Length);
+
+	// Make proper name and load icons
 	for(var i = 0; i < NameOfGames.Length; i++){
+		
 		if(NameOfGames[i] == ""){
 			NameOfGames[i] = "Unnamed";
 		}
+		
+		// Load icon for the game.
+		// The game icon should have the same name as the icon (without file extension)
+		// If the game have no name, the unnamed icon will be displayed.
+		icons[i] = Resources.Load("icons/" + NameOfGames[i]) as Texture2D;
+
+		// If there is no icon for the game, the 'No Icon' icon will be displayed.
+		if( icons[i] == null ) {
+			icons[i] = Resources.Load("icons/No Icon") as Texture2D;
+		}
+		
 	}
+	
+	// Load icon for name registration and exit button
+	icons[i] = Resources.Load("icons/Your Name") as Texture2D;
+	icons[i+1] = Resources.Load("icons/Exit") as Texture2D;
+	
 	MainMenuRect = Rect((Screen.width/2) - 500,(Screen.height/2)- 200,
 		(Screen.width/2)+500,(Screen.height/2)+200);
 	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
 	gameSequence.ClearSequence();
+
 }
 
 function OnGUI () {
@@ -47,7 +79,7 @@ function OnGUI () {
 			GUILayout.EndHorizontal();
 			GUILayout.BeginHorizontal();
 		}
-		if(GUILayout.Button(NameOfGames[i])){
+		if(GUILayout.Button(icons[i])){
 			gameSequence.AddAtEnd(i+1);
 			Application.LoadLevel(gameSequence.GetNextLevel());
 		}
@@ -55,7 +87,7 @@ function OnGUI () {
 	}
 	GUILayout.EndHorizontal();
 	GUILayout.BeginHorizontal();
-	if(GUILayout.Button(NameOfGames[i+0])){
+	if(GUILayout.Button(icons[i+0])){
 	
 		var tempArray : Array = new Array();
 
@@ -66,10 +98,10 @@ function OnGUI () {
 		Application.LoadLevel(gameSequence.GetNextLevel());
 	}
 	GUILayout.FlexibleSpace();
-	if(GUILayout.Button("Quit")){
+	if(GUILayout.Button(icons[i+2])){
 		Application.Quit();
 	}
-	if(GUILayout.Button("Name")){
+	if(GUILayout.Button(icons[i+1])){
 		var obj = new GameObject("Empty");
 		obj = Instantiate(Resources.Load("Prefab/RegisterName"));
 	}
