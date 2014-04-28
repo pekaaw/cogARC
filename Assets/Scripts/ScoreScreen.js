@@ -46,10 +46,10 @@ function OnGUI() {
 		}
 		ScoreScreenRect = Rect(350,25,Screen.width - 700, Screen.height - 50);	
 		GUI.skin = GuiSkin;
-		var originalButtonSize = GUI.skin.button.fontSize;
-		var originalLabelSize = GUI.skin.label.fontSize;
-		GUI.skin.button.fontSize = ButtonFontSize;
-		GUI.skin.label.fontSize = LabelFontSize;
+		//var originalButtonSize = GUI.skin.button.fontSize;
+		//var originalLabelSize = GUI.skin.label.fontSize;
+		//GUI.skin.button.fontSize = ButtonFontSize;
+		//GUI.skin.label.fontSize = LabelFontSize;
 		
 		GUILayout.BeginArea(ScoreScreenRect);
 		GUILayout.BeginVertical("box");
@@ -57,8 +57,9 @@ function OnGUI() {
 		ScoreScreenGUILayout();
 		GUILayout.EndVertical();
 		GUILayout.EndArea();
-		GUI.skin.label.fontSize = originalLabelSize;
-		GUI.skin.button.fontSize = originalButtonSize;
+	//	GUI.skin.label.fontSize = originalLabelSize;
+	//	GUI.skin.button.fontSize = originalButtonSize;
+		GUI.skin.label.fontSize = Screen.height / 30;
 	}
 }
 
@@ -66,7 +67,6 @@ function ScoreScreenGUILayout() {
 	var originalAlignment = GUI.skin.label.alignment;
 	//Anchor that text to the middle!
 	GUI.skin.label.alignment = TextAnchor.MiddleCenter;   
-	
 	GUILayout.Label("Top " + NumberOfScores + " for :");
 	GUILayout.Label(GameName);
 	for(var i = 0; i < scoreArray.length; i++){
