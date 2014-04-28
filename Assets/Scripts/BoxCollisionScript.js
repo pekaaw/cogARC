@@ -61,6 +61,10 @@ function IWasWrongForOnce(){
 		obj = Instantiate(Resources.Load("Prefab/WrongMark"));
 		obj.transform.parent = transform;
 		obj.transform.position = transform.position;
+		
+		// Put it out of it's parent and rotate it to look nice
+		obj.transform.position.z -= 2;
+		obj.transform.rotation = Quaternion.Euler(120, 90, 90);
 		HasActiveWrongMarker = true;
 	}
 }
@@ -76,6 +80,11 @@ function IWasRightAllAlong(){
 		obj = Instantiate(Resources.Load("Prefab/RightMark"));
 		obj.transform.parent = transform;
 		obj.transform.position = transform.position;
+		
+		// Put it out of it's parent and rotate it to look nice
+		obj.transform.position.z -= 2;
+		obj.transform.rotation = Quaternion.Euler(120, 90, 90);
+
 		HasActiveCorrectMarker = true;
 	}
 }
