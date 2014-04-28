@@ -115,7 +115,7 @@ function setBoxSizes() {
 	highscoreBox.x = screenWidth * 9/15;		// x = 3/5
 	highscoreBox.y = screenHeight * 1/4;		// y = 25%
 	highscoreBox.width = screenWidth * 1/3;		// width = 1/3 of screen
-	highscoreBox.height = screenHeight * 1/2;	// height = 50%
+	highscoreBox.height = screenHeight * 2/3;	// height = 50%
 	
 	startButtonBox.x = screenWidth * 2/5;		// x = 2/5
 	startButtonBox.y = screenHeight * 4/5;		// y = 80%;
@@ -132,7 +132,7 @@ function highScore() {
 	//Anchor that text to the middle!
 	GUI.skin.label.alignment = TextAnchor.MiddleCenter;   
 	
-	GUI.skin.label.fontSize = 40;
+	GUI.skin.label.fontSize = (Screen.height / 30);
 	
 	//Testing to make sure that we have the amount of scores needed.
 	if(highScoreScores.length < 10){
