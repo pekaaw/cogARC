@@ -13,15 +13,9 @@ private var sortedCubes : Array = new Array();
 private var currentLevel: int = 0; // last level is one less than number of levels, starts at 0
 final private var colorsUsedForGrid : int = 2;
 private var additionTaskIsMadeInAdvance:boolean = true;
-
-
 private var dataStringsForWooords : String[];
 private var WOOORDSFILE : List.<String>;
 private var numberOfWordsThisLevel : int;
-
-//private var hasBeenSetUp : boolean = false;
-
-
 
 function Awake() {
 	if( Data == null ) {
@@ -32,7 +26,6 @@ function Awake() {
 		while(Data.CubeDesignsArray.Count < 10){
 			Data.CubeDesignsArray.Add( new BoxDesign());
 		}
-		
 		encodeDesignArray();
 		decodeDesignArray();
 	}
@@ -40,13 +33,6 @@ function Awake() {
 	{
 		decodeDesignArray();
 	}
-	
-	Debug.Log(Data.RuleEnum);
-	//for(var q : int = Data.CubeDesignsArray.length ; q < Data.numberOfCubes; q++) {
-		//Data.CubeDesignsArray.push(new BoxDesign());
-	//}
-	
-	//Data.gridGoalScript = GameObject.Find("GridGoal").GetComponent(GridGoalScript);
 	ruleScript =  gameObject.GetComponent(Rule);
 
 	loadingScript = gameObject.GetComponent(LoadingScreen);
@@ -55,119 +41,94 @@ function Awake() {
 	LoadLevel();
 }
 
-function Start () {
-	
-}
-
-function Update () {
-	//GameObject.Find("DebugText4").GetComponent(TextMesh).text = Data.SaveDesignString;
-
-}
-
 function LoadLevel(){
+	//Cleans up remaining data from previous level if this is not the first level.
 	AfterLevelCleanup();
 	
 	if (currentLevel < Data.numberOfLevels) {
 		currentLevel++;
 		redoCreation();	//load next level of same game
 		loadingScript.Activate(Data.GameName, Data.LevelGoalText, Data.numberOfLevels, currentLevel);
-		if(	!gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive())  //unpause the timer
+		if(	!gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive())  //Check the timer.
 		{
-			gameObject.GetComponent(TimerAndScore).ToggleTimerActive(); //unpause the timer
+			gameObject.GetComponent(TimerAndScore).ToggleTimerActive(); //Unpause the timer.
 		}
-
 	} else {
-	
-		//Application.Quit();
+		//We are out of level for this game and:
 		var nextLevel : int = gameSequence.GetNextLevel();
-		if(nextLevel == 0) // return to mainmenu
+		if(nextLevel == 0) //Return to mainmenu.
 		{
 			gameObject.GetComponent(ScoreScreen).RegistrerScore();
 			gameObject.GetComponent(ScoreScreen).toggleScreenVisibility();
 		} else {
 			gameSequence.SaveScore(gameObject.GetComponent(TimerAndScore).getScore());
-			Application.LoadLevel(nextLevel); //load next scene
+			Application.LoadLevel(nextLevel); //Load next scene.
 		}
 	}
-	
 }
 
 function AfterLevelCleanup(){
-	sortedCubes.clear(); // this is used to put the boxes in random order at the beginning of each level
+	sortedCubes.clear(); //This is used to put the boxes in random order at the beginning of each level.
 	Data.FinishState.Clear();
 }
 
 public function redoCreation() {
-// God, i am unsatisfied!
-	unsortedCubes = GameObject.FindGameObjectsWithTag("Player");
-	var nextItem : GameObject; //for making random order
+	unsortedCubes = GameObject.FindGameObjectsWithTag("Player");//Gets all the cubes.
+	var nextItem : GameObject; //For making random order.
 	var nextIndex : int;
-
 	var isTextAnswer : boolean = false;
-	//if(!hasBeenSetUp) {
-
-		switch(Data.RuleEnum) {
-			case ruleFunction.Pair:
-				functionPointerCreator = PairCreator;
-				functionPointerPreCreator = PresetActivateAll;		
-
-				break;
-			case ruleFunction.Tower:
-				functionPointerCreator = TowerCreator;
-				functionPointerPreCreator = NULLFUNCTION;
-				isTextAnswer = true;
-
-				break;
-			case ruleFunction.Grid:
-				functionPointerCreator = GridCreator;
-				functionPointerPreCreator = PresetGridDataBeforeSort;
-		
-				break;
-			case ruleFunction.HumanReadable: 
-				functionPointerCreator = HumanReadableCreator;
-				functionPointerPreCreator = NULLFUNCTION;
-				isTextAnswer = true;
-				break;
-		}
-		if(isTextAnswer){
-			switch(Data.CurrentSubRule) {
-				case subRule.Addition:
-					functionPointerSubCreator = AdditionCreator;
-					functionPointerPreCreator = PresetAdditionNumbers;
-					
-
-					break;
-				case subRule.CompositeNumbers:
-					functionPointerSubCreator = CompositeNumberCreator;
-					functionPointerPreCreator = setOneToNineNumbers;
-				
-					break;
-				case subRule.WholeLiner:
-					functionPointerSubCreator = WholeLinerCreator;
-					functionPointerPreCreator = PresetActivateAll;
-					break;
-				case subRule.AnyWord: 
-					functionPointerSubCreator = AnyWordCreator;
-					functionPointerPreCreator = PresetWoordsData;
-			
-				
-
-					break;
-				default: break;
-			}
-		}
-	//	hasBeenSetUp = true;
-	//}
 	
-	functionPointerPreCreator(); // set some data before the cubes are randomized
-		
-	ruleScript.MakeLocalCopyPacketData(unsortedCubes); //sets an array with copies of the cubes datapackets. for reference when checking finishstate.
-
-	ruleScript.ruleSetup(isTextAnswer); // sets the rules in the rulescript
+	//Sets function pointers to current game rules.
+	switch(Data.RuleEnum) {
+		case ruleFunction.Pair:
+			functionPointerCreator = PairCreator;
+			functionPointerPreCreator = PresetActivateAll;		
+			break;
+		case ruleFunction.Tower:
+			functionPointerCreator = TowerCreator;
+			functionPointerPreCreator = NULLFUNCTION;
+			isTextAnswer = true;
+			break;
+		case ruleFunction.Grid:
+			functionPointerCreator = GridCreator;
+			functionPointerPreCreator = PresetGridDataBeforeSort;
+			break;
+		case ruleFunction.HumanReadable: 
+			functionPointerCreator = HumanReadableCreator;
+			functionPointerPreCreator = NULLFUNCTION;
+			isTextAnswer = true;
+			break;
+	}
+	if(isTextAnswer){
+		switch(Data.CurrentSubRule) {
+			case subRule.Addition:
+				functionPointerSubCreator = AdditionCreator;
+				functionPointerPreCreator = PresetAdditionNumbers;
+				break;
+			case subRule.CompositeNumbers:
+				functionPointerSubCreator = CompositeNumberCreator;
+				functionPointerPreCreator = setOneToNineNumbers;
+			
+				break;
+			case subRule.WholeLiner:
+				functionPointerSubCreator = WholeLinerCreator;
+				functionPointerPreCreator = PresetActivateAll;
+				break;
+			case subRule.AnyWord: 
+				functionPointerSubCreator = AnyWordCreator;
+				functionPointerPreCreator = PresetWoordsData;
+				break;
+			default: break;
+		}
+	}
+	
+	functionPointerPreCreator(); //Set some data before the cubes are randomized.
+	ruleScript.MakeLocalCopyPacketData(unsortedCubes); //Sets an array with copies of the cubes datapackets. for reference when checking finishstate.
+	ruleScript.ruleSetup(isTextAnswer); //Sets the rules in the rulescript.
 	
 	for(var c: int = 0; c < Data.numberOfCubes; c++) {
 
-		nextIndex = Random.Range(0,unsortedCubes.length-1); //I am writing the magic number 10 here for number of cubes because unity won't let me use a variable for it, yeah so f...you unity
+		nextIndex = Random.Range(0,unsortedCubes.length-1);
 		
 		if((unsortedCubes[nextIndex] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket != "")
 		{
@@ -180,19 +141,16 @@ public function redoCreation() {
 	}
 	
 	functionPointerCreator();
-	
+	/*
 	var debugstate : String = "";
 	for(var q:int = 0 ; q < Data.FinishState.Count; q++) {
 		debugstate += Data.FinishState[q] + ", ";
 	}
 	Debug.Log("GOAL THIS ROUND IS\n" + debugstate);
+	*/
 }
 
-
-
 private function PairCreator () {
-	Debug.Log("Pair Creator");
-	
 	for(var c: int = 0; c < sortedCubes.Count; c+=2) {
 		var nextItem1 : GameObject;
 		var nextItem2 : GameObject; 
@@ -201,18 +159,7 @@ private function PairCreator () {
 		Data.FinishState.Add(nextItem1.GetComponent(BoxCollisionScript).MyIdNumber);
 		Data.FinishState.Add(nextItem2.GetComponent(BoxCollisionScript).MyIdNumber);
 		Data.FinishState.Add(-1);//separator to next pair
-		
-		
-		var myDebugColor : UnityEngine.Color;
-		switch(c) {
-			case 0 : myDebugColor = Color.red; break;
-			case 2 : myDebugColor = Color.blue; break;
-			case 4 : myDebugColor = Color.yellow; break;
-			case 6 : myDebugColor = Color.green; break;
-			case 8 : myDebugColor = Color.grey; break;
-			default : myDebugColor = Color.cyan; break;
-		}
-		
+
 		var tempCubeObject: GameObject = sortedCubes[c];
 		var tempDesignScript: BoxDesignScript = tempCubeObject.GetComponent(BoxDesignScript);
 		tempDesignScript.setDesign(Data.CubeDesignsArray[c] as BoxDesign,Data.DesignEnum);
@@ -220,30 +167,18 @@ private function PairCreator () {
 		tempCubeObject = sortedCubes[c+1];
 		tempDesignScript = tempCubeObject.GetComponent(BoxDesignScript);
 		tempDesignScript.setDesign(Data.CubeDesignsArray[c+1] as BoxDesign,Data.DesignEnum);
-			/*
-		(sortedCubes[c] as GameObject).renderer.material.color = myDebugColor;
-		(sortedCubes[c+1] as GameObject).renderer.material.color = myDebugColor;
-	*/	
-		// set skin A[c] to cube sortedCubes[c] 
-		// set skin B[c+1] to cube sortedCubes[c+1]
-		
 	}
 }
 
 private function TowerCreator () {
-	Debug.Log("Tower");
+	//Debug.Log("Tower");
 	functionPointerSubCreator();
 }
 
 private function HumanReadableCreator () {
-	Debug.Log("Human Readable");
+	//Debug.Log("Human Readable");
 	functionPointerSubCreator();
 }
-
-
-
-
-
 
 private function PresetWoordsData() {
 	var c : int = 0;
@@ -267,13 +202,10 @@ private function PresetWoordsData() {
 	SetStringDataInOrder(unsortedCubes , dataStringsForWooords);
 } 
 
-
-
-
 private function SetStringDataWithoutOrder(cubes : Array , dataStrings : String[]) {
 	var design : BoxDesign;
-	//sets string[0] to ParamCubes[0] and string[7] to ParamCubes[7] 
-	for( var i:int;i<cubes.length;i++) {
+	
+	for( var i:int = 0;i<cubes.length;i++) {
 	design = new BoxDesign();
 		if(dataStrings[i] != "$CUBE_NOT_IN_USE$") {
 			(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = dataStrings[i];
@@ -289,15 +221,11 @@ private function SetStringDataWithoutOrder(cubes : Array , dataStrings : String[
 	}
 }
 
-
+//This one is used for wo0ords.
 private function SetStringDataInOrder(cubes : Array , dataStrings : String[]) {
-
-//this one is used for wo0ords
-
-
-var design : BoxDesign;
+	var design : BoxDesign;
 	//sets string[0] to sceneCube[0] and string[7] to sceneCube[7] 
-	
+		
 	for( var i:int;i<cubes.length;i++) {
 		design = new BoxDesign();
 
@@ -312,7 +240,6 @@ var design : BoxDesign;
 					design.BoxText = "";
 					cube.GetComponent(BoxCollisionScript).MyDataPacket = "";
 					(cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
-
 				}
 			}
 		}
@@ -326,14 +253,12 @@ private function setOneToNineNumbers () {
 		arr.Push (q + "");
 	}
 	SetStringDataWithoutOrder(unsortedCubes, arr.ToBuiltin(String));
-
 }
 
 function PresetActivateAll() {
-	for(var cube : UnityEngine.GameObject in unsortedCubes)
-		{
+	for(var cube : UnityEngine.GameObject in unsortedCubes){
 			cube.GetComponent(BoxCollisionScript).MyDataPacket = "true";
-		}
+	}
 	return;
 }
 
@@ -351,10 +276,8 @@ private function PresetAdditionNumbers(){
 		}
 	}
 	
-	if(!additionTaskIsMadeInAdvance)
-	{
-		for(var cube : UnityEngine.GameObject in unsortedCubes)
-		{
+	if(!additionTaskIsMadeInAdvance){
+		for(var cube : UnityEngine.GameObject in unsortedCubes){
 			design = Data.CubeDesignsArray[cube.GetComponent(BoxCollisionScript).MyIdNumber] as BoxDesign;
 			tempInt = Random.Range(0, (currentLevel + 1) + 5) - (currentLevel + 2);
 			if(tempInt < 0){
@@ -365,9 +288,7 @@ private function PresetAdditionNumbers(){
 			}
 			design.BoxText = tempString;
 			cube.GetComponent(BoxCollisionScript).MyDataPacket = tempInt + "";
-						
 			cube.GetComponent(BoxDesignScript).setDesign( design, Data.DesignEnum);
-
 		}
 	}	
 	else 
@@ -379,13 +300,13 @@ private function PresetAdditionNumbers(){
 			while (tempString[0] == "+" || tempString[0] == " ") {
 				tempString = tempString.Substring(1, tempString.Length - 1);
 			}
-			try 
-			{
+			
+			try {
 				tempInt = parseInt(tempString);
-			}
-			catch (e) {
+			}catch (e) {
 				Debug.LogError(e + "\n Please set the data correctly if you are going to set it.");
 			}
+			
 			if(tempInt < 0){
 				tempString = tempInt + "";
 			} else
@@ -394,11 +315,8 @@ private function PresetAdditionNumbers(){
 			}
 			
 			cube.GetComponent(BoxCollisionScript).MyDataPacket = tempInt + "";
-
 			cube.GetComponent(BoxDesignScript).setDesign( design, Data.DesignEnum);
-	
 		}
-	
 	}
 }
 
@@ -408,92 +326,62 @@ private function PresetGridDataBeforeSort(){
 	if(Data.HintHasTimeLimit){
 		Data.CurrentGridHintValue =  Mathf.Lerp(Data.GridHintMinValue, Data.GridHintMaxValue, currentLevel/Data.numberOfLevels);
 	}
-
-	Debug.LogWarning((Data.CubeDesignsArray[0] as BoxDesign).BoxColor);
-	Debug.LogWarning((Data.CubeDesignsArray[1] as BoxDesign).BoxColor);
-
+	//Debug.LogWarning((Data.CubeDesignsArray[0] as BoxDesign).BoxColor);
+	//Debug.LogWarning((Data.CubeDesignsArray[1] as BoxDesign).BoxColor);
 	for(var cube : UnityEngine.GameObject in unsortedCubes){
 		var designScript: BoxDesignScript = cube.GetComponent(BoxDesignScript);
 	 	if(cube.GetComponent(BoxCollisionScript).MyIdNumber < coloredTitles){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "1";
 			designScript.setDesign(Data.CubeDesignsArray[0] as BoxDesign,Data.DesignEnum);
-			//cube.renderer.material.color = Color.red;
-
-	 		//::TO DO::set skin colored
 	 	}
 	 	else if (cube.GetComponent(BoxCollisionScript).MyIdNumber < Data.numberOfCubes-1){
 	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "0";
 			designScript.setDesign(Data.CubeDesignsArray[1] as BoxDesign,Data.DesignEnum);
-	 		//cube.renderer.material.color = Color.green;
-
-	 		//::TO DO::set skin uncolored
 	 	}
 	 	else {
 	 		cube.renderer.material.color = Color.black;
-
-	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "";//not in use
+	 		cube.GetComponent(BoxCollisionScript).MyDataPacket = "";//Not in use.
 	 	}
 	 	q++;
 	 }
 }
 
 private function GridCreator () {
-	Debug.Log("Grid");
 	var tempInt : int;
-	
-	
-	//var currentState : String = ""; 
-	
 
 	for(var cube : GameObject in sortedCubes){
 		tempInt = parseInt(cube.GetComponent(BoxCollisionScript).MyDataPacket);
-	//	Debug.Log("tempInt is: " + tempInt);
 		if(Data.FinishState.Count >= Data.numberOfCubes) {
 			return;
 		}
 		Data.FinishState.Add(tempInt);
-	//	currentState += cube.GetComponent(BoxCollisionScript).MyIdNumber + " ";
-	
-		
-		// TODO: remove debugstuff	
-		//Data.outputTextC4.text = currentState;
-
 	}
-	var c:int = 0;
-	c++;
 }
 
-
-
 function AdditionCreator() {
-
 	var tempInt : int = 0;
 	var tempFloat : float = 0.0f;
 
-	tempFloat = (currentLevel + 0.0f)/(Data.numberOfLevels + 0.0f);
+	tempFloat = (currentLevel + 0.0f)/(Data.numberOfLevels + 0.0f);//Gives you a float.
+	//Gives more coloured boxes as you progress.
 	Data.CurrentNumberOfBoxesUsedForTask = Mathf.Lerp(Data.MinNumberOfBoxesUsedForTask, Data.MaxNumberOfBoxesUsedForTask, tempFloat);
 	for(var i : int = 0 ; i < Data.CurrentNumberOfBoxesUsedForTask ; i++)
 	{
 		tempInt += parseInt((sortedCubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket);
 	}
 	Data.FinishState.Add(tempInt);
-
 }
 
 function WholeLinerCreator(){
-//strict string - should have full length
-	for(var i:int = 0; i < sortedCubes.length; i++)
-	{
+	for(var i:int = 0; i < sortedCubes.length; i++){
 		Data.FinishState.Add(i);
 	}
 	Data.FinishState.Add(-1);
-
-
 }
 
 function CompositeNumberCreator(){
-var goal : int = 0;
-var tempFloat : float = 0.0f;
+	var goal : int = 0;
+	var tempFloat : float = 0.0f;
 	tempFloat = (currentLevel + 0.0f)/(Data.numberOfLevels + 0.0f);
 	Data.CurrentNumberOfBoxesUsedForTask = Mathf.Lerp(Data.MinNumberOfBoxesUsedForTask, Data.MaxNumberOfBoxesUsedForTask, tempFloat);
 	for(var q : int = 0 ; q < Data.CurrentNumberOfBoxesUsedForTask ; q++)
@@ -502,11 +390,8 @@ var tempFloat : float = 0.0f;
 		goal += parseInt((sortedCubes[q] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket);
 	}
 	Data.FinishState.Add(goal);
-	Data.FinishState.Add(-1);
-	
-	
+	Data.FinishState.Add(-1)
 }
-
 
 function AnyWordCreator(){
 	var c : int = 0;
@@ -516,28 +401,23 @@ function AnyWordCreator(){
  		do{
  			newLetter = WOOORDSFILE[c];
  			for (var boxi : int = 0; boxi < tempArray.length; boxi++) {
-				if (newLetter == tempArray[boxi])
-				{
+				if (newLetter == tempArray[boxi]){
 		 			Data.FinishState.Add(boxi);
 					boxi = tempArray.length; //break out of for loop
 				}
- 				
  			}
-
  			c++;
  		} while(WOOORDSFILE[c] != "-1");
+ 		
  		Data.FinishState.Add(-1);
  		WOOORDSFILE.RemoveRange(0,c + 1);
  		c = 0;
- 	
  	}
    c++;
-
-
 }
 
 function NULLFUNCTION() {
-	//this function does nothing
+	//This function does nothing.
 	return;
 }
 
