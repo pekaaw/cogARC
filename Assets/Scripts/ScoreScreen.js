@@ -8,6 +8,7 @@ public var LabelFontSize : int = 50;
 private var ScoreScreenVisible = false;
 private var timerAndScore : TimerAndScore;
 private var pauseScript : PauseScreenScript;
+private var gameSequence : GameSceneSequence;
 private var ScoreScreenRect : Rect;
 private var score : int;
 private var scoreArray : Array = new Array();
@@ -23,6 +24,7 @@ LabelStyle.normal.textColor = Color.white;
 LabelStyle.fontSize = LabelFontSize;
 
 function Awake() {
+	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
 	pauseScript = gameObject.GetComponent(PauseScreenScript);
 	timerAndScore = gameObject.GetComponent(TimerAndScore);
 	GuiSkin = Resources.Load("GUISkins/cogARC");
@@ -95,6 +97,10 @@ function ScoreScreenGUILayout() {
 	GUILayout.BeginVertical();
 	GUILayout.FlexibleSpace();
 	if(GUILayout.Button("Play again!")){
+	
+	
+	
+		gameSequence.ReplayLevelHotFix();
 		Application.LoadLevel(Application.loadedLevel);
 	}
 	GUILayout.FlexibleSpace();

@@ -32,6 +32,10 @@ function IsThereMoreLevels(): boolean {
 	return ret;
 }
 
+function ReplayLevelHotFix() {
+	currentGameIndex --;
+}
+
 function GetNextLevel():int {
 	currentGameIndex++;
 	if(currentGameIndex >= sequence.Count) {
