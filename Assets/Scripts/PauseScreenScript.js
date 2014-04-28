@@ -8,6 +8,7 @@ private var hidden : boolean = false;
 private var PauseScreenRect = Rect(Screen.width/2 - 150,500,300,200);
 private var GuiSkin : GUISkin = null;
 private var Pause = false;
+private var CubeContainer : GameObject;
 
 function Awake(){
 	Pause = false;
@@ -71,8 +72,20 @@ function togglePauseScreen() {
 	Pause = !Pause;
 	if(Pause == true){
 		Time.timeScale = 0;
+		CubeContainer = GameObject.Find("CubeContainer");
+		if(!CubeContainer.transform.childCount){
+			CubeContainer = GameObject.Find("FrameMarkerContainer");
+		}
+		
+		CubeContainer.SetActive(false);
+
 	}
 	else {
+		if(!CubeContainer.transform.childCount){
+			CubeContainer = GameObject.Find("FrameMarkerContainer");
+		}
 		Time.timeScale = 1;
+		CubeContainer.SetActive(true);
+
 	}
 }
