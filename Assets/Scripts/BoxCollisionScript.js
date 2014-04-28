@@ -1,26 +1,55 @@
 #pragma strict
+public var HalfCubeScale:float = 0.6f;
+public var HasActiveCorrectMarker : boolean = false;
+public var HasActiveWrongMarker : boolean = false;
+public var MyDataPacket : String; //This box's data.
+public var MyIdNumber : int; //This boxs unik ID number.
+
 enum Sides {LEFT, BACK, RIGHT, FRONT, TOP , BOTTOM}; // copy of same in worldstate
 // Other scripts used by this:
 private var MyWorldCenterC : GyroRotor;
 private var myWorldState : WorldState;
 private var getRulesFromCreation : LevelCreator;
-
-private var RuleEnum : ruleFunction; // the current rule effects how the gamestate is set up
-var MyIdNumber : int; //this boxs unik ID number
-public var MyDataPacket : String; //this boxs data
-
+private var RuleEnum : ruleFunction; //The current rule effects how the gamestate is set up.
 private var markerWithTransform : GameObject;
 
-public var HalfCubeScale:float = 0.6f;
-
-public var HasActiveCorrectMarker : boolean = false;
-public var HasActiveWrongMarker : boolean = false;
-
-
-
-function Awake() {
-
-
+function Start () {
+	var tempObjectForFindingScripts : UnityEngine.GameObject;
+	
+	var transformDistributer : TransformDistributor;
+	var frameMarkerContainerTemp : GameObject;
+	frameMarkerContainerTemp = GameObject.Find("FrameMarkerContainer");
+	transformDistributer = frameMarkerContainerTemp.GetComponent(TransformDistributor);
+	if(!transformDistributer){
+		frameMarkerContainerTemp.AddComponent(TransformDistributor);
+		transformDistributer = frameMarkerContainerTemp.GetComponent(TransformDistributor);
+	}
+	
+	//markerWithTransform = transformDistributer.GetMarker(0);
+	markerWithTransform = transformDistributer.GetMarker(MyIdNumber);
+	
+	if(markerWithTransform){
+		gameObject.transform.parent = markerWithTransform.transform;
+		gameObject.transform.localPosition = Vector3(0,-HalfCubeScale,0);
+		gameObject.transform.localRotation = Quaternion.identity;
+		gameObject.transform.localScale = Vector3(HalfCubeScale * 2,HalfCubeScale * 2, HalfCubeScale * 2);
+	} else {
+		Debug.LogError("Something is wrong with a framemarker, or a framemarker is missing from ");
+	}
+	
+	tempObjectForFindingScripts =  GameObject.Find("Scripts");
+	myWorldState = tempObjectForFindingScripts.GetComponent(WorldState);
+	getRulesFromCreation = tempObjectForFindingScripts.GetComponent(LevelCreator);
+	
+	tempObjectForFindingScripts =  GameObject.Find ("RealworldaxisVisualizer");
+	if(tempObjectForFindingScripts){
+		MyWorldCenterC = tempObjectForFindingScripts.GetComponent(GyroRotor);
+	} else {
+		Application.Quit();
+	}
+	RuleEnum = getRulesFromCreation.Data.RuleEnum;
+	
+	
 }
 
 function IWasWrongForOnce(){
@@ -53,53 +82,7 @@ function IWasRightAllAlong(){
 	}
 }
 
-function Start () {
-	var tempObjectForFindingScripts : UnityEngine.GameObject;
-	
-	
-	var transformDistributer : TransformDistributor;
-	var frameMarkerContainerTemp : GameObject;
-	frameMarkerContainerTemp = GameObject.Find("FrameMarkerContainer");
-	transformDistributer = frameMarkerContainerTemp.GetComponent(TransformDistributor);
-	if(!transformDistributer){
-		frameMarkerContainerTemp.AddComponent(TransformDistributor);
-		transformDistributer = frameMarkerContainerTemp.GetComponent(TransformDistributor);
-	}
-	
-	//markerWithTransform = transformDistributer.GetMarker(0);
-	markerWithTransform = transformDistributer.GetMarker(MyIdNumber);
-	
-	if(markerWithTransform){
-		gameObject.transform.parent = markerWithTransform.transform;
-		gameObject.transform.localPosition = Vector3(0,-HalfCubeScale,0);
-		gameObject.transform.localRotation = Quaternion.identity;
-		gameObject.transform.localScale = Vector3(HalfCubeScale * 2,HalfCubeScale * 2, HalfCubeScale * 2);
 
-		
-	} else {
-	
-		Debug.LogError("Hakuna Matata"); // something is wrong with a framemarker, or a framemarker is missing from 
-	}
-	
-	
-	tempObjectForFindingScripts =  GameObject.Find("Scripts");
-	myWorldState = tempObjectForFindingScripts.GetComponent(WorldState);
-	getRulesFromCreation = tempObjectForFindingScripts.GetComponent(LevelCreator);
-	
-	tempObjectForFindingScripts =  GameObject.Find ("RealworldaxisVisualizer");
-	if(tempObjectForFindingScripts){
-		MyWorldCenterC = tempObjectForFindingScripts.GetComponent(GyroRotor);
-	} else {
-		Application.Quit();
-	}
-	RuleEnum = getRulesFromCreation.Data.RuleEnum;
-	
-	
-}
-
-function Update () {
-
-}
 
 function OnTriggerEnter (other : Collider) {
 	if(other.tag == "Player") {

@@ -29,27 +29,28 @@ private var CubesData : Array;		//local copy of the data contained in the
 
 private var wrapText : GUIStyle;
 
-
 function Awake() {
 	myMainCamera = GameObject.Find("ARCamera 1").camera;
 	levelCreator = gameObject.GetComponent(LevelCreator);
 	var tempArr : Array = GameObject.FindGameObjectsWithTag("Player");
 	boxPositions =  new Transform[levelCreator.Data.numberOfCubes];
+	
 	for(var cube :GameObject in tempArr) {
 		boxPositions[cube.GetComponent(BoxCollisionScript).MyIdNumber] = cube.transform;
 	}
-	
 	cogarcSkin = Resources.Load("GUISkins/cogARC");
 	wrapText = new GUIStyle();
 	wrapText.wordWrap = true;
 	wrapText.fontSize = 45;
+	var OnGridGUItextureA : Texture = Resources.Load("coloredtitle") as Texture; // images used for the grid-goal-visualizer
+	var OnGridGUItextureB : Texture = Resources.Load("uncoloredtitle") as Texture; // images used for the grid-goal-visualizer
 }
+
 function Start() {
 	if(levelCreator.Data.CubeDesignsArray && levelCreator.Data.RuleEnum == ruleFunction.Grid) {
 		colorColored = (levelCreator.Data.CubeDesignsArray[0] as BoxDesign).BoxColor;
 		colorUncolored = (levelCreator.Data.CubeDesignsArray[1] as BoxDesign).BoxColor;
 	}
-
 }
 
 function Update () {
@@ -59,8 +60,8 @@ function Update () {
 		for(var d : int  = 0 ; d < levelCreator.Data.FinishState.Count ; d++) {
 			currentState += levelCreator.Data.FinishState[d] + " ";
 		}
-		killHintTimer -=  Time.deltaTime; // only used for certain games but i don't want branching
-	}								// hint is displayed when this is greater than 0;
+		killHintTimer -=  Time.deltaTime; //Only used for certain games but i don't want branching.
+	}								//Hint is displayed when this is greater than 0.
 	else 
 	{
 		if(gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive()) {
@@ -72,9 +73,8 @@ function Update () {
 
 function ShowWrongMarker(pos : Transform){
 		pos.gameObject.GetComponent(BoxCollisionScript).IWasWrongForOnce();
-
-
 }
+
 function ShowCorrectMarker(pos : Transform){
 	pos.gameObject.GetComponent(BoxCollisionScript).IWasRightAllAlong();
 }
@@ -93,7 +93,6 @@ function DrawRectangleForGridHint(rect : Rect, colored : boolean)
     texture.Apply();
     GUI.DrawTexture(rect, texture);
 }
-
 
 public function MakeLocalCopyPacketData(cubesObjects : Array) {
 	CubesData = new Array();
@@ -130,7 +129,6 @@ public function ruleSetup(isTextAnswerParam : boolean){
 		case ruleFunction.HumanReadable: 
 			functionPointer = HumanReadableTester;
 			functionPointerHintGUI = OnPresetStringGUI;
-
 			break;
 	};
 	
@@ -154,16 +152,14 @@ public function ruleSetup(isTextAnswerParam : boolean){
 		}
 	}
 }
-
 //Task Completion Tests
-
 public function Test (boxes : List.<int>){
-	//boxes contains the id numbers of the boxes
+	//Boxes contains the id numbers of the boxes.
 	//This code block test to make sure that you get the same input three times
-	//	before it let you advance
+	//	before it let you advance.
 	if(gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive()) {
 		if(levelCreator.Data.FinishState.Count > 0 && !gameObject.GetComponent(TimerAndScore).TimesUp){
-	
+			//Saves the previous two game states.
 			historyGameState3 = historyGameState2;
 			historyGameState2 = historyGameState1;
 			historyGameState1 = boxes.ToArray();
@@ -175,20 +171,18 @@ public function Test (boxes : List.<int>){
 			
 			for(var c:int = 0 ; c < historyGameState1.length ; c ++) {
 				if(historyGameState1[c] != historyGameState2[c] || historyGameState2[c] != historyGameState3[c]) {
-					Debug.Log("Unexpected CHANGE in HISTORY");
+					//Debug.Log("Unexpected CHANGE in HISTORY");
 					historyHasChangedFromBefore = true;
 					killHintOrder = true;// hides the hint when addition rule
-
 					return;
 				}
 			}
+			//Checking of history is done here
 			if (!historyHasChangedFromBefore){
 				return;
 			}
 			historyHasChangedFromBefore = false;
 
-			//Checking of history is done here
-		 
 			functionPointer(boxes); //This is the testing
 		}
 		else // finishState is empty
@@ -201,7 +195,6 @@ public function Test (boxes : List.<int>){
 			levelCreator.LoadLevel();
 		}
 	}
-	
 }
 
 private function PairTester (boxes : List.<int>) {
@@ -213,15 +206,12 @@ private function PairTester (boxes : List.<int>) {
 				(historyGameState1[q + 1] == levelCreator.Data.FinishState[r] && historyGameState1[q] == levelCreator.Data.FinishState[r + 1])) 
 			{
 				if(q + 2 > historyGameState1.length && historyGameState1[q+2] != -1) {
-					Debug.Log("UNexpected Third Part OF a PaiR");
+					//Debug.Log("UNexpected Third Part OF a PaiR");
 					return;
 				}
 				//pair found
-				//light flares at the cubes with IDs levelCreator.Data.FinishState[r] and levelCreator.Data.FinishState[r+1]
-
 				ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r]]);
 				ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r+1]]);
-				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 				gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
 				for(var t:int = 0; t < 3; t++){ //remove finishState[r, r+1, r+2]
 					levelCreator.Data.FinishState.RemoveAt(r);
@@ -257,10 +247,9 @@ private function GridTester (boxes : List.<int>) {
 	levelCreator.Data.FinishState.Clear();
 	
 	for (var box : Transform in boxPositions){
-		ShowCorrectMarker(box); //on all the boxes used
+		ShowCorrectMarker(box); //On all the boxes used.
 	}
 	gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
-	Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 }
 
 private function HumanReadableTester (boxes : List.<int>) {
@@ -274,19 +263,18 @@ private function compositeNumbersTester(boxes : List.<int>){
 	var numberOfDegits : int = 0;
 	while(c < boxes.Count )
 	{
-		if(boxes[c] == -1) { //try next "word"
+		if(boxes[c] == -1) { //Try next "word".
 			tempIntCaster = 0;
 			numberOfDegits = 0;
 		
 		} else {
-			tempIntCaster *= 10; // the old state is multiplied by 10, this does nothing the first time (0 * 10 = 0) in each word
-			numberOfDegits ++; // counting number of digits in the current
+			tempIntCaster *= 10; //The old state is multiplied by 10, this does nothing the first time (0 * 10 = 0) in each word
+			numberOfDegits ++; // counting number of digits in the current.
 			tempIntCaster += parseInt(CubesData[boxes[c]] as String);
 		
-			if(tempIntCaster == levelCreator.Data.FinishState[0] // if the answer is right and you used enough cubes and not to many
+			if(tempIntCaster == levelCreator.Data.FinishState[0] //If the answer is right and you used enough cubes and not to many.
 				&& numberOfDegits == levelCreator.Data.CurrentNumberOfBoxesUsedForTask) 
 			{
-				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 				for(var l : int = c ; l > c - numberOfDegits ; l --)
 				{
 					ShowCorrectMarker(boxPositions[boxes[l]]); //on all the boxes used
@@ -320,14 +308,11 @@ private function AdditionTester(boxes : List.<int>){
 					ShowCorrectMarker(boxPositions[boxes[(c - pk-1)]]); //on all the boxes used
 				}
 				gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);		
-				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 				levelCreator.Data.FinishState.Clear();
 
 				return;
 			} else { // else give a penalty? penalty in this game is overpowered so we removed it
 				//gameObject.GetComponent(TimerAndScore).scoreBonus(-levelCreator.Data.CorrectBonus);		
-
-			
 			}
 		}
 		letterCount = 0;
@@ -339,7 +324,6 @@ private function AdditionTester(boxes : List.<int>){
 private function WholeLinerTester(boxes : List.<int>){
 	for (var c : int = 0 ; c < levelCreator.Data.FinishState.Count ; c++){
 		if (c == boxes.Count || boxes[c] != levelCreator.Data.FinishState[c]) {
-
 			return;
 		}
 	}
@@ -348,8 +332,6 @@ private function WholeLinerTester(boxes : List.<int>){
 	}
 	levelCreator.Data.FinishState.Clear();
 	gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
-
-	Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
 }
 
 private function AnyWordTester(boxes : List.<int>){ 
@@ -358,23 +340,11 @@ private function AnyWordTester(boxes : List.<int>){
 								contains "5,8,9" - False
 								contains "5,8,9,6,2" - False
 								contains "1,2,3" - True
-
 Note: only the word starting at index 0 of the finishstate will be used for testing
-		
-				*/
+*/
 	var inIndex:int = 0;
 	var finIndex:int = 0;	
-	
-	DebugText = "";
-	
-	for(var boxDebug : int in levelCreator.Data.FinishState) {
-		if(boxDebug != -1)
-			DebugText += CubesData[boxDebug] + " ";
-		else {
-			DebugText += ", ";
-		}
-	}
-	
+
 	while(inIndex < boxes.Count)
 	{
 		while(finIndex < levelCreator.Data.FinishState.Count)
@@ -384,37 +354,32 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 				var tempInIndex:int = inIndex;
 				var tempFinIndex:int = finIndex;
 				// while boxes follows the pattern of this word
-				while(tempInIndex < boxes.Count 
-				&& tempFinIndex < levelCreator.Data.FinishState.Count 
-				&& CubesData[boxes[tempInIndex]] + "" == CubesData[levelCreator.Data.FinishState[tempFinIndex]] + "" 
-				) {
-					
-					
+				while(tempInIndex < boxes.Count && tempFinIndex < levelCreator.Data.FinishState.Count 
+				&& CubesData[boxes[tempInIndex]] + "" == CubesData[levelCreator.Data.FinishState[tempFinIndex]] + "" ) {
+						
 					tempInIndex ++;
 					tempFinIndex ++;
-					if(levelCreator.Data.FinishState[tempFinIndex] == -1 && boxes[tempInIndex] == -1) // if a -1 is found for both at the same time we will have a correct word
+					if(levelCreator.Data.FinishState[tempFinIndex] == -1 && boxes[tempInIndex] == -1) //If a -1 is found for both at the same time we will have a correct word.
 					{
 						wordFound = true;
-						Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
-						// this should actually work for words, we could just make a really loooooooooooooooong finishstate and I am gonna keep on rambelling for  a while to annoy Daniel, because i know he really hates these long comments and then i am gonna add a really important message at the very end. and here it is, do not, ever, ever, ever run this algorithm without at the end having a -1
 						while (tempFinIndex < levelCreator.Data.FinishState.Count && levelCreator.Data.FinishState[tempFinIndex] == -1)
 						{
-							levelCreator.Data.FinishState.RemoveAt(tempFinIndex); // delete the -1 after the word and additional -1's after the word, this last part will mostly be skipped
+							levelCreator.Data.FinishState.RemoveAt(tempFinIndex); //Delete the -1 after the word and additional -1's after the word, this last part will mostly be skipped.
 						}
 						while ((tempFinIndex - 1) < levelCreator.Data.FinishState.Count && tempFinIndex > 0 && levelCreator.Data.FinishState[tempFinIndex-1] != -1) 
 						{
 							tempFinIndex--;
 							gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
 
-							ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[tempFinIndex]]); //on all the boxes used
-							levelCreator.Data.FinishState.RemoveAt(tempFinIndex); // remove the word it self, here we can count points for letters
+							ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[tempFinIndex]]); //On all the boxes used
+							levelCreator.Data.FinishState.RemoveAt(tempFinIndex); // remove the word it self, here we can count points for letters.
 							
 						}
-						return; // because I don't want to check if you have more than one word correct in the same frame.
+						return; //Because I don't want to check if you have more than one word correct in the same frame.
 					} else { 
-						if(levelCreator.Data.FinishState[tempFinIndex] == -1 || boxes[tempInIndex] == -1) //else did one of the words end?
+						if(levelCreator.Data.FinishState[tempFinIndex] == -1 || boxes[tempInIndex] == -1) //Else did one of the words end?
 						{
-							//if so skip both to the next word
+							//If so skip both to the next word.
 							while(tempFinIndex < levelCreator.Data.FinishState.Count && levelCreator.Data.FinishState[tempFinIndex] != -1){
 								tempFinIndex++;
 							}
@@ -435,7 +400,7 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 				finIndex++;
 			}
 		}
-		while (boxes[inIndex] != -1)//skip to next word,currentstate
+		while (boxes[inIndex] != -1)//Skip to next word,currentstate.
 		{
 			inIndex++;
 		}
@@ -443,41 +408,16 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 		finIndex = 0;
 	}
 }
-			
-
-		
-		/*
-		::::::::I WANT TO KEEP THIS UNTIL I KNOW THIS NEW THING WORKS
-		while(CubesData[boxes[i]] == CubesData[levelCreator.Data.FinishState[c]] && boxes[i] != -1) {
-			c++;
-			i++;
-			if(levelCreator.Data.FinishState[c] == -1 && boxes[i] == -1 && c > 1) {
-				Debug.Log("SUCCESS GOAL MET!!!!!!!!!!!!");
-				// ToDo: possibly, instead of Clear() we might just remove this word so 
-				// that we can have more than one word in the solution. this should actually work for words, we could just make a really loooooooooooooooong finishstate and I am gonna keep on rambelling for  a while to annoy Daniel, because i know he really hates these long comments and then i am gonna add a really important message at the very end.
-				
-				for(var w: int = 0; w < c ; w++) {
-					
-				}
-				
-				levelCreator.Data.FinishState.Clear();
-				return;
-			}
-		}
-		i++;
-	}
-	*/
 
 function NULLFUNCTION() {
-	//this function does nothing
+	//This function does nothing.
 	return;
 }
 
 function NULLFUNCTION(boxes : List.<int>) {
-	//this function does nothing
+	//This function does nothing.
 	return;
 }
-
 
 function SetAdditionHintActive(Total : String,pos : Transform){
 	
@@ -491,7 +431,7 @@ function OnGUI () {
 	if(Time.timeScale == 0){
 		return;
 	}
-	GUI.Box (Rect (200,50,DebugText.Length*10,20),DebugText,wrapText);
+	//GUI.Box (Rect (200,50,DebugText.Length*10,20),DebugText,wrapText);
 
 	GUI.skin = cogarcSkin;
 	GUI.skin.box.fontSize = 50;
@@ -501,7 +441,6 @@ function OnGUI () {
 
 function OnAdditionTotalGUI () {
 	OnPresetStringGUI();
-	
 }
 
 function OnPresetStringGUI () {
@@ -509,35 +448,33 @@ function OnPresetStringGUI () {
 }
 
 function OnAdditionGUI () {
- //display answer for task and number of cubes to be used.
- if(levelCreator.Data.FinishState.Count > 0){
+	 //Display answer for task and number of cubes to be used.
+ 	if(levelCreator.Data.FinishState.Count > 0){
 	 	var tempString : String;
 	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to add up to the target value: " + levelCreator.Data.FinishState[0];
 		GUI.Box (guiBoxPosition,tempString,wrapText);
 		
-		if(!killHintOrder) { // if "the order" to "kill" the hint has not been given, display the hint.
+		if(!killHintOrder) { //If "the order" to "kill" the hint has not been given, display the hint.
 			GUI.Box(new Rect(killHintPos.x,Screen.height - killHintPos.y, 120, 25), "Your Total was " + killHintString,wrapText);
-			
-			
-			//TODO::
 		}
 	}
 }
 
 function OnCompositeGUI () {
- //display answer for task and number of cubes to be used.
- if(levelCreator.Data.FinishState.Count > 0){
+	 //Display answer for task and number of cubes to be used.
+	 if(levelCreator.Data.FinishState.Count > 0){
 	 	var tempString : String;
-	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to spell the target number: " + levelCreator.Data.FinishState[0] + ". Sorry about the 6's and 9's you better try both... ";
+	 	tempString =  "Use " + levelCreator.Data.CurrentNumberOfBoxesUsedForTask + " boxes to spell the target number: "
+	 	 + levelCreator.Data.FinishState[0];
 		GUI.Box (guiBoxPosition,tempString,wrapText);
 	}
 }
 
 function OnGridGUI () {
-// display hit and show complete-state for grid for set amount of time
-	if((!levelCreator.Data.HintHasTimeLimit || killHintTimer > 0) && Time.timeScale > 0) 
-	{// only show while time is running and time has not run out or while time is running and you have infinete time 
-																						
+	//Display hit and show complete-state for grid for set amount of time.
+	//Only show while time is running and time has not run out or while time is running and you have infinete time .
+	if((!levelCreator.Data.HintHasTimeLimit || killHintTimer > 0) && Time.timeScale > 0) {
+		
 		var x1 : int = 20;
 		var y1 : int = 20;
 		var width : int = Screen.width - 2 * x1;
@@ -545,8 +482,6 @@ function OnGridGUI () {
 										//frame and also the
 										//height of the grid-goal-visualizer.
 		var margine : int = 5; //increasing this will make the grid-goal-visualizer smaller.
-		var textureA : Texture = Resources.Load("coloredtitle") as Texture; // images used for the grid-goal-visualizer
-		var textureB : Texture = Resources.Load("uncoloredtitle") as Texture;
 	
 		GUI.Box (guiBoxPosition,"");
 		if(levelCreator.Data.RuleEnum == ruleFunction.Grid) {
@@ -576,9 +511,7 @@ function OnGridGUI () {
 	}
 }
 
-
-function GetCubesData () : Array
-{
+function GetCubesData () : Array {
 	var tempArray : Array = new Array();
 	for(var a : String in CubesData){
 		tempArray.Push(a);

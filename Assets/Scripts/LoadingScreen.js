@@ -31,7 +31,6 @@ function Awake() {
 }
 
 function Start () {
-
 	screenWidth = Screen.width;
 	screenHeight = Screen.height;
 
@@ -49,7 +48,6 @@ function Activate(header : String, hint : String, numberOfLevels : int, currentL
 	gameHint = hint;
 	gameLevels  = numberOfLevels;
 	currentGameLevel = currentLevel;
-
 	StopTime();
 	isActive = true;
 }  
@@ -69,7 +67,6 @@ function StartTime() {
 	{
 		timerScript.ToggleTimerActive();
 	}
-
 }
 
 function OnGUI() {
@@ -77,10 +74,8 @@ function OnGUI() {
 		GUI.skin = cogarcSkin;
 		GUI.skin.label.fontSize = 70;
 		
-	
-		// set screen size screen size has changed (example: orientation change)
-		if( screenWidth != Screen.width  || screenWidth != Screen.width) 
-		{
+		//Set screen size screen size has changed (example: orientation change).
+		if( screenWidth != Screen.width  || screenWidth != Screen.width) {
 			screenWidth = Screen.width;
 			screenHeight = Screen.height;
 			setBoxSizes();
@@ -139,8 +134,6 @@ function highScore() {
 	
 	GUI.skin.label.fontSize = 40;
 	
-	
-	
 	//Testing to make sure that we have the amount of scores needed.
 	if(highScoreScores.length < 10){
 		for(var i = highScoreScores.length; i < 10; i++){
@@ -157,14 +150,11 @@ function highScore() {
 	}
 	
 	GUILayout.Label("Highscores:");
-	//GUILayout.Label(gameTitle);
 	for(i = 0; i < highScoreScores.length; i++){
 		GUILayout.Label("Number "+(i+1) + ": " + highScoreScores[i].ToString());
 		GUILayout.FlexibleSpace();
 	}
-
 	//Resests the alignment of text to the usual Middle Left.
 	GUI.skin.label.alignment = originalAlignment;
-	
 	GUILayout.EndArea();
 }

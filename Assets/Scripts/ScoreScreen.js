@@ -1,7 +1,6 @@
 ﻿#pragma strict
 #pragma downcast
 
-
 public var NumberOfScores : int = 10;
 public var ButtonFontSize : int = 50;
 public var LabelFontSize : int = 50;
@@ -16,14 +15,12 @@ private var GuiSkin : GUISkin = null;
 private var GameName : String = "";
 private var playerName : String = "";
 
-
 function Awake() {
 	timerAndScore = gameObject.GetComponent(TimerAndScore);
 	GuiSkin = Resources.Load("GUISkins/cogARC");
 	this.GameName = gameObject.GetComponent(LevelCreator).Data.GameName;
 	playerName = PlayerPrefs.GetString("UserName");
 }
-
 
 function Start () {
 	//Gives the game a name if there is no name
@@ -84,11 +81,9 @@ function ScoreScreenGUILayout() {
 	if(GUILayout.Button("Main Menu")){
 		//Return to scene 0
 		Application.LoadLevel(0);
-	}GUILayout.FlexibleSpace();
-	//if(GUILayout.Button("Next Game")){
-	//	//Yeah!
-	//}
-	
+	}
+	GUILayout.FlexibleSpace();
+
 	GUILayout.EndHorizontal();
 
 	//Resests the alignment of text to the usual Middle Left.
@@ -128,8 +123,6 @@ function toggleScreenVisibility(){
 	ScoreScreenVisible = !ScoreScreenVisible;
 }
 
-
-//This is run on quit
 //This saves the scores so it can be loaded later.
 function RegistrerScore() {
 	score = timerAndScore.getScore();
