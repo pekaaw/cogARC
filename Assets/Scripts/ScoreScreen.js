@@ -14,6 +14,12 @@ private var scoresLoaded = false;
 private var GuiSkin : GUISkin = null;
 private var GameName : String = "";
 private var playerName : String = "";
+private var LabelStyle : GUIStyle;
+	
+// Set a light colour on the text since the background is dark
+LabelStyle = new GUIStyle();
+LabelStyle.normal.textColor = Color.white;
+LabelStyle.fontSize = LabelFontSize;
 
 function Awake() {
 	timerAndScore = gameObject.GetComponent(TimerAndScore);
@@ -31,18 +37,29 @@ function Start () {
 	{
 		GameName = "Multy Game Combo";
 	}	
+	  
+
 }
 
 function OnGUI() {
 	//If it is active
 	if(ScoreScreenVisible){
 	
+		// Put a box that will cause the background to be darkened.
+		GUI.Box( Rect(0, 0, Screen.width, Screen.height), "" );
+		
 		if(scoresLoaded == false){
 			fillScoreArray();
 			scoresLoaded = true;
 		}
-		ScoreScreenRect = Rect(350,25,Screen.width - 700, Screen.height - 50);	
+		ScoreScreenRect = Rect(350,25,Screen.width - 700, Screen.height - 50);
+		
+		// Set the overall skin
 		GUI.skin = GuiSkin;
+		
+		// Set skin for the label (white text and bigger fontsize)
+		GUI.skin.label = LabelStyle;
+		
 		//var originalButtonSize = GUI.skin.button.fontSize;
 		//var originalLabelSize = GUI.skin.label.fontSize;
 		//GUI.skin.button.fontSize = ButtonFontSize;
@@ -56,14 +73,18 @@ function OnGUI() {
 		GUILayout.EndArea();
 	//	GUI.skin.label.fontSize = originalLabelSize;
 	//	GUI.skin.button.fontSize = originalButtonSize;
-		GUI.skin.label.fontSize = ScoreScreenRect.height /25;
+		GUI.skin.label.fontSize = Screen.height / 25;
+
+		// Reset the skin to default
+		GUI.skin.label = null;
 	}
 }
 
 function ScoreScreenGUILayout() {
 	var originalAlignment = GUI.skin.label.alignment;
 	//Anchor that text to the middle!
-	GUI.skin.label.alignment = TextAnchor.MiddleCenter;   
+	GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+	
 	GUILayout.Label("Top " + NumberOfScores + " for :");
 	GUILayout.Label(GameName);
 	for(var i = 0; i < scoreArray.length; i++){
@@ -72,7 +93,9 @@ function ScoreScreenGUILayout() {
 	}
 	GUILayout.Label("Score this game: " + score);
 	GUILayout.FlexibleSpace();
-	GUILayout.BeginHorizontal();
+	
+	//GUILayout.BeginHorizontal();
+	GUILayout.BeginVertical();
 	GUILayout.FlexibleSpace();
 	if(GUILayout.Button("Play again!")){
 		Application.LoadLevel(Application.loadedLevel);
@@ -84,7 +107,7 @@ function ScoreScreenGUILayout() {
 	}
 	GUILayout.FlexibleSpace();
 
-	GUILayout.EndHorizontal();
+	GUILayout.EndVertical();
 
 	//Resests the alignment of text to the usual Middle Left.
 	GUI.skin.label.alignment = originalAlignment;
