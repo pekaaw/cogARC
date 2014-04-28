@@ -35,18 +35,18 @@ function Start () {
 		// Load icon for the game.
 		// The game icon should have the same name as the icon (without file extension)
 		// If the game have no name, the unnamed icon will be displayed.
-		icons[i] = Resources.Load("icons/" + NameOfGames[i]) as Texture2D;
+		icons[i] = Resources.Load("icons/medium/" + NameOfGames[i]) as Texture2D;
 
 		// If there is no icon for the game, the 'No Icon' icon will be displayed.
 		if( icons[i] == null ) {
-			icons[i] = Resources.Load("icons/No Icon") as Texture2D;
+			icons[i] = Resources.Load("icons/medium/No Icon") as Texture2D;
 		}
 		
 	}
 	
 	// Load icon for name registration and exit button
-	icons[i] = Resources.Load("icons/Your Name") as Texture2D;
-	icons[i+1] = Resources.Load("icons/Exit") as Texture2D;
+	icons[i] = Resources.Load("icons/medium/Your Name") as Texture2D;
+	icons[i+1] = Resources.Load("icons/medium/Exit") as Texture2D;
 	
 //	MainMenuRect = Rect((Screen.width/2) - 500,(Screen.height/2)- 200,
 //		(Screen.width/2)+500,(Screen.height/2)+200);
