@@ -48,8 +48,6 @@ function Start () {
 		Application.Quit();
 	}
 	RuleEnum = getRulesFromCreation.Data.RuleEnum;
-	
-	
 }
 
 function IWasWrongForOnce(){
@@ -82,34 +80,19 @@ function IWasRightAllAlong(){
 	}
 }
 
-
-
-function OnTriggerEnter (other : Collider) {
-	if(other.tag == "Player") {
-	//	renderer.material.color = Color.blue;
-	
-	//var side : int = MyWorldCenterC.passCollitionData(this.gameObject.transform.position,other.gameObject.transform.position);
-	//myWorldState.SetData(MyIdNumber,other.gameObject.GetComponent(BoxCollisionScript).MyIdNumber, side);
-	}
-}
-
 function OnTriggerStay (other : Collider) {
 var verticalSide : int; // 0 : horizontal ; 1 : top ; 2 : bottom
 	if(other.tag == "Player" && MyDataPacket != "" && other.GetComponent(BoxCollisionScript).MyDataPacket != "") {
-		//renderer.material.color = Color.green;
-		
-		verticalSide = MyWorldCenterC.collisionIsVertical( // if the collision is not vertical 
+		verticalSide = MyWorldCenterC.collisionIsVertical( //If the collision is not vertical .
 				this.gameObject.transform.position,
 				other.gameObject.transform.position);
-		
-		
-		//::::::::: RULES : ROW , Pair , Human Readable , Grid , Calculus :::::::::::
-		if (!(verticalSide)) { // if the collision is not vertical 
-			if(RuleEnum != ruleFunction.Tower){	// if tower-rules are not in effect
+
+		//RULES : ROW , Pair , Human Readable , Grid , Calculus
+		if (!(verticalSide)) { //-if the collision is not vertical .
+			if(RuleEnum != ruleFunction.Tower){	//If tower-rules are not in effect.
 				var side : int;
 				var diffX : int  = gameObject.transform.position.x - other.gameObject.transform.position.x;
 				var diffZ : int  = gameObject.transform.position.y - other.gameObject.transform.position.y;
-		
 
 				if(Mathf.Abs(diffX) > Mathf.Abs(diffZ)) {
 					if(diffX > 0) {
@@ -119,9 +102,9 @@ var verticalSide : int; // 0 : horizontal ; 1 : top ; 2 : bottom
 					}
 				}
 				else {
-				// ::::::::::: IF HUMAN READABLE RULE RETURN 'FALSE' HERE
+				//IF HUMAN READABLE RULE RETURN 'FALSE' HERE
 				if(RuleEnum == ruleFunction.HumanReadable) {
-					return; // wrong direction readable
+					return; //Wrong direction readable.
 				}
 					if(diffZ > 0) {
 						side = Sides.FRONT;
@@ -136,19 +119,12 @@ var verticalSide : int; // 0 : horizontal ; 1 : top ; 2 : bottom
 				}
 			}
 		}
-		//::::::::: RULES : Tower :::::::::::
-
+		// RULES == Tower.
 		else {
-			//make a tower; uses verticalSide;
+			//Make a tower; uses verticalSide.
 			if (RuleEnum == ruleFunction.Tower) {
 				myWorldState.SetDataChainNonOverwrite(MyIdNumber,other.gameObject.GetComponent(BoxCollisionScript).MyIdNumber, verticalSide);
 			}
 		}
 	}
 }
-function OnTriggerExit (other : Collider) {
-	if(other.tag == "Player"){
-	//	renderer.material.color = Color.red;
-	}
-}
-	
