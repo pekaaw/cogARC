@@ -5,8 +5,8 @@ import System;
 public function ReadFile (fileContent : String) : List.<String> {
 	var splitOnThis : String[] = ["\n","\r"];
 	var charSplitOnThis : char[] = ["\n"[0], ","[0], " "[0],"\r"[0]];
-	var themeOfGame = lines[0].Substring((("Subject: ") as String).Length);
 	var lines = fileContent.Split(splitOnThis,StringSplitOptions.RemoveEmptyEntries);
+	var themeOfGame = lines[0].Substring((("Subject: ") as String).Length);
 	//Return value to contain all return stuffs
 	var ret : List.<String> = new List.<String>();
 	
