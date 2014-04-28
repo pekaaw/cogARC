@@ -16,6 +16,7 @@ private var functionPointerHintGUI : Function = NULLFUNCTION;
 private static var colorColored : Color;
 private static var colorUncolored : Color;
 
+private var hideGui : boolean = false;
 private static var killHintOrder : boolean = true;// hint is displayed while this is false;
 private static var killHintTimer : float;// hint is displayed when this is greater than 0 or -1;
 private static var killHintString : String;
@@ -190,7 +191,8 @@ public function Test (boxes : List.<int>){
 			if(gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive()) {
 				gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
 			}
-			yield WaitForSeconds (1);
+			yield WaitForSeconds (2);
+			HideGui();
 			killHintOrder = true;// hides the hint when addition rule
 			levelCreator.LoadLevel();
 		}
@@ -427,8 +429,16 @@ function SetAdditionHintActive(Total : String,pos : Transform){
 	
 }
 
+function HideGui() {
+	hideGui = true;
+}
+
+function ShowGui() {
+	hideGui = false;
+}
+
 function OnGUI () {
-	if(Time.timeScale == 0){
+	if(Time.timeScale == 0 || hideGui){
 		return;
 	}
 	//GUI.Box (Rect (200,50,DebugText.Length*10,20),DebugText,wrapText);

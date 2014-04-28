@@ -18,6 +18,7 @@ private var wrapText : GUIStyle;
 private var highScoreScores : Array;
 private var timerScript : TimerAndScore;
 private var pauseScript : PauseScreenScript;
+private var ruleScript : Rule;
 
 function Awake() {
 	cogarcSkin = Resources.Load("GUISkins/cogARC");
@@ -29,7 +30,7 @@ function Awake() {
 	//Load scores from player prefs file.
 	highScoreScores = PlayerPrefsX.GetIntArray(userName + gameTitle);
 	pauseScript = gameObject.GetComponent(PauseScreenScript);
-	
+	ruleScript = gameObject.GetComponent(Rule);
 }
 
 function Start () {
@@ -101,7 +102,7 @@ function OnGUI() {
 		{
 			pauseScript.Show();
 			timerScript.Show();
-
+			ruleScript.ShowGui();
 			isActive = false;
 			StartTime();
 		}

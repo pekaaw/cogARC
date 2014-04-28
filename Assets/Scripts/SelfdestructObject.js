@@ -1,6 +1,6 @@
 ﻿#pragma strict
 
-public var longlivety : float = 5.0;
+public var longlivety : float = 2.0;
 private var parentScript : BoxCollisionScript;
 function Start () {
 	parentScript = transform.parent.gameObject.GetComponent(BoxCollisionScript);
