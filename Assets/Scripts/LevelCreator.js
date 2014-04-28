@@ -390,7 +390,7 @@ function CompositeNumberCreator(){
 		goal += parseInt((sortedCubes[q] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket);
 	}
 	Data.FinishState.Add(goal);
-	Data.FinishState.Add(-1)
+	Data.FinishState.Add(-1);
 }
 
 function AnyWordCreator(){
