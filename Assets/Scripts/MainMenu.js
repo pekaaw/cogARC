@@ -48,8 +48,10 @@ function Start () {
 	icons[i] = Resources.Load("icons/Your Name") as Texture2D;
 	icons[i+1] = Resources.Load("icons/Exit") as Texture2D;
 	
-	MainMenuRect = Rect((Screen.width/2) - 500,(Screen.height/2)- 200,
-		(Screen.width/2)+500,(Screen.height/2)+200);
+//	MainMenuRect = Rect((Screen.width/2) - 500,(Screen.height/2)- 200,
+//		(Screen.width/2)+500,(Screen.height/2)+200);
+	MainMenuRect = Rect((Screen.width * 1/6),(Screen.height * 1/4),
+		(Screen.width * 2/3),(Screen.height * 1/2));
 	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
 	gameSequence.ClearSequence();
 
@@ -77,6 +79,7 @@ function OnGUI () {
 	for(i = 0; i < NameOfGames.Length - 1; i++){
 		if((i % ButtonsPerRow) == 0 && i > 0 ){
 			GUILayout.EndHorizontal();
+			GUILayout.FlexibleSpace();
 			GUILayout.BeginHorizontal();
 		}
 		if(GUILayout.Button(icons[i])){
@@ -85,8 +88,13 @@ function OnGUI () {
 		}
 		GUILayout.FlexibleSpace();
 	}
-	GUILayout.EndHorizontal();
-	GUILayout.BeginHorizontal();
+	//GUILayout.EndHorizontal();
+	//GUILayout.BeginHorizontal();
+	if((i % ButtonsPerRow) == 0 && i > 0 ){
+		GUILayout.EndHorizontal();
+		GUILayout.BeginHorizontal();
+	}
+	
 	if(GUILayout.Button(icons[i+0])){
 	
 		var tempArray : Array = new Array();
@@ -98,6 +106,7 @@ function OnGUI () {
 		Application.LoadLevel(gameSequence.GetNextLevel());
 	}
 	GUILayout.FlexibleSpace();
+	GUILayout.BeginVertical();
 	if(GUILayout.Button(icons[i+2])){
 		Application.Quit();
 	}
@@ -105,6 +114,7 @@ function OnGUI () {
 		var obj = new GameObject("Empty");
 		obj = Instantiate(Resources.Load("Prefab/RegisterName"));
 	}
+	GUILayout.EndVertical();
 	GUILayout.FlexibleSpace();
 	GUILayout.EndHorizontal();
 	GUILayout.EndArea();
