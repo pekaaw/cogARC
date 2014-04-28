@@ -10,7 +10,7 @@ function Update () {
 	longlivety -= Time.deltaTime;
 	
 	if(longlivety > 0){
-		//show thing
+		
 	}
 	else{
 		parentScript.HasActiveCorrectMarker = false;

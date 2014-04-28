@@ -2,37 +2,27 @@
 //other scripts used by this script
 private var getGodOfCreation : LevelCreator;
 private var getRules : Rule;
-
 // the current rule effects how the gamestate is set up
 private var RuleEnum : ruleFunction;
 
-//debug output on mobile devices
-private var outputTextC : UnityEngine.TextMesh;
-
 // GameState formated based on the ruleset currently in use.
-// this is sendt to the rulescript to see if the goal(s) has been met.
+// This is sendt to the rulescript to see if the goal(s) has been met.
 private var GameState : List.<int> = new List.<int>();
-
 //:::::option 1 ::::: List of chains
 private var chainsOfCubesTemp : int[];
 //::::::::::::::::::: END>List of chains
-
 //:::::option 2 ::::: square grid
 final private var GRID_ROW_SIZE : int = 3; // these two should be the same for reliability, but they don't have to be
 final private var GRID_COLUMN_SIZE : int = 3;
 final private var GRID_SIZE : int = GRID_ROW_SIZE * GRID_COLUMN_SIZE; //do not change this
-
 // NUMBER_OF_SIDES: Used in WorldState
 // 2 means up and down
 // 4 means horizontal sides
 // 6 means all sides
 final private var NUMBER_OF_SIDES : int = 6;
 final private var NUMBER_OF_CUBES : int  = 10;
-
 // WorldState will contain (NUMBER_OF_CUBES * NUMBER_OF_SIDES) ints with value -1.
 private var WorldState : int[];
-//::::::::::::::::::: END>square grid
-
 
 function Start() {
 	getGodOfCreation = GameObject.Find("Scripts").GetComponent(LevelCreator);
@@ -44,7 +34,7 @@ function Start() {
 	// Option 1: prepare a temp array for making chains in GameState
 	var arr : Array = new Array(); 
 	for ( var c : int = 0 ; c < (NUMBER_OF_CUBES * 2) ; c++) {
- 		arr.Push(0);
+		arr.Push(0);
 	}
  	chainsOfCubesTemp = arr.ToBuiltin(int);
  	
@@ -65,60 +55,48 @@ function Update () {
 			return;
 		}
 	}				
-	
-	//outputTextC.text = currentState;
-	// END OF DEBUGGING
 	if( GameState.Count < 2){
 		return;
 	}
 	// Test GameState against rules	
 	getRules.Test(GameState); // <- call rulefunction before ClearData. 
 	
-	//ALWAYS CALL ClearData BEFORE CHANGING THE RULES!!!!!!!!!!!	
+	//ALWAYS CALL ClearData BEFORE CHANGING THE RULES!
 	ClearData();
 }
 
 function SetDataWorldState(idNumber : int, otherIdNumber : int, sideHit : int) : void {
-	
 	var targetIndex : int = idNumber * NUMBER_OF_SIDES + sideHit;
 	
-	if(WorldState[targetIndex] < 0) 
-	{
+	if(WorldState[targetIndex] < 0) {
 		WorldState[targetIndex] = otherIdNumber;
 	}
-	else 
-	{
-	// :::::TO DO .... or maybe not :::: 	
-	// odd case : more than one collition on this side, do something smart!
+	else {
 		return;
 	}
 }
 
-function SetDataChain(idNumber : int, otherIdNumber : int, sideHit : int) : void 
-{
-	//front or left or top
+function SetDataChain(idNumber : int, otherIdNumber : int, sideHit : int) : void {
+	//Front, or left, or top.
 	if (sideHit == Sides.LEFT || sideHit == Sides.FRONT || sideHit == Sides.TOP) {
-		AddToChain(idNumber, otherIdNumber, true); // id before otherId
+		AddToChain(idNumber, otherIdNumber, true); //id before otherId.
 	} 
-	//else: back or right or bottom
+	//else: back, or right, or bottom.
 	else {
-		AddToChain(idNumber, otherIdNumber, false); // id after otherId
+		AddToChain(idNumber, otherIdNumber, false); //id after otherId.
 	}
 }
 
 function SetDataChainNonOverwrite(idNumber : int, otherIdNumber : int, sideHit : int) : void
 {
-	// side of cube (found in WorldState)
+	//Side of cube (found in WorldState).
 	var targetIndexInWorldState : int = idNumber * NUMBER_OF_SIDES + sideHit;
 	
-	if(WorldState[targetIndexInWorldState] < 0) 
-	{
+	if(WorldState[targetIndexInWorldState] < 0) {
 		WorldState[targetIndexInWorldState] = otherIdNumber;
 		SetDataChain(idNumber,otherIdNumber, sideHit);
 	}
 	else {
-	// :::::TO DO NOTHING:::: 	
-	// Odd case : more than one collition on this side, do something smart!
 		return;
 	}
 }
@@ -146,22 +124,18 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 										 //returns -1 is not found.
 	indexOther = GameState.IndexOf(otherIdNumber);
 
-	
 	if(Mathf.Abs(index - indexOther) == 1 && index != -1 && indexOther != -1) {
 		return; //These have already been connected : the difference in index is 1 and both are in the list.
 	}
-	
 	// If the first cube (index) is not in the list.
 	if(index == -1) {
 		//the indexOther is not in the list so add new.
 		if(indexOther == -1) {
 			//Add new pair at the end.
 			if(leftOfOther) {
-
 				addPairAtEnd(idNumber,otherIdNumber);
 
 			} else {
-
 				addPairAtEnd(otherIdNumber,idNumber);
 			}
 		} 
@@ -169,10 +143,8 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 		else {
 			//Connect new to 'other'. 'other' should already be part of a chain.
 			if(leftOfOther) {
-
 				insertAtIndex(indexOther,idNumber);
 			} else {
-
 				insertAtIndex(indexOther+1,idNumber);
 			}
 		}
@@ -198,17 +170,17 @@ function AddToChain(idNumber : int, otherIdNumber : int, leftOfOther : boolean) 
 	}
 }
 
-//:::::::::::::::::::. Utility Functions::::::::::::::::::::::::::::::::
+// Utility Functions
 
 function addPairAtEnd(first : int, second : int) {
-// When neither are in any blocks from before add both.
+	// When neither are in any blocks from before add both.
    GameState.Add(first);
    GameState.Add(second);
    GameState.Add(-1);
 }
 
 function insertAtIndex( index : int, newNumber : int) {
-// Inserts 'newNumber' at index 'index' in ' GameState ' pushing the one in and those after one index up.
+	// Inserts 'newNumber' at index 'index' in ' GameState ' pushing the one in and those after one index up.
 	try {
   		 GameState.Insert(index, newNumber);
 	}
@@ -276,16 +248,12 @@ function MakeGrid( ): boolean {
   		return false; //can't find entry point in the world matrix this is not possible , stupid
 	}
 	GameState.Clear();
-	for (var y : int  = 0 ; y < GRID_COLUMN_SIZE ; y++)
-	{
-		for (var x : int  = 0 ; x < GRID_ROW_SIZE ; x++)
-		{
+	for (var y : int  = 0 ; y < GRID_COLUMN_SIZE ; y++){
+		for (var x : int  = 0 ; x < GRID_ROW_SIZE ; x++){
 			GameState.Add(cursorX/NUMBER_OF_SIDES);
 
-			if(x < (GRID_ROW_SIZE - 1)) 
-			{
-				if( WorldState[cursorX+Sides.LEFT] != -1) 
-				{
+			if(x < (GRID_ROW_SIZE - 1)) {
+				if( WorldState[cursorX+Sides.LEFT] != -1) {
 					cursorX = WorldState[cursorX+Sides.LEFT] * NUMBER_OF_SIDES;
 				} else {
 					return false;

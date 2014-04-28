@@ -26,15 +26,13 @@ class BoxDesignScript extends MonoBehaviour {
 			setMeUp();
 		
 		}
-	
-	
 		design = boxDesign;
 		
 		// Find a shader with transparency
 		var useShader : UnityEngine.Shader;
 		var shaderCounter : int = 0;
 		while( useShader == null )
-		{
+		{	//Finds a shader to use. Stops when one is found.
 			switch( shaderCounter )
 			{
 				case 0:
@@ -69,13 +67,11 @@ class BoxDesignScript extends MonoBehaviour {
 				Debug.LogError("Shader not found.");
 				return;
 			}
-			
 			shaderCounter++;
 		}
 		
 		// Set the shader that we found
 		gameObject.renderer.material.shader = useShader;
-		
 		
 		// Set color on box
 		if( designType == CubeDesignEnum.ColouredBox ||
@@ -88,12 +84,9 @@ class BoxDesignScript extends MonoBehaviour {
 		// Set text on box
 		if( !design.BoxText.Empty ) {
 			if( designType == CubeDesignEnum.TextAndCubeColour ) {
-					
 				cubeText.text = design.BoxText;
-
 				// Scale text to fit on cube
 				setLocalScale();
-		
 				// Set color on text
 				cubeText.color = design.TextColor;
 			}
@@ -101,8 +94,7 @@ class BoxDesignScript extends MonoBehaviour {
 		
 		// If we have a texture we want on the cube
 		if( designType == CubeDesignEnum.BoxImage ) {
-			if( design.BoxImage != null) {
-								
+			if( design.BoxImage != null) {	
 				// Set color on box
 				gameObject.renderer.material.color = design.BoxColor;
 				
@@ -118,9 +110,6 @@ class BoxDesignScript extends MonoBehaviour {
 				}
 				gameObject.renderer.materials = matArray;
 				
-				// Set material from texture
-				//gameObject.renderer.material.SetTexture( "_MainTex", design.BoxImage );
-				
 			}
 		}
 	}
@@ -128,12 +117,7 @@ class BoxDesignScript extends MonoBehaviour {
 	function Awake() {
 		if(!isInitialized){
 			setMeUp();
-		
 		}
-	}
-	
-	function Start() {
-
 	}
 	
 	private function setLocalScale() {
@@ -159,14 +143,12 @@ class BoxDesignScript extends MonoBehaviour {
 			scaleY = 5;
 		}
 		
-		//newScale = Mathf.Min(scaleX, scaleY) * 0.7;
 		if(cubeText.text.Length != 0){
 			cubeText.characterSize = 1;
 			cubeText.characterSize = (cubeText.characterSize * 2) / cubeText.text.Length; //BECAUSE UNITY IS BEEEING A BIATCH!!!!!
 		}
-		// Change scale of text so that it will fit onto the cube
-		//cubeText.transform.localScale = Vector2( newScale, newScale );
 	}
+	
 	private function setMeUp(){
 		// Create GameObject to put text on. Bind it to box.
 		cubeHandle = new GameObject();
@@ -190,5 +172,4 @@ class BoxDesignScript extends MonoBehaviour {
 		
 		isInitialized = true;
 	}
-
 }
