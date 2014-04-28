@@ -96,8 +96,8 @@ function fillScoreArray() {
 	var scoreHolder = new Array();
 	
 	//Load scores from player prefs file.
-	scoreHolder = PlayerPrefsX.GetIntArray(playerName + GameName);
-	
+	scoreHolder = PlayerPrefsX.GetIntArray(playerName + " " + GameName);
+
 	//Testing to make sure that we have the amount of scores needed.
 	if(scoreHolder.length < NumberOfScores){
 		for(var i = scoreHolder.length; i < NumberOfScores; i++){
@@ -135,12 +135,18 @@ function RegistrerScore() {
 		tempScoreArray = new Array();
 	}
 	tempScoreArray.push(score);
+	tempScoreArray.sort();
+	//tempScoreArray.reverse();
 	
 	var tempIntArray = new int[tempScoreArray.length];
 	for(var i:int = 0; i < tempScoreArray.length; i++){
 		tempIntArray[i] = tempScoreArray[i];
 	}
+	Debug.LogError(playerName + GameName);
+	if(PlayerPrefsX.SetIntArray(playerName + " " + GameName, tempIntArray)) {
+		PlayerPrefs.Save();
+		scoresLoaded = false;
+	};
 	
-	PlayerPrefsX.SetIntArray(playerName + GameName, tempIntArray);
 	fillScoreArray();
 }
