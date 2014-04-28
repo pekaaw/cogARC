@@ -9,7 +9,7 @@ private var ScoreScreenVisible = false;
 private var timerAndScore : TimerAndScore;
 private var ScoreScreenRect : Rect;
 private var score : int;
-private var scoreArray : int[];
+private var scoreArray : Array = new Array();
 private var scoresLoaded = false;
 private var GuiSkin : GUISkin = null;
 private var GameName : String = "";
@@ -60,19 +60,14 @@ function OnGUI() {
 		// Set skin for the label (white text and bigger fontsize)
 		GUI.skin.label = LabelStyle;
 		
-		//var originalButtonSize = GUI.skin.button.fontSize;
-		//var originalLabelSize = GUI.skin.label.fontSize;
-		//GUI.skin.button.fontSize = ButtonFontSize;
-		//GUI.skin.label.fontSize = LabelFontSize;
-		
+
 		GUILayout.BeginArea(ScoreScreenRect);
 		GUILayout.BeginVertical("box");
 		//Calls another function to deal with all the GUI stuff.
 		ScoreScreenGUILayout();
 		GUILayout.EndVertical();
 		GUILayout.EndArea();
-	//	GUI.skin.label.fontSize = originalLabelSize;
-	//	GUI.skin.button.fontSize = originalButtonSize;
+
 		GUI.skin.label.fontSize = Screen.height / 25;
 
 		// Reset the skin to default
@@ -117,14 +112,12 @@ function ScoreScreenGUILayout() {
 function fillScoreArray() {
 	//Temp array for scores to avoid stupid editor errors.
 	var scoreHolder = new Array();
-	
 	//Load scores from player prefs file.
 	scoreHolder = PlayerPrefsX.GetIntArray(playerName + " " + GameName);
-
 	//Testing to make sure that we have the amount of scores needed.
 	if(scoreHolder.length < NumberOfScores){
 		for(var i = scoreHolder.length; i < NumberOfScores; i++){
-			scoreHolder.Add(i * 10);
+			scoreHolder.Add(1);
 			scoreHolder[i] = i * 10;
 		}
 	}
@@ -138,7 +131,9 @@ function fillScoreArray() {
 	//Copies the scores into the array we use in the rest of the script.
 	//I do this because MonoDevelop won't find scoreArray in the rest of
 	// the script and is giving me a lot of problems.
-	scoreArray = scoreHolder;
+	for(var o : int = 0; o < scoreHolder.length; o++){
+		scoreArray[o] = scoreHolder[o];
+	}
 }
 
 //Toggles the visibility of the Score Screen
@@ -159,17 +154,16 @@ function RegistrerScore() {
 	}
 	tempScoreArray.push(score);
 	tempScoreArray.sort();
-	//tempScoreArray.reverse();
+	tempScoreArray.reverse();
 	
 	var tempIntArray = new int[tempScoreArray.length];
 	for(var i:int = 0; i < tempScoreArray.length; i++){
 		tempIntArray[i] = tempScoreArray[i];
 	}
-	Debug.LogError(playerName + GameName);
+	
 	if(PlayerPrefsX.SetIntArray(playerName + " " + GameName, tempIntArray)) {
 		PlayerPrefs.Save();
 		scoresLoaded = false;
 	};
-	
 	fillScoreArray();
 }

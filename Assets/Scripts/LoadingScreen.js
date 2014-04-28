@@ -19,6 +19,7 @@ private var highScoreScores : Array;
 private var timerScript : TimerAndScore;
 private var pauseScript : PauseScreenScript;
 private var ruleScript : Rule;
+private var scoresLoaded : boolean;
 
 function Awake() {
 	cogarcSkin = Resources.Load("GUISkins/cogARC");
@@ -26,9 +27,10 @@ function Awake() {
 	wrapText.wordWrap = true;
 	wrapText.fontSize = 45;
 	timerScript = gameObject.GetComponent(TimerAndScore);
-	var userName : String = PlayerPrefs.GetString("UserName");
 	//Load scores from player prefs file.
-	highScoreScores = PlayerPrefsX.GetIntArray(userName + gameTitle);
+	
+	loadScores();
+	//highScoreScores = PlayerPrefsX.GetIntArray(userName + gameTitle);
 	pauseScript = gameObject.GetComponent(PauseScreenScript);
 	ruleScript = gameObject.GetComponent(Rule);
 }
@@ -36,8 +38,8 @@ function Awake() {
 function Start () {
 	screenWidth = Screen.width;
 	screenHeight = Screen.height;
-
 	setBoxSizes();
+	scoresLoaded = false;
 }
 
 
@@ -143,26 +145,44 @@ function highScore() {
 	GUI.skin.label.fontSize = (highscoreBox.height / 20);
 	
 	//Testing to make sure that we have the amount of scores needed.
-	if(highScoreScores.length < 10){
-		for(var i = highScoreScores.length; i < 10; i++){
-			highScoreScores.Add(i * 10);
-			highScoreScores[i] = i * 10;
-		}
+	if(!scoresLoaded){
+		loadScores();
+		scoresLoaded = true;
 	}
-	highScoreScores.sort();
-	//Gets the highest number at top.
-	highScoreScores.reverse();
 	
-	if(highScoreScores.length > 10){
-		highScoreScores.length = 10;
-	}
 	
 	GUILayout.Label("Highscores:");
-	for(i = 0; i < highScoreScores.length; i++){
+	for(var i = 0; i < highScoreScores.length; i++){
 		GUILayout.Label("Number "+(i+1) + ": " + highScoreScores[i].ToString());
 		GUILayout.FlexibleSpace();
 	}
 	//Resests the alignment of text to the usual Middle Left.
 	GUI.skin.label.alignment = originalAlignment;
 	GUILayout.EndArea();
+}
+
+private function loadScores() {
+	var scoreHolder = new Array();
+	var playerName : String = PlayerPrefs.GetString("UserName");
+	scoreHolder = PlayerPrefsX.GetIntArray(playerName + " " + gameTitle);
+	//Testing to make sure that we have the amount of scores needed.
+	if(scoreHolder.length < 10){
+		for(var i = scoreHolder.length; i < 10; i++){
+			scoreHolder.Add(1);
+			scoreHolder[i] = i * 10;
+		}
+	}
+	scoreHolder.sort();
+	//Gets the highest number at top.
+	scoreHolder.reverse();
+	
+	Debug.LogWarning(scoreHolder);
+	if(scoreHolder.length > 10){
+		scoreHolder.length = 10;
+	}
+	
+	highScoreScores = new Array();
+	for( var q : int = 0; q < scoreHolder.length; q++){
+		highScoreScores.Push(scoreHolder[q]);
+	}
 }
