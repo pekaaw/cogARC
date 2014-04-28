@@ -56,7 +56,7 @@ function OnGUI() {
 		GUILayout.EndArea();
 	//	GUI.skin.label.fontSize = originalLabelSize;
 	//	GUI.skin.button.fontSize = originalButtonSize;
-		GUI.skin.label.fontSize = Screen.height / 30;
+		GUI.skin.label.fontSize = ScoreScreenRect.height /25;
 	}
 }
 

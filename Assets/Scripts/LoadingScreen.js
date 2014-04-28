@@ -132,7 +132,7 @@ function highScore() {
 	//Anchor that text to the middle!
 	GUI.skin.label.alignment = TextAnchor.MiddleCenter;   
 	
-	GUI.skin.label.fontSize = (Screen.height / 30);
+	GUI.skin.label.fontSize = (highscoreBox.height / 20);
 	
 	//Testing to make sure that we have the amount of scores needed.
 	if(highScoreScores.length < 10){
