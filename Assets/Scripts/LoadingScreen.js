@@ -41,7 +41,7 @@ function Start () {
 function Activate(header : String, hint : String, numberOfLevels : int, currentLevel : int) {
 	
 	CubeContainer = GameObject.Find("CubeContainer");
-	if(!CubeContainer){
+	if(!CubeContainer.transform.childCount){
 		CubeContainer = GameObject.Find("FrameMarkerContainer");
 	}
 	gameTitle  = header;
