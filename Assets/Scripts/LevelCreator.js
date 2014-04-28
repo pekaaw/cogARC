@@ -210,6 +210,9 @@ private function SetStringDataWithoutOrder(cubes : Array , dataStrings : String[
 		if(dataStrings[i] != "$CUBE_NOT_IN_USE$") {
 			(cubes[i] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket = dataStrings[i];
 			design.BoxText = dataStrings[i];
+			if(dataStrings[i] == "6" || dataStrings[i] == "9") {
+				design.BoxText += ".";
+		}
 			(cubes[i] as GameObject).GetComponent(BoxDesignScript).setDesign(design,Data.DesignEnum);
 		} else {
 			design.BoxText = "";
