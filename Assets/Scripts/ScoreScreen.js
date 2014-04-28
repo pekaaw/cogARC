@@ -7,6 +7,7 @@ public var LabelFontSize : int = 50;
 
 private var ScoreScreenVisible = false;
 private var timerAndScore : TimerAndScore;
+private var pauseScript : PauseScreenScript;
 private var ScoreScreenRect : Rect;
 private var score : int;
 private var scoreArray : Array = new Array();
@@ -22,6 +23,7 @@ LabelStyle.normal.textColor = Color.white;
 LabelStyle.fontSize = LabelFontSize;
 
 function Awake() {
+	pauseScript = gameObject.GetComponent(PauseScreenScript);
 	timerAndScore = gameObject.GetComponent(TimerAndScore);
 	GuiSkin = Resources.Load("GUISkins/cogARC");
 	this.GameName = gameObject.GetComponent(LevelCreator).Data.GameName;
@@ -139,6 +141,11 @@ function fillScoreArray() {
 //Toggles the visibility of the Score Screen
 function toggleScreenVisibility(){
 	ScoreScreenVisible = !ScoreScreenVisible;
+	if(ScoreScreenVisible){
+		pauseScript.Hide();
+	} else {
+		pauseScript.Show();
+	}
 }
 
 //This saves the scores so it can be loaded later.
