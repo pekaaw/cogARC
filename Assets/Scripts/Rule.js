@@ -207,7 +207,8 @@ private function PairTester (boxes : List.<int>) {
 			if((historyGameState1[q] == levelCreator.Data.FinishState[r] && historyGameState1[q + 1] == levelCreator.Data.FinishState[r + 1]) ||
 				(historyGameState1[q + 1] == levelCreator.Data.FinishState[r] && historyGameState1[q] == levelCreator.Data.FinishState[r + 1])) 
 			{
-				if(q + 2 > historyGameState1.length && historyGameState1[q+2] != -1) {
+				if((q + 2 > historyGameState1.length && historyGameState1[q+2] != -1) || 
+					q != 0 && historyGameState1[q-1] != -1) {
 					//Debug.Log("UNexpected Third Part OF a PaiR");
 					return;
 				}
