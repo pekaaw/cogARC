@@ -17,6 +17,7 @@ private var counter : int = 0;
 private var wrapText : GUIStyle;
 private var highScoreScores : Array;
 private var timerScript : TimerAndScore;
+private var pauseScript : PauseScreenScript;
 
 function Awake() {
 	cogarcSkin = Resources.Load("GUISkins/cogARC");
@@ -27,6 +28,7 @@ function Awake() {
 	var userName : String = PlayerPrefs.GetString("UserName");
 	//Load scores from player prefs file.
 	highScoreScores = PlayerPrefsX.GetIntArray(userName + gameTitle);
+	pauseScript = gameObject.GetComponent(PauseScreenScript);
 	
 }
 
@@ -48,6 +50,8 @@ function Activate(header : String, hint : String, numberOfLevels : int, currentL
 	gameHint = hint;
 	gameLevels  = numberOfLevels;
 	currentGameLevel = currentLevel;
+	pauseScript.Hide();
+	timerScript.Hide();
 	StopTime();
 	isActive = true;
 }  
@@ -95,6 +99,9 @@ function OnGUI() {
 			
 		if( GUI.Button( startButtonBox, "Start!" ) )
 		{
+			pauseScript.Show();
+			timerScript.Show();
+
 			isActive = false;
 			StartTime();
 		}

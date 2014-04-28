@@ -10,6 +10,7 @@ private var timeEstimate : float;
 private var PlacementRectangle : Rect = Rect(Screen.width-450,20,445,400);
 private var posNegative : int; // this is +1 or -1 depending on wether the time is counting up or down
 private var gameSequence : GameSceneSequence;
+private var hidden : boolean = false;
 
 public var toggleTimerCountUp : boolean;
 public var TimesUp : boolean = false;
@@ -47,6 +48,14 @@ function Update () {
 	}
 }
 
+function Hide(){
+	hidden = true;
+}
+
+function Show() {
+	hidden = false;
+}
+
 function ToggleTimerActive() {
 	toggleTimerCountUp = !toggleTimerCountUp;
 }
@@ -70,8 +79,9 @@ function OnGUI () {
 	GUILayout.BeginVertical();
 	
 	GUILayout.Label("Score: " + score.ToString());
-	GUILayout.Label("Timer: " + timerText);
-	
+	if(!hidden) {
+		GUILayout.Label("Timer: " + timerText);
+	}
 	GUILayout.EndVertical();
 	GUILayout.EndArea();
 	GUI.skin.label.fontSize = originalFontSize;
