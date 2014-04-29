@@ -135,8 +135,9 @@ function fillScoreArray() {
 	//Copies the scores into the array we use in the rest of the script.
 	//I do this because MonoDevelop won't find scoreArray in the rest of
 	// the script and is giving me a lot of problems.
+	scoreArray = new Array();
 	for(var o : int = 0; o < scoreHolder.length; o++){
-		scoreArray[o] = scoreHolder[o];
+		scoreArray.push(scoreHolder[o]);
 	}
 }
 
@@ -157,7 +158,7 @@ function RegistrerScore() {
 	//This is because Unity is silly and won't let me
 	// add something to a int[] object.
 	var tempScoreArray : Array = new Array();
-	
+	scoreArray = PlayerPrefsX.GetIntArray(playerName + " " + GameName);
 	for(var tempObject : int in scoreArray) {
 		tempScoreArray.push(tempObject);
 	}

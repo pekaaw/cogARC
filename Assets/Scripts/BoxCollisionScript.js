@@ -62,6 +62,7 @@ function IWasWrongForOnce(){
 		obj.transform.parent = transform;
 		obj.transform.position = transform.position;
 		HasActiveWrongMarker = true;
+		Handheld.Vibrate();
 	}
 }
 
@@ -77,6 +78,8 @@ function IWasRightAllAlong(){
 		obj.transform.parent = transform;
 		obj.transform.position = transform.position;
 		HasActiveCorrectMarker = true;
+		Handheld.Vibrate();
+
 	}
 }
 
