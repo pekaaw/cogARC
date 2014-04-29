@@ -8,6 +8,9 @@ function Awake() {
 	sequence.Add(0); //Return to mainmenu.
 
 }
+function GetCurrentGameId() :int {
+	return sequence[currentGameIndex];
+}
 
 function IsMultyLeveled ():boolean {
 	return (sequence.Count > 2);

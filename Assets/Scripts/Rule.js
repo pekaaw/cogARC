@@ -2,6 +2,8 @@
 //Enum defined in LevelCreator.js
 //private enum ruleFunction {Tower, Row, Grid, HumanReadable, Calculus};
 private var levelCreator : LevelCreator;
+private var gameSequence : GameSceneSequence;
+private var timerScript : TimerAndScore;
 private var DebugText : String = "Arne";
 private var isTextAnswer : boolean; 
 private static var historyHasChangedFromBefore : boolean = true; // if the boxes has been moved since last test()
@@ -30,7 +32,20 @@ private var CubesData : Array;		//local copy of the data contained in the
 
 private var wrapText : GUIStyle;
 
+
+private var completedWoords : List.<int> = new List.<int>();
+private var lastLoggedWord : String = "";	
+
+
+
+
+
+
+
+
 function Awake() {
+	timerScript = gameObject.GetComponent(TimerAndScore);
+	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
 	myMainCamera = GameObject.Find("ARCamera 1").camera;
 	levelCreator = gameObject.GetComponent(LevelCreator);
 	var tempArr : Array = GameObject.FindGameObjectsWithTag("Player");
@@ -55,7 +70,7 @@ function Start() {
 }
 
 function Update () {
-	if( !gameObject.GetComponent(TimerAndScore).TimesUp) 
+	if( !timerScript.TimesUp) 
 	{
 		var currentState : String = ""; 
 		for(var d : int  = 0 ; d < levelCreator.Data.FinishState.Count ; d++) {
@@ -65,8 +80,8 @@ function Update () {
 	}								//Hint is displayed when this is greater than 0.
 	else 
 	{
-		if(gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive()) {
-			gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
+		if(timerScript.CheckToggleTimerActive()) {
+			timerScript.ToggleTimerActive();
 		}
 		levelCreator.LoadLevel();
 	}
@@ -158,8 +173,8 @@ public function Test (boxes : List.<int>){
 	//Boxes contains the id numbers of the boxes.
 	//This code block test to make sure that you get the same input three times
 	//	before it let you advance.
-	if(gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive()) {
-		if(levelCreator.Data.FinishState.Count > 0 && !gameObject.GetComponent(TimerAndScore).TimesUp){
+	if(timerScript.CheckToggleTimerActive()) {
+		if(levelCreator.Data.FinishState.Count > 0 && !timerScript.TimesUp){
 			//Saves the previous two game states.
 			historyGameState3 = historyGameState2;
 			historyGameState2 = historyGameState1;
@@ -188,8 +203,8 @@ public function Test (boxes : List.<int>){
 		}
 		else // finishState is empty
 		{		//congrats, save score, load next level
-			if(gameObject.GetComponent(TimerAndScore).CheckToggleTimerActive()) {
-				gameObject.GetComponent(TimerAndScore).ToggleTimerActive();
+			if(timerScript.CheckToggleTimerActive()) {
+				timerScript.ToggleTimerActive();
 			}
 			yield WaitForSeconds (2);
 			HideGui();
@@ -215,7 +230,7 @@ private function PairTester (boxes : List.<int>) {
 				//pair found
 				ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r]]);
 				ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r+1]]);
-				gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
+				timerScript.scoreBonus(levelCreator.Data.CorrectBonus);
 				for(var t:int = 0; t < 3; t++){ //remove finishState[r, r+1, r+2]
 					levelCreator.Data.FinishState.RemoveAt(r);
 				}
@@ -243,7 +258,7 @@ private function GridTester (boxes : List.<int>) {
 			for (var box : Transform in boxPositions){
 				ShowWrongMarker(box); //on all the boxes used
 			}
-			gameObject.GetComponent(TimerAndScore).scoreBonus(-levelCreator.Data.CorrectBonus); // give negative bonus
+			timerScript.scoreBonus(-levelCreator.Data.CorrectBonus); // give negative bonus
 			return;
 		}
 	}
@@ -252,7 +267,7 @@ private function GridTester (boxes : List.<int>) {
 	for (var box : Transform in boxPositions){
 		ShowCorrectMarker(box); //On all the boxes used.
 	}
-	gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
+	timerScript.scoreBonus(levelCreator.Data.CorrectBonus);
 }
 
 private function HumanReadableTester (boxes : List.<int>) {
@@ -282,7 +297,7 @@ private function compositeNumbersTester(boxes : List.<int>){
 				{
 					ShowCorrectMarker(boxPositions[boxes[l]]); //on all the boxes used
 				}
-				gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
+				timerScript.scoreBonus(levelCreator.Data.CorrectBonus);
 				levelCreator.Data.FinishState.Clear();
 				return;
 			}
@@ -310,12 +325,12 @@ private function AdditionTester(boxes : List.<int>){
 				for(var pk : int = 0 ; pk < levelCreator.Data.CurrentNumberOfBoxesUsedForTask ; pk++){
 					ShowCorrectMarker(boxPositions[boxes[(c - pk-1)]]); //on all the boxes used
 				}
-				gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);		
+				timerScript.scoreBonus(levelCreator.Data.CorrectBonus);		
 				levelCreator.Data.FinishState.Clear();
 
 				return;
 			} else { // else give a penalty? penalty in this game is overpowered so we removed it
-				//gameObject.GetComponent(TimerAndScore).scoreBonus(-levelCreator.Data.CorrectBonus);		
+				//timerScript.scoreBonus(-levelCreator.Data.CorrectBonus);		
 			}
 		}
 		letterCount = 0;
@@ -334,7 +349,7 @@ private function WholeLinerTester(boxes : List.<int>){
 		ShowCorrectMarker(boxPositions[boxes[pk]]); //on all the boxes used
 	}
 	levelCreator.Data.FinishState.Clear();
-	gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
+	timerScript.scoreBonus(levelCreator.Data.CorrectBonus);
 }
 
 private function AnyWordTester(boxes : List.<int>){ 
@@ -347,6 +362,7 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 */
 	var inIndex:int = 0;
 	var finIndex:int = 0;	
+	var logPostWoord : List.<int> = new List.<int>(); // simonLogging	
 
 	while(inIndex < boxes.Count)
 	{
@@ -369,16 +385,22 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 						{
 							levelCreator.Data.FinishState.RemoveAt(tempFinIndex); //Delete the -1 after the word and additional -1's after the word, this last part will mostly be skipped.
 						}
+						
+						completedWoords.Insert(0,-1);// simonLogging
+						
 						while ((tempFinIndex - 1) < levelCreator.Data.FinishState.Count && tempFinIndex > 0 && levelCreator.Data.FinishState[tempFinIndex-1] != -1) 
 						{
 							tempFinIndex--;
-							gameObject.GetComponent(TimerAndScore).scoreBonus(levelCreator.Data.CorrectBonus);
-
+							timerScript.scoreBonus(levelCreator.Data.CorrectBonus);
+							completedWoords.Insert(0,levelCreator.Data.FinishState[tempFinIndex]); // simonLogging
+							logPostWoord.Insert(0,completedWoords[0]); // simonLogging
 							ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[tempFinIndex]]); //On all the boxes used
 							levelCreator.Data.FinishState.RemoveAt(tempFinIndex); // remove the word it self, here we can count points for letters.
 							
 						}
+						LogEvent(logPostWoord);// simonLogging
 						return; //Because I don't want to check if you have more than one word correct in the same frame.
+						
 					} else { 
 						if(levelCreator.Data.FinishState[tempFinIndex] == -1 || boxes[tempInIndex] == -1) //Else did one of the words end?
 						{
@@ -403,6 +425,47 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 				finIndex++;
 			}
 		}
+		//::::::::::::::::::::::::::::::::::: simonLogging ::::::::bigchunk
+		for(var simonSays : int = 0 ; simonSays < completedWoords.Count; simonSays++) {
+			if( simonSays == 0 || completedWoords[simonSays-1] == -1)
+			{ // the beginning of a word
+				if(completedWoords[simonSays] != -1 && boxes[inIndex] != -1 && CubesData[completedWoords[simonSays]] == CubesData[boxes[inIndex]])
+				{
+					var loggingTempIndex : int = 0;
+					while(
+					 simonSays + loggingTempIndex < completedWoords.Count &&
+					 inIndex + loggingTempIndex < boxes.Count &&
+					 completedWoords[simonSays + loggingTempIndex] != -1 &&
+					 boxes[inIndex + loggingTempIndex] != -1 &&
+					 CubesData[completedWoords[simonSays + loggingTempIndex]] == CubesData[boxes[inIndex + loggingTempIndex]])
+					{
+						logPostWoord.Add(completedWoords[simonSays + loggingTempIndex]);
+						loggingTempIndex ++;
+						if(completedWoords[simonSays + loggingTempIndex] == -1 && boxes[inIndex + loggingTempIndex] == -1) 
+						{
+							// woord found
+							
+							
+							
+							if(EqualsLastLogedWord(logPostWoord)){
+								LogEvent(logPostWoord);
+							}
+							
+							
+						}	else 
+						{
+							if (completedWoords[simonSays + loggingTempIndex] == -1 || boxes[inIndex + loggingTempIndex] == -1) {
+							// one of the woords ended
+								loggingTempIndex += completedWoords.Count; 
+								logPostWoord.Clear();
+							}
+						}
+					}
+				}
+			}
+		}
+				//::::::::::::::::::::::::::::::::::: simonLogging ::::::::bigchunk [END]
+
 		while (boxes[inIndex] != -1)//Skip to next word,currentstate.
 		{
 			inIndex++;
@@ -529,3 +592,49 @@ function GetCubesData () : Array {
 	}
 	return tempArray;
 }
+
+
+function EqualsLastLogedWord( cubes : List.<int>) : boolean {
+	var tempString : String = "";
+	var bool : boolean = false;
+	for(var box : int in cubes) {
+		if(box != -1) {
+			tempString += CubesData[box]; 
+		}
+	}
+	bool = (lastLoggedWord == tempString);
+	lastLoggedWord = tempString;
+	return bool;
+
+}
+
+
+function LogEvent(cubes : List.<int>){
+	var gameId : int = gameSequence.GetCurrentGameId();
+	var currentScore : int = timerScript.getScore();
+	var currentTime : String = timerScript.GetTimerText();
+	
+	//boxPositions[cubes[i]].position.ToString() //contains the coordinates of the cube
+	//CubesData[cubes[i]]; //Returns the string or letter contained in the cube
+	Debug.LogWarning(gameId + " " + currentScore + " " + currentTime + " " + lastLoggedWord); //do not use lastLoggedWord if this function is used for other than wooords use CubesData[cubes[i]]
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+
