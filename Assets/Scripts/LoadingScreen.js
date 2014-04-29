@@ -26,6 +26,7 @@ function Awake() {
 	wrapText = new GUIStyle();
 	wrapText.wordWrap = true;
 	wrapText.fontSize = 45;
+	wrapText.normal.textColor = Color.white;
 	timerScript = gameObject.GetComponent(TimerAndScore);
 	//Load scores from player prefs file.
 	
@@ -80,6 +81,10 @@ function OnGUI() {
 	if(isActive) {
 		GUI.skin = cogarcSkin;
 		GUI.skin.label.fontSize = 70;
+		GUI.skin.label.normal.textColor = Color.white;
+		
+		// Darken the background by putting in a box that cover the screen behind
+		GUI.Box( Rect(0, 0, Screen.width, Screen.height ), "" );
 		
 		//Set screen size screen size has changed (example: orientation change).
 		if( screenWidth != Screen.width  || screenWidth != Screen.width) {
