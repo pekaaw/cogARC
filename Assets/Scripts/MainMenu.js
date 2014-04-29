@@ -6,7 +6,7 @@ public var MainMenuTitle : String = "Main Menu!";
 public var LogoTexture : Texture;
 public var LogoPoistion : Rect;
 public var GuiSkin : GUISkin = null;
-public var ButtonFontSize : int = 50;
+private var MainMenuTitleStyle : GUIStyle;
 private var iconFolder : String;
 private var MainMenuRect : Rect;
 private var icons : Texture2D[]; // = new Texture[9];
@@ -73,21 +73,19 @@ function OnGUI () {
 	
 	// Get skin for looks
 	GUI.skin = GuiSkin;
-	
-	//Vars for original sizes
-	var originalButtonFont : int = GUI.skin.button.fontSize;
-	
-	// Set fontsize on buttons
-	GUI.skin.button.fontSize = ButtonFontSize;
+	MainMenuTitleStyle = GUIStyle(GuiSkin.label);
+	MainMenuTitleStyle.alignment = TextAnchor.MiddleCenter;
+	MainMenuTitleStyle.fontSize = 70;
 	
 	// Draw logo or show the app name as text
 	if(LogoTexture != null){
 		GUI.DrawTexture(LogoPoistion,LogoTexture,ScaleMode.ScaleToFit,true);
 	}
 	else{
-		GUI.skin.label.alignment = TextAnchor.MiddleCenter; 
-		GUILayout.Label(MainMenuTitle);
-		GUI.skin.label.alignment = TextAnchor.MiddleLeft;
+		GUI.Label(
+			Rect(0, 0, Screen.width, Screen.height / 4 ),
+			MainMenuTitle,
+			MainMenuTitleStyle );
 	}
 	
 	// Draw the Main Menu
@@ -158,7 +156,4 @@ function OnGUI () {
 	
 	// End of Main Menu
 	GUILayout.EndArea();
-	
-	// Put back original fontsize on buttons
-	GUI.skin.button.fontSize = originalButtonFont;
 }
