@@ -10,11 +10,9 @@ private var GuiSkin : GUISkin = null;
 private var Pause = false;
 private var CubeContainer : GameObject;
 
-
 function Awake(){
 	Pause = false;
 	GuiSkin = Resources.Load("GUISkins/cogARC");
-
 }
 
 function OnGUI () {
