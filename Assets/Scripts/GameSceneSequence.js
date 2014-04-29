@@ -39,11 +39,7 @@ function ReplayLevelHotFix() {
 function GetNextLevel():int {
 	currentGameIndex++;
 	if(currentGameIndex >= sequence.Count) {
-		Application.Quit();
-	}
-	if(sequence[currentGameIndex] == 0){
-		ClearSequence();
-		return 0;
+		Application.Quit(); // fatal error
 	}
 	return sequence[currentGameIndex];
 }

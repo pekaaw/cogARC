@@ -156,19 +156,17 @@ function RegistrerScore() {
 	
 	//This is because Unity is silly and won't let me
 	// add something to a int[] object.
-	var tempScoreArray : Array;
-	tempScoreArray = scoreArray;
-	if(!tempScoreArray || tempScoreArray.length == 0){
-		tempScoreArray = new Array();
+	var tempScoreArray : Array = new Array();
+	
+	for(var tempObject : int in scoreArray) {
+		tempScoreArray.push(tempObject);
 	}
+	
 	tempScoreArray.push(score);
 	tempScoreArray.sort();
 	tempScoreArray.reverse();
 	
-	var tempIntArray = new int[tempScoreArray.length];
-	for(var i:int = 0; i < tempScoreArray.length; i++){
-		tempIntArray[i] = tempScoreArray[i];
-	}
+	var tempIntArray = tempScoreArray.ToBuiltin(int);
 	
 	if(PlayerPrefsX.SetIntArray(playerName + " " + GameName, tempIntArray)) {
 		PlayerPrefs.Save();
