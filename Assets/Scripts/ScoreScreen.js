@@ -18,11 +18,6 @@ private var GameName : String = "";
 private var playerName : String = "";
 private var LabelStyle : GUIStyle;
 	
-// Set a light colour on the text since the background is dark
-LabelStyle = new GUIStyle();
-LabelStyle.normal.textColor = Color.white;
-LabelStyle.fontSize = LabelFontSize;
-
 function Awake() {
 	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
 	pauseScript = gameObject.GetComponent(PauseScreenScript);
@@ -30,6 +25,12 @@ function Awake() {
 	GuiSkin = Resources.Load("GUISkins/cogARC");
 	this.GameName = gameObject.GetComponent(LevelCreator).Data.GameName;
 	playerName = PlayerPrefs.GetString("UserName");
+	
+	// Set a light colour on the text since the background is dark
+	LabelStyle = GUIStyle(GuiSkin.label);
+	//LabelStyle.normal.textColor = Color.white;
+	//LabelStyle.fontSize = LabelFontSize;
+
 }
 
 function Start () {
@@ -46,6 +47,8 @@ function Start () {
 function OnGUI() {
 	//If it is active
 	if(ScoreScreenVisible){
+
+		LabelStyle.fontSize = Screen.height / 25;
 	
 		// Put a box that will cause the background to be darkened.
 		GUI.Box( Rect(0, 0, Screen.width, Screen.height), "" );
@@ -59,36 +62,28 @@ function OnGUI() {
 		// Set the overall skin
 		GUI.skin = GuiSkin;
 		
-		// Set skin for the label (white text and bigger fontsize)
-		GUI.skin.label = LabelStyle;
-		
-
 		GUILayout.BeginArea(ScoreScreenRect);
 		GUILayout.BeginVertical("box");
 		//Calls another function to deal with all the GUI stuff.
 		ScoreScreenGUILayout();
 		GUILayout.EndVertical();
 		GUILayout.EndArea();
-
-		GUI.skin.label.fontSize = Screen.height / 25;
-
-		// Reset the skin to default
-		GUI.skin.label = null;
 	}
 }
 
 function ScoreScreenGUILayout() {
-	var originalAlignment = GUI.skin.label.alignment;
+//	var originalAlignment = GUI.skin.label.alignment;
 	//Anchor that text to the middle!
-	GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+//	LabelStyle.alignment = TextAnchor.MiddleCenter;
+//	GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 	
-	GUILayout.Label("Top " + NumberOfScores + " for :");
-	GUILayout.Label(GameName);
+	GUILayout.Label("Top " + NumberOfScores + " for :", LabelStyle);
+	GUILayout.Label(GameName, LabelStyle);
 	for(var i = 0; i < scoreArray.length; i++){
-		GUILayout.Label("Number "+(i+1) + ": " + scoreArray[i].ToString());
+		GUILayout.Label("Number "+(i+1) + ": " + scoreArray[i].ToString(), LabelStyle);
 		GUILayout.FlexibleSpace();
 	}
-	GUILayout.Label("Score this game: " + score);
+	GUILayout.Label("Score this game: " + score, LabelStyle);
 	GUILayout.FlexibleSpace();
 	
 	//GUILayout.BeginHorizontal();
@@ -109,7 +104,7 @@ function ScoreScreenGUILayout() {
 	GUILayout.EndVertical();
 
 	//Resests the alignment of text to the usual Middle Left.
-	GUI.skin.label.alignment = originalAlignment;
+//	GUI.skin.label.alignment = originalAlignment;
 }
 
 //This function fills the score array with data.
