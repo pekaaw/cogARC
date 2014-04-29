@@ -106,11 +106,15 @@ function TimeScore():int {
 	return ret;
 }
 
-function makeTimerText() {
+function GetTimerText() : String {
 	var min : int = timer / 60;
 	var sec : int = timer % 60;
 	var frac : int = (timer * 100) % 100;
- 	timerText = String.Format ("{0:0}:{1:00}:{2:00}", min, sec, frac); 
+ 	return String.Format ("{0:0}:{1:00}:{2:00}", min, sec, frac); 
+}
+
+function makeTimerText() {
+ 	timerText = GetTimerText(); 
 }
 
 function getScore(){
