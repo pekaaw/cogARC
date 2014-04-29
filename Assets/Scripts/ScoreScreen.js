@@ -41,8 +41,6 @@ function Start () {
 	{
 		GameName = "Multy Game Combo";
 	}	
-	  
-
 }
 
 function OnGUI() {
@@ -97,12 +95,10 @@ function ScoreScreenGUILayout() {
 	GUILayout.BeginVertical();
 	GUILayout.FlexibleSpace();
 	if(GUILayout.Button("Play again!")){
-	
-	
-	
 		gameSequence.ReplayLevelHotFix();
 		Application.LoadLevel(Application.loadedLevel);
 	}
+	
 	GUILayout.FlexibleSpace();
 	if(GUILayout.Button("Main Menu")){
 		//Return to scene 0
