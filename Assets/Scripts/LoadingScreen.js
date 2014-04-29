@@ -14,7 +14,14 @@ private var gameLevels : int;
 private var currentGameLevel : int;
 private var CubeContainer : GameObject;
 private var counter : int = 0;
-private var wrapText : GUIStyle;
+//private var wrapText : GUIStyle;
+//private var centerText : GUIStyle;
+
+private var headlineStyle : GUIStyle;
+private var instructionStyle : GUIStyle;
+private var scoreStyle : GUIStyle;
+private var highscoreStyle : GUIStyle;
+
 private var highScoreScores : Array;
 private var timerScript : TimerAndScore;
 private var pauseScript : PauseScreenScript;
@@ -23,10 +30,22 @@ private var scoresLoaded : boolean;
 
 function Awake() {
 	cogarcSkin = Resources.Load("GUISkins/cogARC");
-	wrapText = new GUIStyle();
-	wrapText.wordWrap = true;
-	wrapText.fontSize = 45;
-	wrapText.normal.textColor = Color.white;
+	
+	headlineStyle = GUIStyle(cogarcSkin.label);
+	headlineStyle.fontSize = 70;
+	headlineStyle.alignment = TextAnchor.MiddleCenter;
+	
+	instructionStyle = GUIStyle(cogarcSkin.label);
+	instructionStyle.wordWrap = true;
+	instructionStyle.fontSize = 45;
+	
+	highscoreStyle = GUIStyle(cogarcSkin.label);
+	highscoreStyle.alignment = TextAnchor.MiddleCenter;
+
+//	wrapText = new GUIStyle();
+//	wrapText.wordWrap = true;
+//	wrapText.fontSize = 45;
+//	wrapText.normal.textColor = Color.white;
 	timerScript = gameObject.GetComponent(TimerAndScore);
 	//Load scores from player prefs file.
 	
@@ -50,7 +69,11 @@ function Activate(header : String, hint : String, numberOfLevels : int, currentL
 	if(!CubeContainer.transform.childCount){
 		CubeContainer = GameObject.Find("FrameMarkerContainer");
 	}
-	gameTitle  = header;
+
+	// Reload skin
+	cogarcSkin = Resources.Load("GUISkins/cogARC");
+
+	gameTitle = header;
 	gameHint = hint;
 	gameLevels  = numberOfLevels;
 	currentGameLevel = currentLevel;
@@ -79,10 +102,10 @@ function StartTime() {
 
 function OnGUI() {
 	if(isActive) {
+		//cogarcSkin.label.normal.textColor = Color.white; // hack to get right color
 		GUI.skin = cogarcSkin;
-		GUI.skin.label.fontSize = 70;
-		GUI.skin.label.normal.textColor = Color.white;
-		
+		//GUI.skin.label.fontSize = 70;
+
 		// Darken the background by putting in a box that cover the screen behind
 		GUI.Box( Rect(0, 0, Screen.width, Screen.height ), "" );
 		
@@ -92,19 +115,25 @@ function OnGUI() {
 			screenHeight = Screen.height;
 			setBoxSizes();
 		}
-	
+
+		// Print headline
 		GUI.Label(
 			headlineBox,
-			gameTitle + " (" + currentGameLevel + " / " + gameLevels + ")"
+			gameTitle + " (" + currentGameLevel + " / " + gameLevels + ")",
+			headlineStyle
 			);
-			
+		
+		// Print instructions
 		GUI.Box(
 			instructionBox,
-			gameHint,wrapText
+			gameHint,
+			instructionStyle
 			);
-			
+		
+		// Print highscore
 		highScore();
-			
+
+		// Button to start game
 		if( GUI.Button( startButtonBox, "Start!" ) )
 		{
 			pauseScript.Show();
@@ -113,13 +142,18 @@ function OnGUI() {
 			isActive = false;
 			StartTime();
 		}
+
+		// Give a button to go back to main menu
+		if( GUILayout.Button("Main Menu") ) {
+			Application.LoadLevel(0);
+		}
 	}
 }
 
 function setBoxSizes() {
-	headlineBox.x = screenWidth * 1/4;			// x = 25%
+	headlineBox.x = 0;							// x = 0%
 	headlineBox.y = screenHeight * 1/20;		// y = 5 %
-	headlineBox.width = screenWidth * 1/2;		// width = 50%
+	headlineBox.width = screenWidth;			// width = 100%
 	headlineBox.height = screenHeight * 30/100;	// height = 15%
 	
 	instructionBox.x = screenWidth * 1/15;		// x = 10/150
@@ -142,12 +176,8 @@ function highScore() {
 
 	GUILayout.BeginArea(highscoreBox);
 	
-	var originalAlignment = GUI.skin.label.alignment;
-	var originalLabelFontSize = GUI.skin.label.fontSize;
-	//Anchor that text to the middle!
-	GUI.skin.label.alignment = TextAnchor.MiddleCenter;   
-	
-	GUI.skin.label.fontSize = (highscoreBox.height / 20);
+	// Set fontSize according to availible space
+	highscoreStyle.fontSize = (highscoreBox.height / 20);
 	
 	//Testing to make sure that we have the amount of scores needed.
 	if(!scoresLoaded){
@@ -155,14 +185,13 @@ function highScore() {
 		scoresLoaded = true;
 	}
 	
-	
+	// Print the Highscores for this level
 	GUILayout.Label("Highscores:");
 	for(var i = 0; i < highScoreScores.length; i++){
-		GUILayout.Label("Number "+(i+1) + ": " + highScoreScores[i].ToString());
+		GUILayout.Label("Number "+(i+1) + ": " + highScoreScores[i].ToString(), highscoreStyle);
 		GUILayout.FlexibleSpace();
 	}
-	//Resests the alignment of text to the usual Middle Left.
-	GUI.skin.label.alignment = originalAlignment;
+
 	GUILayout.EndArea();
 }
 
