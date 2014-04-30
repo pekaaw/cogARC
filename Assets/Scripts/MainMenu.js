@@ -141,15 +141,15 @@ function OnGUI () {
 	}
 	
 	GUILayout.BeginVertical();
-	// The Exit button
-	if(GUILayout.Button(icons[i+2])){
-		Application.Quit();
-	}
-	
 	// The Register Name button
 	if(GUILayout.Button(icons[i+1])){
 		var obj = new GameObject("Empty");
 		obj = Instantiate(Resources.Load("Prefab/RegisterName"));
+	}
+	
+	// The Exit button
+	if(GUILayout.Button(icons[i+2])){
+		Application.Quit();
 	}
 	GUILayout.EndVertical();
 	GUILayout.EndHorizontal();
