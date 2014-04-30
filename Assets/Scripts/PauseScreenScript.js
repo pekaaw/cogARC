@@ -34,20 +34,30 @@ function OnGUI () {
 			if(GUILayout.Button("RESUME")){
 				togglePauseScreen();
 			}
-			/* this button gave us illogical problems with unity/vuforia.
+			/* "this button ("Restart") gave us illogical problems with unity/vuforia.
 			type: "could not initialize trackers"
 			the one in the scorescreen that does the exact same thing, 
 			calling "Application.LoadLevel(Application.loadedLevel);", works ok
-			we have no idea why these errors happens, so we chose to remove this button 
+			we have no idea why these errors happens, so we chose to remove this button "
+			
+			
+			we later found that it could work after all, either because we set Time.timeScale to 0  
+			or because we disabled the cubes. reenabling these fixed the problem but its still illogical
+			*/
+			
+			
+			
 			
 			GUILayout.FlexibleSpace();
 			if(GUILayout.Button("RESTART")){
+				togglePauseScreen();
 				//Reloads the level
 				Application.LoadLevel(Application.loadedLevel);
-			}*/
+			}
 		
 			GUILayout.FlexibleSpace();
 			if(GUILayout.Button("Main Menu")){
+				togglePauseScreen();
 				Application.LoadLevel(0);
 			}
 			GUILayout.FlexibleSpace();

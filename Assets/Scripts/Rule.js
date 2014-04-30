@@ -4,6 +4,7 @@
 private var levelCreator : LevelCreator;
 private var gameSequence : GameSceneSequence;
 private var timerScript : TimerAndScore;
+private var logScript : EventLogger;
 private var DebugText : String = "Arne";
 private var isTextAnswer : boolean; 
 private static var historyHasChangedFromBefore : boolean = true; // if the boxes has been moved since last test()
@@ -34,7 +35,6 @@ private var wrapText : GUIStyle;
 
 
 private var completedWoords : List.<int> = new List.<int>();
-private var lastLoggedWord : String = "";	
 
 
 
@@ -45,6 +45,7 @@ private var lastLoggedWord : String = "";
 
 function Awake() {
 	timerScript = gameObject.GetComponent(TimerAndScore);
+	logScript = gameObject.GetComponent(EventLogger);
 	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
 	myMainCamera = GameObject.Find("ARCamera 1").camera;
 	levelCreator = gameObject.GetComponent(LevelCreator);
@@ -53,6 +54,7 @@ function Awake() {
 	
 	for(var cube :GameObject in tempArr) {
 		boxPositions[cube.GetComponent(BoxCollisionScript).MyIdNumber] = cube.transform;
+		var sgdu : int = cube.GetComponent(BoxCollisionScript).MyIdNumber;
 	}
 	cogarcSkin = Resources.Load("GUISkins/cogARC");
 	wrapText = new GUIStyle();
@@ -72,18 +74,11 @@ function Start() {
 function Update () {
 	if( !timerScript.TimesUp) 
 	{
-		var currentState : String = ""; 
-		for(var d : int  = 0 ; d < levelCreator.Data.FinishState.Count ; d++) {
-			currentState += levelCreator.Data.FinishState[d] + " ";
-		}
-		killHintTimer -=  Time.deltaTime; //Only used for certain games but i don't want branching.
-	}								//Hint is displayed when this is greater than 0.
+		killHintTimer -=  Time.deltaTime; //Only used for certain games.
+	}								//A hint is displayed when this is greater than 0.
 	else 
 	{
-		if(timerScript.CheckToggleTimerActive()) {
-			timerScript.ToggleTimerActive();
-		}
-		levelCreator.LoadLevel();
+		EndLevel();
 	}
 }
 
@@ -203,15 +198,21 @@ public function Test (boxes : List.<int>){
 		}
 		else // finishState is empty
 		{		//congrats, save score, load next level
-			if(timerScript.CheckToggleTimerActive()) {
-				timerScript.ToggleTimerActive();
-			}
-			yield WaitForSeconds (2);
-			HideGui();
-			killHintOrder = true;// hides the hint when addition rule
-			levelCreator.LoadLevel();
+			EndLevel();
 		}
 	}
+}
+
+function EndLevel()
+{
+	if(timerScript.CheckToggleTimerActive()) 
+	{
+		timerScript.ToggleTimerActive();
+	}
+	yield WaitForSeconds (2);
+	HideGui();
+	killHintOrder = true;// hides the hint when addition rule
+	levelCreator.LoadLevel();
 }
 
 private function PairTester (boxes : List.<int>) {
@@ -398,7 +399,7 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 							levelCreator.Data.FinishState.RemoveAt(tempFinIndex); // remove the word it self, here we can count points for letters.
 							
 						}
-						LogEvent(logPostWoord);// simonLogging
+						logScript.LogEvent(logPostWoord,CubesData,boxPositions);// simonLogging
 						return; //Because I don't want to check if you have more than one word correct in the same frame.
 						
 					} else { 
@@ -447,11 +448,10 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 							
 							
 							
-							if(EqualsLastLogedWord(logPostWoord)){
-								LogEvent(logPostWoord);
+							if(logScript.EqualsLastLoggedWord(logPostWoord,CubesData)){
+								logScript.LogEvent(logPostWoord,CubesData,boxPositions);
 							}
-							
-							
+
 						}	else 
 						{
 							if (completedWoords[simonSays + loggingTempIndex] == -1 || boxes[inIndex + loggingTempIndex] == -1) {
@@ -509,7 +509,12 @@ function OnGUI () {
 
 	GUI.skin = cogarcSkin;
 	GUI.skin.box.fontSize = 50;
-	guiBoxPosition = Rect(200,15, Screen.width - 600, 250);
+	guiBoxPosition = Rect(230,15, Screen.width - 640, 150);
+	if( GUI.Button( Rect(0,70, 220, 60), "Surrender!" ) )
+	{
+		timerScript.scoreBonus(-levelCreator.Data.CorrectBonus); //penalty
+		EndLevel();		
+	}
 	functionPointerHintGUI();
 }
 
@@ -518,7 +523,7 @@ function OnAdditionTotalGUI () {
 }
 
 function OnPresetStringGUI () {
-		GUI.Box (guiBoxPosition,levelCreator.Data.LevelGoalText);
+		GUI.Box (guiBoxPosition,levelCreator.Data.LevelGoalText,wrapText);
 }
 
 function OnAdditionGUI () {
@@ -592,36 +597,6 @@ function GetCubesData () : Array {
 	}
 	return tempArray;
 }
-
-
-function EqualsLastLogedWord( cubes : List.<int>) : boolean {
-	var tempString : String = "";
-	var bool : boolean = false;
-	for(var box : int in cubes) {
-		if(box != -1) {
-			tempString += CubesData[box]; 
-		}
-	}
-	bool = (lastLoggedWord == tempString);
-	lastLoggedWord = tempString;
-	return bool;
-
-}
-
-
-function LogEvent(cubes : List.<int>){
-	var gameId : int = gameSequence.GetCurrentGameId();
-	var currentScore : int = timerScript.getScore();
-	var currentTime : String = timerScript.GetTimerText();
-	
-	//boxPositions[cubes[i]].position.ToString() //contains the coordinates of the cube
-	//CubesData[cubes[i]]; //Returns the string or letter contained in the cube
-	Debug.LogWarning(gameId + " " + currentScore + " " + currentTime + " " + lastLoggedWord); //do not use lastLoggedWord if this function is used for other than wooords use CubesData[cubes[i]]
-	
-	
-}
-
-
 
 
 

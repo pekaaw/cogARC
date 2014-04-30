@@ -42,7 +42,7 @@ function Awake() {
 }
 
 function LoadLevel(){
-	//Cleans up remaining data from previous level if this is not the first level.
+	//Cleans up remaining data from previous level in case this is not the first level.
 	AfterLevelCleanup();
 	
 	if (currentLevel < Data.numberOfLevels) {
