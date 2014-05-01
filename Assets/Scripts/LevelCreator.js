@@ -10,7 +10,7 @@ private var functionPointerSubCreator : Function;
 private var functionPointerPreCreator : Function;
 private var unsortedCubes : Array; //cubes with tag "Player" found on stage used to set material/text.
 private var sortedCubes : Array = new Array();
-private var currentLevel: int = 0; // last level is one less than number of levels, starts at 0
+public var currentLevel: int = 0; // last level is one less than number of levels, starts at 0
 final private var colorsUsedForGrid : int = 2;
 private var additionTaskIsMadeInAdvance:boolean = true;
 private var dataStringsForWooords : String[];

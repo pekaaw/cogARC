@@ -32,9 +32,8 @@ function EqualsLastLoggedWord( cubes : List.<int>, cubesData: Array) : boolean {
 }
 
 
-function PostScore() {
+function PostScore(currentScore : int) {
 	var gameId : int = gameSequence.GetCurrentGameId();
-	var currentScore : int = timerScript.getScore();
 	var currentTime : String = timerScript.GetTimerText();
 	var url : String;
 	url = ("http://gtl.hig.no/logScore.php?User=" + userName + "&Score=" + currentScore + "&miniID=" + gameId);
@@ -50,6 +49,29 @@ function Post(url:String) {
    	}
 }
 
+function LogEvent(cubes : List.<int>, cubesData : Array ,currentLevel : int, eventType : int) {
+	//eventTypes: 1 - correct , 2 - wrong
+	var gameId : int = gameSequence.GetCurrentGameId();
+	var currentScore : int = timerScript.getScore();
+	var answer : String = "";
+	var str : String = "";
+	for(var i : int = 0; i < cubes.Count; i++){
+		if(cubesData[cubes[i]] == ""){
+			cubes.RemoveAt(i);
+			i--;
+		}
+		answer += cubesData[cubes[i]];
+	}
+	str = "http://gtl.hig.no/logEvent.php?GameID=42&User=" + userName +
+	 "&Score=" + currentScore +
+	 "&miniID=" + gameId +
+	 "&Level=" + currentLevel +
+	 "&EventType=" + eventType +
+	 "&EventData=" + answer ;
+		events.Add(str);
+
+}
+/*
 function LogEvent(cubes : List.<int>, cubesData : Array , boxPositions : Transform[]){
 	var gameId : int = gameSequence.GetCurrentGameId();
 	var currentScore : int = timerScript.getScore();
@@ -70,13 +92,11 @@ function LogEvent(cubes : List.<int>, cubesData : Array , boxPositions : Transfo
 	events.Add("&User=" + userName + "&Score=" + currentScore + "&miniID=" + gameId);
 	
 }
-
+*/
 function SendEvents(){
 	var url:String;
 	for(var str:String in events) {
-		url = "http://gtl.hig.no/logScore.php?GameID=42&User=Simon&Score=60&miniID=3" + "gameId=42&data=" + str;
-
+		url = str;
   		Post(url);
-
 	}
 }

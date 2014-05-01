@@ -5,10 +5,13 @@ public var NumberOfScores : int = 10;
 public var ButtonFontSize : int = 50;
 public var LabelFontSize : int = 50;
 
-private var ScoreScreenVisible = false;
+
 private var timerAndScore : TimerAndScore;
 private var pauseScript : PauseScreenScript;
 private var gameSequence : GameSceneSequence;
+private var loggerScript : EventLogger;
+
+private var ScoreScreenVisible = false;
 private var ScoreScreenRect : Rect;
 private var score : int;
 private var scoreArray : Array = new Array();
@@ -19,6 +22,7 @@ private var playerName : String = "";
 private var LabelStyle : GUIStyle;
 	
 function Awake() {
+	loggerScript = gameObject.GetComponent(EventLogger);
 	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
 	pauseScript = gameObject.GetComponent(PauseScreenScript);
 	timerAndScore = gameObject.GetComponent(TimerAndScore);
@@ -149,6 +153,7 @@ function toggleScreenVisibility(){
 //This saves the scores so it can be loaded later.
 function RegistrerScore() {
 	score = timerAndScore.getScore();
+	loggerScript.PostScore(score);
 	
 	//This is because Unity is silly and won't let me
 	// add something to a int[] object.

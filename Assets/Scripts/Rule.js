@@ -233,6 +233,7 @@ private function PairTester (boxes : List.<int>) {
 				ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r]]);
 				ShowCorrectMarker(boxPositions[levelCreator.Data.FinishState[r+1]]);
 				timerScript.scoreBonus(levelCreator.Data.CorrectBonus);
+				logScript.LogEvent(levelCreator.Data.FinishState.GetRange(r,2), CubesData,levelCreator.currentLevel, 1);
 				for(var t:int = 0; t < 3; t++){ //remove finishState[r, r+1, r+2]
 					levelCreator.Data.FinishState.RemoveAt(r);
 				}
@@ -260,6 +261,8 @@ private function GridTester (boxes : List.<int>) {
 			for (var box : Transform in boxPositions){
 				ShowWrongMarker(box); //on all the boxes used
 			}
+			logScript.LogEvent(boxes, CubesData,levelCreator.currentLevel, 2);
+
 			timerScript.scoreBonus(-levelCreator.Data.CorrectBonus); // give negative bonus
 			return;
 		}
@@ -269,6 +272,7 @@ private function GridTester (boxes : List.<int>) {
 	for (var box : Transform in boxPositions){
 		ShowCorrectMarker(box); //On all the boxes used.
 	}
+	logScript.LogEvent(boxes, CubesData,levelCreator.currentLevel, 1);
 	timerScript.scoreBonus(levelCreator.Data.CorrectBonus);
 }
 
@@ -299,6 +303,8 @@ private function compositeNumbersTester(boxes : List.<int>){
 				{
 					ShowCorrectMarker(boxPositions[boxes[l]]); //on all the boxes used
 				}
+				logScript.LogEvent(boxes.GetRange(c-numberOfDegits + 1,numberOfDegits), CubesData,levelCreator.currentLevel, 1);
+
 				timerScript.scoreBonus(levelCreator.Data.CorrectBonus);
 				levelCreator.Data.FinishState.Clear();
 				return;
@@ -327,6 +333,13 @@ private function AdditionTester(boxes : List.<int>){
 				for(var pk : int = 0 ; pk < levelCreator.Data.CurrentNumberOfBoxesUsedForTask ; pk++){
 					ShowCorrectMarker(boxPositions[boxes[(c - pk-1)]]); //on all the boxes used
 				}
+				logScript.LogEvent(
+					boxes.GetRange(c-levelCreator.Data.CurrentNumberOfBoxesUsedForTask ,
+					levelCreator.Data.CurrentNumberOfBoxesUsedForTask),
+					CubesData,levelCreator.currentLevel ,
+					1
+					);
+
 				timerScript.scoreBonus(levelCreator.Data.CorrectBonus);		
 				levelCreator.Data.FinishState.Clear();
 
@@ -350,6 +363,7 @@ private function WholeLinerTester(boxes : List.<int>){
 	for(var pk : int = 0 ; pk < boxes.Count ; pk++){
 		ShowCorrectMarker(boxPositions[boxes[pk]]); //on all the boxes used
 	}
+	logScript.LogEvent(boxes,CubesData,levelCreator.currentLevel ,1);
 	levelCreator.Data.FinishState.Clear();
 	timerScript.scoreBonus(levelCreator.Data.CorrectBonus);
 }
@@ -400,7 +414,7 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 							levelCreator.Data.FinishState.RemoveAt(tempFinIndex); // remove the word it self, here we can count points for letters.
 							
 						}
-						logScript.LogEvent(logPostWoord,CubesData,boxPositions);// simonLogging
+						logScript.LogEvent(logPostWoord,CubesData,levelCreator.currentLevel ,1);// simonLogging
 						return; //Because I don't want to check if you have more than one word correct in the same frame.
 						
 					} else { 
@@ -449,8 +463,8 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 							
 							
 							
-							if(logScript.EqualsLastLoggedWord(logPostWoord,CubesData)){
-								logScript.LogEvent(logPostWoord,CubesData,boxPositions);
+							if(!logScript.EqualsLastLoggedWord(logPostWoord,CubesData)){
+								logScript.LogEvent(logPostWoord,CubesData,levelCreator.currentLevel ,1);// simonLogging
 							}
 
 						}	else 

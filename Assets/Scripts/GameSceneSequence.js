@@ -9,7 +9,11 @@ function Awake() {
 
 }
 function GetCurrentGameId() :int {
-	return sequence[currentGameIndex];
+	if(IsMultyLeveled ()){
+		return (sequence.Count - 1);
+	} else {
+		return sequence[currentGameIndex];
+	}
 }
 
 function IsMultyLeveled ():boolean {
