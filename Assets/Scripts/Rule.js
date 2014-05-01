@@ -8,9 +8,9 @@ private var logScript : EventLogger;
 private var DebugText : String = "Arne";
 private var isTextAnswer : boolean; 
 private static var historyHasChangedFromBefore : boolean = true; // if the boxes has been moved since last test()
-private static var historyGameState1 : int[];
-private static var historyGameState2 : int[]; //these are check against eachother to stabilize the inputdata
-private static var historyGameState3 : int[]; //tests are only done when all 3 are the same
+private static var historyGameState1 : List.<int> = new List.<int>();
+private static var historyGameState2 : List.<int> = new List.<int>(); //these are check against eachother to stabilize the inputdata
+private static var historyGameState3 : List.<int> = new List.<int>(); //tests are only done when all 3 are the same
 
 private var functionPointer : Function = NULLFUNCTION;
 private var functionPointerSubRule : Function = NULLFUNCTION;
@@ -174,16 +174,16 @@ public function Test (boxes : List.<int>){
 		if(levelCreator.Data.FinishState.Count > 0 && !timerScript.TimesUp )	//has this level been completed
 		{
 			//Saves the previous two game states.
-			historyGameState3 = historyGameState2;
-			historyGameState2 = historyGameState1;
-			historyGameState1 = boxes.ToArray();
+			historyGameState3 = new List.<int>(historyGameState2);
+			historyGameState2 = new List.<int>(historyGameState1);
+			historyGameState1 = boxes;
 		
-			if(!historyGameState3 || historyGameState3.length != historyGameState1.Length || historyGameState3.length != historyGameState2.length) {
+			if(!historyGameState3 || historyGameState3.Count != historyGameState1.Count || historyGameState3.Count != historyGameState2.Count) {
 				historyHasChangedFromBefore = true;
 				return;
 			}
 			
-			for(var c:int = 0 ; c < historyGameState1.length ; c ++) {
+			for(var c:int = 0 ; c < historyGameState1.Count ; c ++) {
 				if(historyGameState1[c] != historyGameState2[c] || historyGameState2[c] != historyGameState3[c]) {
 					//Debug.Log("Unexpected CHANGE in HISTORY");
 					historyHasChangedFromBefore = true;
@@ -209,6 +209,11 @@ public function Test (boxes : List.<int>){
 function EndLevel()
 {
 	levelCreator.Data.LevelLoaded = false;
+	
+	historyGameState3.Clear();
+	historyGameState2.Clear();
+	historyGameState1.Clear();
+	
 	if(timerScript.CheckToggleTimerActive()) 
 	{
 		timerScript.ToggleTimerActive();
@@ -222,13 +227,13 @@ function EndLevel()
 
 private function PairTester (boxes : List.<int>) {
 	var q : int = 0;
-	while(q+1 < historyGameState1.length){ 
+	while(q+1 < historyGameState1.Count){ 
 		
 		for(var r : int = 0; r < levelCreator.Data.FinishState.Count; r+=3){
 			if((historyGameState1[q] == levelCreator.Data.FinishState[r] && historyGameState1[q + 1] == levelCreator.Data.FinishState[r + 1]) ||
 				(historyGameState1[q + 1] == levelCreator.Data.FinishState[r] && historyGameState1[q] == levelCreator.Data.FinishState[r + 1])) 
 			{
-				if((q + 2 > historyGameState1.length && historyGameState1[q+2] != -1) || 
+				if((q + 2 > historyGameState1.Count && historyGameState1[q+2] != -1) || 
 					q != 0 && historyGameState1[q-1] != -1) {
 					//Debug.Log("UNexpected Third Part OF a PaiR");
 					return;
@@ -246,7 +251,7 @@ private function PairTester (boxes : List.<int>) {
 		}
 		do{
 			q++;
-		} while(q < historyGameState1.Length && historyGameState1[q-1] != -1);
+		} while(q < historyGameState1.Count && historyGameState1[q-1] != -1);
 	}
 }
 
