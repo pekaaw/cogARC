@@ -2,6 +2,8 @@
 import System.IO;
 import System;
 
+private var levelData : LevelData;
+
 public function ReadFile (fileContent : String) : List.<String> {
 	var splitOnThis : String[] = ["\n","\r"];
 	var charSplitOnThis : char[] = ["\n"[0], ","[0], " "[0],"\r"[0]];
@@ -9,6 +11,10 @@ public function ReadFile (fileContent : String) : List.<String> {
 	var themeOfGame = lines[0].Substring((("Subject: ") as String).Length);
 	//Return value to contain all return stuffs
 	var ret : List.<String> = new List.<String>();
+	
+	levelData = gameObject.GetComponent(LevelCreator).Data;
+	levelData.LevelGoalText = levelData.LevelGoalText + " " + themeOfGame + ".";
+
 	
 	for(line in lines){
 	   	line.TrimEnd(charSplitOnThis);

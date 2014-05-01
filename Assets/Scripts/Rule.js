@@ -158,6 +158,7 @@ public function ruleSetup(isTextAnswerParam : boolean){
 				break;
 			case subRule.AnyWord:
 				functionPointerSubRule = AnyWordTester;
+				//functionPointerHintGUI = OnWoordsStringGUI;
 				break;
 			default : functionPointerSubRule = NULLFUNCTION;//this function does nothing
 		}
@@ -540,7 +541,9 @@ function OnAdditionTotalGUI () {
 function OnPresetStringGUI () {
 		GUI.Box (guiBoxPosition,levelCreator.Data.LevelGoalText,wrapText);
 }
-
+function OnWoordsStringGUI () {
+//		GUI.Box (guiBoxPosition,levelCreator.Data.LevelGoalText + " " + levelCreator.Data.WoordsSubject + ".",wrapText);
+}
 function OnAdditionGUI () {
 	 //Display answer for task and number of cubes to be used.
  	if(levelCreator.Data.FinishState.Count > 0){

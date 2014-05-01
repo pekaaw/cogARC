@@ -10,7 +10,7 @@ function Awake() {
 }
 function GetCurrentGameId() :int {
 	if(IsMultyLeveled ()){
-		return (sequence.Count - 1);
+		return 999;
 	} else {
 		return sequence[currentGameIndex];
 	}
