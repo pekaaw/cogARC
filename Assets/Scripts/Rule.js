@@ -169,8 +169,10 @@ public function Test (boxes : List.<int>){
 	//Boxes contains the id numbers of the boxes.
 	//This code block test to make sure that you get the same input three times
 	//	before it let you advance.
-	if(timerScript.CheckToggleTimerActive()) {
-		if(levelCreator.Data.FinishState.Count > 0 && !timerScript.TimesUp){
+	if(timerScript.CheckToggleTimerActive() && levelCreator.Data.LevelLoaded == true) // should testing be done
+	{
+		if(levelCreator.Data.FinishState.Count > 0 && !timerScript.TimesUp )	//has this level been completed
+		{
 			//Saves the previous two game states.
 			historyGameState3 = historyGameState2;
 			historyGameState2 = historyGameState1;
@@ -206,6 +208,7 @@ public function Test (boxes : List.<int>){
 
 function EndLevel()
 {
+	levelCreator.Data.LevelLoaded = false;
 	if(timerScript.CheckToggleTimerActive()) 
 	{
 		timerScript.ToggleTimerActive();

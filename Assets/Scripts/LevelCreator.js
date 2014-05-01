@@ -53,6 +53,8 @@ function LoadLevel(){
 		{
 			gameObject.GetComponent(TimerAndScore).ToggleTimerActive(); //Unpause the timer.
 		}
+		Data.LevelLoaded = true;
+
 	} else {
 		//We are out of level for this game and:
 		var nextLevel : int = gameSequence.GetNextLevel();
