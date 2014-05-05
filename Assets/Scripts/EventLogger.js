@@ -9,8 +9,7 @@ function Awake(){
 	timerScript = gameObject.GetComponent(TimerAndScore);
 	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
 
-	userName = PlayerPrefs.GetString("UserName");
-
+	userName = PlayerPrefs.GetString("UserName","NullReferenceName");
 }
 
 function Start () {
@@ -36,7 +35,14 @@ function PostScore(currentScore : int) {
 	var gameId : int = gameSequence.GetCurrentGameId();
 	var currentTime : String = timerScript.GetTimerText();
 	var url : String;
-	url = ("http://gtl.hig.no/logScore.php?User=" + userName + "&Score=" + currentScore + "&miniID=" + gameId);
+	url = ("http://gtl.hig.no/logScore.php?GameID=42&User=" + userName + "&Score=" + currentScore + "&miniID=" + gameId);
+	
+	for(var letter : int = 0 ; letter < url.Length ; letter++) {
+		if(url[letter] == " "){
+			    url = url.Substring (0, letter) + "+" + url.Substring (letter + 1);
+		}
+	} 
+	
 	Post(url);
 
 }
@@ -53,6 +59,7 @@ function LogEvent(cubes : List.<int>, cubesData : Array ,currentLevel : int, eve
 	//eventTypes: 1 - correct , 2 - wrong
 	var gameId : int = gameSequence.GetCurrentGameId();
 	var currentScore : int = timerScript.getScore();
+	var currentTime : String = timerScript.GetTimerText();
 	var answer : String = "";
 	var str : String = "";
 	for(var i : int = 0; i < cubes.Count; i++){
@@ -67,11 +74,28 @@ function LogEvent(cubes : List.<int>, cubesData : Array ,currentLevel : int, eve
 	 "&miniID=" + gameId +
 	 "&Level=" + currentLevel +
 	 "&EventType=" + eventType +
-	 "&EventData=" + answer ;
-		events.Add(str);
+	 "&EventData=" + answer  + "time:" + currentTime;
+	 
+	for(var letter : int = 0 ; letter < str.Length ; letter++) {
+		if(str[letter] == " "){
+			    str = str.Substring (0, letter) + "+" + str.Substring (letter + 1);
+		}
+	} 
+	
+	events.Add(str);
 
 }
-/*
+
+
+/* You can use this function to copy and paste in to the other one 
+ the information you want;
+
+ for box positions pass: 
+ private var boxPositions : Transform[];
+ to the function from Rule.
+
+ 
+
 function LogEvent(cubes : List.<int>, cubesData : Array , boxPositions : Transform[]){
 	var gameId : int = gameSequence.GetCurrentGameId();
 	var currentScore : int = timerScript.getScore();
@@ -99,4 +123,5 @@ function SendEvents(){
 		url = str;
   		Post(url);
 	}
+	events.Clear();
 }

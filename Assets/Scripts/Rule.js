@@ -429,6 +429,8 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 							
 						}
 						logScript.LogEvent(logPostWoord,CubesData,levelCreator.currentLevel ,1);// simonLogging
+						logPostWoord.Clear(); //this should not be nessecery
+
 						return; //Because I don't want to check if you have more than one word correct in the same frame.
 						
 					} else { 
@@ -456,44 +458,49 @@ Note: only the word starting at index 0 of the finishstate will be used for test
 			}
 		}
 		//::::::::::::::::::::::::::::::::::: simonLogging ::::::::bigchunk
-		for(var simonSays : int = 0 ; simonSays < completedWoords.Count; simonSays++) {
-			if( simonSays == 0 || completedWoords[simonSays-1] == -1)
-			{ // the beginning of a word
-				if(completedWoords[simonSays] != -1 && boxes[inIndex] != -1 && CubesData[completedWoords[simonSays]] == CubesData[boxes[inIndex]])
-				{
-					var loggingTempIndex : int = 0;
-					while(
-					 simonSays + loggingTempIndex < completedWoords.Count &&
-					 inIndex + loggingTempIndex < boxes.Count &&
-					 completedWoords[simonSays + loggingTempIndex] != -1 &&
-					 boxes[inIndex + loggingTempIndex] != -1 &&
-					 CubesData[completedWoords[simonSays + loggingTempIndex]] == CubesData[boxes[inIndex + loggingTempIndex]])
+		if(inIndex == 0 || boxes[inIndex - 1] == -1 ){
+			for(var simonSays : int = 0 ; simonSays < completedWoords.Count; simonSays++) {
+				if(simonSays == 0 || completedWoords[simonSays - 1] == -1)
+				{ // the beginning of a word
+					if(completedWoords[simonSays] != -1 && boxes[inIndex] != -1 &&
+					 CubesData[completedWoords[simonSays]] == CubesData[boxes[inIndex]])
 					{
-						logPostWoord.Add(completedWoords[simonSays + loggingTempIndex]);
-						loggingTempIndex ++;
-						if(completedWoords[simonSays + loggingTempIndex] == -1 && boxes[inIndex + loggingTempIndex] == -1) 
+						var loggingTempIndex : int = 0;
+						logPostWoord.Clear();
+						while(
+						 simonSays + loggingTempIndex < completedWoords.Count &&
+						 inIndex + loggingTempIndex < boxes.Count &&
+						 completedWoords[simonSays + loggingTempIndex] != -1 &&
+						 boxes[inIndex + loggingTempIndex] != -1 &&
+						 CubesData[completedWoords[simonSays + loggingTempIndex]] == CubesData[boxes[inIndex + loggingTempIndex]])
 						{
-							// woord found
-							
-							
-							
-							if(!logScript.EqualsLastLoggedWord(logPostWoord,CubesData)){
-								logScript.LogEvent(logPostWoord,CubesData,levelCreator.currentLevel ,1);// simonLogging
-							}
+							logPostWoord.Add(completedWoords[simonSays + loggingTempIndex]); 
+							loggingTempIndex ++;
+							if(completedWoords[simonSays + loggingTempIndex] == -1 && boxes[inIndex + loggingTempIndex] == -1) 
+							{
+								// woord found
+								
+								
+								
+								if(!logScript.EqualsLastLoggedWord(logPostWoord,CubesData)){
+									logScript.LogEvent(logPostWoord,CubesData,levelCreator.currentLevel ,3);// simonLogging
+									logPostWoord.Clear();
+								}	
 
-						}	else 
-						{
-							if (completedWoords[simonSays + loggingTempIndex] == -1 || boxes[inIndex + loggingTempIndex] == -1) {
-							// one of the woords ended
-								loggingTempIndex += completedWoords.Count; 
-								logPostWoord.Clear();
+							}	else 
+							{
+								if (completedWoords[simonSays + loggingTempIndex] == -1 || boxes[inIndex + loggingTempIndex] == -1) {
+								// one of the woords ended
+									loggingTempIndex += completedWoords.Count; 
+									logPostWoord.Clear();
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-				//::::::::::::::::::::::::::::::::::: simonLogging ::::::::bigchunk [END]
+					//::::::::::::::::::::::::::::::::::: simonLogging ::::::::bigchunk [END]
 
 		while (boxes[inIndex] != -1)//Skip to next word,currentstate.
 		{
