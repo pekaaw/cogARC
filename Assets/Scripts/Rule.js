@@ -221,7 +221,12 @@ function EndLevel()
 	yield WaitForSeconds (2);
 	HideGui();
 	killHintOrder = true;// hides the hint when addition rule
-	logScript.SendEvents();
+	try {
+		logScript.SendEvents();
+	}
+	catch(err){
+		Debug.Log(err);
+	}
 	levelCreator.LoadLevel();
 }
 
