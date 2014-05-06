@@ -63,11 +63,9 @@ function LogEvent(cubes : List.<int>, cubesData : Array ,currentLevel : int, eve
 	var answer : String = "";
 	var str : String = "";
 	for(var i : int = 0; i < cubes.Count; i++){
-		if(cubesData[cubes[i]] == ""){
-			cubes.RemoveAt(i);
-			i--;
+		if(cubesData[cubes[i]] != ""){
+			answer += cubesData[cubes[i]];
 		}
-		answer += cubesData[cubes[i]];
 	}
 	str = "http://gtl.hig.no/logEvent.php?GameID=42&User=" + userName +
 	 "&Score=" + currentScore +
