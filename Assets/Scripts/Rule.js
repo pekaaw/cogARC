@@ -370,7 +370,7 @@ private function AdditionTester(boxes : List.<int>){
 
 private function WholeLinerTester(boxes : List.<int>){
 	for (var c : int = 0 ; c < levelCreator.Data.FinishState.Count ; c++){
-		if (c == boxes.Count || boxes[c] != levelCreator.Data.FinishState[c]) {
+		if (c == boxes.Count || CubesData[boxes[c]] != CubesData[levelCreator.Data.FinishState[c]]) {
 			return;
 		}
 	}

@@ -114,7 +114,7 @@ public function redoCreation() {
 				break;
 			case subRule.WholeLiner:
 				functionPointerSubCreator = WholeLinerCreator;
-				functionPointerPreCreator = PresetActivateAll;
+				functionPointerPreCreator = PresetWholeLiner;
 				break;
 			case subRule.AnyWord: 
 				functionPointerSubCreator = AnyWordCreator;
@@ -259,6 +259,11 @@ private function setOneToNineNumbers () {
 	}
 	SetStringDataWithoutOrder(unsortedCubes, arr.ToBuiltin(String));
 }
+function PresetWholeLiner(){
+	var dataStrings : String[] = ["1","A","2","B","3","C","4","D","5","E"];
+	SetStringDataWithoutOrder(unsortedCubes , dataStrings);
+
+}
 
 function PresetActivateAll() {
 	for(var cube : UnityEngine.GameObject in unsortedCubes){
@@ -378,8 +383,14 @@ function AdditionCreator() {
 }
 
 function WholeLinerCreator(){
+	var dataStrings : String[] = ["1","A","2","B","3","C","4","D","5","E"];
+
 	for(var i:int = 0; i < sortedCubes.length; i++){
-		Data.FinishState.Add(i);
+		for (var q:int = 0; q < dataStrings.Length ; q++) {
+			if((sortedCubes[q] as GameObject).GetComponent(BoxCollisionScript).MyDataPacket == dataStrings[i]) {
+				Data.FinishState.Add((sortedCubes[q] as GameObject).GetComponent(BoxCollisionScript).MyIdNumber);
+			}
+		}
 	}
 	Data.FinishState.Add(-1);
 }
