@@ -10,6 +10,11 @@ function Awake(){
 	gameSequence = GameObject.Find("SceneSequence").GetComponent(GameSceneSequence);
 
 	userName = PlayerPrefs.GetString("UserName","NullReferenceName");
+	for(var letter : int = 0 ; letter < userName.Length ; letter++) {
+		if(userName[letter] == " "){
+			    userName = userName.Substring (0, letter) + "+" + userName.Substring (letter + 1);
+		}
+	} 
 }
 
 function Start () {
