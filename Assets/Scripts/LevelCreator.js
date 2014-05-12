@@ -332,7 +332,7 @@ private function PresetAdditionNumbers(){
 
 private function PresetGridDataBeforeSort(){
 	var q: int = 0;
-	var coloredTitles:int =  Mathf.Lerp(Data.GridMinValue, Data.GridMaxValue, currentLevel/Data.numberOfLevels);
+	var coloredTitles:int =  Mathf.Lerp(Data.GridMinValue, Data.GridMaxValue, (currentLevel + 0.0f)/(Data.numberOfLevels + 0.0f));
 	if(Data.HintHasTimeLimit){
 		Data.CurrentGridHintValue =  Mathf.Lerp(Data.GridHintMinValue, Data.GridHintMaxValue, currentLevel/Data.numberOfLevels);
 	}
